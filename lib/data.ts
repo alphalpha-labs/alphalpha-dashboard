@@ -2,24 +2,24 @@ export type Priority = "urgent" | "high" | "medium" | "low";
 export type Confidence = "high" | "medium" | "low";
 export type ProjectStatus = "active" | "blocked" | "waiting" | "shaping";
 
-export const generatedAt = "2026-05-01T14:35:00Z";
+export const generatedAt = "2026-05-01T14:45:00Z";
 
 export const metrics = [
-  { label: "Open loops", value: "18", detail: "6 need review", tone: "amber" },
-  { label: "Blocked", value: "3", detail: "waiting on access/merge", tone: "red" },
-  { label: "Due this week", value: "7", detail: "2 recurring audits", tone: "blue" },
+  { label: "Open loops", value: "32", detail: "imported from ChatGPT dump", tone: "amber" },
+  { label: "Blocked", value: "2", detail: "GitHub auto-link + live data", tone: "red" },
+  { label: "Due this week", value: "8", detail: "context split + source wiring", tone: "blue" },
   { label: "Stale >14d", value: "4", detail: "needs prune or owner", tone: "amber" },
   { label: "Investing signals", value: "15", detail: "candidate tickers saved", tone: "purple" },
 ];
 
 export const attentionQueue = [
   {
-    title: "Verify first Vercel deployment",
-    reason: "Dashboard is live; next step is confirming routing, branding, and data freshness.",
+    title: "Wire dashboard to canonical context files",
+    reason: "The ChatGPT brain dump has been split into source files; the dashboard still reads static seed data.",
     priority: "high" as Priority,
     age: "today",
     confidence: "high" as Confidence,
-    action: "Review alphalpha-dashboard.vercel.app, then decide whether to connect a custom domain or GitHub integration.",
+    action: "Build a file-backed adapter from context/ABOUT, PROJECTS, OPEN_LOOPS, DECISIONS, and MEMORY_PROTOCOL.",
   },
   {
     title: "Promote investing research candidates into a durable watchlist",
@@ -53,7 +53,7 @@ export const projects = [
     domain: "Agentic OS",
     status: "active" as ProjectStatus,
     lastActivity: "today",
-    nextAction: "Connect live sources: Obsidian, GitHub, cron status, and Thesis Baskets data.",
+    nextAction: "Consume canonical context files and show source freshness/status.",
     blocker: null,
     source: "OpenClaw workspace + alphalpha-os",
   },
@@ -87,7 +87,7 @@ export const projects = [
 ];
 
 export const openLoops = [
-  { item: "Review live Vercel dashboard", owner: "Alex", due: "Today", priority: "high" as Priority, next: "Open alphalpha-dashboard.vercel.app and flag desired changes." },
+  { item: "Connect dashboard to context files", owner: "Alphalpha", due: "This week", priority: "high" as Priority, next: "Replace static seed data with generated JSON from context/*.md." },
   { item: "Research watchlist persistence", owner: "Alphalpha", due: "This week", priority: "high" as Priority, next: "Create Obsidian candidate watchlist." },
   { item: "Vercel dashboard repo", owner: "Alphalpha", due: "Done", priority: "low" as Priority, next: "Keep repo/deploy in sync after each material dashboard change." },
   { item: "Thesis-baskets write access design", owner: "Alex + Alphalpha", due: "Later", priority: "medium" as Priority, next: "Define scoped write role/API after dashboard MVP." },
@@ -122,7 +122,14 @@ export const digests = [
     title: "Dashboard + deployment layer",
     source: "Agentic OS",
     date: "2026-05-01",
-    summary: "Visual command center should become the primary surface for open loops, project state, investing candidates, and source health.",
+    summary: "Visual command center is live on Vercel; next step is replacing static seed data with generated context from Alphalpha source files.",
     tags: ["dashboard", "vercel", "chief-of-staff"],
+  },
+  {
+    title: "ChatGPT brain dump imported into Alphalpha context",
+    source: "ChatGPT import",
+    date: "2026-05-01",
+    summary: "Raw import saved and distilled into ABOUT, PREFERENCES, PROJECTS, OPEN_LOOPS, DECISIONS, WRITING_SEEDS, UNCERTAINTIES, and MEMORY_PROTOCOL.",
+    tags: ["memory", "context", "obsidian", "github"],
   },
 ];
