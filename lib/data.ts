@@ -2,7 +2,7 @@ export type Priority = "urgent" | "high" | "medium" | "low";
 export type Confidence = "high" | "medium" | "low";
 export type ProjectStatus = "active" | "blocked" | "waiting" | "shaping";
 
-export const generatedAt = "2026-05-01T13:30:00Z";
+export const generatedAt = "2026-05-01T14:35:00Z";
 
 export const metrics = [
   { label: "Open loops", value: "18", detail: "6 need review", tone: "amber" },
@@ -14,12 +14,12 @@ export const metrics = [
 
 export const attentionQueue = [
   {
-    title: "Add Vercel deploy credentials",
-    reason: "Required before Alphalpha can deploy dashboard/apps independently.",
-    priority: "urgent" as Priority,
+    title: "Verify first Vercel deployment",
+    reason: "Dashboard is live; next step is confirming routing, branding, and data freshness.",
+    priority: "high" as Priority,
     age: "today",
     confidence: "high" as Confidence,
-    action: "Add VERCEL_TOKEN and VERCEL_TEAM_SLUG to OpenClaw host env, then restart gateway.",
+    action: "Review alphalpha-dashboard.vercel.app, then decide whether to connect a custom domain or GitHub integration.",
   },
   {
     title: "Promote investing research candidates into a durable watchlist",
@@ -53,8 +53,8 @@ export const projects = [
     domain: "Agentic OS",
     status: "active" as ProjectStatus,
     lastActivity: "today",
-    nextAction: "Ship first Next.js/Vercel-ready dashboard app in alphalpha-labs.",
-    blocker: "Vercel token pending",
+    nextAction: "Connect live sources: Obsidian, GitHub, cron status, and Thesis Baskets data.",
+    blocker: null,
     source: "OpenClaw workspace + alphalpha-os",
   },
   {
@@ -87,9 +87,9 @@ export const projects = [
 ];
 
 export const openLoops = [
-  { item: "Add Vercel token/team slug to OpenClaw", owner: "Alex", due: "Today", priority: "urgent" as Priority, next: "Restart gateway and let Alphalpha verify." },
+  { item: "Review live Vercel dashboard", owner: "Alex", due: "Today", priority: "high" as Priority, next: "Open alphalpha-dashboard.vercel.app and flag desired changes." },
   { item: "Research watchlist persistence", owner: "Alphalpha", due: "This week", priority: "high" as Priority, next: "Create Obsidian candidate watchlist." },
-  { item: "Vercel dashboard repo", owner: "Alphalpha", due: "Today", priority: "high" as Priority, next: "Push scaffold to alphalpha-labs." },
+  { item: "Vercel dashboard repo", owner: "Alphalpha", due: "Done", priority: "low" as Priority, next: "Keep repo/deploy in sync after each material dashboard change." },
   { item: "Thesis-baskets write access design", owner: "Alex + Alphalpha", due: "Later", priority: "medium" as Priority, next: "Define scoped write role/API after dashboard MVP." },
   { item: "ChatGPT/Claude brain dump flow", owner: "Alex", due: "Later", priority: "low" as Priority, next: "Export/paste summaries when ready." },
 ];
