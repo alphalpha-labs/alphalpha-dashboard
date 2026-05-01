@@ -1,76 +1,76 @@
-import generated from "./generated-data.json";
+export type Priority   = "HIGH" | "MEDIUM" | "LOW";
+export type Confidence = "HIGH" | "MEDIUM" | "LOW";
 
-export type Priority = "urgent" | "high" | "medium" | "low";
-export type Confidence = "high" | "medium" | "low";
-export type ProjectStatus = "active" | "blocked" | "waiting" | "shaping";
-
-export type Metric = {
-  label: string;
-  value: string;
-  detail: string;
-  tone: string;
+export type Action = {
+  id:          string;
+  priority:    Priority;
+  title:       string;
+  context:     string;
+  next:        string;
+  project:     string;
+  due:         string;
+  done:        boolean;
+  snoozed:     boolean;
+  snoozeLabel: string | null;
 };
 
-export type AttentionItem = {
-  title: string;
-  reason: string;
-  priority: Priority;
-  age: string;
-  confidence: Confidence;
-  action: string;
+export type Loop = {
+  id:          string;
+  text:        string;
+  project:     string;
+  priority:    Priority;
+  done?:       boolean;
+  snoozed?:    boolean;
+  snoozeLabel?: string | null;
 };
 
 export type Project = {
-  name: string;
-  domain: string;
-  status: ProjectStatus;
+  id:           string;
+  name:         string;
+  status:       "ACTIVE" | "SNOOZED";
+  category:     string;
   lastActivity: string;
-  nextAction: string;
-  blocker: string | null;
-  source: string;
+  summary:      string;
+  ocOwned:      boolean;
+  loops?:       Loop[];
+  highPriCount?: number;
 };
 
-export type OpenLoop = {
-  item: string;
-  owner: string;
-  due: string;
-  priority: Priority;
-  next: string;
-};
-
-export type InvestingCandidate = {
-  ticker: string;
-  theme: string;
-  stance: string;
+export type Ticker = {
+  ticker:     string;
+  theme:      string;
+  stance:     string;
   confidence: Confidence;
-  trigger: string;
-  contradiction: string;
 };
 
 export type Digest = {
-  title: string;
-  source: string;
-  date: string;
-  summary: string;
-  tags: string[];
+  id:       string;
+  date:     string;
+  category: string;
+  title:    string;
+  summary:  string;
+  tags:     string[];
 };
 
-type DashboardData = {
-  generatedAt: string;
-  metrics: Metric[];
-  attentionQueue: AttentionItem[];
-  projects: Project[];
-  openLoops: OpenLoop[];
-  investingCandidates: InvestingCandidate[];
-  digests: Digest[];
+export type DashboardData = {
+  meta: {
+    generatedAt:   string;
+    posture:       string;
+    postureDetail: string;
+  };
+  stats: {
+    openLoops:        number;
+    activeProjects:   number;
+    highPriority:     number;
+    uncertainties:    number;
+    investingSignals: number;
+  };
+  topActions: Action[];
+  openLoops:  Loop[];
+  projects:   Project[];
+  investing:  Ticker[];
+  digests:    Digest[];
 };
 
-const dashboardData = generated as DashboardData;
-
-export const generatedAt = dashboardData.generatedAt;
-export const metrics = dashboardData.metrics;
-export const attentionQueue = dashboardData.attentionQueue;
-export const projects = dashboardData.projects;
-export const openLoops = dashboardData.openLoops;
-export const investingCandidates = dashboardData.investingCandidates;
-export const digests = dashboardData.digests;
+import generated from "./generated-data.json";
+export const dashboardData = generated as DashboardData;
