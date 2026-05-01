@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alphalpha · Chief of Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="data.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; }
+  body { overflow: hidden; font-family: 'DM Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-thumb { background: rgba(28,24,20,0.12); border-radius: 2px; }
+  @media (max-width: 640px) {
+    body { overflow: auto; }
+    #root { height: auto; min-height: 100%; }
+  }
+  .discuss-btn { opacity: 0; transition: opacity 0.15s; }
+  .card-hoverable:hover .discuss-btn { opacity: 1; }
+  @media (max-width: 640px) { .discuss-btn { opacity: 1; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback, useContext, createContext } = React;
+
+// ── Responsive ────────────────────────────────────────────────────
+function useWindowWidth() {
+  const [w, setW] = useState(window.innerWidth);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener('resize', h);
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return w;
+}
+
+// ── Data ──────────────────────────────────────────────────────────
+const D = window.DASHBOARD_DATA;
+
+// OpenClaw ownership metadata (which projects/domains OpenClaw actively manages)
+const OPENCLAW_OWNED = new Set(["Alphalpha", "OpenClaw migration and orchestration", "Obsidian / GitHub-backed personal knowledge system"]);
+
+// ── Thread context ────────────────────────────────────────────────
+// Global thread state: any card can open a thread with rich context
+const ThreadCtx = createContext(null);
+
+function buildSystemPrompt(ctx) {
+  const lines = [
+    `You are Alphalpha, Alex's personal AI chief of staff. Today is May 1, 2026.`,
+    `You are discussing a ${ctx.type} item.`,
+  ];
+  if (ctx.title)    lines.push(`Title: "${ctx.title}"`);
+  if (ctx.project)  lines.push(`Project: ${ctx.project}`);
+  if (ctx.priority) lines.push(`Priority: ${ctx.priority}`);
+  if (ctx.next)     lines.push(`Suggested next step: ${ctx.next}`);
+  if (ctx.theme)    lines.push(`Investment theme: ${ctx.theme}`);
+  if (ctx.stance)   lines.push(`Stance: ${ctx.stance}`);
+  if (ctx.summary)  lines.push(`Summary: ${ctx.summary}`);
+  if (ctx.category) lines.push(`Category: ${ctx.category}`);
+  if (ctx.ocOwned)  lines.push(`This item is actively managed by OpenClaw.`);
+  lines.push(`Be concise (≤3 sentences), warm, and concrete. Help Alex decide, act, or think more clearly.`);
+  return lines.join('\n');
+}
+
+function buildOpener(ctx) {
+  if (ctx.type === "decision") return `On "${ctx.title?.slice(0,55)}…" — what's your thinking? I can help you decide or draft the next step.`;
+  if (ctx.type === "loop")     return `This loop has been open for a while. Want to close it, snooze it, or think through what's blocking it?`;
+  if (ctx.type === "project")  return `${ctx.ocOwned ? "I'm actively managing this one." : "This is a manually-tracked project."} What aspect of "${ctx.title}" do you want to think through?`;
+  if (ctx.type === "ticker")   return `${ctx.title} — ${ctx.theme}. Want to think through the thesis, timing, or what would change your mind?`;
+  if (ctx.type === "digest")   return `"${ctx.title}" — want to dig into this, connect it to other threads, or decide what to do with it?`;
+  return `What's on your mind about this?`;
+}
+
+// ── Thread drawer ─────────────────────────────────────────────────
+function ThreadDrawer({ thread, onClose, isMobile }) {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const scrollRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // Reset + seed when thread context changes
+  useEffect(() => {
+    if (!thread) return;
+    setMessages([{ role: "assistant", text: buildOpener(thread) }]);
+    setInput("");
+    setTimeout(() => inputRef.current?.focus(), 80);
+  }, [thread?.id]);
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages]);
+
+  const send = async () => {
+    if (!input.trim() || loading) return;
+    const msg = input.trim();
+    setInput("");
+    setMessages(m => [...m, { role: "user", text: msg }]);
+    setLoading(true);
+    try {
+      const sys = buildSystemPrompt(thread);
+      const history = messages.map(m => ({ role: m.role, content: m.text }));
+      const reply = await window.claude.complete({
+        messages: [...history, { role: "user", content: sys + "\n\nAlex says: " + msg }]
+      });
+      setMessages(m => [...m, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages(m => [...m, { role: "assistant", text: "Couldn't reach Alphalpha right now." }]);
+    }
+    setLoading(false);
+  };
+
+  if (!thread) return null;
+
+  // Type → label
+  const typeLabel = { decision: "Decision", loop: "Open loop", project: "Project", ticker: "Investing", digest: "Digest" }[thread.type] || "Thread";
+
+  return (
+    <div style={{
+      position: "fixed",
+      ...(isMobile
+        ? { left: 0, right: 0, bottom: 0, height: "65vh", borderRadius: "14px 14px 0 0" }
+        : { right: 0, top: 0, bottom: 0, width: 360, borderLeft: "1px solid #d8cebb" }
+      ),
+      background: "#faf6ee",
+      display: "flex", flexDirection: "column",
+      zIndex: 300,
+      boxShadow: isMobile ? "0 -8px 32px rgba(28,24,20,0.12)" : "none",
+    }}>
+      {/* Header */}
+      <div style={{
+        padding: "14px 18px 12px",
+        borderBottom: "1px solid #e8e0d0",
+        background: "#f4efe4",
+        display: "flex", flexDirection: "column", gap: 4,
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: "50%",
+              background: "#1c1814", color: "#f4efe4",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "'Playfair Display',serif", fontSize: 12, flexShrink: 0,
+            }}>α</div>
+            <div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "#b0a080", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>{typeLabel}</div>
+              <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 13, color: "#1c1714", lineHeight: 1.3, maxWidth: 260 }}>
+                {thread.title?.slice(0, 60)}{thread.title?.length > 60 ? "…" : ""}
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "#b0a080", fontSize: 18, lineHeight: 1, padding: "2px 4px" }}>✕</button>
+        </div>
+        {thread.project && (
+          <div style={{ display: "flex", gap: 6, marginLeft: 32, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 10, color: "#9a8f7a", fontFamily: "'DM Sans',sans-serif" }}>{thread.project}</span>
+            {thread.ocOwned && (
+              <span style={{
+                fontSize: 9, padding: "1px 6px", borderRadius: 99,
+                background: "rgba(28,24,20,0.08)", color: "#5a5040",
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.06em",
+              }}>OpenClaw managed</span>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Messages */}
+      <div ref={scrollRef} style={{
+        flex: 1, overflowY: "auto", padding: "16px 18px",
+        display: "flex", flexDirection: "column", gap: 12,
+      }}>
+        {messages.map((m, i) => (
+          <div key={i} style={{
+            display: "flex", gap: 8, alignItems: "flex-start",
+            flexDirection: m.role === "user" ? "row-reverse" : "row",
+          }}>
+            {m.role === "assistant" && (
+              <div style={{
+                width: 22, height: 22, borderRadius: "50%",
+                background: "#1c1814", color: "#f4efe4",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: "'Playfair Display',serif", fontSize: 10, flexShrink: 0, marginTop: 1,
+              }}>α</div>
+            )}
+            <div style={{
+              maxWidth: "80%", padding: "9px 13px",
+              borderRadius: m.role === "user" ? "11px 11px 3px 11px" : "11px 11px 11px 3px",
+              background: m.role === "user" ? "#1c1814" : "#ede8de",
+              color: m.role === "user" ? "#f4efe4" : "#2c2418",
+              fontFamily: "'Lora',serif", fontSize: 13, lineHeight: 1.55,
+            }}>{m.text}</div>
+          </div>
+        ))}
+        {loading && (
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: "50%", background: "#1c1814",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "'Playfair Display',serif", fontSize: 10, color: "#f4efe4", flexShrink: 0,
+            }}>α</div>
+            <div style={{
+              padding: "9px 14px", borderRadius: "11px 11px 11px 3px",
+              background: "#ede8de", fontFamily: "'DM Sans',sans-serif",
+              fontSize: 14, color: "#9a8f7a", letterSpacing: "0.1em",
+            }}>· · ·</div>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <div style={{
+        padding: "10px 14px 16px", borderTop: "1px solid #e8e0d0",
+        display: "flex", gap: 8, background: "#f4efe4",
+      }}>
+        <input
+          ref={inputRef}
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
+          placeholder="Share your thinking, ask a question…"
+          style={{
+            flex: 1, padding: "9px 14px", borderRadius: 9,
+            border: "1px solid #d8cebb", background: "#fff8f0",
+            fontFamily: "'Lora',serif", fontSize: 13, color: "#2c2418", outline: "none",
+          }}
+        />
+        <button onClick={send} style={{
+          padding: "9px 14px", borderRadius: 9, background: "#1c1814",
+          color: "#f4efe4", border: "none", cursor: "pointer", fontSize: 15,
+        }}>↑</button>
+      </div>
+    </div>
+  );
+}
+
+// ── Discuss button ────────────────────────────────────────────────
+function DiscussBtn({ ctx, openThread, style = {} }) {
+  return (
+    <button
+      className="discuss-btn"
+      onClick={e => { e.stopPropagation(); openThread(ctx); }}
+      title="Discuss with Alphalpha"
+      style={{
+        display: "flex", alignItems: "center", gap: 5,
+        padding: "4px 9px", borderRadius: 6,
+        border: "1px solid #d8cebb", background: "rgba(250,246,238,0.9)",
+        color: "#8a7f6a", fontFamily: "'DM Sans',sans-serif",
+        fontSize: 11, cursor: "pointer", whiteSpace: "nowrap",
+        ...style,
+      }}
+    >
+      <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 12 }}>α</span>
+      Discuss
+    </button>
+  );
+}
+
+// ── Snooze picker ─────────────────────────────────────────────────
+const SNOOZE_OPTS = [
+  { label: "Later today", sub: "4 hrs" },
+  { label: "Tomorrow", sub: "24 hrs" },
+  { label: "In 3 days", sub: "72 hrs" },
+  { label: "Next week", sub: "7 days" },
+];
+
+function SnoozePicker({ onPick, onClose }) {
+  return (
+    <div onClick={e => e.stopPropagation()} style={{
+      position: "absolute", zIndex: 80,
+      background: "#faf6ee", border: "1px solid #d8cebb",
+      borderRadius: 10, padding: "6px 4px",
+      boxShadow: "0 4px 24px rgba(28,24,20,0.14)",
+      minWidth: 148, top: "100%", right: 0, marginTop: 4,
+    }}>
+      <div style={{ fontSize: 10, color: "#a89878", padding: "3px 10px 6px", fontFamily: "'DM Sans',sans-serif", letterSpacing: "0.09em", textTransform: "uppercase", fontWeight: 600 }}>Snooze until</div>
+      {SNOOZE_OPTS.map(o => (
+        <button key={o.label} onClick={() => onPick(o.label)}
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", padding: "7px 10px", border: "none", background: "transparent", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#2c2418", borderRadius: 6, gap: 12 }}
+          onMouseEnter={e => e.currentTarget.style.background = "#ede8de"}
+          onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+        >
+          <span>{o.label}</span><span style={{ color: "#b0a080", fontSize: 10 }}>{o.sub}</span>
+        </button>
+      ))}
+      <div style={{ margin: "4px 6px", borderTop: "1px solid #e8e0d0" }} />
+      <button onClick={onClose}
+        style={{ display: "block", width: "100%", padding: "6px 10px", border: "none", background: "transparent", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "#b0a080", textAlign: "left", borderRadius: 6 }}
+        onMouseEnter={e => e.currentTarget.style.background = "#ede8de"}
+        onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+      >Cancel</button>
+    </div>
+  );
+}
+
+// ── Dot ───────────────────────────────────────────────────────────
+function Dot({ priority }) {
+  const color = priority === "HIGH" ? "#a84030" : priority === "MEDIUM" ? "#8a6a3a" : "#5a7a5a";
+  return <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: color, flexShrink: 0, marginTop: 4 }} />;
+}
+
+// ── Collapsible ───────────────────────────────────────────────────
+function Collapsible({ title, count, children, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div style={{ borderTop: "1px solid #d8cebb" }}>
+      <button onClick={() => setOpen(o => !o)} style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        width: "100%", padding: "12px 0", background: "none", border: "none", cursor: "pointer",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8a7f6a" }}>{title}</span>
+          {count !== undefined && <span style={{ fontSize: 10, padding: "1px 6px", borderRadius: 99, background: "#e8e0d0", color: "#9a8f7a", fontFamily: "'DM Sans',sans-serif" }}>{count}</span>}
+        </div>
+        <span style={{ fontSize: 11, color: "#b0a080", transform: open ? "none" : "rotate(-90deg)", transition: "transform 0.2s", display: "inline-block" }}>▾</span>
+      </button>
+      {open && <div style={{ paddingBottom: 16 }}>{children}</div>}
+    </div>
+  );
+}
+
+// ── Focus card ────────────────────────────────────────────────────
+function FocusCard({ item, total, doneCount, onDone, onSnooze, onNext, openThread, isMobile }) {
+  const [showSnooze, setShowSnooze] = useState(false);
+  const [exiting, setExiting] = useState(false);
+
+  const exit = (fn) => { setExiting(true); setTimeout(() => { setExiting(false); fn(); }, 260); };
+  const handleDone   = () => exit(() => onDone(item.id));
+  const handleSnooze = (l) => { setShowSnooze(false); exit(() => onSnooze(item.id, l)); };
+  const handleNext   = () => exit(onNext);
+
+  return (
+    <div style={{
+      flex: 1, display: "flex", flexDirection: "column", overflow: "hidden",
+      opacity: exiting ? 0 : 1, transform: exiting ? "translateY(8px)" : "none",
+      transition: "opacity 0.24s ease, transform 0.24s ease",
+    }}>
+      <div style={{
+        flex: 1, display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        padding: isMobile ? "28px 20px" : "40px 60px", minHeight: 0,
+      }}>
+        {/* Progress dots */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32 }}>
+          {Array.from({ length: total }).map((_, i) => (
+            <div key={i} style={{
+              width: i < doneCount ? 6 : i === doneCount ? 22 : 6, height: 6, borderRadius: 3,
+              background: i < doneCount ? "#c8bc9e" : i === doneCount ? "#1c1814" : "#ddd4be",
+              transition: "all 0.3s ease",
+            }} />
+          ))}
+        </div>
+
+        {/* Priority tag */}
+        <div style={{ fontSize: 10, fontFamily: "'DM Sans',sans-serif", letterSpacing: "0.13em", textTransform: "uppercase", color: item.priority === "HIGH" ? "#a84030" : "#8a6a3a", fontWeight: 600, marginBottom: 18, display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: item.priority === "HIGH" ? "#a84030" : "#8a6a3a", display: "inline-block" }} />
+          {item.priority === "HIGH" ? "Needs a decision" : "Next up"} · {item.project}
+        </div>
+
+        {/* Title */}
+        <div style={{ fontFamily: "'Playfair Display',serif", fontSize: isMobile ? 22 : 28, lineHeight: 1.3, color: "#1c1714", textAlign: "center", maxWidth: 500, marginBottom: 14 }}>{item.title}</div>
+
+        {/* Next step */}
+        <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 13, color: "#8a7f6a", lineHeight: 1.6, textAlign: "center", maxWidth: 400, marginBottom: 30 }}>Next → {item.next}</div>
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+          <button onClick={handleDone} style={{ padding: "11px 26px", borderRadius: 9, background: "#1c1814", color: "#f4efe4", border: "none", fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 500, cursor: "pointer" }}>Done ✓</button>
+          <div style={{ position: "relative" }}>
+            <button onClick={e => { e.stopPropagation(); setShowSnooze(s => !s); }} style={{ padding: "11px 16px", borderRadius: 9, background: "transparent", color: "#7a6f62", border: "1px solid #d8cebb", fontFamily: "'DM Sans',sans-serif", fontSize: 13, cursor: "pointer" }}>Snooze 💤</button>
+            {showSnooze && <SnoozePicker onPick={handleSnooze} onClose={() => setShowSnooze(false)} />}
+          </div>
+          <button onClick={handleNext} style={{ padding: "11px 16px", borderRadius: 9, background: "transparent", color: "#7a6f62", border: "1px solid #d8cebb", fontFamily: "'DM Sans',sans-serif", fontSize: 13, cursor: "pointer" }}>Skip →</button>
+        </div>
+
+        {/* Discuss */}
+        <button
+          onClick={() => openThread({ type: "decision", id: item.id, title: item.title, project: item.project, priority: item.priority, next: item.next, ocOwned: OPENCLAW_OWNED.has(item.project) })}
+          style={{ marginTop: 22, display: "flex", alignItems: "center", gap: 7, padding: "8px 16px", borderRadius: 9, background: "transparent", border: "1px solid #d8cebb", color: "#9a8f7a", fontFamily: "'DM Sans',sans-serif", fontSize: 12, cursor: "pointer" }}
+        >
+          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 13 }}>α</span>
+          Discuss with Alphalpha
+        </button>
+
+        {total - doneCount > 1 && <div style={{ marginTop: 18, fontSize: 11, color: "#c0b49a", fontFamily: "'DM Sans',sans-serif" }}>{total - doneCount - 1} more waiting</div>}
+      </div>
+    </div>
+  );
+}
+
+// ── All clear ─────────────────────────────────────────────────────
+function AllClear() {
+  return (
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
+      <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 30, color: "#1c1714", fontStyle: "italic" }}>All clear.</div>
+      <div style={{ fontFamily: "'Lora',serif", fontSize: 14, color: "#9a8f7a", fontStyle: "italic" }}>Nothing left for today. Well done, Alex.</div>
+    </div>
+  );
+}
+
+// ── Loop item ─────────────────────────────────────────────────────
+function LoopItem({ item, openThread }) {
+  const [done, setDone] = useState(false);
+  const [snoozed, setSnoozed] = useState(false);
+  const [snoozeLabel, setSnoozeLabel] = useState(null);
+  const [showSnooze, setShowSnooze] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  if (snoozed) return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 0", borderBottom: "1px solid #e8e0d0", opacity: 0.4 }}>
+      <span style={{ fontSize: 11, color: "#9a8f7a", fontFamily: "'DM Sans',sans-serif", fontStyle: "italic" }}>💤 {item.text.slice(0, 42)}… · {snoozeLabel}</span>
+      <button onClick={() => { setSnoozed(false); setSnoozeLabel(null); }} style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, border: "1px solid #d8cebb", background: "transparent", color: "#9a8f7a", cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}>Wake</button>
+    </div>
+  );
+
+  return (
+    <div
+      className="card-hoverable"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); setShowSnooze(false); }}
+      style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 0", borderBottom: "1px solid #e8e0d0", opacity: done ? 0.35 : 1, position: "relative" }}
+    >
+      <Dot priority={item.priority} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: "'Lora',serif", fontSize: 13, color: "#2c2418", lineHeight: 1.45, textDecoration: done ? "line-through" : "none" }}>{item.text}</div>
+        <div style={{ fontSize: 10, color: "#b0a080", marginTop: 2, fontFamily: "'DM Sans',sans-serif" }}>{item.project}</div>
+      </div>
+      {hovered && !done && (
+        <div style={{ display: "flex", gap: 4, alignItems: "center", flexShrink: 0, position: "relative" }}>
+          <button onClick={() => setDone(true)} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 5, border: "1px solid #d8cebb", background: "transparent", color: "#7a6f62", cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}>✓</button>
+          <button onClick={e => { e.stopPropagation(); setShowSnooze(s => !s); }} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 5, border: "1px solid #d8cebb", background: "transparent", color: "#7a6f62", cursor: "pointer" }}>💤</button>
+          <DiscussBtn ctx={{ type: "loop", id: item.id, title: item.text, project: item.project, priority: item.priority }} openThread={openThread} />
+          {showSnooze && <SnoozePicker onPick={l => { setSnoozed(true); setSnoozeLabel(l); setShowSnooze(false); }} onClose={() => setShowSnooze(false)} />}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Project card ──────────────────────────────────────────────────
+function ProjectCard({ project, loops, openThread }) {
+  const projectLoops = loops.filter(l => l.project === project.name || l.project === project.category);
+  const highCount = projectLoops.filter(l => l.priority === "HIGH").length;
+  const ocOwned = OPENCLAW_OWNED.has(project.name);
+
+  return (
+    <div className="card-hoverable" style={{ background: "#faf6ee", border: "1px solid #d8cebb", borderRadius: 12, padding: "18px 20px", display: "flex", flexDirection: "column", gap: 10, position: "relative" }}>
+      {/* Top row */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div style={{ fontSize: 9, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#b0a080" }}>{project.category}</div>
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          {ocOwned && (
+            <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 99, background: "rgba(28,24,20,0.08)", color: "#5a5040", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.05em", display: "flex", alignItems: "center", gap: 4 }}>
+              <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 10 }}>α</span> OpenClaw
+            </span>
+          )}
+          <span style={{ fontSize: 9, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 4, background: project.status === "ACTIVE" ? "#e8f0e4" : "#e8e0d0", color: project.status === "ACTIVE" ? "#3a6a3a" : "#7a6a5a" }}>{project.status}</span>
+        </div>
+      </div>
+
+      <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 17, color: "#1c1714", lineHeight: 1.3 }}>{project.name}</div>
+      <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 12, color: "#7a6f62", lineHeight: 1.5 }}>{project.summary}</div>
+
+      {/* Meta */}
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+        <span style={{ fontSize: 11, color: "#b0a080", fontFamily: "'DM Sans',sans-serif" }}>Last: {project.lastActivity}</span>
+        {highCount > 0 && <span style={{ fontSize: 11, color: "#a84030", fontFamily: "'DM Sans',sans-serif", display: "flex", alignItems: "center", gap: 3 }}><span style={{ width: 5, height: 5, borderRadius: "50%", background: "#a84030", display: "inline-block" }} />{highCount} urgent</span>}
+      </div>
+
+      {/* Inline loops */}
+      {projectLoops.length > 0 && (
+        <div style={{ borderTop: "1px solid #e8e0d0", paddingTop: 10, display: "flex", flexDirection: "column", gap: 5 }}>
+          {projectLoops.slice(0, 2).map(l => (
+            <div key={l.id} style={{ display: "flex", gap: 7, alignItems: "flex-start" }}>
+              <Dot priority={l.priority} />
+              <span style={{ fontFamily: "'Lora',serif", fontSize: 12, color: "#5a5040", lineHeight: 1.4 }}>{l.text}</span>
+            </div>
+          ))}
+          {projectLoops.length > 2 && <span style={{ fontSize: 11, color: "#9a6a3a", fontFamily: "'DM Sans',sans-serif" }}>+{projectLoops.length - 2} more loops</span>}
+        </div>
+      )}
+
+      {/* Discuss */}
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}>
+        <DiscussBtn ctx={{ type: "project", id: project.id, title: project.name, project: project.name, summary: project.summary, category: project.category, ocOwned }} openThread={openThread} />
+      </div>
+    </div>
+  );
+}
+
+// ── Investing row ─────────────────────────────────────────────────
+function InvestingRow({ c, i, openThread }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="card-hoverable"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ display: "flex", gap: 12, alignItems: "center", padding: "10px 0", borderBottom: "1px solid #ede8de", background: hovered ? "#faf6ee" : "transparent", transition: "background 0.15s" }}
+    >
+      <span style={{ fontFamily: "monospace", fontSize: 13, fontWeight: 600, color: "#2c2418", width: 44, flexShrink: 0 }}>{c.ticker}</span>
+      <span style={{ fontFamily: "'Lora',serif", fontSize: 12, color: "#5a5040", flex: 1, lineHeight: 1.4 }}>{c.theme}</span>
+      <span style={{ fontSize: 11, color: "#7a6f62", fontFamily: "'DM Sans',sans-serif", flexShrink: 0 }}>{c.stance}</span>
+      <span style={{ fontSize: 9, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: c.confidence === "HIGH" ? "#a84030" : "#8a6a3a", flexShrink: 0 }}>{c.confidence}</span>
+      <DiscussBtn ctx={{ type: "ticker", id: c.ticker, title: c.ticker, theme: c.theme, stance: c.stance, project: "Investing" }} openThread={openThread} />
+    </div>
+  );
+}
+
+// ── Digest card ───────────────────────────────────────────────────
+function DigestCard({ d, openThread }) {
+  return (
+    <div className="card-hoverable" style={{ padding: "14px 0", borderBottom: "1px solid #ede8de", position: "relative" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+        <span style={{ fontSize: 9, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9a6a3a" }}>{d.category}</span>
+        <span style={{ fontSize: 10, color: "#c0b49a", fontFamily: "'DM Sans',sans-serif" }}>{d.date}</span>
+      </div>
+      <div style={{ fontFamily: "'Lora',serif", fontSize: 13, fontWeight: 600, color: "#2c2418", marginBottom: 5, lineHeight: 1.4 }}>{d.title}</div>
+      <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 12, color: "#7a6f62", lineHeight: 1.5, marginBottom: 8 }}>{d.summary}</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+          {d.tags.map(tag => <span key={tag} style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, background: "#f0ebe0", color: "#8a7f6a", fontFamily: "'DM Sans',sans-serif" }}>{tag}</span>)}
+        </div>
+        <DiscussBtn ctx={{ type: "digest", id: d.id, title: d.title, summary: d.summary, category: d.category }} openThread={openThread} />
+      </div>
+    </div>
+  );
+}
+
+// ── Quick add ─────────────────────────────────────────────────────
+function QuickAdd({ onAdd }) {
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 7, border: "1px solid #d8cebb", background: "transparent", color: "#9a8f7a", fontFamily: "'DM Sans',sans-serif", fontSize: 12, cursor: "pointer" }}>
+      <span style={{ fontSize: 16, lineHeight: 1 }}>+</span> Capture a loop
+    </button>
+  );
+  return (
+    <div style={{ display: "flex", gap: 8, border: "1px solid #c8bc9e", borderRadius: 9, padding: "8px 12px", background: "#fff8f0" }}>
+      <input autoFocus value={text} onChange={e => setText(e.target.value)}
+        onKeyDown={e => { if (e.key === "Enter" && text.trim()) { onAdd(text.trim()); setText(""); setOpen(false); } if (e.key === "Escape") setOpen(false); }}
+        placeholder="What's the open loop? (Enter to save)"
+        style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontFamily: "'Lora',serif", fontSize: 13, color: "#2c2418" }}
+      />
+      <button onClick={() => { if (text.trim()) onAdd(text.trim()); setOpen(false); setText(""); }}
+        style={{ background: "#1c1814", color: "#f4efe4", border: "none", borderRadius: 6, padding: "4px 12px", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontSize: 12 }}>Save</button>
+    </div>
+  );
+}
+
+// ── Nav ───────────────────────────────────────────────────────────
+const TABS = [
+  { id: "today",     label: "Today" },
+  { id: "loops",     label: "Open loops" },
+  { id: "projects",  label: "Projects" },
+  { id: "investing", label: "Investing" },
+  { id: "digests",   label: "Digests" },
+];
+
+// ── App ───────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "paperTone": "warm"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [tab, setTab] = useState("today");
+  const [actions, setActions] = useState(D.topActions);
+  const [loops, setLoops] = useState(D.openLoops);
+  const [focusIdx, setFocusIdx] = useState(0);
+  const [thread, setThread] = useState(null);
+  const isMobile = useWindowWidth() < 640;
+  const threadOpen = !!thread;
+
+  const bg     = tweaks.paperTone === "warm" ? "#f4efe4" : "#f2f0ec";
+  const bgSide = tweaks.paperTone === "warm" ? "#ede8db" : "#eae8e3";
+
+  const activeActions = actions.filter(a => !a.done && !a.snoozed);
+  const doneCount = actions.filter(a => a.done).length;
+  const current = activeActions[focusIdx % Math.max(activeActions.length, 1)];
+  const snoozedActions = actions.filter(a => a.snoozed);
+
+  const openThread = useCallback((ctx) => setThread(ctx), []);
+  const closeThread = useCallback(() => setThread(null), []);
+
+  const handleDone = useCallback((id) => { setActions(prev => prev.map(a => a.id === id ? { ...a, done: true } : a)); setFocusIdx(0); }, []);
+  const handleSnooze = useCallback((id, label) => { setActions(prev => prev.map(a => a.id === id ? { ...a, snoozed: true, snoozeLabel: label } : a)); setFocusIdx(0); }, []);
+  const handleNext = useCallback(() => { setFocusIdx(i => (i + 1) % Math.max(activeActions.length, 1)); }, [activeActions.length]);
+  const handleAdd = useCallback((text) => { setLoops(prev => [{ id: "l" + Date.now(), text, project: "Inbox", priority: "MEDIUM" }, ...prev]); }, []);
+
+  // Right gutter width when thread open (desktop)
+  const threadW = (!isMobile && threadOpen) ? 360 : 0;
+
+  return (
+    <div style={{ height: isMobile ? "auto" : "100vh", minHeight: isMobile ? "100vh" : undefined, display: "flex", flexDirection: "column", background: bg, color: "#1c1714", position: "relative" }}>
+
+      {/* ── Masthead ── */}
+      <div style={{ padding: isMobile ? "0 16px" : "0 32px", borderBottom: "1.5px solid #1c1714", display: "flex", alignItems: "stretch", flexWrap: isMobile ? "wrap" : "nowrap", background: bg, flexShrink: 0, paddingRight: threadOpen && !isMobile ? threadW + 32 : undefined }}>
+        <div style={{ padding: isMobile ? "12px 0 8px" : "13px 0", borderRight: isMobile ? "none" : "1px solid #d8cebb", paddingRight: isMobile ? 0 : 28, marginRight: isMobile ? 0 : 28, width: isMobile ? "100%" : "auto", display: "flex", alignItems: "baseline", gap: 10, borderBottom: isMobile ? "1px solid #d8cebb" : "none" }}>
+          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: isMobile ? 18 : 20, fontWeight: 700, color: "#1c1714", letterSpacing: "-0.02em" }}>Alphalpha</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "#9a8f7a", letterSpacing: "0.1em", textTransform: "uppercase" }}>Chief of Staff</span>
+          {isMobile && <><div style={{ flex: 1 }} /><span style={{ fontSize: 11, color: "#b0a080" }}>May 1, 2026</span></>}
+        </div>
+        <nav style={{ display: "flex", alignItems: "stretch", overflowX: "auto", width: isMobile ? "100%" : "auto" }}>
+          {TABS.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: isMobile ? "10px 12px" : "0 16px", background: "none", border: "none", borderBottom: tab === t.id ? "2px solid #1c1714" : "2px solid transparent", color: tab === t.id ? "#1c1714" : "#9a8f7a", fontFamily: "'DM Sans',sans-serif", fontSize: isMobile ? 11 : 12, cursor: "pointer", fontWeight: tab === t.id ? 500 : 400, marginBottom: tab === t.id ? -1 : 0, whiteSpace: "nowrap" }}>{t.label}</button>
+          ))}
+        </nav>
+        {!isMobile && <><div style={{ flex: 1 }} /><div style={{ display: "flex", alignItems: "center", fontSize: 11, color: "#b0a080" }}>Thursday, May 1, 2026</div></>}
+      </div>
+
+      {/* ── Body ── */}
+      <div style={{ flex: 1, overflow: isMobile ? "visible" : "hidden", display: "flex", position: "relative", marginRight: threadOpen && !isMobile ? threadW : 0, transition: "margin-right 0.28s ease" }}>
+
+        {/* TODAY */}
+        {tab === "today" && (
+          <div style={{ flex: 1, display: "flex", flexDirection: isMobile ? "column" : "row", overflow: isMobile ? "visible" : "hidden", width: "100%" }}>
+            {/* Focus stage */}
+            <div style={{ flex: "1 1 55%", display: "flex", flexDirection: "column", borderRight: isMobile ? "none" : "1px solid #d8cebb", borderBottom: isMobile ? "1px solid #d8cebb" : "none", overflow: "hidden", minHeight: isMobile ? "70vh" : undefined }}>
+              {activeActions.length > 0
+                ? <FocusCard item={current} total={actions.filter(a => !a.snoozed).length} doneCount={doneCount} onDone={handleDone} onSnooze={handleSnooze} onNext={handleNext} openThread={openThread} isMobile={isMobile} />
+                : <AllClear />
+              }
+              {snoozedActions.length > 0 && (
+                <div style={{ borderTop: "1px solid #d8cebb", padding: "10px 32px", display: "flex", gap: 8, flexWrap: "wrap", background: bgSide }}>
+                  <span style={{ fontSize: 10, color: "#b0a080", letterSpacing: "0.08em", textTransform: "uppercase", alignSelf: "center" }}>Snoozed</span>
+                  {snoozedActions.map(a => (
+                    <div key={a.id} style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 6, background: "#e8e0d0", fontSize: 11, color: "#7a6f62" }}>
+                      <span style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "'DM Sans',sans-serif" }}>💤 {a.title.slice(0, 34)}…</span>
+                      <span style={{ color: "#b0a080", fontSize: 10, fontFamily: "'DM Sans',sans-serif" }}>{a.snoozeLabel}</span>
+                      <button onClick={() => setActions(prev => prev.map(x => x.id === a.id ? { ...x, snoozed: false, snoozeLabel: null } : x))} style={{ background: "none", border: "none", cursor: "pointer", color: "#b0a080", fontSize: 11, padding: 0 }}>✕</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Context column */}
+            <div style={{ width: isMobile ? "100%" : 300, flexShrink: 0, background: bgSide, overflowY: "auto", padding: isMobile ? "20px 16px" : "22px 20px", display: "flex", flexDirection: "column", gap: 0 }}>
+              {/* Posture */}
+              <div style={{ marginBottom: 18, paddingBottom: 18, borderBottom: "1px solid #d8cebb" }}>
+                <div style={{ fontSize: 9, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing: "0.13em", textTransform: "uppercase", color: "#b0a080", marginBottom: 7 }}>Today's posture</div>
+                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 14, lineHeight: 1.4, color: "#1c1714", fontStyle: "italic", marginBottom: 7 }}>"{D.meta.posture}"</div>
+                <div style={{ fontFamily: "'Lora',serif", fontSize: 12, color: "#7a6f62", lineHeight: 1.6 }}>{D.meta.postureDetail}</div>
+              </div>
+              <div style={{ marginBottom: 16 }}><QuickAdd onAdd={handleAdd} /></div>
+              <Collapsible title="Open loops" count={loops.length} defaultOpen={true}>
+                {loops.slice(0, 5).map(l => <LoopItem key={l.id} item={l} openThread={openThread} />)}
+                {loops.length > 5 && <button onClick={() => setTab("loops")} style={{ marginTop: 8, fontSize: 11, color: "#9a6a3a", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "'DM Sans',sans-serif" }}>View all {loops.length} →</button>}
+              </Collapsible>
+              <Collapsible title="Investing" count={D.investing.length}>
+                {D.investing.slice(0, 4).map((c, i) => <InvestingRow key={c.ticker} c={c} i={i} openThread={openThread} />)}
+                <button onClick={() => setTab("investing")} style={{ marginTop: 8, fontSize: 11, color: "#9a6a3a", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "'DM Sans',sans-serif" }}>View all {D.investing.length} →</button>
+              </Collapsible>
+              <Collapsible title="Digests" count={D.digests.length}>
+                {D.digests.slice(0, 2).map(d => <DigestCard key={d.id} d={d} openThread={openThread} />)}
+              </Collapsible>
+              <div style={{ paddingBottom: 24 }} />
+            </div>
+          </div>
+        )}
+
+        {/* LOOPS */}
+        {tab === "loops" && (
+          <div style={{ flex: 1, overflowY: "auto", padding: "32px clamp(20px,5vw,48px)", maxWidth: 720, margin: "0 auto", width: "100%" }}>
+            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: "#1c1714", marginBottom: 4 }}>Open loops</div>
+            <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 13, color: "#9a8f7a", marginBottom: 24 }}>{loops.length} items in flight</div>
+            <QuickAdd onAdd={handleAdd} />
+            <div style={{ marginTop: 20 }}>
+              {loops.map(l => <LoopItem key={l.id} item={l} openThread={openThread} />)}
+            </div>
+          </div>
+        )}
+
+        {/* PROJECTS */}
+        {tab === "projects" && (
+          <div style={{ flex: 1, overflowY: "auto", padding: "32px clamp(20px,5vw,48px)", maxWidth: 960, margin: "0 auto", width: "100%" }}>
+            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: "#1c1714", marginBottom: 4 }}>Projects</div>
+            <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 13, color: "#9a8f7a", marginBottom: 8 }}>{D.projects.length} active workstreams</div>
+            <div style={{ fontSize: 11, color: "#b0a080", fontFamily: "'DM Sans',sans-serif", marginBottom: 24, display: "flex", gap: 12 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 5 }}><span style={{ fontSize: 10, fontFamily: "'Playfair Display',serif" }}>α</span> = OpenClaw managed</span>
+              <span style={{ color: "#d8cebb" }}>·</span>
+              <span>manually tracked = you own it</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 14 }}>
+              {D.projects.map(p => <ProjectCard key={p.id} project={p} loops={loops} openThread={openThread} />)}
+            </div>
+          </div>
+        )}
+
+        {/* INVESTING */}
+        {tab === "investing" && (
+          <div style={{ flex: 1, overflowY: "auto", padding: "32px clamp(20px,5vw,48px)", maxWidth: 800, margin: "0 auto", width: "100%" }}>
+            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: "#1c1714", marginBottom: 4 }}>Investing candidates</div>
+            <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 13, color: "#9a8f7a", marginBottom: 24 }}>Research queue · {D.investing.length} tickers · hover to discuss</div>
+            {D.investing.map((c, i) => <InvestingRow key={c.ticker} c={c} i={i} openThread={openThread} />)}
+          </div>
+        )}
+
+        {/* DIGESTS */}
+        {tab === "digests" && (
+          <div style={{ flex: 1, overflowY: "auto", padding: "32px clamp(20px,5vw,48px)", maxWidth: 720, margin: "0 auto", width: "100%" }}>
+            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: "#1c1714", marginBottom: 4 }}>Digests</div>
+            <div style={{ fontFamily: "'Lora',serif", fontStyle: "italic", fontSize: 13, color: "#9a8f7a", marginBottom: 24 }}>Syntheses and source trail</div>
+            {D.digests.map(d => <DigestCard key={d.id} d={d} openThread={openThread} />)}
+          </div>
+        )}
+      </div>
+
+      {/* ── Status bar ── */}
+      {!isMobile && (
+        <div style={{ borderTop: "1px solid #d8cebb", padding: "7px 32px", display: "flex", alignItems: "center", gap: 18, background: bgSide, fontSize: 11, color: "#b0a080", flexShrink: 0, marginRight: threadOpen ? threadW : 0, transition: "margin-right 0.28s ease" }}>
+          <span>{loops.length} open loops</span>
+          <span style={{ color: "#d8cebb" }}>·</span>
+          <span>{D.stats.activeProjects} projects</span>
+          <span style={{ color: "#d8cebb" }}>·</span>
+          <span style={{ color: activeActions.filter(a => a.priority === "HIGH").length > 0 ? "#a84030" : "#b0a080" }}>{activeActions.filter(a => a.priority === "HIGH").length} high priority</span>
+          <div style={{ flex: 1 }} />
+          <span style={{ fontStyle: "italic", fontFamily: "'Lora',serif" }}>Generated {D.meta.generatedAt}</span>
+        </div>
+      )}
+
+      {/* ── Thread drawer ── */}
+      <ThreadDrawer thread={thread} onClose={closeThread} isMobile={isMobile} />
+
+      {/* Tweaks */}
+      <TweaksPanel>
+        <TweakSection title="Paper tone">
+          <TweakRadio label="Background" value={tweaks.paperTone} options={[{ label: "Warm", value: "warm" }, { label: "Cool", value: "cool" }]} onChange={v => setTweak("paperTone", v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

@@ -1,8 +1,38 @@
 # Alphalpha Dashboard v3 — Design Spec
 
 **Date:** 2026-05-01  
-**Branch:** claude/hardcore-ishizaka-3fbf39  
-**Reference:** `/tmp/design_handoff/` (README.md, Alphalpha Dashboard v3.html, data.js)
+**Branch:** claude/hardcore-ishizaka-3fbf39
+
+---
+
+## For the implementing agent: design fidelity instructions
+
+The full design handoff package is committed at `docs/design_handoff/`. Before implementing any component or style, cross-reference these files:
+
+| File | When to consult |
+|---|---|
+| `docs/design_handoff/Alphalpha Dashboard v3.html` | **Primary reference.** Serve it locally (`python3 -m http.server 8765` from `docs/design_handoff/`) and open in a browser to interact with every tab, the thread drawer, snooze picker, hover states, and animations before writing any code for that component. |
+| `docs/design_handoff/README.md` | Design tokens (exact hex values, px sizes, font weights), spacing rules, responsive breakpoints, interaction table, and thread system prompt spec. Treat as authoritative for any pixel-level decision. |
+| `docs/design_handoff/data.js` | Canonical data shape and sample values. Use as a secondary check against `lib/data.ts` types defined in this spec. |
+| `docs/design_handoff/Design Directions.html` | Background only — shows the three early explorations (Paper / Terminal / Focus) that were synthesized into v3. Useful if the rationale behind a design choice is unclear. |
+
+**Note:** `Alphalpha Dashboard v3.html` depends on `data.js` (loaded as a sibling script) and a `tweaks-panel.jsx` stub. Create the stub before serving:
+```bash
+cat > docs/design_handoff/tweaks-panel.jsx << 'EOF'
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = (key, val) => setValues(prev => ({ ...prev, [key]: val }));
+  return [values, setTweak];
+}
+function TweaksPanel({ children }) { return null; }
+function TweakSection({ children }) { return null; }
+function TweakRadio({ children }) { return null; }
+EOF
+```
+
+**Fidelity standard:** The README calls this "high-fidelity." Match exact hex colors, font sizes, border radii, spacing values, and animation timings from the README's design token tables. When in doubt, inspect the prototype's rendered CSS in DevTools rather than estimating.
+
+---
 
 ---
 

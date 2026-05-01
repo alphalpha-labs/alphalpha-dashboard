@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alphalpha · Design Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; }
+  body { font-family: 'DM Sans', sans-serif; background: #1a1814; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+// ── Shared sample data ──────────────────────────────────────────────
+const TOP_ACTIONS = [
+  { id: 1, priority: "HIGH", title: "Decide Alphalpha source-of-truth model: Obsidian, GitHub, or hybrid.", project: "Alphalpha", due: "This week", done: false },
+  { id: 2, priority: "MEDIUM", title: "Convert imported brain dumps into maintainable context files.", project: "Alphalpha", due: "This week", done: false },
+  { id: 3, priority: "HIGH", title: "Decide automation approval policy by action type.", project: "Alphalpha", due: "Later", done: false },
+];
+
+const LOOPS = [
+  { id: 1, text: "Pick canonical source model and encode it in MEMORY_PROTOCOL.", project: "Alphalpha", p: "HIGH" },
+  { id: 2, text: "Review brain dumps and move into right project file.", project: "Alphalpha", p: "MEDIUM" },
+  { id: 3, text: "Identify best ETFs vs individual stocks for grid/data-center theme.", project: "Investing", p: "MEDIUM" },
+  { id: 4, text: "Ship simple Austin family music event digest.", project: "Austin events", p: "LOW" },
+];
+
+// ── Direction A: "Paper" — warm journalistic broadsheet ────────────────
+function DirectionA() {
+  const [checked, setChecked] = React.useState({});
+  return (
+    <div style={{
+      width: "100%", height: "100%",
+      background: "#f4efe4",
+      fontFamily: "'Lora', Georgia, serif",
+      display: "flex", flexDirection: "column",
+      overflow: "hidden",
+    }}>
+      {/* Masthead */}
+      <div style={{
+        borderBottom: "2px solid #1c1710",
+        padding: "14px 28px 10px",
+        display: "flex", alignItems: "baseline", justifyContent: "space-between",
+      }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "16px" }}>
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "22px", fontWeight: 700, color: "#1c1710", letterSpacing: "-0.02em" }}>Alphalpha</span>
+          <span style={{ fontSize: "11px", color: "#8a7f6a", fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>Chief of Staff</span>
+        </div>
+        <span style={{ fontSize: "11px", color: "#8a7f6a", fontFamily: "'DM Sans', sans-serif" }}>Thursday, May 1, 2026</span>
+      </div>
+
+      {/* Rule */}
+      <div style={{ height: "1px", background: "#c8bc9e", margin: "0 28px" }} />
+
+      {/* Body */}
+      <div style={{ flex: 1, overflow: "hidden", display: "flex", gap: "0" }}>
+        {/* Left column — lead story */}
+        <div style={{
+          width: "52%", padding: "20px 24px 20px 28px",
+          borderRight: "1px solid #c8bc9e",
+          display: "flex", flexDirection: "column", gap: "0",
+          overflowY: "auto",
+        }}>
+          <div style={{ fontSize: "10px", color: "#8a7f6a", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif", marginBottom: "8px" }}>Today's decisions</div>
+          
+          {TOP_ACTIONS.map((item, i) => (
+            <div key={item.id}>
+              <div
+                style={{
+                  padding: "14px 0",
+                  borderBottom: i < TOP_ACTIONS.length - 1 ? "1px solid #ddd4be" : "none",
+                  display: "flex", gap: "12px", alignItems: "flex-start",
+                  opacity: checked[item.id] ? 0.4 : 1,
+                }}
+              >
+                <button
+                  onClick={() => setChecked(c => ({ ...c, [item.id]: !c[item.id] }))}
+                  style={{
+                    width: "18px", height: "18px", borderRadius: "2px", flexShrink: 0,
+                    border: `1.5px solid ${checked[item.id] ? "#8a6a3a" : "#c0b49a"}`,
+                    background: checked[item.id] ? "#8a6a3a" : "transparent",
+                    cursor: "pointer", marginTop: "2px",
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "4px" }}>
+                    {item.priority === "HIGH" && (
+                      <span style={{ fontSize: "9px", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a84030", border: "1px solid #a84030", padding: "1px 5px", borderRadius: "2px" }}>Urgent</span>
+                    )}
+                    <span style={{ fontSize: "10px", color: "#8a7f6a", fontFamily: "'DM Sans', sans-serif" }}>{item.project} · {item.due}</span>
+                  </div>
+                  <div style={{
+                    fontSize: i === 0 ? "17px" : "14px",
+                    lineHeight: 1.4,
+                    color: "#1c1710",
+                    fontWeight: i === 0 ? 600 : 400,
+                    textDecoration: checked[item.id] ? "line-through" : "none",
+                  }}>{item.title}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Posture */}
+          <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "2px solid #1c1710" }}>
+            <div style={{ fontSize: "10px", color: "#8a7f6a", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif", marginBottom: "8px" }}>Today's posture</div>
+            <div style={{ fontSize: "14px", lineHeight: 1.65, color: "#3c3428", fontStyle: "italic" }}>
+              "Build the dashboard, then connect live sources."
+            </div>
+            <div style={{ fontSize: "11px", color: "#9a8f7a", marginTop: "8px", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, and Thesis Baskets data directly.</div>
+          </div>
+        </div>
+
+        {/* Right column — open loops */}
+        <div style={{ flex: 1, padding: "20px 24px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "0" }}>
+          <div style={{ fontSize: "10px", color: "#8a7f6a", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif", marginBottom: "8px" }}>Open loops <span style={{ fontWeight: 400, color: "#b0a48a" }}>· 46</span></div>
+          {LOOPS.map((l, i) => (
+            <div key={l.id} style={{
+              padding: "10px 0",
+              borderBottom: i < LOOPS.length - 1 ? "1px solid #ddd4be" : "none",
+              display: "flex", gap: "10px", alignItems: "flex-start",
+            }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: l.p === "HIGH" ? "#a84030" : l.p === "MEDIUM" ? "#8a6a3a" : "#5a7a5a", flexShrink: 0, marginTop: "5px" }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "12px", color: "#2c2418", lineHeight: 1.45 }}>{l.text}</div>
+                <div style={{ fontSize: "10px", color: "#9a8f7a", marginTop: "2px", fontFamily: "'DM Sans', sans-serif" }}>{l.project}</div>
+              </div>
+              <button style={{
+                fontSize: "10px", padding: "2px 6px", borderRadius: "3px",
+                border: "1px solid #c0b49a", background: "transparent",
+                color: "#9a8f7a", cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+                flexShrink: 0,
+              }}>💤</button>
+            </div>
+          ))}
+          <div style={{ marginTop: "12px", fontSize: "11px", color: "#a89f8a", fontFamily: "'DM Sans', sans-serif", cursor: "pointer" }}>View all 42 more →</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Direction B: "Terminal" — monospace command-line focus ──────────────
+function DirectionB() {
+  const [input, setInput] = React.useState("");
+  const [checked, setChecked] = React.useState({});
+  const now = "2026-05-01 09:48";
+
+  return (
+    <div style={{
+      width: "100%", height: "100%",
+      background: "#0d1117",
+      fontFamily: "'IBM Plex Mono', monospace",
+      color: "#c9d1d9",
+      display: "flex", flexDirection: "column",
+      fontSize: "12px",
+      overflow: "hidden",
+    }}>
+      {/* Header bar */}
+      <div style={{
+        padding: "10px 20px",
+        borderBottom: "1px solid #21262d",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        background: "#161b22",
+      }}>
+        <span style={{ color: "#58a6ff", fontWeight: 500 }}>α alphalpha <span style={{ color: "#3d444d" }}>--chief-of-staff</span></span>
+        <span style={{ color: "#3d444d" }}>{now} CT</span>
+      </div>
+
+      <div style={{ flex: 1, overflow: "hidden", display: "flex" }}>
+        {/* Main pane */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px", display: "flex", flexDirection: "column", gap: "0" }}>
+          
+          {/* Posture */}
+          <div style={{ marginBottom: "20px" }}>
+            <div style={{ color: "#3d444d", marginBottom: "4px" }}># today.posture</div>
+            <div style={{ color: "#e6edf3", paddingLeft: "12px", borderLeft: "2px solid #58a6ff", lineHeight: 1.6 }}>
+              Build the dashboard, then connect live sources.
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div style={{ marginBottom: "4px", color: "#3d444d" }}># priority.queue [ {TOP_ACTIONS.length} items ]</div>
+          {TOP_ACTIONS.map((item, i) => (
+            <div key={item.id} style={{
+              padding: "10px 0",
+              borderBottom: "1px solid #21262d",
+              display: "flex", gap: "10px",
+              opacity: checked[item.id] ? 0.35 : 1,
+            }}>
+              <button
+                onClick={() => setChecked(c => ({ ...c, [item.id]: !c[item.id] }))}
+                style={{
+                  background: "transparent", border: "none", cursor: "pointer",
+                  color: checked[item.id] ? "#238636" : "#3d444d",
+                  fontFamily: "'IBM Plex Mono', monospace", fontSize: "12px", padding: "0",
+                  flexShrink: 0,
+                }}
+              >{checked[item.id] ? "[✓]" : "[ ]"}</button>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "3px" }}>
+                  <span style={{ color: item.priority === "HIGH" ? "#f85149" : "#e3b341", fontSize: "10px" }}>
+                    {item.priority === "HIGH" ? "!HIGH" : "~MED"}
+                  </span>
+                  <span style={{ color: "#3d444d" }}>{item.project} · {item.due}</span>
+                </div>
+                <div style={{ color: "#e6edf3", lineHeight: 1.4 }}>{item.title}</div>
+              </div>
+              <button style={{
+                background: "transparent", border: "1px solid #21262d",
+                color: "#3d444d", fontSize: "10px", padding: "2px 6px",
+                cursor: "pointer", fontFamily: "'IBM Plex Mono', monospace",
+                borderRadius: "3px", flexShrink: 0,
+              }}>snz</button>
+            </div>
+          ))}
+
+          {/* Open loops */}
+          <div style={{ marginTop: "16px", marginBottom: "4px", color: "#3d444d" }}># open.loops [ 46 total, showing 4 ]</div>
+          {LOOPS.map((l) => (
+            <div key={l.id} style={{
+              padding: "7px 0 7px 12px",
+              borderBottom: "1px solid #161b22",
+              borderLeft: `2px solid ${l.p === "HIGH" ? "#f85149" : l.p === "MEDIUM" ? "#e3b341" : "#3fb950"}`,
+              marginBottom: "2px",
+            }}>
+              <span style={{ color: "#8b949e" }}>{l.project} → </span>
+              <span style={{ color: "#c9d1d9" }}>{l.text}</span>
+            </div>
+          ))}
+          <div style={{ color: "#3d444d", marginTop: "8px", cursor: "pointer" }}>$ view-all --loops</div>
+        </div>
+
+        {/* Right mini pane */}
+        <div style={{
+          width: "200px", borderLeft: "1px solid #21262d",
+          padding: "16px 14px",
+          display: "flex", flexDirection: "column", gap: "12px",
+        }}>
+          <div>
+            <div style={{ color: "#3d444d", marginBottom: "6px", fontSize: "10px" }}># stats</div>
+            {[["loops", "46"], ["projects", "6"], ["urgent", "5"]].map(([k, v]) => (
+              <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", borderBottom: "1px solid #21262d" }}>
+                <span style={{ color: "#8b949e" }}>{k}</span>
+                <span style={{ color: "#58a6ff" }}>{v}</span>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div style={{ color: "#3d444d", marginBottom: "6px", fontSize: "10px" }}># investing</div>
+            {["EME", "PWR", "BWXT"].map(t => (
+              <div key={t} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0" }}>
+                <span style={{ color: "#f0883e" }}>{t}</span>
+                <span style={{ color: "#3d444d", fontSize: "10px" }}>!high</span>
+              </div>
+            ))}
+            <div style={{ color: "#3d444d", marginTop: "4px", fontSize: "10px" }}>+7 more</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Command line */}
+      <div style={{
+        borderTop: "1px solid #21262d", padding: "10px 20px",
+        display: "flex", gap: "8px", alignItems: "center",
+        background: "#161b22",
+      }}>
+        <span style={{ color: "#58a6ff" }}>α</span>
+        <input
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="ask alphalpha anything..."
+          style={{
+            flex: 1, background: "transparent", border: "none", outline: "none",
+            color: "#e6edf3", fontFamily: "'IBM Plex Mono', monospace", fontSize: "12px",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ── Direction C: "Focus" — single item at a time, full calm ──────────────
+function DirectionC() {
+  const [idx, setIdx] = React.useState(0);
+  const [done, setDone] = React.useState([]);
+  const [snoozed, setSnoozed] = React.useState([]);
+  const active = TOP_ACTIONS.filter(a => !done.includes(a.id) && !snoozed.includes(a.id));
+  const current = active[idx % Math.max(active.length, 1)];
+
+  return (
+    <div style={{
+      width: "100%", height: "100%",
+      background: "#faf8f5",
+      fontFamily: "'DM Sans', sans-serif",
+      display: "flex", flexDirection: "column",
+      overflow: "hidden",
+    }}>
+      {/* Top bar */}
+      <div style={{
+        padding: "14px 24px",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        borderBottom: "1px solid rgba(28,24,20,0.08)",
+      }}>
+        <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "16px", color: "#1c1814", letterSpacing: "-0.02em" }}>α</span>
+        <div style={{ display: "flex", gap: "6px" }}>
+          {["Today", "Loops", "Investing"].map(label => (
+            <button key={label} style={{
+              padding: "5px 12px", borderRadius: "6px", border: "none",
+              background: label === "Today" ? "rgba(28,24,20,0.08)" : "transparent",
+              color: label === "Today" ? "#1c1814" : "#9a9088",
+              fontSize: "12px", cursor: "pointer",
+            }}>{label}</button>
+          ))}
+        </div>
+        <span style={{ fontSize: "11px", color: "#b0a89a" }}>May 1, 2026</span>
+      </div>
+
+      {/* Center focus */}
+      <div style={{
+        flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "32px 48px",
+        flexDirection: "column", gap: "32px",
+      }}>
+        {current ? (
+          <>
+            {/* Progress dots */}
+            <div style={{ display: "flex", gap: "6px" }}>
+              {active.map((_, i) => (
+                <div key={i} style={{
+                  width: i === idx % active.length ? "20px" : "6px",
+                  height: "6px", borderRadius: "3px",
+                  background: i === idx % active.length ? "#1c1814" : "#d8d0c4",
+                  transition: "width 0.3s ease",
+                }} />
+              ))}
+            </div>
+
+            {/* The one thing */}
+            <div style={{ maxWidth: "480px", textAlign: "center" }}>
+              <div style={{ fontSize: "11px", color: "#b0a89a", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "16px", fontWeight: 600 }}>
+                {current.priority === "HIGH" ? "Needs decision" : "Next up"} · {current.project}
+              </div>
+              <div style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: "26px", lineHeight: 1.3, color: "#1c1814",
+                marginBottom: "20px",
+              }}>{current.title}</div>
+              <div style={{ fontSize: "12px", color: "#9a9088" }}>{current.due}</div>
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() => { setDone(d => [...d, current.id]); }}
+                style={{
+                  padding: "12px 28px", borderRadius: "10px",
+                  background: "#1c1814", color: "#f5f0e8",
+                  border: "none", fontSize: "13px", cursor: "pointer", fontWeight: 500,
+                }}
+              >Done ✓</button>
+              <button
+                onClick={() => setSnoozed(s => [...s, current.id])}
+                style={{
+                  padding: "12px 20px", borderRadius: "10px",
+                  background: "transparent", color: "#7a6f62",
+                  border: "1px solid rgba(28,24,20,0.15)",
+                  fontSize: "13px", cursor: "pointer",
+                }}
+              >Snooze 💤</button>
+              <button
+                onClick={() => setIdx(i => (i + 1) % active.length)}
+                style={{
+                  padding: "12px 20px", borderRadius: "10px",
+                  background: "transparent", color: "#7a6f62",
+                  border: "1px solid rgba(28,24,20,0.15)",
+                  fontSize: "13px", cursor: "pointer",
+                }}
+              >Next →</button>
+            </div>
+          </>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: "28px", color: "#1c1814", marginBottom: "8px" }}>All clear.</div>
+            <div style={{ fontSize: "14px", color: "#9a9088" }}>Nothing left for today. Well done, Alex.</div>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom strip — context at a glance */}
+      <div style={{
+        borderTop: "1px solid rgba(28,24,20,0.08)",
+        padding: "12px 24px",
+        display: "flex", gap: "24px", alignItems: "center",
+        background: "#f5f0e8",
+      }}>
+        <span style={{ fontSize: "11px", color: "#9a9088" }}>46 open loops</span>
+        <span style={{ fontSize: "11px", color: "#c8c0b4" }}>·</span>
+        <span style={{ fontSize: "11px", color: "#9a9088" }}>6 active projects</span>
+        <span style={{ fontSize: "11px", color: "#c8c0b4" }}>·</span>
+        <span style={{ fontSize: "11px", color: "#9a9088" }}>5 high priority</span>
+        <div style={{ flex: 1 }} />
+        <div style={{ display: "flex", gap: "6px" }}>
+          {LOOPS.slice(0, 3).map(l => (
+            <span key={l.id} style={{
+              fontSize: "10px", padding: "3px 8px", borderRadius: "4px",
+              background: "rgba(28,24,20,0.06)", color: "#7a6f62",
+            }}>{l.project}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── App ─────────────────────────────────────────────────────────────
+function App() {
+  return (
+    <DesignCanvas title="Alphalpha · Design Directions">
+      <DCSection id="directions" title="Three new design directions">
+        <DCArtboard id="paper" label="A · Paper — journalistic broadsheet" width={820} height={540}>
+          <DirectionA />
+        </DCArtboard>
+        <DCArtboard id="terminal" label="B · Terminal — monospace command center" width={820} height={540}>
+          <DirectionB />
+        </DCArtboard>
+        <DCArtboard id="focus" label="C · Focus — one thing at a time" width={820} height={540}>
+          <DirectionC />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
