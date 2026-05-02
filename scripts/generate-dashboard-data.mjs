@@ -9,110 +9,50 @@ const contextRoot = process.env.ALPHALPHA_CONTEXT_DIR
   : path.resolve(repoRoot, '..', 'context');
 
 function read(rel) {
-  const filePath = path.join(contextRoot, rel);
-  return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+  const p = path.join(contextRoot, rel);
+  return fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
 }
-
 function mtime(rel) {
-  const filePath = path.join(contextRoot, rel);
-  return fs.existsSync(filePath) ? fs.statSync(filePath).mtime.toISOString() : null;
+  const p = path.join(contextRoot, rel);
+  return fs.existsSync(p) ? fs.statSync(p).mtime.toISOString() : null;
 }
-
+function readOcConfig() {
+  const p = path.join(repoRoot, 'openclaw.config.json');
+  if (!fs.existsSync(p)) return { managedProjects: [] };
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return { managedProjects: [] }; }
+}
 function stripMarkdown(line) {
   return line
-    .replace(/^#+\s*/, '')
-    .replace(/^[-*]\s+/, '')
-    .replace(/^\d+\.\s+/, '')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .trim();
+    .replace(/^#+\s*/, '').replace(/^[-*]\s+/, '').replace(/^\d+\.\s+/, '')
+    .replace(/`([^`]+)`/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').trim();
 }
-
 function firstSentence(text, fallback = '') {
   const cleaned = stripMarkdown(text).replace(/\s+/g, ' ').trim();
   if (!cleaned) return fallback;
   const match = cleaned.match(/^(.+?[.!?])(?:\s|$)/);
   return (match?.[1] || cleaned).slice(0, 220);
 }
-
-function lines(md) {
-  return md.split(/\r?\n/).map((line) => line.trimEnd());
-}
-
+function lines(md) { return md.split(/\r?\n/).map(l => l.trimEnd()); }
 function extractSection(md, heading) {
   const all = lines(md);
-  const start = all.findIndex((line) => line.trim().toLowerCase() === heading.toLowerCase());
+  const start = all.findIndex(l => l.trim().toLowerCase() === heading.toLowerCase());
   if (start < 0) return '';
   const level = heading.match(/^#+/)?.[0].length ?? 2;
-  const end = all.findIndex((line, idx) => idx > start && /^#+\s+/.test(line) && (line.match(/^#+/)?.[0].length ?? 99) <= level);
+  const end = all.findIndex((l, i) => i > start && /^#+\s+/.test(l) && (l.match(/^#+/)?.[0].length ?? 99) <= level);
   return all.slice(start + 1, end < 0 ? undefined : end).join('\n').trim();
 }
-
 function extractBullets(md, { checkedOnly = false } = {}) {
   return lines(md)
-    .filter((line) => checkedOnly ? /^- \[ \]\s+/.test(line.trim()) : /^-\s+/.test(line.trim()))
-    .map((line) => stripMarkdown(line.replace(/^- \[ \]\s+/, '- ')))
+    .filter(l => checkedOnly ? /^- \[ \]\s+/.test(l.trim()) : /^-\s+/.test(l.trim()))
+    .map(l => stripMarkdown(l.replace(/^- \[ \]\s+/, '- ')))
     .filter(Boolean);
 }
-
 function priorityFor(text) {
   const lower = text.toLowerCase();
-  if (/(urgent|high|fix|blocked|credential|source-of-truth|approval policy)/.test(lower)) return 'high';
-  if (/(later|low|clarify|decide)/.test(lower)) return 'medium';
-  return 'medium';
+  if (/(urgent|fix|blocked|credential|source-of-truth|approval policy)/.test(lower)) return 'HIGH';
+  if (/(high)/.test(lower)) return 'HIGH';
+  return 'MEDIUM';
 }
-
-function parseProjects(projectsMd) {
-  const all = lines(projectsMd);
-  const starts = [];
-  all.forEach((line, index) => {
-    if (/^##\s+\d+\.\s+/.test(line)) starts.push(index);
-  });
-
-  return starts.slice(0, 6).map((start, idx) => {
-    const end = starts[idx + 1] ?? all.length;
-    const block = all.slice(start, end).join('\n');
-    const rawTitle = stripMarkdown(all[start]).replace(/^\d+\.\s+/, '');
-    const [namePart, subtitle] = rawTitle.split(/\s+—\s+|\s+-\s+/);
-    const goal = extractSection(block, '**Goal:**') || '';
-    const openLoop = extractBullets(extractSection(block, '**Open loops:**'))[0];
-    const known = extractBullets(extractSection(block, '**Known context:**'))[0];
-    const status = /waiting|blocked|fix|credential|permission/i.test(openLoop || '') ? 'waiting' : 'active';
-
-    return {
-      name: namePart.trim(),
-      domain: (subtitle || domainFor(namePart)).trim(),
-      status,
-      lastActivity: idx === 0 ? 'today' : 'recent memory',
-      nextAction: openLoop || firstSentence(goal, known || 'Review and update project context.'),
-      blocker: status === 'waiting' ? 'Needs source/permission decision' : null,
-      source: 'context/PROJECTS.md',
-    };
-  });
-}
-
-function domainFor(name) {
-  const lower = name.toLowerCase();
-  if (lower.includes('invest')) return 'Investing';
-  if (lower.includes('obsidian')) return 'Knowledge management';
-  if (lower.includes('openclaw')) return 'Orchestration';
-  if (lower.includes('austin')) return 'Local events';
-  if (lower.includes('landscap')) return 'Home operations';
-  if (lower.includes('health')) return 'Family finance';
-  return 'Agentic OS';
-}
-
-function parseOpenLoops(openLoopsMd) {
-  const allLoops = extractBullets(openLoopsMd, { checkedOnly: true });
-  return allLoops.slice(0, 8).map((item) => ({
-    item: item.replace(/\s+_Status:.*$/, '').trim(),
-    owner: item.toLowerCase().includes('alex') ? 'Alex' : 'Alphalpha',
-    due: /dashboard|context|source-of-truth|capture|working copy/i.test(item) ? 'This week' : 'Later',
-    priority: priorityFor(item),
-    next: nextActionFor(item),
-  }));
-}
-
 function nextActionFor(item) {
   const lower = item.toLowerCase();
   if (lower.includes('source-of-truth')) return 'Pick canonical source model and encode it in MEMORY_PROTOCOL.';
@@ -123,90 +63,156 @@ function nextActionFor(item) {
   if (lower.includes('invest')) return 'Create structured watchlist/thesis file with triggers and invalidations.';
   return 'Review, clarify owner, and move into the right project file.';
 }
-
-function parseInvesting(openLoopsMd) {
-  const tickerLine = lines(openLoopsMd).find((line) => line.includes('EME, FIX')) || '';
-  const tickers = tickerLine.match(/[A-Z]{2,5}(?:\.[A-Z])?/g) || ['EME', 'PWR', 'BWXT', 'CIEN', 'DHR', 'KTOS'];
-  const themes = {
-    EME: 'Grid/data-center construction', FIX: 'Building systems + electrification', PWR: 'Transmission/grid hardening', BWXT: 'Nuclear services + defense nuclear',
-    HWM: 'Aerospace/defense supply chain', HEI: 'Aerospace components', KTOS: 'Defense modernization / drones', AVAV: 'Autonomous systems / drones',
-    CIEN: 'AI optical/network bandwidth', GLW: 'Glass/fiber/materials', DHR: 'Healthcare tools / boring quality', BSX: 'Medical devices',
-    MUFG: 'Japan financials', SMFG: 'Japan financials', CCJ: 'Uranium / nuclear fuel cycle',
+function parsePosture(postureMd) {
+  if (!postureMd) return {
+    posture: 'Build the dashboard, then connect live sources.',
+    postureDetail: 'Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.',
   };
-  return tickers.slice(0, 10).map((ticker) => ({
-    ticker,
-    theme: themes[ticker] || 'Research candidate from imported watchlist',
-    stance: /^(PWR|BWXT|EME)$/.test(ticker) ? 'High-priority research' : 'Research first',
-    confidence: /^(PWR|BWXT|EME)$/.test(ticker) ? 'high' : 'medium',
-    trigger: 'Add valuation, crowding, catalyst, and entry trigger.',
-    contradiction: 'Thesis may already be priced or instrument exposure may be impure.',
+  const all = lines(postureMd).filter(l => l.trim());
+  const posture = stripMarkdown(all[0] || '');
+  const postureDetail = all.slice(1).map(l => stripMarkdown(l)).filter(Boolean).join(' ');
+  return { posture, postureDetail: postureDetail || posture };
+}
+function parseOpenLoops(openLoopsMd) {
+  const allLoops = extractBullets(openLoopsMd, { checkedOnly: true });
+  return allLoops.slice(0, 12).map((item, idx) => ({
+    id: `l${idx + 1}`,
+    text: item.replace(/\s+_Status:.*$/, '').trim(),
+    project: item.toLowerCase().includes('invest') ? 'Investing'
+      : item.toLowerCase().includes('obsidian') || item.toLowerCase().includes('working copy') ? 'Obsidian/GitHub'
+      : item.toLowerCase().includes('openclaw') ? 'OpenClaw'
+      : item.toLowerCase().includes('austin') ? 'Austin events'
+      : 'Alphalpha',
+    priority: priorityFor(item),
   }));
 }
-
-function fileDigest(title, source, rel, summary, tags) {
+function domainFor(name) {
+  const lower = name.toLowerCase();
+  if (lower.includes('invest') || lower.includes('etf')) return 'Investing';
+  if (lower.includes('obsidian')) return 'Knowledge management';
+  if (lower.includes('openclaw')) return 'Orchestration';
+  if (lower.includes('austin')) return 'Local events';
+  return 'Personal AI chief of staff';
+}
+function parseProjects(projectsMd, allLoops, ocConfig) {
+  const all = lines(projectsMd);
+  const starts = [];
+  all.forEach((line, idx) => { if (/^##\s+\d+\.\s+/.test(line)) starts.push(idx); });
+  return starts.slice(0, 6).map((start, idx) => {
+    const end = starts[idx + 1] ?? all.length;
+    const block = all.slice(start, end).join('\n');
+    const rawTitle = stripMarkdown(all[start]).replace(/^\d+\.\s+/, '');
+    const [namePart, subtitle] = rawTitle.split(/\s+—\s+|\s+-\s+/);
+    const name = namePart.trim();
+    const goal = extractSection(block, '**Goal:**') || '';
+    const openLoopSection = extractBullets(extractSection(block, '**Open loops:**'))[0];
+    const known = extractBullets(extractSection(block, '**Known context:**'))[0];
+    const summary = openLoopSection || firstSentence(goal, known || 'Review and update project context.');
+    const projLoops = allLoops.filter(l => l.project === name || name.toLowerCase().includes(l.project.toLowerCase().split('/')[0]));
+    const highPriCount = projLoops.filter(l => l.priority === 'HIGH').length;
+    const isOcOwned = ocConfig.managedProjects.some(mp => mp.toLowerCase() === name.toLowerCase());
+    return {
+      id: `p${idx + 1}`,
+      name,
+      status: 'ACTIVE',
+      category: (subtitle || domainFor(name)).trim(),
+      lastActivity: idx === 0 ? 'today' : 'recent memory',
+      summary,
+      ocOwned: isOcOwned,
+      loops: projLoops.slice(0, 2),
+      highPriCount,
+    };
+  });
+}
+function parseInvesting(openLoopsMd) {
+  const tickerLine = lines(openLoopsMd).find(l => l.includes('EME, FIX')) || '';
+  const tickers = tickerLine.match(/[A-Z]{2,5}(?:\.[A-Z])?/g) || ['EME', 'PWR', 'BWXT', 'CIEN', 'DHR', 'KTOS'];
+  const themes = {
+    EME: 'Grid/data-center construction', FIX: 'Building systems + electrification',
+    PWR: 'Transmission/grid hardening', BWXT: 'Nuclear services + defense nuclear',
+    HWM: 'Aerospace/defense supply chain', HEI: 'Aerospace components',
+    KTOS: 'Defense modernization / drones', AVAV: 'Autonomous systems / drones',
+    CIEN: 'AI optical/network bandwidth', GLW: 'Glass/fiber/materials',
+  };
+  return tickers.slice(0, 10).map(ticker => ({
+    ticker,
+    theme: themes[ticker] || 'Research candidate',
+    stance: /^(PWR|BWXT|EME)$/.test(ticker) ? 'High-priority research' : 'Research first',
+    confidence: /^(PWR|BWXT|EME)$/.test(ticker) ? 'HIGH' : 'MEDIUM',
+  }));
+}
+function fileDigest(id, title, source, rel, summary, tags) {
   const stamp = mtime(rel);
   return {
-    title,
-    source,
+    id,
     date: (stamp || new Date().toISOString()).slice(0, 10),
+    category: source,
+    title,
     summary,
     tags,
   };
 }
-
 function buildData() {
-  const about = read('ABOUT.md');
-  const prefs = read('PREFERENCES.md');
-  const projectsMd = read('PROJECTS.md');
+  const postureMd   = read('POSTURE.md');
+  const projectsMd  = read('PROJECTS.md');
   const openLoopsMd = read('OPEN_LOOPS.md');
-  const decisions = read('DECISIONS.md');
-  const protocol = read('MEMORY_PROTOCOL.md');
+  const about       = read('ABOUT.md');
+  const decisions   = read('DECISIONS.md');
+  const protocol    = read('MEMORY_PROTOCOL.md');
+  const ocConfig    = readOcConfig();
 
   if (!projectsMd || !openLoopsMd) {
     if (fs.existsSync(outputPath)) {
-      console.log(`Context not found at ${contextRoot}; keeping existing ${path.relative(repoRoot, outputPath)}.`);
+      console.log(`Context not found at ${contextRoot}; keeping existing generated-data.json.`);
       return null;
     }
     throw new Error(`Missing context files at ${contextRoot} and no generated data exists.`);
   }
 
+  const { posture, postureDetail } = parsePosture(postureMd);
   const openLoops = parseOpenLoops(openLoopsMd);
-  const projects = parseProjects(projectsMd);
-  const checked = extractBullets(openLoopsMd, { checkedOnly: true });
-  const highPriority = checked.filter((item) => priorityFor(item) === 'high');
+  const projects  = parseProjects(projectsMd, openLoops, ocConfig);
+  const checked   = extractBullets(openLoopsMd, { checkedOnly: true });
+  const highPri   = checked.filter(item => priorityFor(item) === 'HIGH');
   const uncertain = extractBullets(read('UNCERTAINTIES.md')).length;
 
+  const topActions = openLoops.slice(0, 7).map((loop, idx) => ({
+    id: `a${idx + 1}`,
+    priority: loop.priority,
+    title: loop.text,
+    context: `Imported from ${loop.priority === 'HIGH' ? 'near-term' : 'backlog'} Alphalpha open loops.`,
+    next: nextActionFor(loop.text),
+    project: loop.project,
+    due: loop.priority === 'HIGH' ? 'This week' : 'Later',
+    done: false,
+    snoozed: false,
+    snoozeLabel: null,
+  }));
+
   return {
-    generatedAt: new Date().toISOString(),
-    metrics: [
-      { label: 'Open loops', value: String(checked.length), detail: 'from context/OPEN_LOOPS.md', tone: 'amber' },
-      { label: 'Active projects', value: String(projects.length), detail: 'from context/PROJECTS.md', tone: 'green' },
-      { label: 'High priority', value: String(highPriority.length), detail: 'needs review/action', tone: 'red' },
-      { label: 'Uncertainties', value: String(uncertain), detail: 'explicitly flagged', tone: 'blue' },
-      { label: 'Investing signals', value: String(parseInvesting(openLoopsMd).length), detail: 'candidate tickers saved', tone: 'purple' },
-    ],
-    attentionQueue: openLoops.slice(0, 4).map((loop) => ({
-      title: loop.item,
-      reason: `Imported from ${loop.due === 'This week' ? 'near-term' : 'backlog'} Alphalpha open loops.`,
-      priority: loop.priority,
-      age: 'from context',
-      confidence: 'high',
-      action: loop.next,
-    })),
-    projects,
-    openLoops,
-    investingCandidates: parseInvesting(openLoopsMd),
-    digests: [
-      fileDigest('ChatGPT brain dump converted to canonical context', 'Context import', 'imports/2026-05-01-chatgpt-braindump.md', 'Raw import is preserved and split into durable Alphalpha files for source-backed dashboarding.', ['memory', 'context', 'import']),
-      fileDigest('About + preference context available', 'ABOUT/PREFERENCES', 'ABOUT.md', firstSentence(extractSection(about, '## Stable context')) || 'Stable personal context and communication preferences are available.', ['about', 'preferences']),
-      fileDigest('Project registry and open loops are now source files', 'PROJECTS/OPEN_LOOPS', 'PROJECTS.md', `Dashboard generated from ${projects.length} project entries and ${checked.length} open loops.`, ['projects', 'open-loops']),
-      fileDigest('Memory protocol drafted', 'MEMORY_PROTOCOL', 'MEMORY_PROTOCOL.md', firstSentence(extractSection(protocol, '## Goal')) || 'Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.', ['memory', 'protocol']),
-      fileDigest('Durable decisions captured', 'DECISIONS', 'DECISIONS.md', firstSentence(extractSection(decisions, '## Personal AI / knowledge system')) || 'Key architecture decisions captured for Alphalpha and OpenClaw.', ['decisions', 'architecture']),
-    ],
-    sourceHealth: {
-      contextRoot,
-      files: ['ABOUT.md', 'PREFERENCES.md', 'PROJECTS.md', 'OPEN_LOOPS.md', 'DECISIONS.md', 'MEMORY_PROTOCOL.md'].map((rel) => ({ rel, updatedAt: mtime(rel) })),
+    meta: {
+      generatedAt: new Date().toISOString(),
+      posture,
+      postureDetail,
     },
+    stats: {
+      openLoops:        checked.length,
+      activeProjects:   projects.length,
+      highPriority:     highPri.length,
+      uncertainties:    uncertain,
+      investingSignals: parseInvesting(openLoopsMd).length,
+    },
+    topActions,
+    openLoops,
+    projects,
+    investing: parseInvesting(openLoopsMd),
+    digests: [
+      fileDigest('d1', 'ChatGPT brain dump converted to canonical context', 'Context import', 'imports/2026-05-01-chatgpt-braindump.md', 'Raw import preserved and split into durable Alphalpha files.', ['#memory', '#context', '#import']),
+      fileDigest('d2', 'About + preference context available', 'About/Preferences', 'ABOUT.md', firstSentence(extractSection(about, '## Stable context')) || 'Stable personal context and preferences available.', ['#about', '#preferences']),
+      fileDigest('d3', 'Project registry and open loops are now source files', 'Projects/Open loops', 'PROJECTS.md', `Dashboard generated from ${projects.length} project entries and ${checked.length} open loops.`, ['#projects', '#open-loops']),
+      fileDigest('d4', 'Memory protocol drafted', 'Memory protocol', 'MEMORY_PROTOCOL.md', firstSentence(extractSection(protocol, '## Goal')) || 'Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.', ['#memory', '#protocol']),
+      fileDigest('d5', 'Durable decisions captured', 'Decisions', 'DECISIONS.md', firstSentence(extractSection(decisions, '## Personal AI / knowledge system')) || 'Key architecture decisions captured for Alphalpha and OpenClaw.', ['#decisions', '#architecture']),
+    ],
   };
 }
 
