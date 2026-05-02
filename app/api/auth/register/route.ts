@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
       expectedOrigin: origin,
       expectedRPID: rpID,
     });
-  } catch {
+  } catch (err) {
+    console.error('[WebAuthn Register]', err instanceof Error ? err.message : String(err));
     return NextResponse.json({ error: 'Registration failed' }, { status: 400 });
   }
 
@@ -36,6 +37,9 @@ export async function POST(req: NextRequest) {
   }
 
   const { credential } = verification.registrationInfo;
+  if (typeof credential.counter !== 'number') {
+    return NextResponse.json({ error: 'Invalid credential data' }, { status: 500 });
+  }
   const credentialJSON = JSON.stringify({
     id: credential.id,
     publicKey: Buffer.from(credential.publicKey).toString('base64url'),
