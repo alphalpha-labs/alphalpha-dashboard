@@ -86,7 +86,9 @@ function LoopRow({ loop, snoozing, onOpenSnooze, onCloseSnooze, onDone, onSnooze
   onSnooze:  (id: string, label: string) => void;
   onDiscuss: (ctx: ThreadContext) => void;
 }) {
-  const snoozeRef = useRef<HTMLDivElement>(null);
+  const snoozeRef  = useRef<HTMLDivElement>(null);
+  const pendingRef = useRef<(() => void) | null>(null);
+  const [collapsing, setCollapsing] = useState(false);
 
   useEffect(() => {
     if (!snoozing) return;
@@ -97,15 +99,36 @@ function LoopRow({ loop, snoozing, onOpenSnooze, onCloseSnooze, onDone, onSnooze
     return () => document.removeEventListener("mousedown", handle);
   }, [snoozing, onCloseSnooze]);
 
+  const handleDone = () => {
+    pendingRef.current = () => onDone(loop.id);
+    setCollapsing(true);
+  };
+
+  const handleSnooze = (label: string) => {
+    pendingRef.current = () => onSnooze(loop.id, label);
+    onCloseSnooze();
+    setCollapsing(true);
+  };
+
+  const handleAnimationEnd = () => {
+    if (pendingRef.current) {
+      pendingRef.current();
+      pendingRef.current = null;
+    }
+  };
+
   return (
-    <div className="loopRow">
+    <div
+      className={`loopRow${collapsing ? " loopRow--collapsing" : ""}`}
+      onAnimationEnd={handleAnimationEnd}
+    >
       <span className={`loopDot loopDot--${loop.priority}`} />
       <div className="loopBody">
         <div className="loopText">{loop.text}</div>
         <div className="loopProject">{loop.project}</div>
       </div>
       <div className="loopActions">
-        <button className="loopActionBtn" onClick={() => onDone(loop.id)}>✓</button>
+        <button className="loopActionBtn" onClick={handleDone}>✓</button>
         <div className="loopSnoozeWrap" ref={snoozeRef}>
           <button className="loopActionBtn" onClick={onOpenSnooze}>💤</button>
           {snoozing && (
@@ -115,7 +138,7 @@ function LoopRow({ loop, snoozing, onOpenSnooze, onCloseSnooze, onDone, onSnooze
                 <button
                   key={opt.value}
                   className="snoozeOption"
-                  onClick={() => { onCloseSnooze(); onSnooze(loop.id, opt.value); }}
+                  onClick={() => handleSnooze(opt.value)}
                 >
                   {opt.label}
                 </button>
