@@ -30,6 +30,7 @@
   --radius-pill: 99px;
   --shadow-drawer: 0 -8px 32px rgba(28,24,20,0.12);
   --shadow-picker: 0 4px 24px rgba(28,24,20,0.14);
+  --masthead-h: clamp(48px, 3.8vh, 64px);
 }
 
 /* 3. Reset + base */
@@ -52,14 +53,14 @@ input { font-family: inherit; }
 /* 5. Masthead */
 .masthead {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px; height: 52px; flex-shrink: 0;
+  padding: 0 32px; height: var(--masthead-h); flex-shrink: 0;
   border-bottom: 1.5px solid var(--ink);
   background: var(--bg); gap: 20px;
 }
 .mastheadLogo { display: flex; align-items: baseline; gap: 8px; flex-shrink: 0; }
 .mastheadWordmark {
   font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 700; font-size: 20px; color: var(--ink); letter-spacing: -0.02em;
+  font-weight: 700; font-size: clamp(18px, 1.4vw, 26px); color: var(--ink); letter-spacing: -0.02em;
 }
 .mastheadSub {
   font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
@@ -68,7 +69,7 @@ input { font-family: inherit; }
 .tabNav { display: flex; }
 .tabBtn {
   font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
-  color: var(--ink-muted); padding: 0 16px; height: 52px;
+  color: var(--ink-muted); padding: 0 16px; height: var(--masthead-h);
   border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
@@ -90,13 +91,13 @@ input { font-family: inherit; }
 .alphaGlyph { font-family: 'Playfair Display', Georgia, serif; font-size: 12px; }
 
 /* 8. Today tab layout */
-.todayLayout { display: flex; height: calc(100vh - 52px - 36px); }
+.todayLayout { display: flex; height: calc(100vh - var(--masthead-h) - 36px); }
 .focusStage {
   flex: 1; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; padding: 40px 60px; min-height: 0; overflow-y: auto;
+  justify-content: center; padding: clamp(28px, 4vw, 72px) clamp(40px, 5vw, 80px); min-height: 0; overflow-y: auto;
 }
 .contextColumn {
-  width: 300px; flex-shrink: 0; background: var(--bg-side);
+  width: clamp(260px, 20vw, 380px); flex-shrink: 0; background: var(--bg-side);
   border-left: 1px solid var(--border); padding: 22px 20px; overflow-y: auto;
 }
 
@@ -123,7 +124,7 @@ input { font-family: inherit; }
 .priorityDot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
 .focusTitle {
-  font-family: 'Playfair Display', Georgia, serif; font-size: 28px;
+  font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.2vw, 42px);
   line-height: 1.3; color: var(--ink); text-align: center;
   max-width: 500px; margin: 0 0 14px;
 }
@@ -233,7 +234,7 @@ input { font-family: inherit; }
 }
 
 /* 14. Tab pages (shared layout) */
-.tabPage { max-width: 720px; margin: 0 auto; padding: 32px 32px 64px; }
+.tabPage { max-width: clamp(640px, 56vw, 960px); margin: 0 auto; padding: clamp(24px, 3vw, 56px) clamp(24px, 3vw, 56px) 64px; }
 .tabPageWide { padding: 32px 32px 64px; }
 .tabTitle { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; color: var(--ink); margin: 0 0 4px; }
 .tabSubtitle { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 14px; color: var(--ink-muted); margin: 0 0 24px; }
@@ -248,7 +249,7 @@ input { font-family: inherit; }
 .loopDot--MEDIUM { background: var(--accent-med); }
 .loopDot--LOW    { background: var(--accent-low); }
 .loopBody { flex: 1; min-width: 0; }
-.loopText { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+.loopText { font-family: 'Lora', Georgia, serif; font-size: clamp(13px, 0.9vw, 15px); color: var(--ink-2); line-height: 1.45; }
 .loopProject { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); margin-top: 2px; }
 .loopActions { display: flex; gap: 4px; opacity: 0; pointer-events: none; transition: opacity 0.15s; flex-shrink: 0; }
 .loopRow:hover .loopActions { opacity: 1; pointer-events: auto; }
@@ -292,7 +293,7 @@ input { font-family: inherit; }
 .projectDiscuss { margin-top: auto; align-self: flex-end; }
 
 /* 17. Investing tab */
-.investingPage { max-width: 800px; margin: 0 auto; padding: 32px 32px 64px; }
+.investingPage { max-width: clamp(700px, 60vw, 1040px); margin: 0 auto; padding: clamp(24px, 3vw, 56px) clamp(24px, 3vw, 56px) 64px; }
 .tickerRow { display: flex; align-items: center; padding: 10px 8px; border-bottom: 1px solid var(--border-faint); position: relative; border-radius: 6px; }
 .tickerRow:hover { background: var(--card-hover); }
 .tickerSymbol { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 600; color: var(--ink-2); width: 52px; flex-shrink: 0; }
