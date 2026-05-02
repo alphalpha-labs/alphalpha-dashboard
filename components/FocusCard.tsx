@@ -25,8 +25,18 @@ interface Props {
 export default function FocusCard({ current, activeActions, focusIdx, snoozedActions, onDone, onSnooze, onSkip, onWake, onDiscuss }: Props) {
   const [snoozeOpen, setSnoozeOpen] = useState(false);
   const [exiting,    setExiting]    = useState(false);
-  const snoozeRef = useRef<HTMLDivElement>(null);
-  const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [entering,   setEntering]   = useState(true);
+  const snoozeRef  = useRef<HTMLDivElement>(null);
+  const exitTimer  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevIdRef  = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (current?.id === prevIdRef.current) return;
+    prevIdRef.current = current?.id;
+    setEntering(true);
+    const t = setTimeout(() => setEntering(false), 320);
+    return () => clearTimeout(t);
+  }, [current?.id]);
 
   useEffect(() => {
     if (!snoozeOpen) return;
@@ -72,7 +82,11 @@ export default function FocusCard({ current, activeActions, focusIdx, snoozedAct
         ))}
       </div>
 
-      <div className={`focusCardContent${exiting ? " focusCardContent--exiting" : ""}`}>
+      <div className={[
+        "focusCardContent",
+        exiting  ? "focusCardContent--exiting"  : "",
+        entering ? "focusCardContent--entering" : "",
+      ].filter(Boolean).join(" ")}>
         <div className={`priorityTag priorityTag--${priorityClass}`}>
           <span className="priorityDot" />
           {tagLabel.toUpperCase()} · {current.project.toUpperCase()}
