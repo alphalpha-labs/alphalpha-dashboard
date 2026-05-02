@@ -118,39 +118,41 @@ export default function Dashboard({ data }: { data: DashboardData }) {
       </header>
 
       <main className="mainContent" style={{ marginRight: drawerOpen ? 360 : 0 }}>
-        {activeTab === "today" && (
-          <TodayTab
-            data={data}
-            activeActions={activeActions}
-            snoozedActions={snoozedActions}
-            loops={loops}
-            focusIdx={focusIdx}
-            onDone={handleDone}
-            onSnooze={handleSnooze}
-            onSkip={handleSkip}
-            onWake={handleWake}
-            onAdd={handleAdd}
-            onDiscuss={openThread}
-          />
-        )}
-        {activeTab === "loops" && (
-          <LoopsTab
-            loops={loops}
-            onDone={handleLoopDone}
-            onSnooze={handleLoopSnooze}
-            onAdd={handleAdd}
-            onDiscuss={openThread}
-          />
-        )}
-        {activeTab === "projects" && (
-          <ProjectGrid projects={data.projects} loops={loops} onDiscuss={openThread} />
-        )}
-        {activeTab === "investing" && (
-          <InvestingTab investing={data.investing} onDiscuss={openThread} />
-        )}
-        {activeTab === "digests" && (
-          <DigestsTab digests={data.digests} onDiscuss={openThread} />
-        )}
+        <div key={activeTab} className="tabContent">
+          {activeTab === "today" && (
+            <TodayTab
+              data={data}
+              activeActions={activeActions}
+              snoozedActions={snoozedActions}
+              loops={loops}
+              focusIdx={focusIdx}
+              onDone={handleDone}
+              onSnooze={handleSnooze}
+              onSkip={handleSkip}
+              onWake={handleWake}
+              onAdd={handleAdd}
+              onDiscuss={openThread}
+            />
+          )}
+          {activeTab === "loops" && (
+            <LoopsTab
+              loops={loops}
+              onDone={handleLoopDone}
+              onSnooze={handleLoopSnooze}
+              onAdd={handleAdd}
+              onDiscuss={openThread}
+            />
+          )}
+          {activeTab === "projects" && (
+            <ProjectGrid projects={data.projects} loops={loops} onDiscuss={openThread} />
+          )}
+          {activeTab === "investing" && (
+            <InvestingTab investing={data.investing} onDiscuss={openThread} />
+          )}
+          {activeTab === "digests" && (
+            <DigestsTab digests={data.digests} onDiscuss={openThread} />
+          )}
+        </div>
       </main>
 
       <ThreadDrawer thread={thread} onClose={closeThread} />
