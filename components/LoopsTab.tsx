@@ -110,7 +110,8 @@ function LoopRow({ loop, snoozing, onOpenSnooze, onCloseSnooze, onDone, onSnooze
     setCollapsing(true);
   };
 
-  const handleAnimationEnd = () => {
+  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.animationName !== "itemCollapse") return;
     if (pendingRef.current) {
       pendingRef.current();
       pendingRef.current = null;
