@@ -1,347 +1,348 @@
 {
-  "generatedAt": "2026-05-01T14:48:25.966Z",
-  "metrics": [
+  "meta": {
+    "generatedAt": "2026-05-01T14:48:25.966Z",
+    "posture": "Build the dashboard, then connect live sources.",
+    "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly."
+  },
+  "stats": {
+    "openLoops": 46,
+    "activeProjects": 6,
+    "highPriority": 5,
+    "uncertainties": 18,
+    "investingSignals": 10
+  },
+  "topActions": [
     {
-      "label": "Open loops",
-      "value": "46",
-      "detail": "from context/OPEN_LOOPS.md",
-      "tone": "amber"
-    },
-    {
-      "label": "Active projects",
-      "value": "6",
-      "detail": "from context/PROJECTS.md",
-      "tone": "green"
-    },
-    {
-      "label": "High priority",
-      "value": "5",
-      "detail": "needs review/action",
-      "tone": "red"
-    },
-    {
-      "label": "Uncertainties",
-      "value": "18",
-      "detail": "explicitly flagged",
-      "tone": "blue"
-    },
-    {
-      "label": "Investing signals",
-      "value": "10",
-      "detail": "candidate tickers saved",
-      "tone": "purple"
-    }
-  ],
-  "attentionQueue": [
-    {
+      "id": "a1",
+      "priority": "HIGH",
       "title": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
-      "reason": "Imported from near-term Alphalpha open loops.",
-      "priority": "high",
-      "age": "from context",
-      "confidence": "high",
-      "action": "Pick canonical source model and encode it in MEMORY_PROTOCOL."
+      "context": "Imported from near-term Alphalpha open loops.",
+      "next": "Pick canonical source model and encode it in MEMORY_PROTOCOL.",
+      "project": "Alphalpha",
+      "due": "This week",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
+      "id": "a2",
+      "priority": "MEDIUM",
       "title": "Convert imported brain dumps into maintainable context files.",
-      "reason": "Imported from near-term Alphalpha open loops.",
-      "priority": "medium",
-      "age": "from context",
-      "confidence": "high",
-      "action": "Review, clarify owner, and move into the right project file."
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Review, clarify owner, and move into the right project file.",
+      "project": "Alphalpha",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
+      "id": "a3",
+      "priority": "MEDIUM",
       "title": "Define memory update protocol.",
-      "reason": "Imported from near-term Alphalpha open loops.",
-      "priority": "medium",
-      "age": "from context",
-      "confidence": "high",
-      "action": "Review, clarify owner, and move into the right project file."
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Review, clarify owner, and move into the right project file.",
+      "project": "Alphalpha",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
+      "id": "a4",
+      "priority": "MEDIUM",
       "title": "Connect dashboard to live sources instead of static lib/data.ts.",
-      "reason": "Imported from near-term Alphalpha open loops.",
-      "priority": "medium",
-      "age": "from context",
-      "confidence": "high",
-      "action": "Read context markdown and emit dashboard JSON before build."
-    }
-  ],
-  "projects": [
-    {
-      "name": "Alphalpha",
-      "domain": "personal AI chief of staff",
-      "status": "active",
-      "lastActivity": "today",
-      "nextAction": "Decide canonical memory/source-of-truth model: Obsidian vs GitHub vs OpenClaw memory.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Read context markdown and emit dashboard JSON before build.",
+      "project": "Alphalpha",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
-      "name": "Obsidian / GitHub-backed personal knowledge system",
-      "domain": "Knowledge management",
-      "status": "active",
-      "lastActivity": "recent memory",
-      "nextAction": "Make Working Copy commit and push immediately.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
+      "id": "a5",
+      "priority": "HIGH",
+      "title": "Decide automation approval policy by action type.",
+      "context": "Imported from near-term Alphalpha open loops.",
+      "next": "Define which actions require explicit approval.",
+      "project": "Alphalpha",
+      "due": "This week",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
-      "name": "OpenClaw migration and orchestration",
-      "domain": "Orchestration",
-      "status": "active",
-      "lastActivity": "recent memory",
-      "nextAction": "Clarify OpenClaw’s role relative to Alphalpha.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
+      "id": "a6",
+      "priority": "MEDIUM",
+      "title": "Add Vercel GitHub integration/login connection if automatic deployments from repo pushes are desired.",
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Review, clarify owner, and move into the right project file.",
+      "project": "Alphalpha",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     },
     {
-      "name": "Austin family and music event discovery",
-      "domain": "Local events",
-      "status": "active",
-      "lastActivity": "recent memory",
-      "nextAction": "Ship simple digest of 5–10 events.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
-    },
-    {
-      "name": "Investment research system / analyst brief engine",
-      "domain": "Investing",
-      "status": "active",
-      "lastActivity": "recent memory",
-      "nextAction": "Create context/projects/investing-research.md / dashboard-backed research watchlist.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
-    },
-    {
-      "name": "Critical materials / defense infrastructure investing",
-      "domain": "Investing",
-      "status": "active",
-      "lastActivity": "recent memory",
-      "nextAction": "Identify best ETFs vs individual stocks.",
-      "blocker": null,
-      "source": "context/PROJECTS.md"
+      "id": "a7",
+      "priority": "MEDIUM",
+      "title": "Make Working Copy commit and push immediately.",
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Create one reliable iOS capture → commit → push path.",
+      "project": "Obsidian/GitHub",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     }
   ],
   "openLoops": [
     {
-      "item": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
-      "owner": "Alphalpha",
-      "due": "This week",
-      "priority": "high",
-      "next": "Pick canonical source model and encode it in MEMORY_PROTOCOL."
+      "id": "l1",
+      "text": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
+      "project": "Alphalpha",
+      "priority": "HIGH"
     },
     {
-      "item": "Convert imported brain dumps into maintainable context files.",
-      "owner": "Alphalpha",
-      "due": "This week",
-      "priority": "medium",
-      "next": "Review, clarify owner, and move into the right project file."
+      "id": "l2",
+      "text": "Convert imported brain dumps into maintainable context files.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
     },
     {
-      "item": "Define memory update protocol.",
-      "owner": "Alphalpha",
-      "due": "This week",
-      "priority": "medium",
-      "next": "Review, clarify owner, and move into the right project file."
+      "id": "l3",
+      "text": "Define memory update protocol.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
     },
     {
-      "item": "Connect dashboard to live sources instead of static lib/data.ts.",
-      "owner": "Alphalpha",
-      "due": "This week",
-      "priority": "medium",
-      "next": "Read context markdown and emit dashboard JSON before build."
+      "id": "l4",
+      "text": "Connect dashboard to live sources instead of static lib/data.ts.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
     },
     {
-      "item": "Decide automation approval policy by action type.",
-      "owner": "Alphalpha",
-      "due": "Later",
-      "priority": "high",
-      "next": "Define which actions require explicit approval."
+      "id": "l5",
+      "text": "Decide automation approval policy by action type.",
+      "project": "Alphalpha",
+      "priority": "HIGH"
     },
     {
-      "item": "Add Vercel GitHub integration/login connection if automatic deployments from repo pushes are desired.",
-      "owner": "Alphalpha",
-      "due": "Later",
-      "priority": "medium",
-      "next": "Review, clarify owner, and move into the right project file."
+      "id": "l6",
+      "text": "Add Vercel GitHub integration/login connection if automatic deployments from repo pushes are desired.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
     },
     {
-      "item": "Make Working Copy commit and push immediately.",
-      "owner": "Alphalpha",
-      "due": "This week",
-      "priority": "medium",
-      "next": "Create one reliable iOS capture → commit → push path."
+      "id": "l7",
+      "text": "Make Working Copy commit and push immediately.",
+      "project": "Obsidian/GitHub",
+      "priority": "MEDIUM"
     },
     {
-      "item": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
-      "owner": "Alphalpha",
-      "due": "Later",
-      "priority": "high",
-      "next": "Review, clarify owner, and move into the right project file."
+      "id": "l8",
+      "text": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
+      "project": "Obsidian/GitHub",
+      "priority": "HIGH"
     }
   ],
-  "investingCandidates": [
+  "projects": [
+    {
+      "id": "p1",
+      "name": "Alphalpha",
+      "status": "ACTIVE",
+      "category": "Personal AI chief of staff",
+      "lastActivity": "today",
+      "summary": "Decide canonical memory/source-of-truth model: Obsidian vs GitHub vs OpenClaw memory.",
+      "ocOwned": false,
+      "loops": [
+        {
+          "id": "l1",
+          "text": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
+          "project": "Alphalpha",
+          "priority": "HIGH"
+        },
+        {
+          "id": "l5",
+          "text": "Decide automation approval policy by action type.",
+          "project": "Alphalpha",
+          "priority": "HIGH"
+        }
+      ],
+      "highPriCount": 2
+    },
+    {
+      "id": "p2",
+      "name": "Obsidian / GitHub-backed personal knowledge system",
+      "status": "ACTIVE",
+      "category": "Knowledge management",
+      "lastActivity": "recent memory",
+      "summary": "Make Working Copy commit and push immediately.",
+      "ocOwned": false,
+      "loops": [
+        {
+          "id": "l7",
+          "text": "Make Working Copy commit and push immediately.",
+          "project": "Obsidian/GitHub",
+          "priority": "MEDIUM"
+        },
+        {
+          "id": "l8",
+          "text": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
+          "project": "Obsidian/GitHub",
+          "priority": "HIGH"
+        }
+      ],
+      "highPriCount": 1
+    },
+    {
+      "id": "p3",
+      "name": "OpenClaw migration and orchestration",
+      "status": "ACTIVE",
+      "category": "Orchestration",
+      "lastActivity": "recent memory",
+      "summary": "Clarify OpenClaw's role relative to Alphalpha.",
+      "ocOwned": false,
+      "loops": [],
+      "highPriCount": 0
+    },
+    {
+      "id": "p4",
+      "name": "Austin family and music event discovery",
+      "status": "ACTIVE",
+      "category": "Local events",
+      "lastActivity": "recent memory",
+      "summary": "Ship simple digest of 5–10 events.",
+      "ocOwned": false,
+      "loops": [],
+      "highPriCount": 0
+    },
+    {
+      "id": "p5",
+      "name": "Investment research system / analyst brief engine",
+      "status": "ACTIVE",
+      "category": "Investing",
+      "lastActivity": "recent memory",
+      "summary": "Create context/projects/investing-research.md / dashboard-backed research watchlist.",
+      "ocOwned": false,
+      "loops": [],
+      "highPriCount": 0
+    },
+    {
+      "id": "p6",
+      "name": "Critical materials / defense infrastructure investing",
+      "status": "ACTIVE",
+      "category": "Investing",
+      "lastActivity": "recent memory",
+      "summary": "Identify best ETFs vs individual stocks.",
+      "ocOwned": false,
+      "loops": [],
+      "highPriCount": 0
+    }
+  ],
+  "investing": [
     {
       "ticker": "EME",
       "theme": "Grid/data-center construction",
       "stance": "High-priority research",
-      "confidence": "high",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "HIGH"
     },
     {
       "ticker": "FIX",
       "theme": "Building systems + electrification",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "PWR",
       "theme": "Transmission/grid hardening",
       "stance": "High-priority research",
-      "confidence": "high",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "HIGH"
     },
     {
       "ticker": "BWXT",
       "theme": "Nuclear services + defense nuclear",
       "stance": "High-priority research",
-      "confidence": "high",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "HIGH"
     },
     {
       "ticker": "HWM",
       "theme": "Aerospace/defense supply chain",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "HEI",
       "theme": "Aerospace components",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "KTOS",
       "theme": "Defense modernization / drones",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "AVAV",
       "theme": "Autonomous systems / drones",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "CIEN",
       "theme": "AI optical/network bandwidth",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     },
     {
       "ticker": "GLW",
       "theme": "Glass/fiber/materials",
       "stance": "Research first",
-      "confidence": "medium",
-      "trigger": "Add valuation, crowding, catalyst, and entry trigger.",
-      "contradiction": "Thesis may already be priced or instrument exposure may be impure."
+      "confidence": "MEDIUM"
     }
   ],
   "digests": [
     {
+      "id": "d1",
+      "date": "2026-05-01",
+      "category": "Context import",
       "title": "ChatGPT brain dump converted to canonical context",
-      "source": "Context import",
-      "date": "2026-05-01",
-      "summary": "Raw import is preserved and split into durable Alphalpha files for source-backed dashboarding.",
-      "tags": [
-        "memory",
-        "context",
-        "import"
-      ]
+      "summary": "Raw import preserved and split into durable Alphalpha files.",
+      "tags": ["#memory", "#context", "#import"]
     },
     {
+      "id": "d2",
+      "date": "2026-05-01",
+      "category": "About/Preferences",
       "title": "About + preference context available",
-      "source": "ABOUT/PREFERENCES",
-      "date": "2026-05-01",
-      "summary": "Name: Alex.",
-      "tags": [
-        "about",
-        "preferences"
-      ]
+      "summary": "Stable personal context and preferences available.",
+      "tags": ["#about", "#preferences"]
     },
     {
+      "id": "d3",
+      "date": "2026-05-01",
+      "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
-      "source": "PROJECTS/OPEN_LOOPS",
-      "date": "2026-05-01",
       "summary": "Dashboard generated from 6 project entries and 46 open loops.",
-      "tags": [
-        "projects",
-        "open-loops"
-      ]
+      "tags": ["#projects", "#open-loops"]
     },
     {
+      "id": "d4",
+      "date": "2026-05-01",
+      "category": "Memory protocol",
       "title": "Memory protocol drafted",
-      "source": "MEMORY_PROTOCOL",
-      "date": "2026-05-01",
-      "summary": "Keep Alphalpha useful without turning memory into a junk drawer.",
-      "tags": [
-        "memory",
-        "protocol"
-      ]
+      "summary": "Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.",
+      "tags": ["#memory", "#protocol"]
     },
     {
-      "title": "Durable decisions captured",
-      "source": "DECISIONS",
+      "id": "d5",
       "date": "2026-05-01",
-      "summary": "Alphalpha should be Obsidian/GitHub-backed and emphasize durable, useful context rather than generic summaries.",
-      "tags": [
-        "decisions",
-        "architecture"
-      ]
+      "category": "Decisions",
+      "title": "Durable decisions captured",
+      "summary": "Key architecture decisions captured for Alphalpha and OpenClaw.",
+      "tags": ["#decisions", "#architecture"]
     }
-  ],
-  "sourceHealth": {
-    "contextRoot": "/home/node/.openclaw/workspace/context",
-    "files": [
-      {
-        "rel": "ABOUT.md",
-        "updatedAt": "2026-05-01T14:42:06.465Z"
-      },
-      {
-        "rel": "PREFERENCES.md",
-        "updatedAt": "2026-05-01T14:42:06.466Z"
-      },
-      {
-        "rel": "PROJECTS.md",
-        "updatedAt": "2026-05-01T14:42:36.037Z"
-      },
-      {
-        "rel": "OPEN_LOOPS.md",
-        "updatedAt": "2026-05-01T14:42:36.039Z"
-      },
-      {
-        "rel": "DECISIONS.md",
-        "updatedAt": "2026-05-01T14:42:06.467Z"
-      },
-      {
-        "rel": "MEMORY_PROTOCOL.md",
-        "updatedAt": "2026-05-01T14:42:06.468Z"
-      }
-    ]
-  }
+  ]
 }
