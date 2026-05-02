@@ -1,0 +1,152 @@
+"use client";
+import { useState, useRef, useEffect } from "react";
+import type { ThreadContext } from "./Dashboard";
+
+type Message = { role: "assistant" | "user"; content: string };
+
+function buildSystemPrompt(ctx: ThreadContext): string {
+  // OPENCLAW: This system prompt is sent to /api/thread on every message.
+  // When you wire up your AI endpoint, this is the full context you'll receive.
+  // Modify the prompt template here if you want Alphalpha's personality adjusted.
+  const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const lines = [
+    `You are Alphalpha, Alex's personal AI chief of staff. Today is ${today}.`,
+    `You are discussing a ${ctx.type} item.`,
+    `Title: "${ctx.title}"`,
+    ctx.project  && `Project: ${ctx.project}`,
+    ctx.priority && `Priority: ${ctx.priority}`,
+    ctx.next     && `Suggested next step: ${ctx.next}`,
+    ctx.theme    && `Investment theme: ${ctx.theme}`,
+    ctx.stance   && `Stance: ${ctx.stance}`,
+    ctx.summary  && `Summary: ${ctx.summary}`,
+    ctx.category && `Category: ${ctx.category}`,
+    ctx.ocOwned  && `This item is actively managed by OpenClaw.`,
+    `Be concise (≤3 sentences), warm, and concrete. Help Alex decide, act, or think more clearly.`,
+  ];
+  return lines.filter(Boolean).join("\n");
+}
+
+function openerFor(ctx: ThreadContext): string {
+  const t = ctx.title;
+  switch (ctx.type) {
+    case "decision": return `On "${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" — what's your thinking? I can help you decide or draft the next step.`;
+    case "loop":     return `This loop has been open for a while. Want to close it, snooze it, or think through what's blocking it?`;
+    case "project":  return ctx.ocOwned
+      ? `I'm actively managing this one. What aspect of "${t}" do you want to think through?`
+      : `This is a manually-tracked project. What aspect of "${t}" do you want to think through?`;
+    case "ticker":   return `${t} — ${ctx.theme ?? ""}. Want to think through the thesis, timing, or what would change your mind?`;
+    case "digest":   return `"${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" — want to dig into this, connect it to other threads, or decide what to do with it?`;
+  }
+}
+
+interface Props {
+  thread:  ThreadContext | null;
+  onClose: () => void;
+}
+
+export default function ThreadDrawer({ thread, onClose }: Props) {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input,    setInput]    = useState("");
+  const [loading,  setLoading]  = useState(false);
+  const inputRef    = useRef<HTMLInputElement>(null);
+  const messagesRef = useRef<HTMLDivElement>(null);
+  const prevId      = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!thread) return;
+    if (thread.id === prevId.current) return;
+    prevId.current = thread.id;
+    setMessages([{ role: "assistant", content: openerFor(thread) }]);
+    setInput("");
+    setTimeout(() => inputRef.current?.focus(), 320);
+  }, [thread?.id]);
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const send = async () => {
+    if (!thread || !input.trim() || loading) return;
+    const userMsg: Message = { role: "user", content: input.trim() };
+    const history = [...messages, userMsg];
+    setMessages([...history, { role: "assistant", content: "· · ·" }]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      // OPENCLAW: Switch to streaming here once /api/thread returns a ReadableStream.
+      // Replace the fetch + json() below with a streaming reader:
+      //   const reader = res.body?.getReader();
+      //   while(true) { const { done, value } = await reader.read(); ... append chunks }
+      const res  = await fetch("/api/thread", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ systemPrompt: buildSystemPrompt(thread), messages: history }),
+      });
+      const data = await res.json();
+      setMessages([...history, { role: "assistant", content: data.content ?? "…" }]);
+    } catch {
+      setMessages([...history, { role: "assistant", content: "Something went wrong. Try again." }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // OPENCLAW: Thread conversations currently reset on every item change.
+  // To persist threads across navigation, key messages to localStorage by item id:
+  //   localStorage.setItem(`thread-${ctx.id}`, JSON.stringify(messages))
+  // Implement once the real AI endpoint is wired.
+
+  const isOpen = !!thread;
+
+  return (
+    <aside className={`threadDrawer${isOpen ? " threadDrawer--open" : ""}`} aria-hidden={!isOpen}>
+      {thread && (
+        <>
+          <div className="threadHeader">
+            <div className="threadAvatar">α</div>
+            <div className="threadMeta">
+              <div className="threadType">{thread.type}</div>
+              <div className="threadItemTitle" title={thread.title}>
+                {thread.title.slice(0, 60)}{thread.title.length > 60 ? "…" : ""}
+              </div>
+              {(thread.project || thread.ocOwned) && (
+                <div className="threadProject">
+                  {thread.project}
+                  {thread.ocOwned && <span className="badgeOC"><span className="alphaGlyph">α</span> OpenClaw managed</span>}
+                </div>
+              )}
+            </div>
+            <button className="threadClose" onClick={onClose} aria-label="Close thread">✕</button>
+          </div>
+
+          <div className="threadMessages" ref={messagesRef}>
+            {messages.map((msg, i) => (
+              <div key={i} className={`threadMsgRow threadMsgRow--${msg.role}`}>
+                {msg.role === "assistant" && <div className="threadAvatarSm">α</div>}
+                <div className={`threadBubble${msg.content === "· · ·" ? " threadLoading" : ""}`}>
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="threadInputRow">
+            <input
+              ref={inputRef}
+              className="threadInput"
+              placeholder="Share your thinking, ask a question…"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
+              disabled={loading}
+            />
+            <button className="threadSend" onClick={send} disabled={loading} aria-label="Send">↑</button>
+          </div>
+        </>
+      )}
+    </aside>
+  );
+}
