@@ -10,11 +10,15 @@ export async function POST(req: NextRequest) {
 
   // Password fallback path — triggered when request body has a "password" key
   if ('password' in body) {
+    const pw = body.password;
+    if (typeof pw !== 'string' || pw.length === 0) {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    }
     const hash = process.env.PASSWORD_HASH;
     if (!hash) {
       return NextResponse.json({ error: 'No password configured' }, { status: 401 });
     }
-    const valid = await bcrypt.compare(body.password as string, hash);
+    const valid = await bcrypt.compare(pw, hash);
     if (!valid) {
       return NextResponse.json({ error: 'Incorrect password' }, { status: 401 });
     }

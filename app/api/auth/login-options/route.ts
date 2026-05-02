@@ -8,13 +8,14 @@ export async function GET(req: NextRequest) {
   const host = req.headers.get('host') ?? 'localhost';
   const rpID = host.split(':')[0];
   const storedCredential = getCredential();
+  if (!storedCredential) {
+    return NextResponse.json({ error: 'No passkey registered' }, { status: 404 });
+  }
 
   const options = await generateAuthenticationOptions({
     rpID,
     userVerification: 'required',
-    ...(storedCredential
-      ? { allowCredentials: [{ id: storedCredential.id }] }
-      : {}),
+    allowCredentials: [{ id: storedCredential.id }],
   });
 
   const res = NextResponse.json(options);
