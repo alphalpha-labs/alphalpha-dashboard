@@ -155,7 +155,7 @@
       "category": "Personal AI chief of staff",
       "lastActivity": "today",
       "summary": "Decide canonical memory/source-of-truth model: Obsidian vs GitHub vs OpenClaw memory.",
-      "ocOwned": false,
+      "ocOwned": true,
       "loops": [
         {
           "id": "l1",
@@ -179,7 +179,7 @@
       "category": "Knowledge management",
       "lastActivity": "recent memory",
       "summary": "Make Working Copy commit and push immediately.",
-      "ocOwned": false,
+      "ocOwned": true,
       "loops": [
         {
           "id": "l7",
@@ -203,7 +203,7 @@
       "category": "Orchestration",
       "lastActivity": "recent memory",
       "summary": "Clarify OpenClaw's role relative to Alphalpha.",
-      "ocOwned": false,
+      "ocOwned": true,
       "loops": [],
       "highPriCount": 0
     },
@@ -310,7 +310,11 @@
       "category": "Context import",
       "title": "ChatGPT brain dump converted to canonical context",
       "summary": "Raw import preserved and split into durable Alphalpha files.",
-      "tags": ["#memory", "#context", "#import"]
+      "tags": [
+        "#memory",
+        "#context",
+        "#import"
+      ]
     },
     {
       "id": "d2",
@@ -318,7 +322,10 @@
       "category": "About/Preferences",
       "title": "About + preference context available",
       "summary": "Stable personal context and preferences available.",
-      "tags": ["#about", "#preferences"]
+      "tags": [
+        "#about",
+        "#preferences"
+      ]
     },
     {
       "id": "d3",
@@ -326,7 +333,10 @@
       "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
       "summary": "Dashboard generated from 6 project entries and 46 open loops.",
-      "tags": ["#projects", "#open-loops"]
+      "tags": [
+        "#projects",
+        "#open-loops"
+      ]
     },
     {
       "id": "d4",
@@ -334,7 +344,10 @@
       "category": "Memory protocol",
       "title": "Memory protocol drafted",
       "summary": "Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.",
-      "tags": ["#memory", "#protocol"]
+      "tags": [
+        "#memory",
+        "#protocol"
+      ]
     },
     {
       "id": "d5",
@@ -342,7 +355,10 @@
       "category": "Decisions",
       "title": "Durable decisions captured",
       "summary": "Key architecture decisions captured for Alphalpha and OpenClaw.",
-      "tags": ["#decisions", "#architecture"]
+      "tags": [
+        "#decisions",
+        "#architecture"
+      ]
     }
   ]
 }
