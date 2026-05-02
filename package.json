@@ -2,6 +2,7 @@
   "name": "alphalpha-dashboard",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Alphalpha chief-of-staff dashboard for open loops, projects, digests, and investing research.",
   "scripts": {
     "generate:data": "node scripts/generate-dashboard-data.mjs",
