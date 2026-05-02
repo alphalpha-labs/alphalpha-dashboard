@@ -7,10 +7,14 @@ import assert from 'node:assert/strict';
 execSync('node scripts/generate-dashboard-data.mjs', { stdio: 'inherit' });
 const data = JSON.parse(readFileSync('lib/generated-data.json', 'utf8'));
 
-assert.ok(typeof data.meta?.generatedAt === 'string',  'meta.generatedAt missing');
-assert.ok(typeof data.meta?.posture === 'string',       'meta.posture missing');
-assert.ok(typeof data.stats?.openLoops === 'number',    'stats.openLoops missing');
-assert.ok(typeof data.stats?.highPriority === 'number', 'stats.highPriority missing');
+assert.ok(typeof data.meta?.generatedAt === 'string',        'meta.generatedAt missing');
+assert.ok(typeof data.meta?.posture === 'string',             'meta.posture missing');
+assert.ok(typeof data.meta?.postureDetail === 'string',       'meta.postureDetail missing');
+assert.ok(typeof data.stats?.openLoops === 'number',          'stats.openLoops missing');
+assert.ok(typeof data.stats?.activeProjects === 'number',     'stats.activeProjects missing');
+assert.ok(typeof data.stats?.highPriority === 'number',       'stats.highPriority missing');
+assert.ok(typeof data.stats?.uncertainties === 'number',      'stats.uncertainties missing');
+assert.ok(typeof data.stats?.investingSignals === 'number',   'stats.investingSignals missing');
 assert.ok(Array.isArray(data.topActions),               'topActions missing');
 assert.ok(Array.isArray(data.openLoops),                'openLoops missing');
 assert.ok(Array.isArray(data.projects),                 'projects missing');

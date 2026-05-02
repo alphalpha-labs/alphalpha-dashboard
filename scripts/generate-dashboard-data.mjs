@@ -51,6 +51,7 @@ function priorityFor(text) {
   const lower = text.toLowerCase();
   if (/(urgent|fix|blocked|credential|source-of-truth|approval policy)/.test(lower)) return 'HIGH';
   if (/(high)/.test(lower)) return 'HIGH';
+  if (/(low|minor|someday|nice-to-have)/.test(lower)) return 'LOW';
   return 'MEDIUM';
 }
 function nextActionFor(item) {
