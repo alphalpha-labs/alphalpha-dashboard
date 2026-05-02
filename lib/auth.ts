@@ -11,6 +11,7 @@ function secret(): Uint8Array {
 export async function issueSession(): Promise<string> {
   return new SignJWT({ sub: 'alex' })
     .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
     .setExpirationTime('7d')
     .sign(secret());
 }
@@ -31,9 +32,21 @@ export function getCredential(): { id: string; publicKey: string; counter: numbe
   try { return JSON.parse(raw); } catch { return null; }
 }
 
+function timingSafeEq(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export function verifyApiKey(req: Request): boolean {
-  const key = req.headers.get('authorization')?.replace('Bearer ', '');
-  return !!key && key === process.env.OPENCLAW_API_KEY;
+  const raw = req.headers.get('authorization') ?? '';
+  const key = raw.startsWith('Bearer ') ? raw.slice(7) : '';
+  const expected = process.env.OPENCLAW_API_KEY ?? '';
+  if (!key || !expected) return false;
+  return timingSafeEq(key, expected);
 }
 
 export function sessionCookie(token: string): string {
