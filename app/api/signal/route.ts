@@ -1,30 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyApiKey } from "@/lib/auth";
+import { requireDashboardSession } from "@/lib/auth";
+import { sendSignal } from "@/lib/openclaw";
 
-// OPENCLAW: Wire up bidirectional communication here.
-//
-// This route receives action signals from the dashboard and should:
-//   1. Forward payload to OpenClaw's signal endpoint:
-//      POST ${process.env.OPENCLAW_URL}/signal  with the action payload
-//   2. OpenClaw updates the relevant context file:
-//      - "done" / "snooze" / "skip" / "wake" → update OPEN_LOOPS.md or PROJECTS.md
-//      - "add-loop" → prepend new item to OPEN_LOOPS.md
-//   3. Optionally trigger a GitHub push to rebuild dashboard data on Vercel
-//
-// Payload shape the dashboard sends:
-//   { type: "done" | "snooze" | "skip" | "wake" | "add-loop", itemId: string, payload?: object }
-//
-// Environment variables needed:
-//   OPENCLAW_URL=http://your-vps:PORT
-//   OPENCLAW_API_KEY=your-key
-//
-// Until wired: logs the payload and returns { ok: true } immediately.
+const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop"]);
 
 export async function POST(req: NextRequest) {
-  if (!verifyApiKey(req)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const authError = await requireDashboardSession(req);
+  if (authError) return authError;
+
+  const body = await req.json().catch(() => null);
+  if (
+    !body ||
+    typeof body.type !== "string" ||
+    !VALID_TYPES.has(body.type) ||
+    typeof body.itemId !== "string"
+  ) {
+    return NextResponse.json({ error: "Bad request" }, { status: 400 });
   }
-  const body = await req.json().catch(() => ({}));
-  console.log("[signal stub]", body);
+
+  try {
+    const res = await sendSignal(
+      body.type,
+      body.itemId,
+      body.payload ?? {},
+    );
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.error("[signal] upstream error:", res.status, text);
+      return NextResponse.json({ error: "Signal failed" }, { status: 502 });
+    }
+  } catch (err) {
+    console.error("[signal] OpenClaw unavailable:", err);
+    return NextResponse.json({ error: "Signal unavailable" }, { status: 503 });
+  }
+
   return NextResponse.json({ ok: true });
 }

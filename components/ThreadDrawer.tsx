@@ -76,17 +76,50 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
     setLoading(true);
 
     try {
-      // OPENCLAW: Switch to streaming here once /api/thread returns a ReadableStream.
-      // Replace the fetch + json() below with a streaming reader:
-      //   const reader = res.body?.getReader();
-      //   while(true) { const { done, value } = await reader.read(); ... append chunks }
-      const res  = await fetch("/api/thread", {
+      const res = await fetch("/api/thread", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ systemPrompt: buildSystemPrompt(thread), messages: history }),
+        body: JSON.stringify({
+          systemPrompt: buildSystemPrompt(thread),
+          messages:     history,
+          threadId:     thread.id,
+          threadType:   thread.type,
+        }),
       });
-      const data = await res.json();
-      setMessages([...history, { role: "assistant", content: data.content ?? "…" }]);
+
+      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+
+      const reader  = res.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      let lineBuffer  = "";
+
+      reading: while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        lineBuffer += decoder.decode(value, { stream: true });
+        const lines = lineBuffer.split("\n");
+        lineBuffer  = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const raw = line.slice(6).trim();
+          if (raw === "[DONE]") { reader.cancel(); break reading; }
+          try {
+            const evt = JSON.parse(raw);
+            // Responses API: response.output_text.delta
+            const delta: string =
+              typeof evt.delta === "string"           ? evt.delta :
+              typeof evt.delta?.text === "string"     ? evt.delta.text :
+              evt.choices?.[0]?.delta?.content        ?? "";
+            if (delta) {
+              accumulated += delta;
+              setMessages([...history, { role: "assistant", content: accumulated }]);
+            }
+          } catch { /* ignore malformed SSE lines */ }
+        }
+      }
+
+      if (!accumulated) throw new Error("Empty response");
     } catch {
       setMessages([...history, { role: "assistant", content: "Something went wrong. Try again." }]);
     } finally {
