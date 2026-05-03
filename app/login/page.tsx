@@ -90,7 +90,7 @@ export default function LoginPage() {
             Sign in
           </button>
         </form>
-        {error && <p className="authError">{error}</p>}
+        {error && <p className="authError" role="alert">{error}</p>}
       </div>
     </div>
   );

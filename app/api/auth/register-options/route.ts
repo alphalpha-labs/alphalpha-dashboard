@@ -1,9 +1,13 @@
 import { generateRegistrationOptions } from '@simplewebauthn/server';
 import { NextRequest, NextResponse } from 'next/server';
+import { getCredential } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest) {
+  if (getCredential()) {
+    return NextResponse.json({ error: 'Already registered' }, { status: 409 });
+  }
   const host = req.headers.get('host') ?? 'localhost';
   const rpID = host.split(':')[0];
 

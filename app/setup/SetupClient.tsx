@@ -35,9 +35,13 @@ export default function SetupClient() {
   }
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(credential);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(credential);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError('Copy failed — select the text above and copy manually');
+    }
   }
 
   return (
@@ -67,7 +71,7 @@ export default function SetupClient() {
             </button>
           </div>
         )}
-        {error && <p className="authError">{error}</p>}
+        {error && <p className="authError" role="alert">{error}</p>}
       </div>
     </div>
   );
