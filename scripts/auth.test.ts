@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { issueSession, verifySession, getCredential, verifyApiKey, sessionCookie, clearCookie } from '../lib/auth';
+import { issueSession, verifySession, getCredential, verifyApiKey, sessionCookie, clearCookie, requireDashboardSession } from '../lib/auth';
 
 // Set env vars before calling auth functions (functions read them lazily, not at module init)
 process.env.SESSION_SECRET = 'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2';
@@ -37,5 +37,25 @@ assert.ok(cookie.includes('Max-Age=604800'), 'cookie should have 7-day max-age')
 // clearCookie
 assert.ok(clearCookie.startsWith('session='), 'clearCookie should target session cookie');
 assert.ok(clearCookie.includes('Max-Age=0'), 'clearCookie should expire immediately');
+
+// requireDashboardSession
+function fakeNextReq(cookieVal?: string): import('next/server').NextRequest {
+  const headers = new Headers();
+  if (cookieVal !== undefined) headers.set('cookie', `session=${cookieVal}`);
+  return { cookies: { get: (k: string) => (k === 'session' && cookieVal !== undefined ? { value: cookieVal } : undefined) } } as unknown as import('next/server').NextRequest;
+}
+
+const validToken = await issueSession();
+
+const okResult = await requireDashboardSession(fakeNextReq(validToken));
+assert.equal(okResult, null, 'valid session cookie should return null (pass)');
+
+const noSession = await requireDashboardSession(fakeNextReq());
+assert.ok(noSession !== null, 'missing cookie should return a response');
+assert.equal(noSession?.status, 401, 'missing cookie should return 401');
+
+const badSession = await requireDashboardSession(fakeNextReq('bad.jwt.token'));
+assert.ok(badSession !== null, 'invalid cookie should return a response');
+assert.equal(badSession?.status, 401, 'invalid cookie should return 401');
 
 console.log('✓ All auth assertions passed');

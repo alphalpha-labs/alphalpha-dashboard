@@ -1,33 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyApiKey } from "@/lib/auth";
-
-// OPENCLAW: Wire up AI streaming here.
-//
-// This route receives thread messages and should:
-//   1. Forward to OpenClaw's streaming chat endpoint:
-//      POST ${process.env.OPENCLAW_URL}/chat/stream  with { systemPrompt, messages }
-//   2. Pipe the streaming response back to the client as a ReadableStream:
-//      return new Response(stream, { headers: { "Content-Type": "text/event-stream" } })
-//
-// After switching to streaming, update ThreadDrawer.tsx at the comment
-// "// OPENCLAW: Switch to streaming here" to consume chunks instead of reading the full body.
-//
-// Request shape the dashboard sends:
-//   { systemPrompt: string, messages: Array<{ role: "user" | "assistant", content: string }> }
-//
-// Environment variables needed:
-//   OPENCLAW_URL=http://your-vps:PORT
-//   OPENCLAW_API_KEY=your-key
-//
-// Until wired: waits 600ms then returns a canned placeholder.
+import { requireDashboardSession } from "@/lib/auth";
+import { streamThread } from "@/lib/openclaw";
 
 export async function POST(req: NextRequest) {
-  if (!verifyApiKey(req)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const authError = await requireDashboardSession(req);
+  if (authError) return authError;
+
+  const body = await req.json().catch(() => null);
+  if (
+    !body ||
+    typeof body.systemPrompt !== "string" ||
+    !Array.isArray(body.messages)
+  ) {
+    return NextResponse.json({ error: "Bad request" }, { status: 400 });
   }
-  await req.json().catch(() => {});
-  await new Promise(r => setTimeout(r, 600));
-  return NextResponse.json({
-    content: "I'm Alphalpha — your AI chief of staff. This thread will be powered by OpenClaw once connected. For now, I'm a placeholder.",
+
+  let upstream: Response;
+  try {
+    upstream = await streamThread(
+      body.threadType ?? "unknown",
+      body.threadId   ?? "unknown",
+      body.systemPrompt,
+      body.messages,
+    );
+  } catch (err) {
+    console.error("[thread] OpenClaw unavailable:", err);
+    return NextResponse.json({ error: "AI unavailable" }, { status: 503 });
+  }
+
+  if (!upstream.ok || !upstream.body) {
+    const text = await upstream.text().catch(() => "");
+    console.error("[thread] upstream error:", upstream.status, text);
+    return NextResponse.json({ error: "AI unavailable" }, { status: 502 });
+  }
+
+  return new Response(upstream.body, {
+    headers: {
+      "Content-Type":      "text/event-stream",
+      "Cache-Control":     "no-cache",
+      "X-Accel-Buffering": "no",
+    },
   });
 }

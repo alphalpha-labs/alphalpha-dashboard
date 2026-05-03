@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify } from 'jose';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const SESSION_MAX_AGE = 7 * 24 * 60 * 60; // 604800 seconds
 
@@ -62,3 +63,13 @@ export function sessionCookie(token: string): string {
 }
 
 export const clearCookie = 'session=; Max-Age=0; Path=/; HttpOnly; SameSite=Strict';
+
+/**
+ * Gate for browser-facing API routes. Returns a 401 response if the
+ * dashboard session cookie is absent or invalid; returns null if OK.
+ */
+export async function requireDashboardSession(req: NextRequest): Promise<NextResponse | null> {
+  const token = req.cookies.get('session')?.value ?? '';
+  if (await verifySession(token)) return null;
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+}
