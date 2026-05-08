@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireDashboardSession } from "@/lib/auth";
 import { streamThread } from "@/lib/openclaw";
+import { DEFAULT_MODEL } from "@/lib/models";
 
 export async function POST(req: NextRequest) {
   const authError = await requireDashboardSession(req);
@@ -15,6 +16,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Bad request" }, { status: 400 });
   }
 
+  const model = typeof body.model === "string" && body.model ? body.model : DEFAULT_MODEL;
+
   let upstream: Response;
   try {
     upstream = await streamThread(
@@ -22,6 +25,7 @@ export async function POST(req: NextRequest) {
       body.threadId   ?? "unknown",
       body.systemPrompt,
       body.messages,
+      model,
     );
   } catch (err) {
     console.error("[thread] OpenClaw unavailable:", err);

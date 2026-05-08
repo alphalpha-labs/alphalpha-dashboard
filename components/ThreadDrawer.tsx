@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import type { ThreadContext } from "./Dashboard";
+import { MODELS, DEFAULT_MODEL } from "@/lib/models";
 
 type Message = { role: "assistant" | "user"; content: string };
 
@@ -48,9 +49,18 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input,    setInput]    = useState("");
   const [loading,  setLoading]  = useState(false);
+  const [model,    setModel]    = useState<string>(() => {
+    if (typeof window === "undefined") return DEFAULT_MODEL;
+    return localStorage.getItem("alphalpha-model") ?? DEFAULT_MODEL;
+  });
   const inputRef    = useRef<HTMLInputElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
   const prevId      = useRef<string | null>(null);
+
+  const handleModelChange = (id: string) => {
+    setModel(id);
+    localStorage.setItem("alphalpha-model", id);
+  };
 
   useEffect(() => {
     if (!thread) return;
@@ -84,6 +94,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
           messages:     history,
           threadId:     thread.id,
           threadType:   thread.type,
+          model,
         }),
       });
 
@@ -171,17 +182,32 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
             ))}
           </div>
 
-          <div className="threadInputRow">
-            <input
-              ref={inputRef}
-              className="threadInput"
-              placeholder="Share your thinking, ask a question…"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-              disabled={loading}
-            />
-            <button className="threadSend" onClick={send} disabled={loading} aria-label="Send">↑</button>
+          <div className="threadFooter">
+            <div className="threadModelRow">
+              <select
+                className="threadModelSelect"
+                value={model}
+                onChange={e => handleModelChange(e.target.value)}
+                disabled={loading}
+                aria-label="Model"
+              >
+                {MODELS.map(m => (
+                  <option key={m.id} value={m.id}>{m.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="threadInputRow">
+              <input
+                ref={inputRef}
+                className="threadInput"
+                placeholder="Share your thinking, ask a question…"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
+                disabled={loading}
+              />
+              <button className="threadSend" onClick={send} disabled={loading} aria-label="Send">↑</button>
+            </div>
           </div>
         </>
       )}
