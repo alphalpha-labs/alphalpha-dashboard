@@ -87,7 +87,11 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
         }),
       });
 
-      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok || !res.body) {
+        const errBody = await res.json().catch(() => ({}));
+        console.error("[ThreadDrawer] /api/thread failed:", res.status, errBody);
+        throw new Error(`HTTP ${res.status}: ${errBody.detail ?? errBody.error ?? ""}`);
+      }
 
       const reader  = res.body.getReader();
       const decoder = new TextDecoder();
@@ -120,7 +124,8 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
       }
 
       if (!accumulated) throw new Error("Empty response");
-    } catch {
+    } catch (err) {
+      console.error("[ThreadDrawer] send failed:", err);
       setMessages([...history, { role: "assistant", content: "Something went wrong. Try again." }]);
     } finally {
       setLoading(false);

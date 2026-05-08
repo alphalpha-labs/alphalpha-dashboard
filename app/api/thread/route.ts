@@ -31,7 +31,10 @@ export async function POST(req: NextRequest) {
   if (!upstream.ok || !upstream.body) {
     const text = await upstream.text().catch(() => "");
     console.error("[thread] upstream error:", upstream.status, text);
-    return NextResponse.json({ error: "AI unavailable" }, { status: 502 });
+    return NextResponse.json(
+      { error: "AI unavailable", upstreamStatus: upstream.status, detail: text },
+      { status: 502 },
+    );
   }
 
   return new Response(upstream.body, {
