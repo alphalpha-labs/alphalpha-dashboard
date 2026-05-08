@@ -4,6 +4,7 @@ const BASE_URL      = process.env.OPENCLAW_BASE_URL      ?? '';
 const GATEWAY_TOKEN = process.env.OPENCLAW_GATEWAY_TOKEN ?? '';
 const SIGNAL_URL    = process.env.OPENCLAW_SIGNAL_URL    ?? '';
 const HOOK_TOKEN    = process.env.OPENCLAW_HOOK_TOKEN    ?? '';
+const MODEL         = process.env.OPENCLAW_MODEL         ?? '';
 
 function assertEnv(name: string, val: string): string {
   if (!val) throw new Error(`${name} env var is not set`);
@@ -24,6 +25,7 @@ export async function streamThread(
 ): Promise<Response> {
   const baseUrl = assertEnv('OPENCLAW_BASE_URL', BASE_URL);
   const token   = assertEnv('OPENCLAW_GATEWAY_TOKEN', GATEWAY_TOKEN);
+  const model   = assertEnv('OPENCLAW_MODEL', MODEL);
 
   const input = messages.map(m => ({
     type:    'message',
@@ -38,6 +40,7 @@ export async function streamThread(
       'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify({
+      model,
       instructions: systemPrompt,
       input,
       stream: true,
