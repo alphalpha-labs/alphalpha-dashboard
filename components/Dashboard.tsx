@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { DashboardData, Action, Loop } from "@/lib/data";
 import TodayTab from "./TodayTab";
 import LoopsTab from "./LoopsTab";
@@ -94,6 +94,11 @@ export default function Dashboard({ data }: { data: DashboardData }) {
 
   const drawerOpen = !!thread;
 
+  const [dateStr, setDateStr] = useState("");
+  useEffect(() => {
+    setDateStr(new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }));
+  }, []);
+
   return (
     <div className="appShell">
       <header className="masthead">
@@ -113,7 +118,7 @@ export default function Dashboard({ data }: { data: DashboardData }) {
           ))}
         </nav>
         <div className="mastheadDate" aria-hidden="true">
-          {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+          {dateStr}
         </div>
       </header>
 
