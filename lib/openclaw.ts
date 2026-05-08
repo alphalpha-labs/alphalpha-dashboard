@@ -5,6 +5,7 @@ const GATEWAY_TOKEN = process.env.OPENCLAW_GATEWAY_TOKEN ?? '';
 const SIGNAL_URL    = process.env.OPENCLAW_SIGNAL_URL    ?? '';
 const HOOK_TOKEN    = process.env.OPENCLAW_HOOK_TOKEN    ?? '';
 
+
 function assertEnv(name: string, val: string): string {
   if (!val) throw new Error(`${name} env var is not set`);
   return val;
@@ -17,10 +18,11 @@ export type Msg = { role: 'user' | 'assistant'; content: string };
  * Returns the raw fetch Response so the caller can proxy the SSE body.
  */
 export async function streamThread(
-  threadType: string,
-  threadId:   string,
+  threadType:   string,
+  threadId:     string,
   systemPrompt: string,
-  messages:   Msg[],
+  messages:     Msg[],
+  model:        string,
 ): Promise<Response> {
   const baseUrl = assertEnv('OPENCLAW_BASE_URL', BASE_URL);
   const token   = assertEnv('OPENCLAW_GATEWAY_TOKEN', GATEWAY_TOKEN);
@@ -38,6 +40,7 @@ export async function streamThread(
       'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify({
+      model,
       instructions: systemPrompt,
       input,
       stream: true,
