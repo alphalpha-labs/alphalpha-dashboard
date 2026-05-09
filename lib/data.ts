@@ -76,6 +76,29 @@ export type EventCandidate = {
   score?:        number;
 };
 
+export type AutomationJob = {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  enabled: boolean;
+  scheduleLabel: string;
+  schedule?: { kind?: string; expr?: string; tz?: string; everyMs?: number; at?: string } | null;
+  sessionTarget?: string | null;
+  lightContext?: boolean;
+  toolsAllow?: string[];
+  delivery?: string;
+  nextRunAt?: string | null;
+  lastRunAt?: string | null;
+  lastStatus?: string | null;
+  lastDuration?: string | null;
+  consecutiveErrors?: number;
+  consecutiveSkipped?: number;
+  deleteAfterRun?: boolean;
+  summary?: string;
+  updatedAt?: string | null;
+};
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -98,8 +121,9 @@ export type DashboardData = {
   topActions: Action[];
   openLoops:  Loop[];
   projects:   Project[];
-  investing:  Ticker[];
-  digests:    Digest[];
+  investing:   Ticker[];
+  automations?: AutomationJob[];
+  digests:     Digest[];
 };
 
 import generated from "./generated-data.json";

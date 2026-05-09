@@ -41,6 +41,7 @@ function readSourceManifests() {
     aiTooling: readWorkspaceManifest(path.join('memory', 'ai-tooling', 'latest-manifest.json')),
     investing: readWorkspaceManifest(path.join('memory', 'investing', 'latest-watchlist.json')),
     obsidian: readWorkspaceManifest(path.join('memory', 'obsidian', 'proposed-updates', 'latest-manifest.json')),
+    automations: readWorkspaceManifest(path.join('memory', 'automations', 'latest-manifest.json')),
   };
 }
 function readOcConfig() {
@@ -264,6 +265,12 @@ function sourceHealthFromManifests(manifests, contextHealth) {
     detail: manifests.obsidian?.mode || 'Run Obsidian synthesis review', path: 'memory/obsidian/proposed-updates/latest-manifest.json',
     staleAfterHours: 48, failingAfterHours: 96,
   });
+  rows.push({
+    id: 'automations', label: 'Automations', status: statusFor(manifests.automations?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.automations }), age: ageLabel(manifests.automations?.generatedAt),
+    summary: manifests.automations ? `${manifests.automations.totals?.enabled ?? 0} enabled / ${manifests.automations.totals?.disabled ?? 0} paused` : 'manifest missing',
+    detail: manifests.automations ? `${manifests.automations.totals?.jobs ?? 0} cron jobs indexed` : 'Run node scripts/index-automations.mjs', path: 'memory/automations/latest-manifest.json',
+    staleAfterHours: 24, failingAfterHours: 72,
+  });
   return rows;
 }
 function buildData() {
@@ -329,6 +336,7 @@ function buildData() {
     openLoops,
     projects,
     investing: parseInvesting(openLoopsMd),
+    automations: sourceManifests.automations?.jobs || [],
     digests: [
       fileDigest('d1', 'ChatGPT brain dump converted to canonical context', 'Context import', 'imports/2026-05-01-chatgpt-braindump.md', 'Raw import preserved and split into durable Alphalpha files.', ['#memory', '#context', '#import']),
       fileDigest('d2', 'About + preference context available', 'About/Preferences', 'ABOUT.md', firstSentence(extractSection(about, '## Stable context')) || 'Stable personal context and preferences available.', ['#about', '#preferences']),

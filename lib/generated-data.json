@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-05-09T01:03:46.495Z",
+    "generatedAt": "2026-05-09T14:19:16.320Z",
     "posture": "Build the dashboard, then connect live sources.",
     "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.",
     "contextHealth": {
-      "generatedAt": "2026-05-09T01:03:46.040Z",
+      "generatedAt": "2026-05-09T14:18:38.397Z",
       "sourcePath": "../memory/context/index.json",
       "files": 29,
       "words": 23294,
@@ -96,12 +96,23 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "14h old",
+        "age": "3h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
         "staleAfterHours": 48,
         "failingAfterHours": 96
+      },
+      {
+        "id": "automations",
+        "label": "Automations",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "18 enabled / 6 paused",
+        "detail": "24 cron jobs indexed",
+        "path": "memory/automations/latest-manifest.json",
+        "staleAfterHours": 24,
+        "failingAfterHours": 72
       }
     ],
     "eventCandidates": [
@@ -518,6 +529,698 @@
       "confidence": "MEDIUM"
     }
   ],
+  "automations": [
+    {
+      "id": "32d1156d-65fd-403b-9f77-a673621984c3",
+      "name": "agentic-os-question-cadence",
+      "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 */2 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 */2 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-09T15:00:00.000Z",
+      "lastRunAt": "2026-05-07T15:00:00.010Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "updatedAt": "2026-05-07T15:02:29.344Z"
+    },
+    {
+      "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
+      "name": "obsidian-synthesis-review",
+      "description": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing watchlist manifest.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 6 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-10T11:30:00.000Z",
+      "lastRunAt": "2026-05-09T11:30:00.007Z",
+      "lastStatus": "ok",
+      "lastDuration": "21s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing",
+      "updatedAt": "2026-05-09T11:30:21.264Z"
+    },
+    {
+      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
+      "name": "dashboard-source-health-alert",
+      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "15 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-10T13:15:00.000Z",
+      "lastRunAt": "2026-05-09T13:15:00.005Z",
+      "lastStatus": "ok",
+      "lastDuration": "6s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-05-09T13:15:05.782Z"
+    },
+    {
+      "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
+      "name": "openclaw-tips-weekly-digest",
+      "description": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "browser"
+      ],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-05-11T13:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
+      "updatedAt": "2026-05-06T02:47:20.862Z"
+    },
+    {
+      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+      "name": "agentic-os-weekly-audit",
+      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-11T14:00:00.000Z",
+      "lastRunAt": "2026-05-04T14:01:25.799Z",
+      "lastStatus": "ok",
+      "lastDuration": "5m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "updatedAt": "2026-05-08T18:01:11.253Z"
+    },
+    {
+      "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
+      "name": "ai-tooling-digest-discord",
+      "description": "Render and post AI tooling queue digest to #ai-tooling",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 15 * * 1,3,5",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 15 * * 1,3,5 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1493060480737083412",
+      "nextRunAt": "2026-05-11T15:00:00.000Z",
+      "lastRunAt": "2026-05-08T15:00:00.007Z",
+      "lastStatus": "ok",
+      "lastDuration": "39s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Render and post AI tooling queue digest to #ai-tooling",
+      "updatedAt": "2026-05-08T19:06:48.676Z"
+    },
+    {
+      "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
+      "name": "events-four-day-crawl",
+      "description": "Austin event crawl plus compact event manifest generation every four days",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 345600000,
+        "anchorMs": 1778328000000
+      },
+      "scheduleLabel": "every 96h",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-12T12:00:00.012Z",
+      "lastRunAt": "2026-05-08T12:00:00.012Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin event crawl plus compact event manifest generation every four days",
+      "updatedAt": "2026-05-09T00:29:25.957Z"
+    },
+    {
+      "id": "0ca265e1-ea6c-494b-9c2b-5adb76b1b981",
+      "name": "yard-plan-may-checkin-2026",
+      "description": "Austin Yard Planting Plan — May planning check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 4,18 5 *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 4,18 5 * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-05-18T14:00:00.000Z",
+      "lastRunAt": "2026-05-04T14:06:03.080Z",
+      "lastStatus": "ok",
+      "lastDuration": "55s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — May planning check-in",
+      "updatedAt": "2026-05-06T02:54:39.957Z"
+    },
+    {
+      "id": "9a45a31f-1b49-4547-a77c-c5fdad19cd7e",
+      "name": "yard-plan-june-checkin-2026",
+      "description": "Austin Yard Planting Plan — June planning/layout check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 8,22 6 *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 8,22 6 * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-06-08T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — June planning/layout check-in",
+      "updatedAt": "2026-05-06T02:54:39.964Z"
+    },
+    {
+      "id": "e0cb9d53-ac43-48f9-b499-5d2d87bff8a5",
+      "name": "yard-plan-july-checkin-2026",
+      "description": "Austin Yard Planting Plan — July prep check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 6,20 7 *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 6,20 7 * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-07-06T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — July prep check-in",
+      "updatedAt": "2026-05-06T02:54:39.972Z"
+    },
+    {
+      "id": "368958d3-f1b7-4b09-8c89-7563613745ae",
+      "name": "yard-plan-august-checkin-2026",
+      "description": "Austin Yard Planting Plan — August weekly sourcing check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * 8 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * 8 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-08-03T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — August weekly sourcing check-in",
+      "updatedAt": "2026-05-06T02:54:52.374Z"
+    },
+    {
+      "id": "395cac40-eca5-4ac5-a637-4bdb7ae8615c",
+      "name": "yard-plan-september-checkin-2026",
+      "description": "Austin Yard Planting Plan — September twice-weekly planting check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * 9 1,4",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * 9 1,4 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-09-03T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — September twice-weekly planting check-in",
+      "updatedAt": "2026-05-06T02:54:52.381Z"
+    },
+    {
+      "id": "02f8eda0-10d5-4107-83a2-db76745f2d08",
+      "name": "yard-plan-october-checkin-2026",
+      "description": "Austin Yard Planting Plan — October weekly planting follow-up",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * 10 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * 10 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-10-05T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — October weekly planting follow-up",
+      "updatedAt": "2026-05-06T02:54:52.392Z"
+    },
+    {
+      "id": "c30bae06-5d78-41b8-b5fc-ba6e7c4a29fc",
+      "name": "yard-plan-november-checkin-2026",
+      "description": "Austin Yard Planting Plan — November freeze-risk check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 3,17 11 *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 3,17 11 * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-11-03T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — November freeze-risk check-in",
+      "updatedAt": "2026-05-06T02:54:52.403Z"
+    },
+    {
+      "id": "30fcf0de-9658-4325-9142-8e5c58b7d7ca",
+      "name": "yard-plan-february-checkin-2027",
+      "description": "Austin Yard Planting Plan — February 2027 winter review",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2027-02-10T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2027-02-10T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2027-02-10T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": true,
+      "summary": "Austin Yard Planting Plan — February 2027 winter review",
+      "updatedAt": "2026-05-06T02:55:02.855Z"
+    },
+    {
+      "id": "dee8ba9c-a0a4-441e-8b30-6adba8828a50",
+      "name": "yard-plan-march-checkin-2027",
+      "description": "Austin Yard Planting Plan — March 2027 spring follow-up",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2027-03-10T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2027-03-10T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2027-03-10T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": true,
+      "summary": "Austin Yard Planting Plan — March 2027 spring follow-up",
+      "updatedAt": "2026-05-06T02:55:02.865Z"
+    },
+    {
+      "id": "b72c701f-81d7-4fe8-adac-9f6f5e626b46",
+      "name": "yard-plan-april-checkin-2027",
+      "description": "Austin Yard Planting Plan — April 2027 warm-season planting",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2027-04-10T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2027-04-10T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2027-04-10T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": true,
+      "summary": "Austin Yard Planting Plan — April 2027 warm-season planting",
+      "updatedAt": "2026-05-06T02:55:02.878Z"
+    },
+    {
+      "id": "8b69eff0-3b77-4942-b257-445707777fe7",
+      "name": "yard-plan-may-checkin-2027",
+      "description": "Austin Yard Planting Plan — May 2027 warm-season follow-up",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2027-05-10T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2027-05-10T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2027-05-10T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": true,
+      "summary": "Austin Yard Planting Plan — May 2027 warm-season follow-up",
+      "updatedAt": "2026-05-06T02:55:02.885Z"
+    },
+    {
+      "id": "23071b9f-1bea-4eb3-94b7-2fcede19a581",
+      "name": "recommended-reads-packet",
+      "description": "",
+      "category": "automation",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 7 * * *"
+      },
+      "scheduleLabel": "15 7 * * *",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-06T07:15:00.013Z",
+      "lastStatus": "ok",
+      "lastDuration": "44s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "In /home/node/.openclaw/workspace/openclaw-workspace/recommended-reads-engine, run: ./scripts/run_if_due.sh --min-hours 44 && ./scripts/print_latest_packet.sh. Keep output concise;",
+      "updatedAt": "2026-05-09T14:17:15.816Z"
+    },
+    {
+      "id": "558e296a-b058-4582-9352-d7adcaa38650",
+      "name": "ai-tooling-crawl",
+      "description": "Crawl AI tooling sources and save queue items for digest generation",
+      "category": "ops",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 13 * * *",
+        "tz": "UTC",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "0 13 * * * (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-05T13:00:36.419Z",
+      "lastStatus": "ok",
+      "lastDuration": "3m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Crawl AI tooling sources and save queue items for digest generation",
+      "updatedAt": "2026-05-06T12:22:31.238Z"
+    },
+    {
+      "id": "73a3e084-5b1f-4337-b6a6-d03dbd8a07bf",
+      "name": "events-notify-family",
+      "description": "Family feed notification: Mon + Thu 8am CT",
+      "category": "events",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 1,4",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 1,4 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-04T13:00:00.005Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Family feed notification: Mon + Thu 8am CT",
+      "updatedAt": "2026-05-06T12:22:43.680Z"
+    },
+    {
+      "id": "c7a2aee5-4fa4-4517-8817-b5567c2d4f1a",
+      "name": "events-notify-music",
+      "description": "Music feed notification: Mon + Thu + Sat 9am CT",
+      "category": "events",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1,4,6",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * 1,4,6 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-04T14:00:00.005Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Music feed notification: Mon + Thu + Sat 9am CT",
+      "updatedAt": "2026-05-06T12:22:43.687Z"
+    },
+    {
+      "id": "cf866fcf-8778-4ce5-b1ec-dac9f507c897",
+      "name": "thesis-baskets-ingest",
+      "description": "",
+      "category": "events",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 10 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 10 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "write",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-05T15:30:00.006Z",
+      "lastStatus": "ok",
+      "lastDuration": "7m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "In /home/node/.openclaw/workspace, run the Thesis Baskets Supabase ingestion job with: node scripts/ingest-thesis-baskets.mjs --lookback-days=7 --limit=5000. If it creates an Obsid",
+      "updatedAt": "2026-05-06T12:22:43.674Z"
+    },
+    {
+      "id": "db5e98b6-3200-4a28-9825-d5acb2a422d6",
+      "name": "obsidian-vault-sync-index",
+      "description": "Disabled after consolidation into obsidian-synthesis-review; kept for rollback/reference.",
+      "category": "obsidian",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 6 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": null,
+      "lastRunAt": "2026-05-07T11:30:00.008Z",
+      "lastStatus": "ok",
+      "lastDuration": "9s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Disabled after consolidation into obsidian-synthesis-review; kept for rollback/reference.",
+      "updatedAt": "2026-05-08T00:36:53.848Z"
+    }
+  ],
   "digests": [
     {
       "id": "d1",
@@ -624,7 +1327,18 @@
       "date": "2026-05-09",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 3h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-5",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "Automations: 18 enabled / 6 paused",
+      "summary": "24 cron jobs indexed · 0h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

@@ -1,11 +1,12 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
-import type { DashboardData, Action, Loop } from "@/lib/data";
+import type { DashboardData, Action, Loop, AutomationJob } from "@/lib/data";
 import TodayTab from "./TodayTab";
 import LoopsTab from "./LoopsTab";
 import ProjectGrid from "./ProjectGrid";
 import InvestingTab from "./InvestingTab";
 import DigestsTab from "./DigestsTab";
+import AutomationsTab from "./AutomationsTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 
@@ -29,6 +30,7 @@ const TABS = [
   { id: "projects",  label: "Projects" },
   { id: "investing", label: "Investing" },
   { id: "digests",   label: "Digests" },
+  { id: "automations", label: "Automations" },
 ] as const;
 
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
@@ -44,8 +46,9 @@ async function postSignal(type: string, itemId: string, payload?: object) {
 
 export default function Dashboard({ data }: { data: DashboardData }) {
   const [activeTab, setActiveTab] = useState<string>("today");
-  const [actions, setActions]     = useState<Action[]>(data.topActions);
-  const [loops, setLoops]         = useState<Loop[]>(data.openLoops);
+  const [actions, setActions]       = useState<Action[]>(data.topActions);
+  const [loops, setLoops]           = useState<Loop[]>(data.openLoops);
+  const [automations, setAutomations] = useState<AutomationJob[]>(data.automations || []);
   const [focusIdx, setFocusIdx]   = useState(0);
   const [thread, setThread]       = useState<ThreadContext | null>(null);
 
@@ -81,6 +84,18 @@ export default function Dashboard({ data }: { data: DashboardData }) {
 
   const handleEventFeedback = useCallback((eventId: string, feedbackType: string, payload: object) => {
     postSignal("event-feedback", eventId, { type: feedbackType, ...payload });
+  }, []);
+
+  const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
+    setAutomations(prev => prev.map(job => {
+      if (job.id !== jobId) return job;
+      if (action === "pause") return { ...job, enabled: false };
+      if (action === "resume") return { ...job, enabled: true };
+      if (action === "set-cron" && "expr" in payload) return { ...job, scheduleLabel: `${String((payload as { expr?: string }).expr || job.scheduleLabel)} (${String((payload as { tz?: string }).tz || "America/Chicago")})` };
+      if (action === "set-every" && "every" in payload) return { ...job, scheduleLabel: `every ${String((payload as { every?: string }).every)}` };
+      return job;
+    }));
+    postSignal("automation-action", jobId, { action, jobId, ...payload });
   }, []);
 
   const handleLoopDone = useCallback((id: string) => {
@@ -161,6 +176,9 @@ export default function Dashboard({ data }: { data: DashboardData }) {
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />
+          )}
+          {activeTab === "automations" && (
+            <AutomationsTab automations={automations} onAction={handleAutomationAction} />
           )}
         </div>
       </main>
