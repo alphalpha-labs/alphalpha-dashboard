@@ -248,6 +248,13 @@ input { font-family: inherit; }
 .ctxLoopText:hover { color: var(--accent-link); }
 .ctxLoopProject { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); }
 .ctxViewAll { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--accent-link); margin-top: 8px; display: block; }
+.ctxFeedbackActions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.ctxFeedbackBtn {
+  border: 1px solid var(--border); border-radius: 999px; background: transparent;
+  color: var(--ink-muted); font-family: 'DM Sans', sans-serif; font-size: 10px;
+  padding: 2px 7px; cursor: pointer;
+}
+.ctxFeedbackBtn:hover { background: var(--card-hover); color: var(--ink-2); border-color: var(--border-strong); }
 
 /* 13. Quick add */
 .quickAddBtn {

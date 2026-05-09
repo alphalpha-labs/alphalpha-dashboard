@@ -16,6 +16,33 @@ function mtime(rel) {
   const p = path.join(contextRoot, rel);
   return fs.existsSync(p) ? fs.statSync(p).mtime.toISOString() : null;
 }
+function readJsonAbsolute(p, fallback = null) {
+  if (!fs.existsSync(p)) return fallback;
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return fallback; }
+}
+function readWorkspaceManifest(rel) {
+  const candidates = [
+    path.resolve(contextRoot, '..', rel),
+    path.resolve(repoRoot, '..', rel),
+  ];
+  for (const candidate of candidates) {
+    const parsed = readJsonAbsolute(candidate, null);
+    if (parsed) return { ...parsed, path: candidate };
+  }
+  return null;
+}
+function readContextIndex() {
+  return readWorkspaceManifest(path.join('memory', 'context', 'index.json'));
+}
+function readSourceManifests() {
+  return {
+    context: readContextIndex(),
+    events: readWorkspaceManifest(path.join('memory', 'events', 'latest-manifest.json')),
+    aiTooling: readWorkspaceManifest(path.join('memory', 'ai-tooling', 'latest-manifest.json')),
+    investing: readWorkspaceManifest(path.join('memory', 'investing', 'latest-watchlist.json')),
+    obsidian: readWorkspaceManifest(path.join('memory', 'obsidian', 'proposed-updates', 'latest-manifest.json')),
+  };
+}
 function readOcConfig() {
   const p = path.join(repoRoot, 'openclaw.config.json');
   if (!fs.existsSync(p)) return { managedProjects: [] };
@@ -153,6 +180,92 @@ function fileDigest(id, title, source, rel, summary, tags) {
     tags,
   };
 }
+function contextHealthFromIndex(index) {
+  if (!index) return null;
+  const largestActive = (index.items || [])
+    .filter(item => item.category !== 'archive')
+    .sort((a, b) => (b.words || 0) - (a.words || 0))
+    .slice(0, 5)
+    .map(item => ({
+      path: item.path,
+      words: item.words,
+      estimatedTokens: item.estimatedTokens,
+      readPolicy: item.readPolicy,
+    }));
+  return {
+    generatedAt: index.generatedAt,
+    sourcePath: index.path ? path.relative(repoRoot, index.path) : 'memory/context/index.json',
+    files: index.totals?.files ?? 0,
+    words: index.totals?.words ?? 0,
+    estimatedTokens: index.totals?.estimatedTokens ?? 0,
+    activeFiles: index.activeTotals?.files ?? 0,
+    activeWords: index.activeTotals?.words ?? 0,
+    activeEstimatedTokens: index.activeTotals?.estimatedTokens ?? 0,
+    archiveFiles: index.totals?.byCategory?.archive?.files ?? 0,
+    archiveWords: index.totals?.byCategory?.archive?.words ?? 0,
+    largestActive,
+  };
+}
+function ageHours(iso) {
+  if (!iso) return Infinity;
+  const ms = Date.now() - new Date(iso).getTime();
+  return Number.isFinite(ms) ? Math.max(0, ms / 36e5) : Infinity;
+}
+function ageLabel(iso) {
+  const hoursRaw = ageHours(iso);
+  if (!Number.isFinite(hoursRaw)) return 'unknown';
+  const hours = Math.round(hoursRaw);
+  if (hours < 24) return `${hours}h old`;
+  return `${Math.round(hours / 24)}d old`;
+}
+function statusFor(iso, { staleHours, failingHours, empty = false, proposal = false } = {}) {
+  if (!iso || empty) return 'FAILING';
+  if (proposal) return 'PROPOSAL';
+  const hours = ageHours(iso);
+  if (hours >= failingHours) return 'FAILING';
+  if (hours >= staleHours) return 'STALE';
+  return 'OK';
+}
+function eventCandidatesFromManifest(events) {
+  if (!events) return [];
+  const family = (events.latest?.family?.topCandidates || []).slice(0, 3).map((event, idx) => ({ ...event, id: `family-${idx + 1}`, kind: 'family' }));
+  const music = (events.latest?.music?.topCandidates || []).slice(0, 3).map((event, idx) => ({ ...event, id: `music-${idx + 1}`, kind: 'music' }));
+  return [...family, ...music];
+}
+function sourceHealthFromManifests(manifests, contextHealth) {
+  const rows = [];
+  rows.push({
+    id: 'context', label: 'Context index', status: statusFor(contextHealth?.generatedAt, { staleHours: 48, failingHours: 168, empty: !contextHealth }), age: ageLabel(contextHealth?.generatedAt),
+    summary: contextHealth ? `${contextHealth.activeFiles} active files / ${contextHealth.activeWords} words` : 'manifest missing',
+    detail: contextHealth ? `${contextHealth.archiveWords} words archived` : 'Run node scripts/index-context.mjs', path: 'memory/context/index.json',
+    staleAfterHours: 48, failingAfterHours: 168,
+  });
+  rows.push({
+    id: 'events', label: 'Austin events', status: statusFor(manifests.events?.generatedAt, { staleHours: 36, failingHours: 72, empty: !manifests.events }), age: ageLabel(manifests.events?.generatedAt),
+    summary: manifests.events ? `${manifests.events.totals?.latestFamilyEvents ?? 0} family / ${manifests.events.totals?.latestMusicEvents ?? 0} music latest` : 'manifest missing',
+    detail: manifests.events ? `${manifests.events.totals?.files ?? 0} crawl artifacts indexed` : 'Run node scripts/index-events.mjs', path: 'memory/events/latest-manifest.json',
+    staleAfterHours: 36, failingAfterHours: 72,
+  });
+  rows.push({
+    id: 'ai-tooling', label: 'AI tooling', status: statusFor(manifests.aiTooling?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.aiTooling }), age: ageLabel(manifests.aiTooling?.generatedAt),
+    summary: manifests.aiTooling ? `${manifests.aiTooling.totals?.selectedItems ?? 0} selected / ${manifests.aiTooling.totals?.recentDedupedItems ?? 0} recent deduped` : 'manifest missing',
+    detail: manifests.aiTooling ? `${manifests.aiTooling.totals?.totalItems ?? 0} raw items` : 'Run node scripts/index-ai-tooling.mjs', path: 'memory/ai-tooling/latest-manifest.json',
+    staleAfterHours: 72, failingAfterHours: 168,
+  });
+  rows.push({
+    id: 'investing', label: 'Investing watchlist', status: statusFor(manifests.investing?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.investing }), age: ageLabel(manifests.investing?.generatedAt),
+    summary: manifests.investing ? `${manifests.investing.totals?.tickers ?? 0} tickers / ${manifests.investing.totals?.themes ?? 0} themes` : 'manifest missing',
+    detail: manifests.investing ? `${manifests.investing.totals?.highPriority ?? 0} high-priority research candidates` : 'Run node scripts/index-investing-watchlist.mjs', path: 'memory/investing/latest-watchlist.json',
+    staleAfterHours: 72, failingAfterHours: 168,
+  });
+  rows.push({
+    id: 'obsidian', label: 'Obsidian proposals', status: statusFor(manifests.obsidian?.generatedAt, { staleHours: 48, failingHours: 96, empty: !manifests.obsidian, proposal: manifests.obsidian?.mode === 'proposal-only' }), age: ageLabel(manifests.obsidian?.generatedAt),
+    summary: manifests.obsidian ? `${manifests.obsidian.proposalCount ?? 0} proposed updates` : 'manifest missing',
+    detail: manifests.obsidian?.mode || 'Run Obsidian synthesis review', path: 'memory/obsidian/proposed-updates/latest-manifest.json',
+    staleAfterHours: 48, failingAfterHours: 96,
+  });
+  return rows;
+}
 function buildData() {
   const postureMd   = read('POSTURE.md');
   const projectsMd  = read('PROJECTS.md');
@@ -161,6 +274,9 @@ function buildData() {
   const decisions   = read('DECISIONS.md');
   const protocol    = read('MEMORY_PROTOCOL.md');
   const ocConfig    = readOcConfig();
+  const sourceManifests = readSourceManifests();
+  const contextHealth = contextHealthFromIndex(sourceManifests.context);
+  const sourceHealth = sourceHealthFromManifests(sourceManifests, contextHealth);
 
   if (!projectsMd || !openLoopsMd) {
     if (fs.existsSync(outputPath)) {
@@ -195,6 +311,9 @@ function buildData() {
       generatedAt: new Date().toISOString(),
       posture,
       postureDetail,
+      contextHealth,
+      sourceHealth,
+      eventCandidates: eventCandidatesFromManifest(sourceManifests.events),
     },
     stats: {
       openLoops:        checked.length,
@@ -202,6 +321,9 @@ function buildData() {
       highPriority:     highPri.length,
       uncertainties:    uncertain,
       investingSignals: parseInvesting(openLoopsMd).length,
+      contextActiveFiles: contextHealth?.activeFiles ?? null,
+      contextActiveWords: contextHealth?.activeWords ?? null,
+      contextArchiveWords: contextHealth?.archiveWords ?? null,
     },
     topActions,
     openLoops,
@@ -213,6 +335,22 @@ function buildData() {
       fileDigest('d3', 'Project registry and open loops are now source files', 'Projects/Open loops', 'PROJECTS.md', `Dashboard generated from ${projects.length} project entries and ${checked.length} open loops.`, ['#projects', '#open-loops']),
       fileDigest('d4', 'Memory protocol drafted', 'Memory protocol', 'MEMORY_PROTOCOL.md', firstSentence(extractSection(protocol, '## Goal')) || 'Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.', ['#memory', '#protocol']),
       fileDigest('d5', 'Durable decisions captured', 'Decisions', 'DECISIONS.md', firstSentence(extractSection(decisions, '## Personal AI / knowledge system')) || 'Key architecture decisions captured for Alphalpha and OpenClaw.', ['#decisions', '#architecture']),
+      ...(contextHealth ? [{
+        id: 'd6',
+        date: contextHealth.generatedAt.slice(0, 10),
+        category: 'Context health',
+        title: 'Context index available for bounded reads',
+        summary: `${contextHealth.activeFiles} active context files / ${contextHealth.activeWords} active words; ${contextHealth.archiveWords} words archived.`,
+        tags: ['#context-budget', '#manifest'],
+      }] : []),
+      ...sourceHealth.filter(s => s.id !== 'context').map((source, idx) => ({
+        id: `source-${idx + 1}`,
+        date: new Date().toISOString().slice(0, 10),
+        category: 'Source health',
+        title: `${source.label}: ${source.summary}`,
+        summary: `${source.detail} · ${source.age} · ${source.path}`,
+        tags: ['#source-health', '#manifest'],
+      })),
     ],
   };
 }

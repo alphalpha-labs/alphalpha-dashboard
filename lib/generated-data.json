@@ -1,43 +1,203 @@
 {
   "meta": {
-    "generatedAt": "2026-05-01T14:48:25.966Z",
+    "generatedAt": "2026-05-09T01:03:46.495Z",
     "posture": "Build the dashboard, then connect live sources.",
-    "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly."
+    "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.",
+    "contextHealth": {
+      "generatedAt": "2026-05-09T01:03:46.040Z",
+      "sourcePath": "../memory/context/index.json",
+      "files": 29,
+      "words": 23294,
+      "estimatedTokens": 30298,
+      "activeFiles": 25,
+      "activeWords": 13889,
+      "activeEstimatedTokens": 18069,
+      "archiveFiles": 4,
+      "archiveWords": 9405,
+      "largestActive": [
+        {
+          "path": "context/agentic-os-survey.md",
+          "words": 1794,
+          "estimatedTokens": 2333,
+          "readPolicy": "large: read targeted sections or use this manifest first"
+        },
+        {
+          "path": "context/thesis-baskets-supabase-ingestion.md",
+          "words": 1790,
+          "estimatedTokens": 2327,
+          "readPolicy": "large: read targeted sections or use this manifest first"
+        },
+        {
+          "path": "context/agentic-os-foundation.md",
+          "words": 1478,
+          "estimatedTokens": 1922,
+          "readPolicy": "safe on-demand read when relevant"
+        },
+        {
+          "path": "context/agentic-os-optimization.md",
+          "words": 1089,
+          "estimatedTokens": 1416,
+          "readPolicy": "safe on-demand read when relevant"
+        },
+        {
+          "path": "context/PROJECTS.md",
+          "words": 867,
+          "estimatedTokens": 1128,
+          "readPolicy": "safe on-demand read when relevant"
+        }
+      ]
+    },
+    "sourceHealth": [
+      {
+        "id": "context",
+        "label": "Context index",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "25 active files / 13889 words",
+        "detail": "9405 words archived",
+        "path": "memory/context/index.json",
+        "staleAfterHours": 48,
+        "failingAfterHours": 168
+      },
+      {
+        "id": "events",
+        "label": "Austin events",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "15 family / 94 music latest",
+        "detail": "37 crawl artifacts indexed",
+        "path": "memory/events/latest-manifest.json",
+        "staleAfterHours": 36,
+        "failingAfterHours": 72
+      },
+      {
+        "id": "ai-tooling",
+        "label": "AI tooling",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "12 selected / 31 recent deduped",
+        "detail": "308 raw items",
+        "path": "memory/ai-tooling/latest-manifest.json",
+        "staleAfterHours": 72,
+        "failingAfterHours": 168
+      },
+      {
+        "id": "investing",
+        "label": "Investing watchlist",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "19 tickers / 1 themes",
+        "detail": "4 high-priority research candidates",
+        "path": "memory/investing/latest-watchlist.json",
+        "staleAfterHours": 72,
+        "failingAfterHours": 168
+      },
+      {
+        "id": "obsidian",
+        "label": "Obsidian proposals",
+        "status": "PROPOSAL",
+        "age": "14h old",
+        "summary": "2 proposed updates",
+        "detail": "proposal-only",
+        "path": "memory/obsidian/proposed-updates/latest-manifest.json",
+        "staleAfterHours": 48,
+        "failingAfterHours": 96
+      }
+    ],
+    "eventCandidates": [
+      {
+        "title": "Austin Organic Gardeners May Meeting",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-05-11T18:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/austin-organic-gardeners-may-meeting-2/",
+        "summary": "Join author and tomato enthusiast Craig LeHoullier to discuss all things tomatoes, from sowing seeds to saving seeds and everything in between. Join us from 6-7 for our hands on Makers Hour where this month, […]",
+        "score": 6.7,
+        "id": "family-1",
+        "kind": "family"
+      },
+      {
+        "title": "Austin Bonsai Society May Meeting",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-05-13T19:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/austin-bonsai-society-may-meeting/",
+        "summary": "Shohin Development with Guest Artist Dawn Koetting \"Shohin\" is a Japanese term meaning \"small thing\" and refers to a category of bonsai trees under 8-10 inches in height. Join the Austin Bonsai Society for our […]",
+        "score": 6.7,
+        "id": "family-2",
+        "kind": "family"
+      },
+      {
+        "title": "55th Annual Austin Bonsai Society Show & Sale (Day 1)",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-05-16T10:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/55th-annual-austin-bonsai-society-show-sale-day-1/",
+        "summary": "Austin Bonsai Society is celebrating its 55th year with its annual Bonsai Show and Sale! Come join us at the Zilker Botanical Garden to see some of the best bonsai from our local artists and […]",
+        "score": 6.7,
+        "id": "family-3",
+        "kind": "family"
+      },
+      {
+        "title": "Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
+        "source": "Antone's",
+        "sourceId": "antones",
+        "date": "05/08",
+        "venue": "Antone's Nightclub",
+        "distanceMiles": null,
+        "link": "https://antonesnightclub.com/tm-event/jay-worthy-rome-streetz/",
+        "summary": "Antone's Nightclub show",
+        "score": 3,
+        "id": "music-1",
+        "kind": "music"
+      },
+      {
+        "title": "The Jazz Room: A Journey to the Heart of New Orleans",
+        "source": "Antone's",
+        "sourceId": "antones",
+        "date": "06/05",
+        "venue": "Antone's Nightclub",
+        "distanceMiles": null,
+        "link": "https://antonesnightclub.com/tm-event/the-jazz-room-a-journey-to-the-heart-of-new-orleans-7/",
+        "summary": "Antone's Nightclub show",
+        "score": 3,
+        "id": "music-2",
+        "kind": "music"
+      },
+      {
+        "title": "Sons of Legion - Soul to SØL Tour",
+        "source": "Scoot Inn",
+        "sourceId": "scoot-inn",
+        "date": "2026-05-15 18:00:00 America/Chicago",
+        "venue": "Scoot Inn",
+        "distanceMiles": null,
+        "link": "https://www.ticketmaster.com/sons-of-legion-soul-to-sl-austin-texas-05-15-2026/event/3A006354C76874E1",
+        "summary": "Rock • onsale",
+        "score": 3,
+        "id": "music-3",
+        "kind": "music"
+      }
+    ]
   },
   "stats": {
-    "openLoops": 46,
+    "openLoops": 48,
     "activeProjects": 6,
     "highPriority": 5,
-    "uncertainties": 18,
-    "investingSignals": 10
+    "uncertainties": 17,
+    "investingSignals": 10,
+    "contextActiveFiles": 25,
+    "contextActiveWords": 13889,
+    "contextArchiveWords": 9405
   },
   "topActions": [
     {
       "id": "a1",
-      "priority": "HIGH",
-      "title": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
-      "context": "Imported from near-term Alphalpha open loops.",
-      "next": "Pick canonical source model and encode it in MEMORY_PROTOCOL.",
-      "project": "Alphalpha",
-      "due": "This week",
-      "done": false,
-      "snoozed": false,
-      "snoozeLabel": null
-    },
-    {
-      "id": "a2",
-      "priority": "MEDIUM",
-      "title": "Convert imported brain dumps into maintainable context files.",
-      "context": "Imported from backlog Alphalpha open loops.",
-      "next": "Review, clarify owner, and move into the right project file.",
-      "project": "Alphalpha",
-      "due": "Later",
-      "done": false,
-      "snoozed": false,
-      "snoozeLabel": null
-    },
-    {
-      "id": "a3",
       "priority": "MEDIUM",
       "title": "Define memory update protocol.",
       "context": "Imported from backlog Alphalpha open loops.",
@@ -49,19 +209,7 @@
       "snoozeLabel": null
     },
     {
-      "id": "a4",
-      "priority": "MEDIUM",
-      "title": "Connect dashboard to live sources instead of static lib/data.ts.",
-      "context": "Imported from backlog Alphalpha open loops.",
-      "next": "Read context markdown and emit dashboard JSON before build.",
-      "project": "Alphalpha",
-      "due": "Later",
-      "done": false,
-      "snoozed": false,
-      "snoozeLabel": null
-    },
-    {
-      "id": "a5",
+      "id": "a2",
       "priority": "HIGH",
       "title": "Decide automation approval policy by action type.",
       "context": "Imported from near-term Alphalpha open loops.",
@@ -73,7 +221,7 @@
       "snoozeLabel": null
     },
     {
-      "id": "a6",
+      "id": "a3",
       "priority": "MEDIUM",
       "title": "Add Vercel GitHub integration/login connection if automatic deployments from repo pushes are desired.",
       "context": "Imported from backlog Alphalpha open loops.",
@@ -85,7 +233,7 @@
       "snoozeLabel": null
     },
     {
-      "id": "a7",
+      "id": "a4",
       "priority": "MEDIUM",
       "title": "Make Working Copy commit and push immediately.",
       "context": "Imported from backlog Alphalpha open loops.",
@@ -95,56 +243,116 @@
       "done": false,
       "snoozed": false,
       "snoozeLabel": null
+    },
+    {
+      "id": "a5",
+      "priority": "HIGH",
+      "title": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
+      "context": "Imported from near-term Alphalpha open loops.",
+      "next": "Review, clarify owner, and move into the right project file.",
+      "project": "Obsidian/GitHub",
+      "due": "This week",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
+    },
+    {
+      "id": "a6",
+      "priority": "MEDIUM",
+      "title": "Build minimum viable voice-to-Obsidian daily note shortcut.",
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Prototype minimum viable dictated note append flow.",
+      "project": "Obsidian/GitHub",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
+    },
+    {
+      "id": "a7",
+      "priority": "MEDIUM",
+      "title": "Decide how/if ChatGPT conversation links should be included in captured notes.",
+      "context": "Imported from backlog Alphalpha open loops.",
+      "next": "Review, clarify owner, and move into the right project file.",
+      "project": "Alphalpha",
+      "due": "Later",
+      "done": false,
+      "snoozed": false,
+      "snoozeLabel": null
     }
   ],
   "openLoops": [
     {
       "id": "l1",
-      "text": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
-      "project": "Alphalpha",
-      "priority": "HIGH"
-    },
-    {
-      "id": "l2",
-      "text": "Convert imported brain dumps into maintainable context files.",
-      "project": "Alphalpha",
-      "priority": "MEDIUM"
-    },
-    {
-      "id": "l3",
       "text": "Define memory update protocol.",
       "project": "Alphalpha",
       "priority": "MEDIUM"
     },
     {
-      "id": "l4",
-      "text": "Connect dashboard to live sources instead of static lib/data.ts.",
-      "project": "Alphalpha",
-      "priority": "MEDIUM"
-    },
-    {
-      "id": "l5",
+      "id": "l2",
       "text": "Decide automation approval policy by action type.",
       "project": "Alphalpha",
       "priority": "HIGH"
     },
     {
-      "id": "l6",
+      "id": "l3",
       "text": "Add Vercel GitHub integration/login connection if automatic deployments from repo pushes are desired.",
       "project": "Alphalpha",
       "priority": "MEDIUM"
     },
     {
-      "id": "l7",
+      "id": "l4",
       "text": "Make Working Copy commit and push immediately.",
       "project": "Obsidian/GitHub",
       "priority": "MEDIUM"
     },
     {
-      "id": "l8",
+      "id": "l5",
       "text": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
       "project": "Obsidian/GitHub",
       "priority": "HIGH"
+    },
+    {
+      "id": "l6",
+      "text": "Build minimum viable voice-to-Obsidian daily note shortcut.",
+      "project": "Obsidian/GitHub",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "l7",
+      "text": "Decide how/if ChatGPT conversation links should be included in captured notes.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "l8",
+      "text": "Add visible failure logging for capture/sync workflows.",
+      "project": "Alphalpha",
+      "priority": "LOW"
+    },
+    {
+      "id": "l9",
+      "text": "Build daily/weekly synthesis cadence.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "l10",
+      "text": "Clarify OpenClaw’s role relative to Alphalpha.",
+      "project": "OpenClaw",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "l11",
+      "text": "Add Google Calendar access if approved.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "l12",
+      "text": "Decide Discord channel/session isolation model.",
+      "project": "Alphalpha",
+      "priority": "MEDIUM"
     }
   ],
   "projects": [
@@ -152,25 +360,25 @@
       "id": "p1",
       "name": "Alphalpha",
       "status": "ACTIVE",
-      "category": "Personal AI chief of staff",
+      "category": "personal AI chief of staff",
       "lastActivity": "today",
-      "summary": "Decide canonical memory/source-of-truth model: Obsidian vs GitHub vs OpenClaw memory.",
+      "summary": "Decide which repos Alphalpha should access.",
       "ocOwned": true,
       "loops": [
         {
           "id": "l1",
-          "text": "Decide Alphalpha source-of-truth model: Obsidian, GitHub, OpenClaw memory, or hybrid.",
+          "text": "Define memory update protocol.",
           "project": "Alphalpha",
-          "priority": "HIGH"
+          "priority": "MEDIUM"
         },
         {
-          "id": "l5",
+          "id": "l2",
           "text": "Decide automation approval policy by action type.",
           "project": "Alphalpha",
           "priority": "HIGH"
         }
       ],
-      "highPriCount": 2
+      "highPriCount": 1
     },
     {
       "id": "p2",
@@ -182,13 +390,13 @@
       "ocOwned": true,
       "loops": [
         {
-          "id": "l7",
+          "id": "l4",
           "text": "Make Working Copy commit and push immediately.",
           "project": "Obsidian/GitHub",
           "priority": "MEDIUM"
         },
         {
-          "id": "l8",
+          "id": "l5",
           "text": "Fix automatic Obsidian sync iOS Shortcut around variable/key prompts.",
           "project": "Obsidian/GitHub",
           "priority": "HIGH"
@@ -202,9 +410,16 @@
       "status": "ACTIVE",
       "category": "Orchestration",
       "lastActivity": "recent memory",
-      "summary": "Clarify OpenClaw's role relative to Alphalpha.",
+      "summary": "Clarify OpenClaw’s role relative to Alphalpha.",
       "ocOwned": true,
-      "loops": [],
+      "loops": [
+        {
+          "id": "l10",
+          "text": "Clarify OpenClaw’s role relative to Alphalpha.",
+          "project": "OpenClaw",
+          "priority": "MEDIUM"
+        }
+      ],
       "highPriCount": 0
     },
     {
@@ -224,7 +439,7 @@
       "status": "ACTIVE",
       "category": "Investing",
       "lastActivity": "recent memory",
-      "summary": "Create context/projects/investing-research.md / dashboard-backed research watchlist.",
+      "summary": "Create context/projects/investing-research.md or an Obsidian/dashboard-backed research watchlist.",
       "ocOwned": false,
       "loops": [],
       "highPriCount": 0
@@ -306,7 +521,7 @@
   "digests": [
     {
       "id": "d1",
-      "date": "2026-05-01",
+      "date": "2026-05-08",
       "category": "Context import",
       "title": "ChatGPT brain dump converted to canonical context",
       "summary": "Raw import preserved and split into durable Alphalpha files.",
@@ -321,7 +536,7 @@
       "date": "2026-05-01",
       "category": "About/Preferences",
       "title": "About + preference context available",
-      "summary": "Stable personal context and preferences available.",
+      "summary": "Name: Alex.",
       "tags": [
         "#about",
         "#preferences"
@@ -329,10 +544,10 @@
     },
     {
       "id": "d3",
-      "date": "2026-05-01",
+      "date": "2026-05-08",
       "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
-      "summary": "Dashboard generated from 6 project entries and 46 open loops.",
+      "summary": "Dashboard generated from 6 project entries and 48 open loops.",
       "tags": [
         "#projects",
         "#open-loops"
@@ -340,10 +555,10 @@
     },
     {
       "id": "d4",
-      "date": "2026-05-01",
+      "date": "2026-05-08",
       "category": "Memory protocol",
       "title": "Memory protocol drafted",
-      "summary": "Protocol separates imports, durable context, daily memory, and dashboard-facing open loops.",
+      "summary": "Keep Alphalpha useful without turning memory into a junk drawer.",
       "tags": [
         "#memory",
         "#protocol"
@@ -351,13 +566,68 @@
     },
     {
       "id": "d5",
-      "date": "2026-05-01",
+      "date": "2026-05-08",
       "category": "Decisions",
       "title": "Durable decisions captured",
-      "summary": "Key architecture decisions captured for Alphalpha and OpenClaw.",
+      "summary": "Alphalpha should be Obsidian/GitHub-backed and emphasize durable, useful context rather than generic summaries.",
       "tags": [
         "#decisions",
         "#architecture"
+      ]
+    },
+    {
+      "id": "d6",
+      "date": "2026-05-09",
+      "category": "Context health",
+      "title": "Context index available for bounded reads",
+      "summary": "25 active context files / 13889 active words; 9405 words archived.",
+      "tags": [
+        "#context-budget",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-1",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "Austin events: 15 family / 94 music latest",
+      "summary": "37 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-2",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "AI tooling: 12 selected / 31 recent deduped",
+      "summary": "308 raw items · 0h old · memory/ai-tooling/latest-manifest.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-3",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "Investing watchlist: 19 tickers / 1 themes",
+      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-4",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "Obsidian proposals: 2 proposed updates",
+      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
       ]
     }
   ]

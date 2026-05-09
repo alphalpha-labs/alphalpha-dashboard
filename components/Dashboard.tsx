@@ -79,6 +79,10 @@ export default function Dashboard({ data }: { data: DashboardData }) {
     postSignal("add-loop", newLoop.id, { text });
   }, []);
 
+  const handleEventFeedback = useCallback((eventId: string, feedbackType: string, payload: object) => {
+    postSignal("event-feedback", eventId, { type: feedbackType, ...payload });
+  }, []);
+
   const handleLoopDone = useCallback((id: string) => {
     setLoops(prev => prev.map(l => l.id === id ? { ...l, done: true } : l));
     postSignal("done", id);
@@ -136,6 +140,7 @@ export default function Dashboard({ data }: { data: DashboardData }) {
               onSkip={handleSkip}
               onWake={handleWake}
               onAdd={handleAdd}
+              onEventFeedback={handleEventFeedback}
               onDiscuss={openThread}
             />
           )}

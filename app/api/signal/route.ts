@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireDashboardSession } from "@/lib/auth";
 import { sendSignal } from "@/lib/openclaw";
 
-const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop"]);
+const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop", "event-feedback"]);
 
 export async function POST(req: NextRequest) {
   const authError = await requireDashboardSession(req);

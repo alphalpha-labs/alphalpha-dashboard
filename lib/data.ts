@@ -52,18 +52,48 @@ export type Digest = {
   tags:     string[];
 };
 
+export type SourceHealth = {
+  id:      string;
+  label:   string;
+  status:  string;
+  age:     string;
+  summary: string;
+  detail:  string;
+  path:    string;
+};
+
+export type EventCandidate = {
+  id:            string;
+  kind:          "family" | "music";
+  title:         string;
+  source?:       string | null;
+  sourceId?:     string | null;
+  date?:         string | null;
+  venue?:        string | null;
+  distanceMiles?: number | null;
+  link?:         string | null;
+  summary?:      string;
+  score?:        number;
+};
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
     posture:       string;
     postureDetail: string;
+    contextHealth?: unknown;
+    sourceHealth?: SourceHealth[];
+    eventCandidates?: EventCandidate[];
   };
   stats: {
-    openLoops:        number;
-    activeProjects:   number;
-    highPriority:     number;
-    uncertainties:    number;
-    investingSignals: number;
+    openLoops:             number;
+    activeProjects:        number;
+    highPriority:          number;
+    uncertainties:         number;
+    investingSignals:      number;
+    contextActiveFiles?:   number | null;
+    contextActiveWords?:   number | null;
+    contextArchiveWords?:  number | null;
   };
   topActions: Action[];
   openLoops:  Loop[];

@@ -12,12 +12,13 @@ interface Props {
   onDone:         (id: string) => void;
   onSnooze:       (id: string, label: string) => void;
   onSkip:         () => void;
-  onWake:         (id: string) => void;
-  onAdd:          (text: string) => void;
-  onDiscuss:      (ctx: ThreadContext) => void;
+  onWake:          (id: string) => void;
+  onAdd:           (text: string) => void;
+  onEventFeedback: (eventId: string, feedbackType: string, payload: object) => void;
+  onDiscuss:       (ctx: ThreadContext) => void;
 }
 
-export default function TodayTab({ data, activeActions, snoozedActions, loops, focusIdx, onDone, onSnooze, onSkip, onWake, onAdd, onDiscuss }: Props) {
+export default function TodayTab({ data, activeActions, snoozedActions, loops, focusIdx, onDone, onSnooze, onSkip, onWake, onAdd, onEventFeedback, onDiscuss }: Props) {
   const current = activeActions[focusIdx % Math.max(activeActions.length, 1)];
 
   return (
@@ -39,6 +40,7 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
         investing={data.investing}
         digests={data.digests}
         onAdd={onAdd}
+        onEventFeedback={onEventFeedback}
         onDiscuss={onDiscuss}
       />
     </div>

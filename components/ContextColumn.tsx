@@ -9,16 +9,21 @@ interface Props {
   loops:     Loop[];
   investing: DashboardData["investing"];
   digests:   DashboardData["digests"];
-  onAdd:     (text: string) => void;
-  onDiscuss: (ctx: ThreadContext) => void;
+  onAdd:           (text: string) => void;
+  onEventFeedback: (eventId: string, feedbackType: string, payload: object) => void;
+  onDiscuss:       (ctx: ThreadContext) => void;
 }
 
-export default function ContextColumn({ meta, loops, investing, digests, onAdd, onDiscuss }: Props) {
+export default function ContextColumn({ meta, loops, investing, digests, onAdd, onEventFeedback, onDiscuss }: Props) {
   const [loopsOpen,   setLoopsOpen]   = useState(true);
   const [investOpen,  setInvestOpen]  = useState(false);
+  const [sourcesOpen, setSourcesOpen] = useState(true);
+  const [eventsOpen,  setEventsOpen]  = useState(false);
   const [digestsOpen, setDigestsOpen] = useState(false);
 
   const activeLoops = loops.filter(l => !l.done && !l.snoozed);
+  const sourceHealth = meta.sourceHealth || [];
+  const eventCandidates = meta.eventCandidates || [];
 
   return (
     <aside className="contextColumn">
@@ -77,6 +82,66 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
                   onClick={() => onDiscuss({ id: t.ticker, type: "ticker", title: t.ticker, theme: t.theme, stance: t.stance })}
                 >
                   <strong style={{ fontFamily: "monospace" }}>{t.ticker}</strong> — {t.theme}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Source health */}
+      <div>
+        <div className="collapsibleHeader" onClick={() => setSourcesOpen(o => !o)}>
+          <span className="collapsibleTitle">
+            Source health
+            <span className="collapsibleCount">{sourceHealth.length}</span>
+          </span>
+          <span className={`collapsibleChevron${sourcesOpen ? "" : " collapsibleChevron--closed"}`}>▾</span>
+        </div>
+        {sourcesOpen && (
+          <div>
+            {sourceHealth.slice(0, 6).map(source => (
+              <div key={source.id} className="ctxLoopItem">
+                <div className="ctxLoopText">
+                  <strong>{source.label}</strong> — {source.summary}
+                </div>
+                <div className="ctxLoopProject">{source.status} · {source.age}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Event feedback */}
+      <div>
+        <div className="collapsibleHeader" onClick={() => setEventsOpen(o => !o)}>
+          <span className="collapsibleTitle">
+            Event feedback
+            <span className="collapsibleCount">{eventCandidates.length}</span>
+          </span>
+          <span className={`collapsibleChevron${eventsOpen ? "" : " collapsibleChevron--closed"}`}>▾</span>
+        </div>
+        {eventsOpen && (
+          <div>
+            {eventCandidates.slice(0, 6).map(event => (
+              <div key={`${event.kind}-${event.id}`} className="ctxLoopItem">
+                <div className="ctxLoopText">{event.title}</div>
+                <div className="ctxLoopProject">
+                  {event.kind} · {event.source || "source unknown"}{event.distanceMiles != null ? ` · ${event.distanceMiles} mi` : ""}
+                </div>
+                <div className="ctxFeedbackActions">
+                  <button
+                    className="ctxFeedbackBtn"
+                    onClick={() => onEventFeedback(event.id, "more-like-this", event)}
+                  >More like this</button>
+                  <button
+                    className="ctxFeedbackBtn"
+                    onClick={() => onEventFeedback(event.id, event.kind === "family" ? "not-kid-appropriate" : "not-my-music", event)}
+                  >Not fit</button>
+                  <button
+                    className="ctxFeedbackBtn"
+                    onClick={() => onEventFeedback(event.id, "too-far", event)}
+                  >Too far</button>
                 </div>
               </div>
             ))}
