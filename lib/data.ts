@@ -76,6 +76,20 @@ export type EventCandidate = {
   score?:        number;
 };
 
+export type ReviewItem = {
+  id: string;
+  kind: "obsidian-proposal" | "source-health" | "investing-review" | "automation-review" | "event-feedback" | string;
+  title: string;
+  summary: string;
+  priority: Priority;
+  status: "pending" | "approved" | "dismissed" | string;
+  source?: string;
+  target?: string;
+  generatedAt?: string | null;
+  actionHint?: string;
+  payload?: unknown;
+};
+
 export type AutomationJob = {
   id: string;
   name: string;
@@ -123,6 +137,7 @@ export type DashboardData = {
   projects:   Project[];
   investing:   Ticker[];
   automations?: AutomationJob[];
+  reviewQueue?: ReviewItem[];
   digests:     Digest[];
 };
 

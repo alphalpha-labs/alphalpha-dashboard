@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-05-09T14:19:16.320Z",
+    "generatedAt": "2026-05-09T14:53:48.554Z",
     "posture": "Build the dashboard, then connect live sources.",
     "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.",
     "contextHealth": {
@@ -52,7 +52,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "25 active files / 13889 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -63,7 +63,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -74,7 +74,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "12 selected / 31 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -85,7 +85,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -107,10 +107,21 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "18 enabled / 6 paused",
         "detail": "24 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
+        "staleAfterHours": 24,
+        "failingAfterHours": 72
+      },
+      {
+        "id": "review-queue",
+        "label": "Review queue",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "10 pending / 0 high",
+        "detail": "10 review items indexed",
+        "path": "memory/review-queue/latest-manifest.json",
         "staleAfterHours": 24,
         "failingAfterHours": 72
       }
@@ -1221,6 +1232,272 @@
       "updatedAt": "2026-05-08T00:36:53.848Z"
     }
   ],
+  "reviewQueue": [
+    {
+      "id": "investing-QldYVA",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: BWXT",
+      "summary": "Nuclear services + defense nuclear — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "BWXT",
+          "theme": "Nuclear services + defense nuclear",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-Q0NK",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: CCJ",
+      "summary": "Uranium / nuclear fuel cycle — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "CCJ",
+          "theme": "Uranium / nuclear fuel cycle",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-RU1F",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: EME",
+      "summary": "Grid/data-center construction — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "EME",
+          "theme": "Grid/data-center construction",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-UFdS",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: PWR",
+      "summary": "Transmission/grid hardening — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "PWR",
+          "theme": "Transmission/grid hardening",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "event-ZmFtaWx5OkF1c3Rpbi",
+      "kind": "event-feedback",
+      "title": "Give event feedback: Austin Organic Gardeners May Meeting",
+      "summary": "family candidate from Zilker Botanical Garden · 1.6 mi",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/events/latest-manifest.json",
+      "target": "memory/events/feedback-manifest.json",
+      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "actionHint": "Use dashboard event feedback controls to train future picks",
+      "payload": {
+        "event": {
+          "title": "Austin Organic Gardeners May Meeting",
+          "source": "Zilker Botanical Garden",
+          "sourceId": "zilker-botanical",
+          "date": "2026-05-11T18:00:00-05:00",
+          "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+          "distanceMiles": 1.6,
+          "link": "https://zilkergarden.org/event/austin-organic-gardeners-may-meeting-2/",
+          "summary": "Join author and tomato enthusiast Craig LeHoullier to discuss all things tomatoes, from sowing seeds to saving seeds and everything in between. Join us from 6-7 for our hands on Makers Hour where this month, […]",
+          "score": 6.7,
+          "kind": "family"
+        }
+      }
+    },
+    {
+      "id": "event-ZmFtaWx5OkF1c3Rpbi",
+      "kind": "event-feedback",
+      "title": "Give event feedback: Austin Bonsai Society May Meeting",
+      "summary": "family candidate from Zilker Botanical Garden · 1.6 mi",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/events/latest-manifest.json",
+      "target": "memory/events/feedback-manifest.json",
+      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "actionHint": "Use dashboard event feedback controls to train future picks",
+      "payload": {
+        "event": {
+          "title": "Austin Bonsai Society May Meeting",
+          "source": "Zilker Botanical Garden",
+          "sourceId": "zilker-botanical",
+          "date": "2026-05-13T19:00:00-05:00",
+          "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+          "distanceMiles": 1.6,
+          "link": "https://zilkergarden.org/event/austin-bonsai-society-may-meeting/",
+          "summary": "Shohin Development with Guest Artist Dawn Koetting \"Shohin\" is a Japanese term meaning \"small thing\" and refers to a category of bonsai trees under 8-10 inches in height. Join the Austin Bonsai Society for our […]",
+          "score": 6.7,
+          "kind": "family"
+        }
+      }
+    },
+    {
+      "id": "event-bXVzaWM6SmF5IFdvcn",
+      "kind": "event-feedback",
+      "title": "Give event feedback: Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
+      "summary": "music candidate from Antone's",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/events/latest-manifest.json",
+      "target": "memory/events/feedback-manifest.json",
+      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "actionHint": "Use dashboard event feedback controls to train future picks",
+      "payload": {
+        "event": {
+          "title": "Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
+          "source": "Antone's",
+          "sourceId": "antones",
+          "date": "05/08",
+          "venue": "Antone's Nightclub",
+          "distanceMiles": null,
+          "link": "https://antonesnightclub.com/tm-event/jay-worthy-rome-streetz/",
+          "summary": "Antone's Nightclub show",
+          "score": 3,
+          "kind": "music"
+        }
+      }
+    },
+    {
+      "id": "event-bXVzaWM6VGhlIEphen",
+      "kind": "event-feedback",
+      "title": "Give event feedback: The Jazz Room: A Journey to the Heart of New Orleans",
+      "summary": "music candidate from Antone's",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/events/latest-manifest.json",
+      "target": "memory/events/feedback-manifest.json",
+      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "actionHint": "Use dashboard event feedback controls to train future picks",
+      "payload": {
+        "event": {
+          "title": "The Jazz Room: A Journey to the Heart of New Orleans",
+          "source": "Antone's",
+          "sourceId": "antones",
+          "date": "06/05",
+          "venue": "Antone's Nightclub",
+          "distanceMiles": null,
+          "link": "https://antonesnightclub.com/tm-event/the-jazz-room-a-journey-to-the-heart-of-new-orleans-7/",
+          "summary": "Antone's Nightclub show",
+          "score": 3,
+          "kind": "music"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0wOVQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Approve Obsidian update: Alphalpha/Open Loops.md",
+      "summary": "# Proposed Open Loops additions Generated: 2026-05-09T11:30:05.993Z Source signal review: 2026-05-09 No task/reminder/voice-note candidates above threshold in this run.",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/obsidian/proposed-updates/2026-05-09/proposed-open-loops.md",
+      "target": "Alphalpha/Open Loops.md",
+      "generatedAt": "2026-05-09T11:30:06.022Z",
+      "actionHint": "Usually dismiss unless useful as a placeholder",
+      "payload": {
+        "proposal": {
+          "type": "open-loops",
+          "targetVaultPath": "Alphalpha/Open Loops.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-09/proposed-open-loops.md",
+          "signalCount": 0
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0wOVQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Approve Obsidian update: Alphalpha/Dashboard.md",
+      "summary": "# Proposed Dashboard Review Block Generated: 2026-05-09T11:30:05.993Z ## Highest-priority recommended actions | Priority | Action | Why now | Evidence / Source trail | Confidence | | --- | --- | --- | --- | --- | | Low | No new high-signal items | No changed Obsidian signals above threshold | latest signal review | hig",
+      "priority": "LOW",
+      "status": "pending",
+      "source": "memory/obsidian/proposed-updates/2026-05-09/proposed-dashboard-block.md",
+      "target": "Alphalpha/Dashboard.md",
+      "generatedAt": "2026-05-09T11:30:06.022Z",
+      "actionHint": "Usually dismiss unless useful as a placeholder",
+      "payload": {
+        "proposal": {
+          "type": "dashboard-block",
+          "targetVaultPath": "Alphalpha/Dashboard.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-09/proposed-dashboard-block.md",
+          "signalCount": 0
+        }
+      }
+    }
+  ],
   "digests": [
     {
       "id": "d1",
@@ -1294,7 +1571,7 @@
       "date": "2026-05-09",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 1h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1305,7 +1582,7 @@
       "date": "2026-05-09",
       "category": "Source health",
       "title": "AI tooling: 12 selected / 31 recent deduped",
-      "summary": "308 raw items · 0h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 1h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1316,7 +1593,7 @@
       "date": "2026-05-09",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1338,7 +1615,18 @@
       "date": "2026-05-09",
       "category": "Source health",
       "title": "Automations: 18 enabled / 6 paused",
-      "summary": "24 cron jobs indexed · 0h old · memory/automations/latest-manifest.json",
+      "summary": "24 cron jobs indexed · 1h old · memory/automations/latest-manifest.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-6",
+      "date": "2026-05-09",
+      "category": "Source health",
+      "title": "Review queue: 10 pending / 0 high",
+      "summary": "10 review items indexed · 0h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

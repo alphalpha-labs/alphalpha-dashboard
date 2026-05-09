@@ -7,6 +7,7 @@ import ProjectGrid from "./ProjectGrid";
 import InvestingTab from "./InvestingTab";
 import DigestsTab from "./DigestsTab";
 import AutomationsTab from "./AutomationsTab";
+import ReviewTab from "./ReviewTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 
@@ -30,6 +31,7 @@ const TABS = [
   { id: "projects",  label: "Projects" },
   { id: "investing", label: "Investing" },
   { id: "digests",   label: "Digests" },
+  { id: "review",    label: "Review" },
   { id: "automations", label: "Automations" },
 ] as const;
 
@@ -49,6 +51,7 @@ export default function Dashboard({ data }: { data: DashboardData }) {
   const [actions, setActions]       = useState<Action[]>(data.topActions);
   const [loops, setLoops]           = useState<Loop[]>(data.openLoops);
   const [automations, setAutomations] = useState<AutomationJob[]>(data.automations || []);
+  const [reviewItems, setReviewItems] = useState(data.reviewQueue || []);
   const [focusIdx, setFocusIdx]   = useState(0);
   const [thread, setThread]       = useState<ThreadContext | null>(null);
 
@@ -84,6 +87,13 @@ export default function Dashboard({ data }: { data: DashboardData }) {
 
   const handleEventFeedback = useCallback((eventId: string, feedbackType: string, payload: object) => {
     postSignal("event-feedback", eventId, { type: feedbackType, ...payload });
+  }, []);
+
+  const handleReviewAction = useCallback((itemId: string, action: string, payload: object = {}) => {
+    setReviewItems(prev => prev.map(item => item.id === itemId
+      ? { ...item, status: action === "dismiss" ? "dismissed" : action === "approve" || action === "promote-loop" ? "approved" : item.status }
+      : item));
+    postSignal("review-action", itemId, { action, itemId, ...payload });
   }, []);
 
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
@@ -176,6 +186,9 @@ export default function Dashboard({ data }: { data: DashboardData }) {
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />
+          )}
+          {activeTab === "review" && (
+            <ReviewTab items={reviewItems} onAction={handleReviewAction} />
           )}
           {activeTab === "automations" && (
             <AutomationsTab automations={automations} onAction={handleAutomationAction} />

@@ -42,6 +42,7 @@ function readSourceManifests() {
     investing: readWorkspaceManifest(path.join('memory', 'investing', 'latest-watchlist.json')),
     obsidian: readWorkspaceManifest(path.join('memory', 'obsidian', 'proposed-updates', 'latest-manifest.json')),
     automations: readWorkspaceManifest(path.join('memory', 'automations', 'latest-manifest.json')),
+    reviewQueue: readWorkspaceManifest(path.join('memory', 'review-queue', 'latest-manifest.json')),
   };
 }
 function readOcConfig() {
@@ -271,6 +272,12 @@ function sourceHealthFromManifests(manifests, contextHealth) {
     detail: manifests.automations ? `${manifests.automations.totals?.jobs ?? 0} cron jobs indexed` : 'Run node scripts/index-automations.mjs', path: 'memory/automations/latest-manifest.json',
     staleAfterHours: 24, failingAfterHours: 72,
   });
+  rows.push({
+    id: 'review-queue', label: 'Review queue', status: statusFor(manifests.reviewQueue?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.reviewQueue }), age: ageLabel(manifests.reviewQueue?.generatedAt),
+    summary: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.pending ?? 0} pending / ${manifests.reviewQueue.totals?.high ?? 0} high` : 'manifest missing',
+    detail: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.items ?? 0} review items indexed` : 'Run node scripts/index-review-queue.mjs', path: 'memory/review-queue/latest-manifest.json',
+    staleAfterHours: 24, failingAfterHours: 72,
+  });
   return rows;
 }
 function buildData() {
@@ -337,6 +344,7 @@ function buildData() {
     projects,
     investing: parseInvesting(openLoopsMd),
     automations: sourceManifests.automations?.jobs || [],
+    reviewQueue: sourceManifests.reviewQueue?.items || [],
     digests: [
       fileDigest('d1', 'ChatGPT brain dump converted to canonical context', 'Context import', 'imports/2026-05-01-chatgpt-braindump.md', 'Raw import preserved and split into durable Alphalpha files.', ['#memory', '#context', '#import']),
       fileDigest('d2', 'About + preference context available', 'About/Preferences', 'ABOUT.md', firstSentence(extractSection(about, '## Stable context')) || 'Stable personal context and preferences available.', ['#about', '#preferences']),
