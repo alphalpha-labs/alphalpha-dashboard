@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { Loop } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
-import QuickAdd from "./QuickAdd";
+import QuickAdd, { type CaptureInput } from "./QuickAdd";
 
 const SNOOZE_OPTIONS = [
   { label: "Later today", value: "Later today" },
@@ -15,7 +15,7 @@ interface Props {
   loops:     Loop[];
   onDone:    (id: string) => void;
   onSnooze:  (id: string, label: string) => void;
-  onAdd:     (text: string) => void;
+  onAdd:     (input: CaptureInput) => void;
   onDiscuss: (ctx: ThreadContext) => void;
 }
 

@@ -1,8 +1,16 @@
 {
   "meta": {
-    "generatedAt": "2026-05-11T18:06:39.263Z",
+    "generatedAt": "2026-05-11T18:33:35.115Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
+    "deployment": {
+      "commit": "455b258",
+      "branch": "main",
+      "generatedAt": "2026-05-11T18:33:35.126Z",
+      "deployUrl": null,
+      "productionUrl": "https://alphalpha-dashboard.vercel.app",
+      "dirtyFiles": 8
+    },
     "contextHealth": {
       "generatedAt": "2026-05-11T18:00:10.712Z",
       "sourcePath": "../memory/context/index.json",
@@ -52,10 +60,32 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "26 active files / 14913 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
+        "details": [
+          {
+            "label": "context/agentic-os-survey.md",
+            "value": "1794 words · large: read targeted sections or use this manifest first"
+          },
+          {
+            "label": "context/thesis-baskets-supabase-ingestion.md",
+            "value": "1790 words · large: read targeted sections or use this manifest first"
+          },
+          {
+            "label": "context/agentic-os-foundation.md",
+            "value": "1681 words · large: read targeted sections or use this manifest first"
+          },
+          {
+            "label": "context/agentic-os-optimization.md",
+            "value": "1089 words · safe on-demand read when relevant"
+          },
+          {
+            "label": "context/PROJECTS.md",
+            "value": "867 words · safe on-demand read when relevant"
+          }
+        ],
         "staleAfterHours": 48,
         "failingAfterHours": 168
       },
@@ -67,6 +97,32 @@
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
+        "details": [
+          {
+            "label": "Austin Organic Gardeners May Meeting",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "Austin Bonsai Society May Meeting",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "55th Annual Austin Bonsai Society Show & Sale (Day 1)",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
+            "value": "music · Antone's"
+          },
+          {
+            "label": "The Jazz Room: A Journey to the Heart of New Orleans",
+            "value": "music · Antone's"
+          },
+          {
+            "label": "Sons of Legion - Soul to SØL Tour",
+            "value": "music · Scoot Inn"
+          }
+        ],
         "staleAfterHours": 36,
         "failingAfterHours": 72
       },
@@ -74,10 +130,32 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "12 selected / 24 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
+        "details": [
+          {
+            "label": "files",
+            "value": "14"
+          },
+          {
+            "label": "totalItems",
+            "value": "308"
+          },
+          {
+            "label": "recentDedupedItems",
+            "value": "24"
+          },
+          {
+            "label": "selectedItems",
+            "value": "12"
+          },
+          {
+            "label": "duplicateOrFilteredItems",
+            "value": "284"
+          }
+        ],
         "staleAfterHours": 72,
         "failingAfterHours": 168
       },
@@ -89,6 +167,7 @@
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
+        "details": [],
         "staleAfterHours": 72,
         "failingAfterHours": 168
       },
@@ -100,6 +179,16 @@
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
+        "details": [
+          {
+            "label": "Alphalpha/Open Loops.md",
+            "value": "memory/obsidian/proposed-updates/2026-05-11/proposed-open-loops.md"
+          },
+          {
+            "label": "Alphalpha/Dashboard.md",
+            "value": "memory/obsidian/proposed-updates/2026-05-11/proposed-dashboard-block.md"
+          }
+        ],
         "staleAfterHours": 48,
         "failingAfterHours": 96
       },
@@ -111,6 +200,36 @@
         "summary": "19 enabled / 6 paused",
         "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
+        "details": [
+          {
+            "label": "agentic-os-weekly-audit",
+            "value": "enabled · error · next 2026-05-18T14:00:00.000Z"
+          },
+          {
+            "label": "recommended-reads-packet",
+            "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "ai-tooling-crawl",
+            "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "events-notify-family",
+            "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "events-notify-music",
+            "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "thesis-baskets-ingest",
+            "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "obsidian-vault-sync-index",
+            "value": "paused · ok · next n/a"
+          }
+        ],
         "staleAfterHours": 24,
         "failingAfterHours": 72
       },
@@ -120,8 +239,26 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@7199258, 1 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@455b258, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
+        "details": [
+          {
+            "label": "Alphalpha workspace",
+            "value": "master@68a1cac · 12 dirty · 0 ahead · 0 behind"
+          },
+          {
+            "label": "Alphalpha dashboard",
+            "value": "main@455b258 · 8 dirty · 10 ahead · 0 behind"
+          },
+          {
+            "label": "Obsidian vault",
+            "value": "main@816dbfb · 0 dirty · 0 ahead · 0 behind"
+          },
+          {
+            "label": "OpenClaw workspace",
+            "value": "unknown@unknown · 0 dirty · 0 ahead · 0 behind"
+          }
+        ],
         "staleAfterHours": 24,
         "failingAfterHours": 72
       },
@@ -129,10 +266,28 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "873 new / 1544 scanned",
         "detail": "last event 2026-05-11 14:29:47.883+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
+        "details": [
+          {
+            "label": "Last run",
+            "value": "2026-05-11T17:58:49.876Z"
+          },
+          {
+            "label": "Last event",
+            "value": "2026-05-11 14:29:47.883+00"
+          },
+          {
+            "label": "New events",
+            "value": "873"
+          },
+          {
+            "label": "Scanned events",
+            "value": "1544"
+          }
+        ],
         "staleAfterHours": 72,
         "failingAfterHours": 168
       },
@@ -144,6 +299,40 @@
         "summary": "11 pending / 1 high",
         "detail": "11 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
+        "details": [
+          {
+            "label": "Automation needs attention: agentic-os-weekly-audit",
+            "value": "HIGH · pending · Run now, pause, or inspect failure logs"
+          },
+          {
+            "label": "Review high-priority ticker: BWXT",
+            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+          },
+          {
+            "label": "Review high-priority ticker: CCJ",
+            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+          },
+          {
+            "label": "Review high-priority ticker: EME",
+            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+          },
+          {
+            "label": "Review high-priority ticker: PWR",
+            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+          },
+          {
+            "label": "Give event feedback: Austin Organic Gardeners May Meeting",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
+          },
+          {
+            "label": "Give event feedback: Austin Bonsai Society May Meeting",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
+          },
+          {
+            "label": "Give event feedback: Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
+          }
+        ],
         "staleAfterHours": 24,
         "failingAfterHours": 72
       }
@@ -1680,7 +1869,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "AI tooling: 12 selected / 24 recent deduped",
-      "summary": "308 raw items · 3h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1724,7 +1913,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@7199258, 1 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@455b258, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1735,7 +1924,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Thesis Baskets: 873 new / 1544 scanned",
-      "summary": "last event 2026-05-11 14:29:47.883+00 · 0h old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-11 14:29:47.883+00 · 1h old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"

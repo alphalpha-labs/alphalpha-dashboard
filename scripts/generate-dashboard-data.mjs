@@ -101,6 +101,19 @@ function githubStatus() {
     repos,
   };
 }
+
+function deploymentMeta() {
+  const local = gitRepoStatus(repoRoot, 'Alphalpha dashboard');
+  return {
+    commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || local?.commit || 'unknown',
+    branch: process.env.VERCEL_GIT_COMMIT_REF || local?.branch || 'unknown',
+    generatedAt: new Date().toISOString(),
+    deployUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    productionUrl: 'https://alphalpha-dashboard.vercel.app',
+    dirtyFiles: local?.dirtyFiles ?? 0,
+  };
+}
+
 function readOcConfig() {
   const p = path.join(repoRoot, 'openclaw.config.json');
   if (!fs.existsSync(p)) return { managedProjects: [] };
@@ -297,42 +310,49 @@ function sourceHealthFromManifests(manifests, contextHealth) {
     id: 'context', label: 'Context index', status: statusFor(contextHealth?.generatedAt, { staleHours: 48, failingHours: 168, empty: !contextHealth }), age: ageLabel(contextHealth?.generatedAt),
     summary: contextHealth ? `${contextHealth.activeFiles} active files / ${contextHealth.activeWords} words` : 'manifest missing',
     detail: contextHealth ? `${contextHealth.archiveWords} words archived` : 'Run node scripts/index-context.mjs', path: 'memory/context/index.json',
+    details: contextHealth?.largestActive?.map(item => ({ label: item.path, value: `${item.words} words · ${item.readPolicy}` })) || [],
     staleAfterHours: 48, failingAfterHours: 168,
   });
   rows.push({
     id: 'events', label: 'Austin events', status: statusFor(manifests.events?.generatedAt, { staleHours: 36, failingHours: 72, empty: !manifests.events }), age: ageLabel(manifests.events?.generatedAt),
     summary: manifests.events ? `${manifests.events.totals?.latestFamilyEvents ?? 0} family / ${manifests.events.totals?.latestMusicEvents ?? 0} music latest` : 'manifest missing',
     detail: manifests.events ? `${manifests.events.totals?.files ?? 0} crawl artifacts indexed` : 'Run node scripts/index-events.mjs', path: 'memory/events/latest-manifest.json',
+    details: eventCandidatesFromManifest(manifests.events).slice(0, 6).map(event => ({ label: event.title, value: `${event.kind} · ${event.source || 'source unknown'}${event.distanceMiles != null ? ` · ${event.distanceMiles} mi` : ''}` })),
     staleAfterHours: 36, failingAfterHours: 72,
   });
   rows.push({
     id: 'ai-tooling', label: 'AI tooling', status: statusFor(manifests.aiTooling?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.aiTooling }), age: ageLabel(manifests.aiTooling?.generatedAt),
     summary: manifests.aiTooling ? `${manifests.aiTooling.totals?.selectedItems ?? 0} selected / ${manifests.aiTooling.totals?.recentDedupedItems ?? 0} recent deduped` : 'manifest missing',
     detail: manifests.aiTooling ? `${manifests.aiTooling.totals?.totalItems ?? 0} raw items` : 'Run node scripts/index-ai-tooling.mjs', path: 'memory/ai-tooling/latest-manifest.json',
+    details: Object.entries(manifests.aiTooling?.totals || {}).slice(0, 8).map(([label, value]) => ({ label, value: String(value) })),
     staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'investing', label: 'Investing watchlist', status: statusFor(manifests.investing?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.investing }), age: ageLabel(manifests.investing?.generatedAt),
     summary: manifests.investing ? `${manifests.investing.totals?.tickers ?? 0} tickers / ${manifests.investing.totals?.themes ?? 0} themes` : 'manifest missing',
     detail: manifests.investing ? `${manifests.investing.totals?.highPriority ?? 0} high-priority research candidates` : 'Run node scripts/index-investing-watchlist.mjs', path: 'memory/investing/latest-watchlist.json',
+    details: (manifests.investing?.tickers || []).slice(0, 8).map(t => ({ label: t.ticker, value: `${t.theme || 'research'} · ${t.stance || 'n/a'}` })),
     staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'obsidian', label: 'Obsidian proposals', status: statusFor(manifests.obsidian?.generatedAt, { staleHours: 48, failingHours: 96, empty: !manifests.obsidian, proposal: manifests.obsidian?.mode === 'proposal-only' }), age: ageLabel(manifests.obsidian?.generatedAt),
     summary: manifests.obsidian ? `${manifests.obsidian.proposalCount ?? 0} proposed updates` : 'manifest missing',
     detail: manifests.obsidian?.mode || 'Run Obsidian synthesis review', path: 'memory/obsidian/proposed-updates/latest-manifest.json',
+    details: (manifests.obsidian?.proposals || manifests.obsidian?.items || []).slice(0, 6).map(item => ({ label: item.targetVaultPath || item.target || item.type || 'proposal', value: item.proposalPath || item.summary || manifests.obsidian.mode || 'proposal' })),
     staleAfterHours: 48, failingAfterHours: 96,
   });
   rows.push({
     id: 'automations', label: 'Automations', status: statusFor(manifests.automations?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.automations }), age: ageLabel(manifests.automations?.generatedAt),
     summary: manifests.automations ? `${manifests.automations.totals?.enabled ?? 0} enabled / ${manifests.automations.totals?.disabled ?? 0} paused` : 'manifest missing',
     detail: manifests.automations ? `${manifests.automations.totals?.jobs ?? 0} cron jobs indexed` : 'Run node scripts/index-automations.mjs', path: 'memory/automations/latest-manifest.json',
+    details: (manifests.automations?.jobs || []).filter(j => !j.enabled || (j.lastStatus && j.lastStatus !== 'ok')).slice(0, 8).map(job => ({ label: job.name, value: `${job.enabled ? 'enabled' : 'paused'} · ${job.lastStatus || 'no last status'} · next ${job.nextRunAt || 'n/a'}` })),
     staleAfterHours: 24, failingAfterHours: 72,
   });
   rows.push({
     id: 'github', label: 'GitHub repos', status: statusFor(git?.generatedAt, { staleHours: 24, failingHours: 72, empty: !git || git.totals.behind > 0 }), age: ageLabel(git?.generatedAt),
     summary: git ? `${git.totals.repos} repos / ${git.totals.dirtyRepos} dirty / ${git.totals.behind} behind` : 'git status unavailable',
     detail: git ? git.repos.map(r => `${r.label}: ${r.branch}@${r.commit}${r.dirtyFiles ? `, ${r.dirtyFiles} dirty` : ''}${r.behind ? `, ${r.behind} behind` : ''}`).join(' · ') : 'Check local GitHub-backed repos', path: 'local git repositories',
+    details: git?.repos.map(r => ({ label: r.label, value: `${r.branch}@${r.commit} · ${r.dirtyFiles} dirty · ${r.ahead} ahead · ${r.behind} behind` })) || [],
     staleAfterHours: 24, failingAfterHours: 72,
   });
   const thesis = manifests.thesisBaskets;
@@ -341,12 +361,19 @@ function sourceHealthFromManifests(manifests, contextHealth) {
     id: 'thesis-baskets', label: 'Thesis Baskets', status: statusFor(thesis?.updated_at, { staleHours: 72, failingHours: 168, empty: !thesis }), age: ageLabel(thesis?.updated_at),
     summary: thesisStream ? `${thesisStream.last_new_events ?? 0} new / ${thesisStream.last_events_scanned ?? 0} scanned` : 'ingestion state missing',
     detail: thesisStream ? `last event ${thesisStream.last_event_time || 'n/a'}` : 'Run node scripts/ingest-thesis-baskets.mjs --lookback-days=7 --limit=5000', path: 'memory/thesis-baskets-ingestion-state.json',
+    details: thesisStream ? [
+      { label: 'Last run', value: thesisStream.last_run_at || thesis.updated_at || 'n/a' },
+      { label: 'Last event', value: thesisStream.last_event_time || 'n/a' },
+      { label: 'New events', value: String(thesisStream.last_new_events ?? 0) },
+      { label: 'Scanned events', value: String(thesisStream.last_events_scanned ?? 0) },
+    ] : [],
     staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'review-queue', label: 'Review queue', status: statusFor(manifests.reviewQueue?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.reviewQueue }), age: ageLabel(manifests.reviewQueue?.generatedAt),
     summary: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.pending ?? 0} pending / ${manifests.reviewQueue.totals?.high ?? 0} high` : 'manifest missing',
     detail: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.items ?? 0} review items indexed` : 'Run node scripts/index-review-queue.mjs', path: 'memory/review-queue/latest-manifest.json',
+    details: (manifests.reviewQueue?.items || []).slice(0, 8).map(item => ({ label: item.title, value: `${item.priority} · ${item.status} · ${item.actionHint || item.kind}` })),
     staleAfterHours: 24, failingAfterHours: 72,
   });
   return rows;
@@ -365,6 +392,13 @@ function buildData() {
 
   if (!projectsMd || !openLoopsMd) {
     if (fs.existsSync(outputPath)) {
+      const existing = readJsonAbsolute(outputPath, null);
+      if (existing?.meta) {
+        existing.meta.deployment = deploymentMeta();
+        fs.writeFileSync(outputPath, `${JSON.stringify(existing, null, 2)}\n`);
+        console.log(`Context not found at ${contextRoot}; refreshed deployment metadata in generated-data.json.`);
+        return null;
+      }
       console.log(`Context not found at ${contextRoot}; keeping existing generated-data.json.`);
       return null;
     }
@@ -396,6 +430,7 @@ function buildData() {
       generatedAt: new Date().toISOString(),
       posture,
       postureDetail,
+      deployment: deploymentMeta(),
       contextHealth,
       sourceHealth,
       eventCandidates: eventCandidatesFromManifest(sourceManifests.events),

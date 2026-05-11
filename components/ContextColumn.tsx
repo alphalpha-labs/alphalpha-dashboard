@@ -9,7 +9,7 @@ interface Props {
   loops:     Loop[];
   investing: DashboardData["investing"];
   digests:   DashboardData["digests"];
-  onAdd:           (text: string) => void;
+  onAdd:           (input: import("./QuickAdd").CaptureInput) => void;
   onEventFeedback: (eventId: string, feedbackType: string, payload: object) => void;
   onDiscuss:       (ctx: ThreadContext) => void;
 }
@@ -18,6 +18,7 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
   const [loopsOpen,   setLoopsOpen]   = useState(true);
   const [investOpen,  setInvestOpen]  = useState(false);
   const [sourcesOpen, setSourcesOpen] = useState(true);
+  const [sourceDetail, setSourceDetail] = useState<string | null>(null);
   const [eventsOpen,  setEventsOpen]  = useState(false);
   const [digestsOpen, setDigestsOpen] = useState(false);
 
@@ -31,6 +32,13 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
         <p className="postureLabel">Today&apos;s Posture</p>
         <p className="postureQuote">&ldquo;{meta.posture}&rdquo;</p>
         <p className="postureBody">{meta.postureDetail}</p>
+        {meta.deployment && (
+          <div className="deploymentMini">
+            <span>Deploy</span>
+            <strong>{meta.deployment.branch}@{meta.deployment.commit}</strong>
+            <em>{formatDate(meta.deployment.generatedAt)}</em>
+          </div>
+        )}
       </div>
 
       <QuickAdd onAdd={onAdd} />
@@ -100,12 +108,23 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
         </div>
         {sourcesOpen && (
           <div>
-            {sourceHealth.slice(0, 6).map(source => (
+            {sourceHealth.map(source => (
               <div key={source.id} className="ctxLoopItem">
-                <div className="ctxLoopText">
+                <div className="ctxLoopText" onClick={() => setSourceDetail(sourceDetail === source.id ? null : source.id)}>
                   <strong>{source.label}</strong> — {source.summary}
                 </div>
-                <div className="ctxLoopProject">{source.status} · {source.age}</div>
+                <div className="ctxLoopProject">{source.status} · {source.age} · {source.path}</div>
+                {sourceDetail === source.id && (
+                  <div className="sourceDetails">
+                    <p>{source.detail}</p>
+                    {(source.details || []).length > 0 ? source.details?.map((detail, idx) => (
+                      <div key={`${source.id}-${idx}`} className="sourceDetailRow">
+                        <span>{detail.label}</span>
+                        <strong>{detail.value}</strong>
+                      </div>
+                    )) : <p>No drill-down rows available yet.</p>}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -176,4 +195,11 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
       </div>
     </aside>
   );
+}
+
+function formatDate(iso?: string | null) {
+  if (!iso) return "n/a";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "n/a";
+  return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 }

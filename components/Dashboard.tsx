@@ -1,6 +1,8 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import type { DashboardData, Action, Loop, AutomationJob } from "@/lib/data";
+import type { CaptureInput } from "./QuickAdd";
 import TodayTab from "./TodayTab";
 import LoopsTab from "./LoopsTab";
 import ProjectGrid from "./ProjectGrid";
@@ -26,14 +28,16 @@ export type ThreadContext = {
 };
 
 const TABS = [
-  { id: "today",     label: "Today" },
-  { id: "loops",     label: "Open loops" },
-  { id: "projects",  label: "Projects" },
-  { id: "investing", label: "Investing" },
-  { id: "digests",   label: "Digests" },
-  { id: "review",    label: "Review" },
-  { id: "automations", label: "Automations" },
+  { id: "today",     label: "Today", href: "/" },
+  { id: "loops",     label: "Open loops", href: "/open-loops" },
+  { id: "projects",  label: "Projects", href: "/projects" },
+  { id: "investing", label: "Investing", href: "/investing" },
+  { id: "digests",   label: "Digests", href: "/digests" },
+  { id: "review",    label: "Review", href: "/review" },
+  { id: "automations", label: "Automations", href: "/automations" },
 ] as const;
+
+export type DashboardTab = typeof TABS[number]["id"];
 
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
 // When OpenClaw wires up the real endpoint, no changes needed here —
@@ -46,8 +50,9 @@ async function postSignal(type: string, itemId: string, payload?: object) {
   }).catch(() => {});
 }
 
-export default function Dashboard({ data }: { data: DashboardData }) {
-  const [activeTab, setActiveTab] = useState<string>("today");
+export default function Dashboard({ data, initialTab = "today" }: { data: DashboardData; initialTab?: DashboardTab }) {
+  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [actions, setActions]       = useState<Action[]>(data.topActions);
   const [loops, setLoops]           = useState<Loop[]>(data.openLoops);
   const [automations, setAutomations] = useState<AutomationJob[]>(data.automations || []);
@@ -79,10 +84,15 @@ export default function Dashboard({ data }: { data: DashboardData }) {
     postSignal("wake", id);
   }, []);
 
-  const handleAdd = useCallback((text: string) => {
-    const newLoop: Loop = { id: `l${Date.now()}`, text, project: "Inbox", priority: "MEDIUM" };
+  const handleAdd = useCallback((input: CaptureInput) => {
+    const newLoop: Loop = { id: `l${Date.now()}`, text: input.text, project: input.project || "Inbox", priority: input.priority || "MEDIUM" };
     setLoops(prev => [newLoop, ...prev]);
-    postSignal("add-loop", newLoop.id, { text });
+    postSignal("add-loop", newLoop.id, {
+      ...input,
+      loop: newLoop,
+      durableTarget: "context/OPEN_LOOPS.md",
+      requestedAction: "append-open-loop-and-refresh-dashboard",
+    });
   }, []);
 
   const handleEventFeedback = useCallback((eventId: string, feedbackType: string, payload: object) => {
@@ -90,13 +100,22 @@ export default function Dashboard({ data }: { data: DashboardData }) {
   }, []);
 
   const handleReviewAction = useCallback((itemId: string, action: string, payload: object = {}) => {
+    const item = reviewItems.find(i => i.id === itemId);
     setReviewItems(prev => prev.map(item => item.id === itemId
       ? { ...item, status: action === "dismiss" ? "dismissed" : action === "approve" || action === "promote-loop" ? "approved" : item.status }
       : item));
-    postSignal("review-action", itemId, { action, itemId, ...payload });
-  }, []);
+    postSignal("review-action", itemId, {
+      action,
+      itemId,
+      item,
+      ...payload,
+      durableTarget: item?.target || item?.source || "memory/review-queue/latest-manifest.json",
+      requestedAction: action === "promote-loop" ? "append-open-loop-and-mark-review-approved" : "persist-review-decision-and-refresh-dashboard",
+    });
+  }, [reviewItems]);
 
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
+    const job = automations.find(j => j.id === jobId);
     setAutomations(prev => prev.map(job => {
       if (job.id !== jobId) return job;
       if (action === "pause") return { ...job, enabled: false };
@@ -105,8 +124,15 @@ export default function Dashboard({ data }: { data: DashboardData }) {
       if (action === "set-every" && "every" in payload) return { ...job, scheduleLabel: `every ${String((payload as { every?: string }).every)}` };
       return job;
     }));
-    postSignal("automation-action", jobId, { action, jobId, ...payload });
-  }, []);
+    postSignal("automation-action", jobId, {
+      action,
+      jobId,
+      job,
+      ...payload,
+      durableTarget: "memory/dashboard/automation-actions.json",
+      requestedAction: "apply-automation-action-log-and-refresh-dashboard",
+    });
+  }, [automations]);
 
   const handleLoopDone = useCallback((id: string) => {
     setLoops(prev => prev.map(l => l.id === id ? { ...l, done: true } : l));
@@ -128,6 +154,16 @@ export default function Dashboard({ data }: { data: DashboardData }) {
     setDateStr(new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }));
   }, []);
 
+  useEffect(() => {
+    const match = TABS.find(tab => tab.href === pathname || (pathname === "/open-loops" && tab.id === "loops"));
+    if (match) setActiveTab(match.id);
+  }, [pathname]);
+
+  const navigateTab = useCallback((tab: typeof TABS[number]) => {
+    setActiveTab(tab.id);
+    if (typeof window !== "undefined") window.history.pushState(null, "", tab.href);
+  }, []);
+
   return (
     <div className="appShell">
       <header className="masthead">
@@ -140,7 +176,8 @@ export default function Dashboard({ data }: { data: DashboardData }) {
             <button
               key={tab.id}
               className={`tabBtn${activeTab === tab.id ? " tabBtn--active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => navigateTab(tab)}
+              title={tab.href}
             >
               {tab.label}
             </button>

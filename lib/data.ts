@@ -60,6 +60,16 @@ export type SourceHealth = {
   summary: string;
   detail:  string;
   path:    string;
+  details?: Array<{ label: string; value: string; href?: string | null }>;
+};
+
+export type DeploymentMeta = {
+  commit: string;
+  branch: string;
+  generatedAt: string;
+  deployUrl?: string | null;
+  productionUrl: string;
+  dirtyFiles?: number;
 };
 
 export type EventCandidate = {
@@ -121,6 +131,7 @@ export type DashboardData = {
     contextHealth?: unknown;
     sourceHealth?: SourceHealth[];
     eventCandidates?: EventCandidate[];
+    deployment?: DeploymentMeta;
   };
   stats: {
     openLoops:             number;
