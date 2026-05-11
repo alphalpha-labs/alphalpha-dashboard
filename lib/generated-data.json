@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-11T19:09:28.253Z",
+    "generatedAt": "2026-05-11T19:11:39.350Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "316506d",
+      "commit": "07a7802",
       "branch": "main",
-      "generatedAt": "2026-05-11T19:09:28.275Z",
+      "generatedAt": "2026-05-11T19:11:39.361Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 8
+      "dirtyFiles": 0
     },
     "contextHealth": {
       "generatedAt": "2026-05-11T19:09:23.870Z",
@@ -242,8 +242,8 @@
         "label": "GitHub repos",
         "status": "OK",
         "age": "0h old",
-        "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@316506d, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "summary": "4 repos / 1 dirty / 0 behind",
+        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@07a7802 · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -252,7 +252,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@316506d · 8 dirty · 11 ahead · 0 behind"
+            "value": "main@07a7802 · 0 dirty · 12 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -300,7 +300,7 @@
         "label": "Review queue",
         "status": "OK",
         "age": "0h old",
-        "summary": "9 pending / 1 high",
+        "summary": "7 pending / 1 high",
         "detail": "12 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "details": [
@@ -322,11 +322,11 @@
           },
           {
             "label": "Review high-priority ticker: EME",
-            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
             "label": "Review high-priority ticker: PWR",
-            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
             "label": "Give event feedback: Austin Organic Gardeners May Meeting",
@@ -422,6 +422,24 @@
       }
     ],
     "activity": [
+      {
+        "id": "review-2026-05-11T19:11:34.136Z-investing-UFdS",
+        "at": "2026-05-11T19:11:34.136Z",
+        "kind": "review",
+        "title": "Review high-priority ticker: PWR",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
+      {
+        "id": "review-2026-05-11T19:10:19.442Z-investing-RU1F",
+        "at": "2026-05-11T19:10:19.442Z",
+        "kind": "review",
+        "title": "Review high-priority ticker: EME",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
       {
         "id": "review-2026-05-11T19:09:20.720Z-investing-Q0NK",
         "at": "2026-05-11T19:09:20.720Z",
@@ -1698,7 +1716,7 @@
       "title": "Review high-priority ticker: EME",
       "summary": "Grid/data-center construction — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
       "priority": "MEDIUM",
-      "status": "pending",
+      "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
       "generatedAt": "2026-05-11T13:15:04.140Z",
@@ -1728,7 +1746,7 @@
       "title": "Review high-priority ticker: PWR",
       "summary": "Transmission/grid hardening — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
       "priority": "MEDIUM",
-      "status": "pending",
+      "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
       "generatedAt": "2026-05-11T13:15:04.140Z",
@@ -2024,8 +2042,8 @@
       "id": "source-6",
       "date": "2026-05-11",
       "category": "Source health",
-      "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@316506d, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
+      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@07a7802 · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2046,7 +2064,7 @@
       "id": "source-8",
       "date": "2026-05-11",
       "category": "Source health",
-      "title": "Review queue: 9 pending / 1 high",
+      "title": "Review queue: 7 pending / 1 high",
       "summary": "12 review items indexed · 0h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
