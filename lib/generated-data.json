@@ -1,17 +1,17 @@
 {
   "meta": {
-    "generatedAt": "2026-05-09T14:53:48.554Z",
-    "posture": "Build the dashboard, then connect live sources.",
-    "postureDetail": "Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.",
+    "generatedAt": "2026-05-11T18:06:39.263Z",
+    "posture": "Keep the dashboard live, source-backed, and reviewable.",
+    "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "contextHealth": {
-      "generatedAt": "2026-05-09T14:18:38.397Z",
+      "generatedAt": "2026-05-11T18:00:10.712Z",
       "sourcePath": "../memory/context/index.json",
-      "files": 29,
-      "words": 23294,
-      "estimatedTokens": 30298,
-      "activeFiles": 25,
-      "activeWords": 13889,
-      "activeEstimatedTokens": 18069,
+      "files": 30,
+      "words": 24318,
+      "estimatedTokens": 31630,
+      "activeFiles": 26,
+      "activeWords": 14913,
+      "activeEstimatedTokens": 19401,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -29,9 +29,9 @@
         },
         {
           "path": "context/agentic-os-foundation.md",
-          "words": 1478,
-          "estimatedTokens": 1922,
-          "readPolicy": "safe on-demand read when relevant"
+          "words": 1681,
+          "estimatedTokens": 2186,
+          "readPolicy": "large: read targeted sections or use this manifest first"
         },
         {
           "path": "context/agentic-os-optimization.md",
@@ -52,8 +52,8 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "1h old",
-        "summary": "25 active files / 13889 words",
+        "age": "0h old",
+        "summary": "26 active files / 14913 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "staleAfterHours": 48,
@@ -63,7 +63,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "1h old",
+        "age": "5h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -74,8 +74,8 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "1h old",
-        "summary": "12 selected / 31 recent deduped",
+        "age": "3h old",
+        "summary": "12 selected / 24 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
         "staleAfterHours": 72,
@@ -85,7 +85,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "1h old",
+        "age": "5h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -96,7 +96,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "3h old",
+        "age": "7h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -107,20 +107,42 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "1h old",
-        "summary": "18 enabled / 6 paused",
-        "detail": "24 cron jobs indexed",
+        "age": "4h old",
+        "summary": "19 enabled / 6 paused",
+        "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "staleAfterHours": 24,
         "failingAfterHours": 72
       },
       {
+        "id": "github",
+        "label": "GitHub repos",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "4 repos / 2 dirty / 0 behind",
+        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@7199258, 1 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "path": "local git repositories",
+        "staleAfterHours": 24,
+        "failingAfterHours": 72
+      },
+      {
+        "id": "thesis-baskets",
+        "label": "Thesis Baskets",
+        "status": "OK",
+        "age": "0h old",
+        "summary": "873 new / 1544 scanned",
+        "detail": "last event 2026-05-11 14:29:47.883+00",
+        "path": "memory/thesis-baskets-ingestion-state.json",
+        "staleAfterHours": 72,
+        "failingAfterHours": 168
+      },
+      {
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "0h old",
-        "summary": "10 pending / 0 high",
-        "detail": "10 review items indexed",
+        "age": "4h old",
+        "summary": "11 pending / 1 high",
+        "detail": "11 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "staleAfterHours": 24,
         "failingAfterHours": 72
@@ -213,8 +235,8 @@
     "highPriority": 5,
     "uncertainties": 17,
     "investingSignals": 10,
-    "contextActiveFiles": 25,
-    "contextActiveWords": 13889,
+    "contextActiveFiles": 26,
+    "contextActiveWords": 14913,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -560,138 +582,15 @@
         "message"
       ],
       "delivery": "not requested",
-      "nextRunAt": "2026-05-09T15:00:00.000Z",
-      "lastRunAt": "2026-05-07T15:00:00.010Z",
+      "nextRunAt": "2026-05-11T15:00:00.000Z",
+      "lastRunAt": "2026-05-09T15:00:00.006Z",
       "lastStatus": "ok",
-      "lastDuration": "2m",
+      "lastDuration": "1m",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "updatedAt": "2026-05-07T15:02:29.344Z"
-    },
-    {
-      "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
-      "name": "obsidian-synthesis-review",
-      "description": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing watchlist manifest.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 6 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-10T11:30:00.000Z",
-      "lastRunAt": "2026-05-09T11:30:00.007Z",
-      "lastStatus": "ok",
-      "lastDuration": "21s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing",
-      "updatedAt": "2026-05-09T11:30:21.264Z"
-    },
-    {
-      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
-      "name": "dashboard-source-health-alert",
-      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 8 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "15 8 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-10T13:15:00.000Z",
-      "lastRunAt": "2026-05-09T13:15:00.005Z",
-      "lastStatus": "ok",
-      "lastDuration": "6s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-05-09T13:15:05.782Z"
-    },
-    {
-      "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
-      "name": "openclaw-tips-weekly-digest",
-      "description": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 8 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "write",
-        "exec",
-        "web_fetch",
-        "browser"
-      ],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-05-11T13:00:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
-      "updatedAt": "2026-05-06T02:47:20.862Z"
-    },
-    {
-      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "name": "agentic-os-weekly-audit",
-      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "write",
-        "exec",
-        "web_fetch",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-11T14:00:00.000Z",
-      "lastRunAt": "2026-05-04T14:01:25.799Z",
-      "lastStatus": "ok",
-      "lastDuration": "5m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "updatedAt": "2026-05-08T18:01:11.253Z"
+      "updatedAt": "2026-05-09T15:01:16.022Z"
     },
     {
       "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
@@ -724,6 +623,35 @@
       "updatedAt": "2026-05-08T19:06:48.676Z"
     },
     {
+      "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
+      "name": "obsidian-synthesis-review",
+      "description": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing watchlist manifest.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 6 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-12T11:30:00.000Z",
+      "lastRunAt": "2026-05-11T11:30:00.005Z",
+      "lastStatus": "ok",
+      "lastDuration": "17s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing",
+      "updatedAt": "2026-05-11T11:30:17.082Z"
+    },
+    {
       "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
       "name": "events-four-day-crawl",
       "description": "Austin event crawl plus compact event manifest generation every four days",
@@ -753,6 +681,98 @@
       "updatedAt": "2026-05-09T00:29:25.957Z"
     },
     {
+      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
+      "name": "dashboard-source-health-alert",
+      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "15 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-12T13:15:00.000Z",
+      "lastRunAt": "2026-05-11T13:15:00.009Z",
+      "lastStatus": "ok",
+      "lastDuration": "8s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-05-11T13:15:08.060Z"
+    },
+    {
+      "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
+      "name": "openclaw-tips-weekly-digest",
+      "description": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "browser"
+      ],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-05-18T13:00:00.000Z",
+      "lastRunAt": "2026-05-11T13:00:00.010Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
+      "updatedAt": "2026-05-11T13:01:10.171Z"
+    },
+    {
+      "id": "fc6d6869-f92b-4868-84e9-dfd3621c95da",
+      "name": "weekly-executive-brief",
+      "description": "Monday 8am CT detailed weekly executive brief to Alex on Discord DM and Telegram, including open loops, stale/missing items, and next actions.",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "exec",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-18T13:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Monday 8am CT detailed weekly executive brief to Alex on Discord DM and Telegram, including open loops, stale/missing items, and next actions.",
+      "updatedAt": "2026-05-11T14:31:19.228Z"
+    },
+    {
       "id": "0ca265e1-ea6c-494b-9c2b-5adb76b1b981",
       "name": "yard-plan-may-checkin-2026",
       "description": "Austin Yard Planting Plan — May planning check-in",
@@ -779,6 +799,38 @@
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — May planning check-in",
       "updatedAt": "2026-05-06T02:54:39.957Z"
+    },
+    {
+      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+      "name": "agentic-os-weekly-audit",
+      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-18T14:00:00.000Z",
+      "lastRunAt": "2026-05-11T14:00:00.004Z",
+      "lastStatus": "error",
+      "lastDuration": "3m",
+      "consecutiveErrors": 1,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "updatedAt": "2026-05-11T14:03:12.152Z"
     },
     {
       "id": "9a45a31f-1b49-4547-a77c-c5fdad19cd7e",
@@ -1234,6 +1286,52 @@
   ],
   "reviewQueue": [
     {
+      "id": "automation-NzM4YWM0ZTItODEwNy",
+      "kind": "automation-review",
+      "title": "Automation needs attention: agentic-os-weekly-audit",
+      "summary": "error; 1 consecutive errors. Schedule: 0 9 * * 1 (America/Chicago)",
+      "priority": "HIGH",
+      "status": "pending",
+      "source": "memory/automations/latest-manifest.json",
+      "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+      "generatedAt": "2026-05-11T14:33:15.862Z",
+      "actionHint": "Run now, pause, or inspect failure logs",
+      "payload": {
+        "job": {
+          "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+          "name": "agentic-os-weekly-audit",
+          "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+          "category": "ops",
+          "enabled": true,
+          "schedule": {
+            "kind": "cron",
+            "expr": "0 9 * * 1",
+            "tz": "America/Chicago"
+          },
+          "scheduleLabel": "0 9 * * 1 (America/Chicago)",
+          "sessionTarget": "isolated",
+          "lightContext": true,
+          "toolsAllow": [
+            "read",
+            "write",
+            "exec",
+            "web_fetch",
+            "message"
+          ],
+          "delivery": "not requested",
+          "nextRunAt": "2026-05-18T14:00:00.000Z",
+          "lastRunAt": "2026-05-11T14:00:00.004Z",
+          "lastStatus": "error",
+          "lastDuration": "3m",
+          "consecutiveErrors": 1,
+          "consecutiveSkipped": 0,
+          "deleteAfterRun": false,
+          "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+          "updatedAt": "2026-05-11T14:03:12.152Z"
+        }
+      }
+    },
+    {
       "id": "investing-QldYVA",
       "kind": "investing-review",
       "title": "Review high-priority ticker: BWXT",
@@ -1242,7 +1340,7 @@
       "status": "pending",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "generatedAt": "2026-05-11T13:15:04.140Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -1272,7 +1370,7 @@
       "status": "pending",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "generatedAt": "2026-05-11T13:15:04.140Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -1302,7 +1400,7 @@
       "status": "pending",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "generatedAt": "2026-05-11T13:15:04.140Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -1332,7 +1430,7 @@
       "status": "pending",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-09T14:18:38.570Z",
+      "generatedAt": "2026-05-11T13:15:04.140Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -1362,7 +1460,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "generatedAt": "2026-05-11T13:15:04.024Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -1388,7 +1486,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "generatedAt": "2026-05-11T13:15:04.024Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -1414,7 +1512,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "generatedAt": "2026-05-11T13:15:04.024Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -1440,7 +1538,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-09T14:18:38.462Z",
+      "generatedAt": "2026-05-11T13:15:04.024Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -1458,41 +1556,41 @@
       }
     },
     {
-      "id": "obsidian-MjAyNi0wNS0wOVQxMT",
+      "id": "obsidian-MjAyNi0wNS0xMVQxMT",
       "kind": "obsidian-proposal",
       "title": "Approve Obsidian update: Alphalpha/Open Loops.md",
-      "summary": "# Proposed Open Loops additions Generated: 2026-05-09T11:30:05.993Z Source signal review: 2026-05-09 No task/reminder/voice-note candidates above threshold in this run.",
+      "summary": "# Proposed Open Loops additions Generated: 2026-05-11T11:30:06.067Z Source signal review: 2026-05-11 No task/reminder/voice-note candidates above threshold in this run.",
       "priority": "LOW",
       "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-09/proposed-open-loops.md",
+      "source": "memory/obsidian/proposed-updates/2026-05-11/proposed-open-loops.md",
       "target": "Alphalpha/Open Loops.md",
-      "generatedAt": "2026-05-09T11:30:06.022Z",
+      "generatedAt": "2026-05-11T11:30:06.100Z",
       "actionHint": "Usually dismiss unless useful as a placeholder",
       "payload": {
         "proposal": {
           "type": "open-loops",
           "targetVaultPath": "Alphalpha/Open Loops.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-09/proposed-open-loops.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-11/proposed-open-loops.md",
           "signalCount": 0
         }
       }
     },
     {
-      "id": "obsidian-MjAyNi0wNS0wOVQxMT",
+      "id": "obsidian-MjAyNi0wNS0xMVQxMT",
       "kind": "obsidian-proposal",
       "title": "Approve Obsidian update: Alphalpha/Dashboard.md",
-      "summary": "# Proposed Dashboard Review Block Generated: 2026-05-09T11:30:05.993Z ## Highest-priority recommended actions | Priority | Action | Why now | Evidence / Source trail | Confidence | | --- | --- | --- | --- | --- | | Low | No new high-signal items | No changed Obsidian signals above threshold | latest signal review | hig",
+      "summary": "# Proposed Dashboard Review Block Generated: 2026-05-11T11:30:06.067Z ## Highest-priority recommended actions | Priority | Action | Why now | Evidence / Source trail | Confidence | | --- | --- | --- | --- | --- | | Low | No new high-signal items | No changed Obsidian signals above threshold | latest signal review | hig",
       "priority": "LOW",
       "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-09/proposed-dashboard-block.md",
+      "source": "memory/obsidian/proposed-updates/2026-05-11/proposed-dashboard-block.md",
       "target": "Alphalpha/Dashboard.md",
-      "generatedAt": "2026-05-09T11:30:06.022Z",
+      "generatedAt": "2026-05-11T11:30:06.100Z",
       "actionHint": "Usually dismiss unless useful as a placeholder",
       "payload": {
         "proposal": {
           "type": "dashboard-block",
           "targetVaultPath": "Alphalpha/Dashboard.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-09/proposed-dashboard-block.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-11/proposed-dashboard-block.md",
           "signalCount": 0
         }
       }
@@ -1557,10 +1655,10 @@
     },
     {
       "id": "d6",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "25 active context files / 13889 active words; 9405 words archived.",
+      "summary": "26 active context files / 14913 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -1568,10 +1666,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 1h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1579,10 +1677,10 @@
     },
     {
       "id": "source-2",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
-      "title": "AI tooling: 12 selected / 31 recent deduped",
-      "summary": "308 raw items · 1h old · memory/ai-tooling/latest-manifest.json",
+      "title": "AI tooling: 12 selected / 24 recent deduped",
+      "summary": "308 raw items · 3h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1590,10 +1688,10 @@
     },
     {
       "id": "source-3",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 5h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1601,10 +1699,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 3h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 7h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1612,10 +1710,10 @@
     },
     {
       "id": "source-5",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
-      "title": "Automations: 18 enabled / 6 paused",
-      "summary": "24 cron jobs indexed · 1h old · memory/automations/latest-manifest.json",
+      "title": "Automations: 19 enabled / 6 paused",
+      "summary": "25 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1623,10 +1721,32 @@
     },
     {
       "id": "source-6",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "category": "Source health",
-      "title": "Review queue: 10 pending / 0 high",
-      "summary": "10 review items indexed · 0h old · memory/review-queue/latest-manifest.json",
+      "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
+      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@7199258, 1 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-7",
+      "date": "2026-05-11",
+      "category": "Source health",
+      "title": "Thesis Baskets: 873 new / 1544 scanned",
+      "summary": "last event 2026-05-11 14:29:47.883+00 · 0h old · memory/thesis-baskets-ingestion-state.json",
+      "tags": [
+        "#source-health",
+        "#manifest"
+      ]
+    },
+    {
+      "id": "source-8",
+      "date": "2026-05-11",
+      "category": "Source health",
+      "title": "Review queue: 11 pending / 1 high",
+      "summary": "11 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

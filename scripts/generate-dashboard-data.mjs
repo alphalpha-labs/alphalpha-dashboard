@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const repoRoot = process.cwd();
 const outputPath = path.join(repoRoot, 'lib', 'generated-data.json');
@@ -43,6 +44,61 @@ function readSourceManifests() {
     obsidian: readWorkspaceManifest(path.join('memory', 'obsidian', 'proposed-updates', 'latest-manifest.json')),
     automations: readWorkspaceManifest(path.join('memory', 'automations', 'latest-manifest.json')),
     reviewQueue: readWorkspaceManifest(path.join('memory', 'review-queue', 'latest-manifest.json')),
+    thesisBaskets: readWorkspaceManifest(path.join('memory', 'thesis-baskets-ingestion-state.json')),
+  };
+}
+function runGit(repoPath, args) {
+  try {
+    return execFileSync('git', args, { cwd: repoPath, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000 }).trim();
+  } catch {
+    return null;
+  }
+}
+function gitRepoStatus(repoPath, label) {
+  if (!fs.existsSync(path.join(repoPath, '.git'))) return null;
+  const branch = runGit(repoPath, ['rev-parse', '--abbrev-ref', 'HEAD']) || 'unknown';
+  const commit = runGit(repoPath, ['rev-parse', '--short', 'HEAD']) || 'unknown';
+  const lastCommitIso = runGit(repoPath, ['log', '-1', '--format=%cI']) || null;
+  const statusArgs = repoPath === repoRoot
+    ? ['status', '--porcelain', '--untracked-files=no', '--', ':!lib/generated-data.json', ':!.next']
+    : ['status', '--porcelain', '--untracked-files=no'];
+  const status = runGit(repoPath, statusArgs) || '';
+  const upstream = runGit(repoPath, ['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']);
+  const divergence = upstream ? runGit(repoPath, ['rev-list', '--left-right', '--count', `HEAD...${upstream}`]) : null;
+  const [ahead = 0, behind = 0] = (divergence || '').split(/\s+/).map(Number);
+  return {
+    label,
+    path: path.relative(repoRoot, repoPath),
+    branch,
+    commit,
+    lastCommitIso,
+    dirtyFiles: status ? status.split('\n').filter(Boolean).length : 0,
+    upstream: upstream || null,
+    ahead: Number.isFinite(ahead) ? ahead : 0,
+    behind: Number.isFinite(behind) ? behind : 0,
+  };
+}
+function githubStatus() {
+  const workspaceRoot = path.resolve(repoRoot, '..');
+  const repos = [
+    [workspaceRoot, 'Alphalpha workspace'],
+    [repoRoot, 'Alphalpha dashboard'],
+    [path.join(workspaceRoot, 'obsidian-vault'), 'Obsidian vault'],
+    [path.join(workspaceRoot, 'openclaw-workspace'), 'OpenClaw workspace'],
+  ].map(([repoPath, label]) => gitRepoStatus(repoPath, label)).filter(Boolean);
+  if (!repos.length) return null;
+  const lastCommitIso = repos.map(r => r.lastCommitIso).filter(Boolean).sort().at(-1) || null;
+  return {
+    generatedAt: new Date().toISOString(),
+    lastCommitIso,
+    totals: {
+      repos: repos.length,
+      dirtyRepos: repos.filter(r => r.dirtyFiles > 0).length,
+      dirtyFiles: repos.reduce((sum, r) => sum + r.dirtyFiles, 0),
+      ahead: repos.reduce((sum, r) => sum + r.ahead, 0),
+      behind: repos.reduce((sum, r) => sum + r.behind, 0),
+    },
+    repos,
   };
 }
 function readOcConfig() {
@@ -95,8 +151,8 @@ function nextActionFor(item) {
 }
 function parsePosture(postureMd) {
   if (!postureMd) return {
-    posture: 'Build the dashboard, then connect live sources.',
-    postureDetail: 'Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.',
+    posture: 'Keep the dashboard live, source-backed, and reviewable.',
+    postureDetail: 'Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.',
   };
   const all = lines(postureMd).filter(l => l.trim());
   const posture = stripMarkdown(all[0] || '');
@@ -236,6 +292,7 @@ function eventCandidatesFromManifest(events) {
 }
 function sourceHealthFromManifests(manifests, contextHealth) {
   const rows = [];
+  const git = githubStatus();
   rows.push({
     id: 'context', label: 'Context index', status: statusFor(contextHealth?.generatedAt, { staleHours: 48, failingHours: 168, empty: !contextHealth }), age: ageLabel(contextHealth?.generatedAt),
     summary: contextHealth ? `${contextHealth.activeFiles} active files / ${contextHealth.activeWords} words` : 'manifest missing',
@@ -271,6 +328,20 @@ function sourceHealthFromManifests(manifests, contextHealth) {
     summary: manifests.automations ? `${manifests.automations.totals?.enabled ?? 0} enabled / ${manifests.automations.totals?.disabled ?? 0} paused` : 'manifest missing',
     detail: manifests.automations ? `${manifests.automations.totals?.jobs ?? 0} cron jobs indexed` : 'Run node scripts/index-automations.mjs', path: 'memory/automations/latest-manifest.json',
     staleAfterHours: 24, failingAfterHours: 72,
+  });
+  rows.push({
+    id: 'github', label: 'GitHub repos', status: statusFor(git?.generatedAt, { staleHours: 24, failingHours: 72, empty: !git || git.totals.behind > 0 }), age: ageLabel(git?.generatedAt),
+    summary: git ? `${git.totals.repos} repos / ${git.totals.dirtyRepos} dirty / ${git.totals.behind} behind` : 'git status unavailable',
+    detail: git ? git.repos.map(r => `${r.label}: ${r.branch}@${r.commit}${r.dirtyFiles ? `, ${r.dirtyFiles} dirty` : ''}${r.behind ? `, ${r.behind} behind` : ''}`).join(' · ') : 'Check local GitHub-backed repos', path: 'local git repositories',
+    staleAfterHours: 24, failingAfterHours: 72,
+  });
+  const thesis = manifests.thesisBaskets;
+  const thesisStream = thesis?.streams?.['thesis_baskets.ingestion_events'];
+  rows.push({
+    id: 'thesis-baskets', label: 'Thesis Baskets', status: statusFor(thesis?.updated_at, { staleHours: 72, failingHours: 168, empty: !thesis }), age: ageLabel(thesis?.updated_at),
+    summary: thesisStream ? `${thesisStream.last_new_events ?? 0} new / ${thesisStream.last_events_scanned ?? 0} scanned` : 'ingestion state missing',
+    detail: thesisStream ? `last event ${thesisStream.last_event_time || 'n/a'}` : 'Run node scripts/ingest-thesis-baskets.mjs --lookback-days=7 --limit=5000', path: 'memory/thesis-baskets-ingestion-state.json',
+    staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'review-queue', label: 'Review queue', status: statusFor(manifests.reviewQueue?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.reviewQueue }), age: ageLabel(manifests.reviewQueue?.generatedAt),
