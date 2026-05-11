@@ -43,6 +43,24 @@ export type Ticker = {
   confidence: Confidence;
 };
 
+
+export type InvestmentDecisionDigest = {
+  schema_version: string;
+  as_of: string;
+  horizon: "5-10y" | string;
+  source_url: string;
+  latest_check_in?: { id: string | null; title: string | null; date: string | null; created_at: string | null; degraded: boolean; degradation_summary: string[] };
+  posture?: { headline: string; summary: string | null; key_risk: string | null };
+  top_decisions?: Array<{ id: string; action: string; title: string; asset_symbols: string[]; basket: string | null; rationale: string; confidence: string; source_url?: string | null }>;
+  thesis_changes?: Array<{ basket: string; trend: string; conviction: number | null; freshness: string | null; why_it_matters: string }>;
+  contradictions?: Array<{ basket: string; risk: string; severity: string; evidence: string[]; why_it_matters: string }>;
+  research_queue?: Array<{ id: string; question: string; basket: string | null; asset_symbols: string[]; priority: string; reason: string }>;
+  portfolio_drift?: Array<{ id: string; title: string; status: string; rationale: string; asset_symbols: string[] }>;
+  ignored_noise?: Array<{ id: string; title: string; reason: string }>;
+  cost_summary?: { business_date: string; total_cost_usd: number | null; total_tokens: number; total_requests: number } | null;
+  source_health?: { latest_check_in_age_hours: number | null; degraded_layers: string[]; latest_sweep_at: string | null; ai_spend_available: boolean; notes: string[] };
+};
+
 export type Digest = {
   id:       string;
   date:     string;
@@ -143,6 +161,7 @@ export type DashboardData = {
     eventCandidates?: EventCandidate[];
     deployment?: DeploymentMeta;
     activity?: ActivityItem[];
+    investmentDecisionDigest?: InvestmentDecisionDigest | null;
   };
   stats: {
     openLoops:             number;

@@ -1,25 +1,25 @@
 {
   "meta": {
-    "generatedAt": "2026-05-11T19:11:39.350Z",
+    "generatedAt": "2026-05-11T23:55:49.940Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "07a7802",
+      "commit": "1bb29ba",
       "branch": "main",
-      "generatedAt": "2026-05-11T19:11:39.361Z",
+      "generatedAt": "2026-05-11T23:55:49.952Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 0
+      "dirtyFiles": 5
     },
     "contextHealth": {
-      "generatedAt": "2026-05-11T19:09:23.870Z",
+      "generatedAt": "2026-05-11T19:13:53.661Z",
       "sourcePath": "../memory/context/index.json",
       "files": 30,
-      "words": 24389,
-      "estimatedTokens": 31721,
+      "words": 24413,
+      "estimatedTokens": 31752,
       "activeFiles": 26,
-      "activeWords": 14984,
-      "activeEstimatedTokens": 19492,
+      "activeWords": 15008,
+      "activeEstimatedTokens": 19523,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -60,8 +60,8 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "0h old",
-        "summary": "26 active files / 14984 words",
+        "age": "5h old",
+        "summary": "26 active files / 15008 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "details": [
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "6h old",
+        "age": "11h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "4h old",
+        "age": "9h old",
         "summary": "12 selected / 24 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "6h old",
+        "age": "11h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "8h old",
+        "age": "12h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -196,7 +196,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "0h old",
+        "age": "5h old",
         "summary": "19 enabled / 6 paused",
         "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -242,8 +242,8 @@
         "label": "GitHub repos",
         "status": "OK",
         "age": "0h old",
-        "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@07a7802 · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "summary": "4 repos / 2 dirty / 0 behind",
+        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@1bb29ba, 5 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -252,7 +252,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@07a7802 · 0 dirty · 12 ahead · 0 behind"
+            "value": "main@1bb29ba · 5 dirty · 13 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -270,7 +270,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "OK",
-        "age": "1h old",
+        "age": "6h old",
         "summary": "873 new / 1544 scanned",
         "detail": "last event 2026-05-11 14:29:47.883+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -299,7 +299,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "0h old",
+        "age": "5h old",
         "summary": "7 pending / 1 high",
         "detail": "12 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -423,6 +423,24 @@
     ],
     "activity": [
       {
+        "id": "review-2026-05-11T19:13:23.729Z-event-ZmFtaWx5OkF1c3Rpbi",
+        "at": "2026-05-11T19:13:23.729Z",
+        "kind": "review",
+        "title": "Give event feedback: Austin Organic Gardeners May Meeting",
+        "status": "applied",
+        "summary": "open-loop-appended",
+        "source": "review"
+      },
+      {
+        "id": "review-2026-05-11T19:12:28.553Z-event-ZmFtaWx5OkF1c3Rpbi",
+        "at": "2026-05-11T19:12:28.553Z",
+        "kind": "review",
+        "title": "Give event feedback: Austin Organic Gardeners May Meeting",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
+      {
         "id": "review-2026-05-11T19:11:34.136Z-investing-UFdS",
         "at": "2026-05-11T19:11:34.136Z",
         "kind": "review",
@@ -503,16 +521,68 @@
         "summary": "recorded-skip-only",
         "source": "dashboard"
       }
-    ]
+    ],
+    "investmentDecisionDigest": {
+      "schema_version": "2026-05-11.1",
+      "as_of": "2026-05-11T23:49:00.000Z",
+      "horizon": "5-10y",
+      "source_url": "https://thesis-baskets.vercel.app",
+      "latest_check_in": {
+        "id": null,
+        "title": "Pending live Thesis Baskets digest",
+        "date": null,
+        "created_at": null,
+        "degraded": false,
+        "degradation_summary": []
+      },
+      "posture": {
+        "headline": "Build conviction slowly; spend attention only where evidence changed",
+        "summary": "Phase 1 will replace dense investing output with a compact decision digest focused on accumulation candidates, contradictions, research gaps, portfolio drift, and noise to ignore.",
+        "key_risk": "Over-processing low-quality or tactical signals that do not affect a 5-10 year thesis."
+      },
+      "top_decisions": [],
+      "thesis_changes": [],
+      "contradictions": [],
+      "research_queue": [
+        {
+          "id": "phase-1",
+          "question": "Fetch first live Thesis Baskets decision digest",
+          "basket": null,
+          "asset_symbols": [],
+          "priority": "high",
+          "reason": "Need live check-in/portfolio/watchlist data before ranking candidates."
+        }
+      ],
+      "portfolio_drift": [],
+      "ignored_noise": [
+        {
+          "id": "x-default-off",
+          "title": "Broad scheduled X crawling",
+          "reason": "Too expensive/noisy until a targeted voice or basket clears a deterministic threshold."
+        }
+      ],
+      "cost_summary": null,
+      "source_health": {
+        "latest_check_in_age_hours": null,
+        "degraded_layers": [],
+        "latest_sweep_at": null,
+        "ai_spend_available": false,
+        "notes": [
+          "Placeholder until the Thesis Baskets API is deployed and fetched.",
+          "Read-only digest export should not trigger new crawls or AI."
+        ]
+      },
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest.json"
+    }
   },
   "stats": {
-    "openLoops": 49,
+    "openLoops": 50,
     "activeProjects": 6,
     "highPriority": 6,
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 26,
-    "contextActiveWords": 14984,
+    "contextActiveWords": 15008,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -1570,7 +1640,7 @@
       "status": "pending",
       "source": "memory/automations/latest-manifest.json",
       "target": "32d1156d-65fd-403b-9f77-a673621984c3",
-      "generatedAt": "2026-05-11T19:09:26.213Z",
+      "generatedAt": "2026-05-11T19:13:56.368Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -1613,7 +1683,7 @@
       "status": "approved",
       "source": "memory/automations/latest-manifest.json",
       "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "generatedAt": "2026-05-11T19:09:26.213Z",
+      "generatedAt": "2026-05-11T19:13:56.368Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -1944,7 +2014,7 @@
       "date": "2026-05-08",
       "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
-      "summary": "Dashboard generated from 6 project entries and 49 open loops.",
+      "summary": "Dashboard generated from 6 project entries and 50 open loops.",
       "tags": [
         "#projects",
         "#open-loops"
@@ -1977,7 +2047,7 @@
       "date": "2026-05-11",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "26 active context files / 14984 active words; 9405 words archived.",
+      "summary": "26 active context files / 15008 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -1988,7 +2058,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 6h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 11h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1999,7 +2069,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "AI tooling: 12 selected / 24 recent deduped",
-      "summary": "308 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 9h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2010,7 +2080,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 6h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 11h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2021,7 +2091,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 8h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 12h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2032,7 +2102,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Automations: 19 enabled / 6 paused",
-      "summary": "25 cron jobs indexed · 0h old · memory/automations/latest-manifest.json",
+      "summary": "25 cron jobs indexed · 5h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2042,8 +2112,8 @@
       "id": "source-6",
       "date": "2026-05-11",
       "category": "Source health",
-      "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@07a7802 · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
+      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@1bb29ba, 5 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2054,7 +2124,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Thesis Baskets: 873 new / 1544 scanned",
-      "summary": "last event 2026-05-11 14:29:47.883+00 · 1h old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-11 14:29:47.883+00 · 6h old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2065,7 +2135,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Review queue: 7 pending / 1 high",
-      "summary": "12 review items indexed · 0h old · memory/review-queue/latest-manifest.json",
+      "summary": "12 review items indexed · 5h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

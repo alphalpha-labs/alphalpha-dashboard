@@ -45,6 +45,7 @@ function readSourceManifests() {
     automations: readWorkspaceManifest(path.join('memory', 'automations', 'latest-manifest.json')),
     reviewQueue: readWorkspaceManifest(path.join('memory', 'review-queue', 'latest-manifest.json')),
     thesisBaskets: readWorkspaceManifest(path.join('memory', 'thesis-baskets-ingestion-state.json')),
+    investmentDecisionDigest: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -465,13 +466,14 @@ function buildData() {
       sourceHealth,
       eventCandidates: eventCandidatesFromManifest(sourceManifests.events),
       activity: readActivity(),
+      investmentDecisionDigest: sourceManifests.investmentDecisionDigest || null,
     },
     stats: {
       openLoops:        checked.length,
       activeProjects:   projects.length,
       highPriority:     highPri.length,
       uncertainties:    uncertain,
-      investingSignals: parseInvesting(openLoopsMd).length,
+      investingSignals: Math.max(parseInvesting(openLoopsMd).length, (sourceManifests.investmentDecisionDigest?.top_decisions || []).length),
       contextActiveFiles: contextHealth?.activeFiles ?? null,
       contextActiveWords: contextHealth?.activeWords ?? null,
       contextArchiveWords: contextHealth?.archiveWords ?? null,

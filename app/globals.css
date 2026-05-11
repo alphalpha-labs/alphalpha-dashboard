@@ -729,3 +729,29 @@ input { font-family: inherit; }
 .detailLoop strong { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); }
 .detailLoop span { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
 @media (max-width: 800px) { .reviewDecisionGrid, .projectDetailGrid { grid-template-columns: 1fr; } .projectDetailHero { flex-direction: column; } }
+
+/* Investment decision digest */
+.investmentDigestHero { border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); padding: 18px; margin: 18px 0; display: flex; justify-content: space-between; gap: 18px; }
+.digestEyebrow { font-family: 'DM Sans', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-faint); }
+.investmentDigestHero h2 { margin: 8px 0; font-family: 'Playfair Display', Georgia, serif; font-size: 26px; color: var(--ink); }
+.investmentDigestHero p { margin: 0 0 10px; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; color: var(--ink-muted); max-width: 900px; }
+.investmentDigestHero strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--accent-high); }
+.investmentDigestHero a { align-self: flex-start; white-space: nowrap; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--accent-link); }
+.investmentSection { margin-top: 18px; border: 1px solid var(--border-faint); border-radius: var(--radius-card); padding: 14px; background: rgba(250,246,238,.42); }
+.sectionTitleRow { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.sectionTitleRow h2 { margin: 0; font-family: 'DM Sans', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-muted); }
+.sectionTitleRow span { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-faint); }
+.investmentCardGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.investmentDecision { border: 1px solid var(--border); border-radius: var(--radius-card); padding: 13px; background: var(--card); }
+.decisionTop { display: flex; justify-content: space-between; font-family: 'DM Sans', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-faint); }
+.investmentDecision h3 { margin: 9px 0 6px; font-family: 'Playfair Display', Georgia, serif; font-size: 19px; color: var(--ink); }
+.investmentDecision p, .investmentListRow p, .investmentHealth p { margin: 0; font-family: 'Lora', Georgia, serif; font-size: 12px; line-height: 1.5; color: var(--ink-muted); }
+.decisionMeta { margin: 9px 0; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); }
+.investmentTwoCol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.investmentListRow { padding: 9px 0; border-top: 1px solid var(--border-faint); }
+.investmentListRow:first-of-type { border-top: 0; }
+.investmentListRow strong { display: block; margin-bottom: 3px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); }
+.investmentListRow em { display: block; margin-top: 4px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); font-style: normal; }
+.investmentHealth ul { margin: 8px 0 0 18px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.5; }
+.emptyText { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-faint); }
+@media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol { grid-template-columns: 1fr; flex-direction: column; } }
