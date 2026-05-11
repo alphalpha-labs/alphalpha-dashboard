@@ -183,8 +183,17 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
             </button>
           ))}
         </nav>
-        <div className="mastheadDate" aria-hidden="true">
-          {dateStr}
+        <div className="mastheadTools">
+          <button
+            className="refreshBtn"
+            onClick={() => postSignal("refresh-dashboard", "dashboard", { requestedAction: "regenerate-manifests-and-deploy" })}
+            title="Ask OpenClaw to regenerate dashboard data and deploy"
+          >
+            Refresh
+          </button>
+          <div className="mastheadDate" aria-hidden="true">
+            {dateStr}
+          </div>
         </div>
       </header>
 

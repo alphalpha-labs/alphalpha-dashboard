@@ -1,25 +1,25 @@
 {
   "meta": {
-    "generatedAt": "2026-05-11T18:33:35.115Z",
+    "generatedAt": "2026-05-11T19:09:28.253Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "455b258",
+      "commit": "316506d",
       "branch": "main",
-      "generatedAt": "2026-05-11T18:33:35.126Z",
+      "generatedAt": "2026-05-11T19:09:28.275Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 8
     },
     "contextHealth": {
-      "generatedAt": "2026-05-11T18:00:10.712Z",
+      "generatedAt": "2026-05-11T19:09:23.870Z",
       "sourcePath": "../memory/context/index.json",
       "files": 30,
-      "words": 24318,
-      "estimatedTokens": 31630,
+      "words": 24389,
+      "estimatedTokens": 31721,
       "activeFiles": 26,
-      "activeWords": 14913,
-      "activeEstimatedTokens": 19401,
+      "activeWords": 14984,
+      "activeEstimatedTokens": 19492,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -60,8 +60,8 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "1h old",
-        "summary": "26 active files / 14913 words",
+        "age": "0h old",
+        "summary": "26 active files / 14984 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "details": [
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "7h old",
+        "age": "8h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -196,11 +196,15 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "4h old",
+        "age": "0h old",
         "summary": "19 enabled / 6 paused",
         "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
+          {
+            "label": "agentic-os-question-cadence",
+            "value": "enabled · error · next 2026-05-13T15:00:00.000Z"
+          },
           {
             "label": "agentic-os-weekly-audit",
             "value": "enabled · error · next 2026-05-18T14:00:00.000Z"
@@ -239,7 +243,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@455b258, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@316506d, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,7 +252,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@455b258 · 8 dirty · 10 ahead · 0 behind"
+            "value": "main@316506d · 8 dirty · 11 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -295,22 +299,26 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "4h old",
-        "summary": "11 pending / 1 high",
-        "detail": "11 review items indexed",
+        "age": "0h old",
+        "summary": "9 pending / 1 high",
+        "detail": "12 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "details": [
           {
-            "label": "Automation needs attention: agentic-os-weekly-audit",
+            "label": "Automation needs attention: agentic-os-question-cadence",
             "value": "HIGH · pending · Run now, pause, or inspect failure logs"
           },
           {
+            "label": "Automation needs attention: agentic-os-weekly-audit",
+            "value": "HIGH · approved · Run now, pause, or inspect failure logs"
+          },
+          {
             "label": "Review high-priority ticker: BWXT",
-            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
             "label": "Review high-priority ticker: CCJ",
-            "value": "MEDIUM · pending · Promote to open loop if you want active research follow-up"
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
             "label": "Review high-priority ticker: EME",
@@ -326,10 +334,6 @@
           },
           {
             "label": "Give event feedback: Austin Bonsai Society May Meeting",
-            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
-          },
-          {
-            "label": "Give event feedback: Jay Worthy & Rome Streetz w/ Big Nothing, Smoked Out Villain, Teeg Austin & Def Soulja",
             "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
           }
         ],
@@ -416,16 +420,81 @@
         "id": "music-3",
         "kind": "music"
       }
+    ],
+    "activity": [
+      {
+        "id": "review-2026-05-11T19:09:20.720Z-investing-Q0NK",
+        "at": "2026-05-11T19:09:20.720Z",
+        "kind": "review",
+        "title": "Review high-priority ticker: CCJ",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
+      {
+        "id": "review-2026-05-11T19:08:07.566Z-investing-QldYVA",
+        "at": "2026-05-11T19:08:07.566Z",
+        "kind": "review",
+        "title": "Review high-priority ticker: BWXT",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
+      {
+        "id": "review-2026-05-11T19:06:16.914Z-automation-NzM4YWM0ZTItODEwNy",
+        "at": "2026-05-11T19:06:16.914Z",
+        "kind": "review",
+        "title": "Automation needs attention: agentic-os-weekly-audit",
+        "status": "applied",
+        "summary": "recorded-only",
+        "source": "review"
+      },
+      {
+        "id": "automation-2026-05-09T14:17:15.880Z-23071b9f-1bea-4eb3-94b7-2fcede19a581",
+        "at": "2026-05-09T14:17:15.880Z",
+        "kind": "automation",
+        "title": "pause",
+        "status": "applied",
+        "summary": "pause",
+        "source": "automation"
+      },
+      {
+        "id": "dashboard-2026-05-09T01:03:46.008Z-a1",
+        "at": "2026-05-09T01:03:46.008Z",
+        "kind": "dashboard",
+        "title": "Define memory update protocol.",
+        "status": "applied",
+        "summary": "recorded-skip-only",
+        "source": "dashboard"
+      },
+      {
+        "id": "dashboard-2026-05-09T00:34:49.515Z-a1",
+        "at": "2026-05-09T00:34:49.515Z",
+        "kind": "dashboard",
+        "title": "Define memory update protocol.",
+        "status": "applied",
+        "summary": "recorded-skip-only",
+        "source": "dashboard"
+      },
+      {
+        "id": "dashboard-2026-05-09T00:32:22.251Z-a1",
+        "at": "2026-05-09T00:32:22.251Z",
+        "kind": "dashboard",
+        "title": "Define memory update protocol.",
+        "status": "applied",
+        "summary": "recorded-skip-only",
+        "source": "dashboard"
+      }
     ]
   },
   "stats": {
-    "openLoops": 48,
+    "openLoops": 49,
     "activeProjects": 6,
-    "highPriority": 5,
+    "highPriority": 6,
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 26,
-    "contextActiveWords": 14913,
+    "contextActiveWords": 14984,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -753,65 +822,6 @@
   ],
   "automations": [
     {
-      "id": "32d1156d-65fd-403b-9f77-a673621984c3",
-      "name": "agentic-os-question-cadence",
-      "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 10 */2 * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 10 */2 * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-11T15:00:00.000Z",
-      "lastRunAt": "2026-05-09T15:00:00.006Z",
-      "lastStatus": "ok",
-      "lastDuration": "1m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "updatedAt": "2026-05-09T15:01:16.022Z"
-    },
-    {
-      "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
-      "name": "ai-tooling-digest-discord",
-      "description": "Render and post AI tooling queue digest to #ai-tooling",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 15 * * 1,3,5",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 15 * * 1,3,5 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "announce -> discord:channel:1493060480737083412",
-      "nextRunAt": "2026-05-11T15:00:00.000Z",
-      "lastRunAt": "2026-05-08T15:00:00.007Z",
-      "lastStatus": "ok",
-      "lastDuration": "39s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Render and post AI tooling queue digest to #ai-tooling",
-      "updatedAt": "2026-05-08T19:06:48.676Z"
-    },
-    {
       "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
       "name": "obsidian-synthesis-review",
       "description": "Daily artifact-only Obsidian sync + signal review + proposed-update/investing-manifest generation. Pull vault, extract signals, draft safe Alphalpha/ updates, and refresh investing watchlist manifest.",
@@ -898,6 +908,65 @@
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
       "updatedAt": "2026-05-11T13:15:08.060Z"
+    },
+    {
+      "id": "32d1156d-65fd-403b-9f77-a673621984c3",
+      "name": "agentic-os-question-cadence",
+      "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 */2 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 */2 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-13T15:00:00.000Z",
+      "lastRunAt": "2026-05-11T15:00:24.235Z",
+      "lastStatus": "error",
+      "lastDuration": "49s",
+      "consecutiveErrors": 1,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "updatedAt": "2026-05-11T15:01:13.249Z"
+    },
+    {
+      "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
+      "name": "ai-tooling-digest-discord",
+      "description": "Render and post AI tooling queue digest to #ai-tooling",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 15 * * 1,3,5",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 15 * * 1,3,5 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1493060480737083412",
+      "nextRunAt": "2026-05-13T15:00:00.000Z",
+      "lastRunAt": "2026-05-11T15:00:00.010Z",
+      "lastStatus": "ok",
+      "lastDuration": "24s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Render and post AI tooling queue digest to #ai-tooling",
+      "updatedAt": "2026-05-11T15:00:24.235Z"
     },
     {
       "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
@@ -1475,15 +1544,58 @@
   ],
   "reviewQueue": [
     {
+      "id": "automation-MzJkMTE1NmQtNjVmZC",
+      "kind": "automation-review",
+      "title": "Automation needs attention: agentic-os-question-cadence",
+      "summary": "error; 1 consecutive errors. Schedule: 0 10 */2 * * (America/Chicago)",
+      "priority": "HIGH",
+      "status": "pending",
+      "source": "memory/automations/latest-manifest.json",
+      "target": "32d1156d-65fd-403b-9f77-a673621984c3",
+      "generatedAt": "2026-05-11T19:09:26.213Z",
+      "actionHint": "Run now, pause, or inspect failure logs",
+      "payload": {
+        "job": {
+          "id": "32d1156d-65fd-403b-9f77-a673621984c3",
+          "name": "agentic-os-question-cadence",
+          "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+          "category": "ops",
+          "enabled": true,
+          "schedule": {
+            "kind": "cron",
+            "expr": "0 10 */2 * *",
+            "tz": "America/Chicago"
+          },
+          "scheduleLabel": "0 10 */2 * * (America/Chicago)",
+          "sessionTarget": "isolated",
+          "lightContext": true,
+          "toolsAllow": [
+            "read",
+            "message"
+          ],
+          "delivery": "not requested",
+          "nextRunAt": "2026-05-13T15:00:00.000Z",
+          "lastRunAt": "2026-05-11T15:00:24.235Z",
+          "lastStatus": "error",
+          "lastDuration": "49s",
+          "consecutiveErrors": 1,
+          "consecutiveSkipped": 0,
+          "deleteAfterRun": false,
+          "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+          "updatedAt": "2026-05-11T15:01:13.249Z"
+        }
+      }
+    },
+    {
       "id": "automation-NzM4YWM0ZTItODEwNy",
       "kind": "automation-review",
       "title": "Automation needs attention: agentic-os-weekly-audit",
       "summary": "error; 1 consecutive errors. Schedule: 0 9 * * 1 (America/Chicago)",
       "priority": "HIGH",
-      "status": "pending",
+      "status": "approved",
       "source": "memory/automations/latest-manifest.json",
       "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "generatedAt": "2026-05-11T14:33:15.862Z",
+      "generatedAt": "2026-05-11T19:09:26.213Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -1526,7 +1638,7 @@
       "title": "Review high-priority ticker: BWXT",
       "summary": "Nuclear services + defense nuclear — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
       "priority": "MEDIUM",
-      "status": "pending",
+      "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
       "generatedAt": "2026-05-11T13:15:04.140Z",
@@ -1556,7 +1668,7 @@
       "title": "Review high-priority ticker: CCJ",
       "summary": "Uranium / nuclear fuel cycle — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
       "priority": "MEDIUM",
-      "status": "pending",
+      "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
       "generatedAt": "2026-05-11T13:15:04.140Z",
@@ -1814,7 +1926,7 @@
       "date": "2026-05-08",
       "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
-      "summary": "Dashboard generated from 6 project entries and 48 open loops.",
+      "summary": "Dashboard generated from 6 project entries and 49 open loops.",
       "tags": [
         "#projects",
         "#open-loops"
@@ -1847,7 +1959,7 @@
       "date": "2026-05-11",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "26 active context files / 14913 active words; 9405 words archived.",
+      "summary": "26 active context files / 14984 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -1858,7 +1970,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 6h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1880,7 +1992,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 5h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 6h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1891,7 +2003,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 7h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 8h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1902,7 +2014,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "Automations: 19 enabled / 6 paused",
-      "summary": "25 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
+      "summary": "25 cron jobs indexed · 0h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1913,7 +2025,7 @@
       "date": "2026-05-11",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@455b258, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@316506d, 8 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -1934,8 +2046,8 @@
       "id": "source-8",
       "date": "2026-05-11",
       "category": "Source health",
-      "title": "Review queue: 11 pending / 1 high",
-      "summary": "11 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
+      "title": "Review queue: 9 pending / 1 high",
+      "summary": "12 review items indexed · 0h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

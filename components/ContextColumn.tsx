@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { DashboardData, Loop } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 import QuickAdd from "./QuickAdd";
+import ActivityPanel from "./ActivityPanel";
 
 interface Props {
   meta:      DashboardData["meta"];
@@ -42,6 +43,8 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
       </div>
 
       <QuickAdd onAdd={onAdd} />
+
+      <ActivityPanel activity={meta.activity} />
 
       {/* Open Loops */}
       <div>

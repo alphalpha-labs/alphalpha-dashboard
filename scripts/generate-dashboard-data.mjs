@@ -102,6 +102,36 @@ function githubStatus() {
   };
 }
 
+
+function readActivity() {
+  const workspaceRoot = path.resolve(repoRoot, '..');
+  const sources = [
+    ['dashboard', path.join(workspaceRoot, 'memory', 'dashboard', 'action-state.json')],
+    ['review', path.join(workspaceRoot, 'memory', 'review-queue', 'action-state.json')],
+    ['automation', path.join(workspaceRoot, 'memory', 'dashboard', 'automation-actions.json')],
+    ['event-feedback', path.join(workspaceRoot, 'memory', 'events', 'feedback-manifest.json')],
+  ];
+  const rows = [];
+  for (const [source, file] of sources) {
+    const data = readJsonAbsolute(file, null);
+    if (!data) continue;
+    const actions = Array.isArray(data.actions) ? data.actions : Array.isArray(data.feedback) ? data.feedback : [];
+    actions.slice(0, 80).forEach((action, idx) => {
+      const failed = Boolean(action.error || action.result?.error || action.status === 'failed');
+      rows.push({
+        id: `${source}-${action.at || action.timestamp || idx}-${action.itemId || action.jobId || action.eventKey || idx}`,
+        at: action.at || action.timestamp || data.updatedAt || data.generatedAt || new Date().toISOString(),
+        kind: source,
+        title: action.title || action.action || action.type || action.feedbackType || action.jobId || action.eventKey || source,
+        status: failed ? 'failed' : 'applied',
+        summary: action.mutation || action.result?.mutation || action.action || action.type || action.feedbackType || 'recorded',
+        source,
+      });
+    });
+  }
+  return rows.sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, 40);
+}
+
 function deploymentMeta() {
   const local = gitRepoStatus(repoRoot, 'Alphalpha dashboard');
   return {
@@ -434,6 +464,7 @@ function buildData() {
       contextHealth,
       sourceHealth,
       eventCandidates: eventCandidatesFromManifest(sourceManifests.events),
+      activity: readActivity(),
     },
     stats: {
       openLoops:        checked.length,

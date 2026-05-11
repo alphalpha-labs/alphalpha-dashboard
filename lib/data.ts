@@ -72,6 +72,16 @@ export type DeploymentMeta = {
   dirtyFiles?: number;
 };
 
+export type ActivityItem = {
+  id: string;
+  at: string;
+  kind: string;
+  title: string;
+  status: "applied" | "pending" | "failed" | string;
+  summary: string;
+  source?: string;
+};
+
 export type EventCandidate = {
   id:            string;
   kind:          "family" | "music";
@@ -132,6 +142,7 @@ export type DashboardData = {
     sourceHealth?: SourceHealth[];
     eventCandidates?: EventCandidate[];
     deployment?: DeploymentMeta;
+    activity?: ActivityItem[];
   };
   stats: {
     openLoops:             number;
