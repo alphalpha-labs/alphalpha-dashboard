@@ -119,8 +119,8 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
       action,
       itemId,
       ...payload,
-      durableTarget: action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
-      requestedAction: "apply-investment-action-and-refresh-dashboard",
+      durableTarget: action === "record-conviction" || action === "promote-thesis" || action === "add-source-note" ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
+      requestedAction: action === "record-conviction" || action === "promote-thesis" || action === "add-source-note" ? "apply-investing-os-action-and-refresh-dashboard" : "apply-investment-action-and-refresh-dashboard",
     });
   }, []);
 
@@ -246,6 +246,10 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               journal={data.meta.investmentDecisionJournal}
               researchActions={data.meta.investmentResearchActions}
               crawlPlan={data.meta.investmentCrawlPlan}
+              thesisRegistry={data.meta.investingThesisRegistry}
+              convictionLedger={data.meta.investingConvictionLedger}
+              accumulationPlan={data.meta.investingAccumulationPlan}
+              trustedSources={data.meta.investingTrustedSources}
               onDiscuss={openThread}
               onAction={handleInvestmentAction}
             />

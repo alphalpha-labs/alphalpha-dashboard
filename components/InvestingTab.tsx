@@ -5,6 +5,10 @@ import type {
   InvestmentJournal,
   InvestmentResearchActions,
   InvestmentRuntimePreflight,
+  InvestingAccumulationPlan,
+  InvestingConvictionLedger,
+  InvestingThesisRegistry,
+  InvestingTrustedSources,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -17,15 +21,23 @@ interface Props {
   journal?: InvestmentJournal | null;
   researchActions?: InvestmentResearchActions | null;
   crawlPlan?: InvestmentCrawlPlan | null;
+  thesisRegistry?: InvestingThesisRegistry | null;
+  convictionLedger?: InvestingConvictionLedger | null;
+  accumulationPlan?: InvestingAccumulationPlan | null;
+  trustedSources?: InvestingTrustedSources | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
   const drift = digest?.portfolio_drift ?? [];
+  const theses = thesisRegistry?.theses ?? [];
+  const convictionEntries = convictionLedger?.entries ?? [];
+  const plans = accumulationPlan?.plans ?? [];
+  const sources = trustedSources?.sources ?? [];
 
   return (
     <div className="investingPage">
@@ -48,6 +60,45 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
             {digest.posture?.key_risk && <strong>Key risk: {digest.posture.key_risk}</strong>}
           </div>
           <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief ↗</a>
+        </section>
+      )}
+
+      {theses.length > 0 && (
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Active thesis registry</h2><span>{theses.length}</span></div>
+          <div className="investmentCardGrid">
+            {theses.map(thesis => (
+              <article key={thesis.id} className="investmentDecision">
+                <div className="decisionTop"><span>{thesis.stage}</span><strong>{thesis.currentConviction || "n/a"}</strong></div>
+                <h3>{thesis.title}</h3>
+                <p>{thesis.coreClaim}</p>
+                <div className="decisionMeta">{thesis.basket || "No basket"} · {(thesis.symbols || []).join(", ") || "theme"} · {thesis.currentAction}</div>
+                <div className="investmentButtonRow">
+                  <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: thesis.id, type: "ticker", title: thesis.title, theme: thesis.basket || undefined, stance: thesis.currentAction })}><span className="alphaGlyph">α</span> Discuss</button>
+                  <button className="btnAlphaDiscuss" onClick={() => onAction?.(thesis.id, "record-conviction", { thesisId: thesis.id, title: thesis.title, conviction: thesis.currentConviction, rationale: thesis.convictionWhy })}>Conviction</button>
+                  <button className="btnAlphaDiscuss" onClick={() => onAction?.(thesis.id, "promote-thesis", { thesisId: thesis.id, stage: thesis.stage === "candidate" ? "active-thesis" : "candidate", title: thesis.title })}>Promote</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div className="investmentTwoCol">
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Conviction ledger</h2><span>{convictionEntries.length}</span></div>
+          {convictionEntries.slice(0, 5).map(entry => <div key={entry.id} className="investmentListRow"><strong>{entry.direction} · {entry.thesisId} → {entry.convictionAfter}</strong><p>{entry.why}</p><em>{entry.actionImplication}</em></div>)}
+        </section>
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Accumulation plan</h2><span>{plans.length}</span></div>
+          {plans.slice(0, 5).map(plan => <div key={plan.id} className="investmentListRow"><strong>{plan.status} · {plan.title}</strong><p>Desired: {plan.desiredExposure || "not set"} · Max: {plan.maxExposure || "not set"}</p><em>{(plan.entryConditions || []).slice(0, 1).join(" ")}</em></div>)}
+        </section>
+      </div>
+
+      {sources.length > 0 && (
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Trusted support / dissent sources</h2><span>{sources.length}</span></div>
+          {sources.slice(0, 6).map(source => <div key={source.id} className="investmentListRow"><strong>{source.name} · {source.usefulness || "unknown"}</strong><p>{source.biasStyle}</p><em>{(source.bestFor || []).join(", ")}</em></div>)}
         </section>
       )}
 

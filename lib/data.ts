@@ -174,6 +174,28 @@ export type AutomationJob = {
   updatedAt?: string | null;
 };
 
+
+export type InvestingThesis = {
+  id: string;
+  title: string;
+  stage: string;
+  basket?: string | null;
+  symbols?: string[];
+  coreClaim?: string;
+  whyItMightCompound?: string;
+  whatMustBeTrue?: string[];
+  invalidators?: string[];
+  currentConviction?: string;
+  convictionWhy?: string;
+  currentAction?: string;
+  reviewCadence?: string;
+  updatedAt?: string;
+};
+export type InvestingThesisRegistry = { generatedAt: string; schemaVersion?: string; theses: InvestingThesis[] };
+export type InvestingConvictionLedger = { generatedAt: string; entries: Array<{ id: string; createdAt: string; thesisId: string; direction: string; convictionAfter: string; why: string; sources?: string[]; openQuestionsCreated?: string[]; actionImplication?: string }> };
+export type InvestingAccumulationPlan = { generatedAt: string; plans: Array<{ id: string; thesisId: string; title: string; currentExposure?: string; desiredExposure?: string; maxExposure?: string; entryConditions?: string[]; pauseConditions?: string[]; nextReview?: string; status?: string }> };
+export type InvestingTrustedSources = { generatedAt: string; sources: Array<{ id: string; name: string; type?: string; domains?: string[]; usefulness?: string; biasStyle?: string; timeHorizon?: string; bestFor?: string[]; relevantTheses?: string[] }> };
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -190,6 +212,10 @@ export type DashboardData = {
     investmentDecisionJournal?: InvestmentJournal | null;
     investmentResearchActions?: InvestmentResearchActions | null;
     investmentCrawlPlan?: InvestmentCrawlPlan | null;
+    investingThesisRegistry?: InvestingThesisRegistry | null;
+    investingConvictionLedger?: InvestingConvictionLedger | null;
+    investingAccumulationPlan?: InvestingAccumulationPlan | null;
+    investingTrustedSources?: InvestingTrustedSources | null;
   };
   stats: {
     openLoops:             number;

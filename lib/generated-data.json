@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-12T01:33:13.317Z",
+    "generatedAt": "2026-05-12T02:16:00.273Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "b2d1480",
+      "commit": "74c8dc7",
       "branch": "main",
-      "generatedAt": "2026-05-12T01:33:13.337Z",
+      "generatedAt": "2026-05-12T02:16:00.287Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 6
+      "dirtyFiles": 4
     },
     "contextHealth": {
       "generatedAt": "2026-05-11T19:13:53.661Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "6h old",
+        "age": "7h old",
         "summary": "26 active files / 15008 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "12h old",
+        "age": "13h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "12h old",
+        "age": "13h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "14h old",
+        "age": "15h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -196,7 +196,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "6h old",
+        "age": "7h old",
         "summary": "19 enabled / 6 paused",
         "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -243,16 +243,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@3be4097, 12 dirty · Alphalpha dashboard: main@b2d1480, 6 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@457948d, 13 dirty · Alphalpha dashboard: main@74c8dc7, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@3be4097 · 12 dirty · 0 ahead · 0 behind"
+            "value": "master@457948d · 13 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@b2d1480 · 6 dirty · 15 ahead · 0 behind"
+            "value": "main@74c8dc7 · 4 dirty · 16 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -299,7 +299,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "6h old",
+        "age": "7h old",
         "summary": "7 pending / 1 high",
         "detail": "12 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -691,7 +691,7 @@
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/research-actions.json"
     },
     "investmentCrawlPlan": {
-      "generatedAt": "2026-05-12T01:31:01.361Z",
+      "generatedAt": "2026-05-12T01:33:35.270Z",
       "mode": "scaffold",
       "horizon": "5-10y",
       "policy": {
@@ -728,6 +728,173 @@
       "symbols": [],
       "baskets": [],
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/crawl-plan.json"
+    },
+    "investingThesisRegistry": {
+      "generatedAt": "2026-05-12T02:15:53.653Z",
+      "schemaVersion": "2026-05-12.1",
+      "theses": [
+        {
+          "id": "ai-power-infrastructure",
+          "title": "AI power infrastructure bottleneck",
+          "stage": "candidate",
+          "basket": "AI infrastructure",
+          "symbols": [
+            "EME",
+            "FIX",
+            "PWR",
+            "BWXT"
+          ],
+          "coreClaim": "AI data-center growth is creating durable demand for grid, electrical, power-services, and behind-the-meter infrastructure providers.",
+          "whyItMightCompound": "Capacity bottlenecks can persist for years, pushing spend toward scarce engineering, construction, power-equipment, and specialized energy assets.",
+          "whatMustBeTrue": [
+            "AI compute demand remains power-constrained rather than model-demand constrained.",
+            "Utilities, hyperscalers, and industrial customers continue funding grid and power upgrades.",
+            "Selected companies can convert demand into margin and backlog without severe execution or valuation risk."
+          ],
+          "invalidators": [
+            "AI infrastructure demand slows materially or power intensity falls faster than expected.",
+            "Valuations price in most of the bottleneck upside.",
+            "Permitting, grid interconnect, or supply-chain limits prevent revenue conversion."
+          ],
+          "currentConviction": "medium",
+          "convictionWhy": "Multiple existing notes point to AI power bottlenecks, but asset-specific valuation and competitive positioning still need work.",
+          "currentAction": "research",
+          "reviewCadence": "weekly",
+          "updatedAt": "2026-05-12T02:15:53.653Z"
+        },
+        {
+          "id": "critical-materials-defense-infrastructure",
+          "title": "Critical materials and defense infrastructure",
+          "stage": "inbox",
+          "basket": "Critical systems",
+          "symbols": [
+            "HWM",
+            "HEI",
+            "KTOS",
+            "AVAV",
+            "CCJ"
+          ],
+          "coreClaim": "Supply-chain resilience, rearmament, nuclear fuel, drones, aerospace components, and critical materials may support durable investment themes.",
+          "whyItMightCompound": "Geopolitical fragmentation and industrial policy can create long-lived demand for constrained domestic/allied capacity.",
+          "whatMustBeTrue": [
+            "Defense and resilience spending remains structurally elevated.",
+            "Chosen companies have defensible niches rather than commodity exposure only.",
+            "Valuation leaves room for multi-year compounding."
+          ],
+          "invalidators": [
+            "Spending normalizes or political support fades.",
+            "Theme is too broad to create investable edge.",
+            "Best assets are already priced for perfection."
+          ],
+          "currentConviction": "low",
+          "convictionWhy": "Theme is interesting but still needs segmentation by supply-chain stage and asset quality.",
+          "currentAction": "research",
+          "reviewCadence": "monthly",
+          "updatedAt": "2026-05-12T02:13:00.000Z"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/thesis-registry.json"
+    },
+    "investingConvictionLedger": {
+      "generatedAt": "2026-05-12T02:15:53.653Z",
+      "schemaVersion": "2026-05-12.1",
+      "entries": [
+        {
+          "id": "2026-05-12-ai-power-infrastructure-initial",
+          "createdAt": "2026-05-12T02:13:00.000Z",
+          "thesisId": "ai-power-infrastructure",
+          "direction": "unchanged",
+          "convictionAfter": "medium",
+          "why": "Initial seeded thesis from prior Obsidian/investing signals; enough to track, not enough to accumulate broadly.",
+          "sources": [
+            "memory/obsidian/proposed-updates/2026-05-08/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+          ],
+          "openQuestionsCreated": [
+            "Which assets have the best valuation-adjusted exposure to AI power bottlenecks?"
+          ],
+          "openQuestionsResolved": [],
+          "actionImplication": "research"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/conviction-ledger.json"
+    },
+    "investingAccumulationPlan": {
+      "generatedAt": "2026-05-12T02:13:00.000Z",
+      "schemaVersion": "2026-05-12.1",
+      "plans": [
+        {
+          "id": "ai-power-infrastructure",
+          "thesisId": "ai-power-infrastructure",
+          "title": "AI power infrastructure basket",
+          "currentExposure": "unknown",
+          "desiredExposure": "not set",
+          "maxExposure": "not set",
+          "entryConditions": [
+            "Asset-specific thesis and valuation work complete.",
+            "At least one credible dissent/invalidation pass completed.",
+            "Portfolio overlap with existing AI/industrial exposure reviewed."
+          ],
+          "pauseConditions": [
+            "Valuation embeds unrealistic backlog/margin assumptions.",
+            "Evidence suggests bottleneck is easing faster than expected.",
+            "Position would overconcentrate portfolio in one macro/AI capex factor."
+          ],
+          "nextReview": "after-live-thesis-baskets-digest",
+          "status": "research-before-accumulation"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/accumulation-plan.json"
+    },
+    "investingTrustedSources": {
+      "generatedAt": "2026-05-12T02:13:00.000Z",
+      "schemaVersion": "2026-05-12.1",
+      "sources": [
+        {
+          "id": "thesis-baskets",
+          "name": "Thesis Baskets synthesis",
+          "type": "internal-engine",
+          "domains": [
+            "watchlist",
+            "trusted voices",
+            "portfolio sweep",
+            "contradictions"
+          ],
+          "usefulness": "high",
+          "biasStyle": "Aggregates curated inputs; can become too dense without Alphalpha compression.",
+          "timeHorizon": "mixed",
+          "bestFor": [
+            "source aggregation",
+            "contradiction discovery",
+            "digest inputs"
+          ],
+          "relevantTheses": [
+            "ai-power-infrastructure",
+            "critical-materials-defense-infrastructure"
+          ]
+        },
+        {
+          "id": "alex-notes",
+          "name": "Alex notes / Obsidian highlights",
+          "type": "personal-context",
+          "domains": [
+            "thesis formation",
+            "interest signals",
+            "open questions"
+          ],
+          "usefulness": "high",
+          "biasStyle": "Best signal for personal relevance; may need external validation before action.",
+          "timeHorizon": "5-10y",
+          "bestFor": [
+            "personal fit",
+            "thesis wording",
+            "research agenda"
+          ],
+          "relevantTheses": [
+            "ai-power-infrastructure"
+          ]
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/trusted-sources.json"
     }
   },
   "stats": {
@@ -2213,7 +2380,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 12h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 13h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2235,7 +2402,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 12h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 13h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2246,7 +2413,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 15h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2257,7 +2424,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Automations: 19 enabled / 6 paused",
-      "summary": "25 cron jobs indexed · 6h old · memory/automations/latest-manifest.json",
+      "summary": "25 cron jobs indexed · 7h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2268,7 +2435,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@3be4097, 12 dirty · Alphalpha dashboard: main@b2d1480, 6 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@457948d, 13 dirty · Alphalpha dashboard: main@74c8dc7, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2290,7 +2457,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Review queue: 7 pending / 1 high",
-      "summary": "12 review items indexed · 6h old · memory/review-queue/latest-manifest.json",
+      "summary": "12 review items indexed · 7h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
