@@ -46,6 +46,7 @@ function readSourceManifests() {
     reviewQueue: readWorkspaceManifest(path.join('memory', 'review-queue', 'latest-manifest.json')),
     thesisBaskets: readWorkspaceManifest(path.join('memory', 'thesis-baskets-ingestion-state.json')),
     investmentDecisionDigest: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest.json')),
+    investmentDecisionDigestChanges: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest-changes.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -467,6 +468,7 @@ function buildData() {
       eventCandidates: eventCandidatesFromManifest(sourceManifests.events),
       activity: readActivity(),
       investmentDecisionDigest: sourceManifests.investmentDecisionDigest || null,
+      investmentDecisionDigestChanges: sourceManifests.investmentDecisionDigestChanges || null,
     },
     stats: {
       openLoops:        checked.length,

@@ -1,13 +1,14 @@
-import type { InvestmentDecisionDigest, Ticker } from "@/lib/data";
+import type { InvestmentDecisionDigest, InvestmentDecisionDigestChanges, Ticker } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
 interface Props {
   investing: Ticker[];
   digest?: InvestmentDecisionDigest | null;
+  changes?: InvestmentDecisionDigestChanges | null;
   onDiscuss: (ctx: ThreadContext) => void;
 }
 
-export default function InvestingTab({ investing, digest, onDiscuss }: Props) {
+export default function InvestingTab({ investing, digest, changes, onDiscuss }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -27,6 +28,16 @@ export default function InvestingTab({ investing, digest, onDiscuss }: Props) {
             {digest.posture?.key_risk && <strong>Key risk: {digest.posture.key_risk}</strong>}
           </div>
           <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief ↗</a>
+        </section>
+      )}
+
+      {changes && changes.totals.changed > 0 && (
+        <section className="investmentSection investmentChanges">
+          <div className="sectionTitleRow"><h2>What changed since last snapshot</h2><span>{changes.totals.added} added · {changes.totals.removed} removed</span></div>
+          {changes.posture_changed && <div className="investmentListRow"><strong>Posture changed</strong><p>The headline changed since the prior Thesis Baskets snapshot; review before adding capital.</p></div>}
+          {(changes.top_decisions?.added ?? []).slice(0, 4).map(item => <div key={`decision-${item.id}`} className="investmentListRow"><strong>New decision · {item.title}</strong><p>{item.rationale}</p></div>)}
+          {(changes.contradictions?.added ?? []).slice(0, 4).map(item => <div key={`contradiction-${item.basket}-${item.risk}`} className="investmentListRow"><strong>New contradiction · {item.basket}</strong><p>{item.risk}</p></div>)}
+          {(changes.research_queue?.added ?? []).slice(0, 4).map(item => <div key={`research-${item.id}`} className="investmentListRow"><strong>New research · {item.question}</strong><p>{item.reason}</p></div>)}
         </section>
       )}
 

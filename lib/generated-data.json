@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-11T23:55:49.940Z",
+    "generatedAt": "2026-05-12T00:03:37.082Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "1bb29ba",
+      "commit": "0646d69",
       "branch": "main",
-      "generatedAt": "2026-05-11T23:55:49.952Z",
+      "generatedAt": "2026-05-12T00:03:37.094Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 5
+      "dirtyFiles": 4
     },
     "contextHealth": {
       "generatedAt": "2026-05-11T19:13:53.661Z",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "12h old",
+        "age": "13h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -243,16 +243,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@1bb29ba, 5 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@8e64cbf, 14 dirty · Alphalpha dashboard: main@0646d69, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@68a1cac · 12 dirty · 0 ahead · 0 behind"
+            "value": "master@8e64cbf · 14 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@1bb29ba · 5 dirty · 13 ahead · 0 behind"
+            "value": "main@0646d69 · 4 dirty · 14 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -573,6 +573,38 @@
         ]
       },
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest.json"
+    },
+    "investmentDecisionDigestChanges": {
+      "generated_at": "2026-05-12T00:03:14.213Z",
+      "previous_as_of": "2026-05-11T23:49:00.000Z",
+      "current_as_of": "2026-05-11T23:49:00.000Z",
+      "posture_changed": false,
+      "top_decisions": {
+        "added": [],
+        "removed": []
+      },
+      "contradictions": {
+        "added": [],
+        "removed": []
+      },
+      "research_queue": {
+        "added": [],
+        "removed": []
+      },
+      "portfolio_drift": {
+        "added": [],
+        "removed": []
+      },
+      "ignored_noise": {
+        "added": [],
+        "removed": []
+      },
+      "totals": {
+        "added": 0,
+        "removed": 0,
+        "changed": 0
+      },
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest-changes.json"
     }
   },
   "stats": {
@@ -2055,7 +2087,7 @@
     },
     {
       "id": "source-1",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
       "summary": "37 crawl artifacts indexed · 11h old · memory/events/latest-manifest.json",
@@ -2066,7 +2098,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "AI tooling: 12 selected / 24 recent deduped",
       "summary": "308 raw items · 9h old · memory/ai-tooling/latest-manifest.json",
@@ -2077,7 +2109,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
       "summary": "4 high-priority research candidates · 11h old · memory/investing/latest-watchlist.json",
@@ -2088,10 +2120,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 12h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 13h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2099,7 +2131,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Automations: 19 enabled / 6 paused",
       "summary": "25 cron jobs indexed · 5h old · memory/automations/latest-manifest.json",
@@ -2110,10 +2142,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@68a1cac, 12 dirty · Alphalpha dashboard: main@1bb29ba, 5 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@8e64cbf, 14 dirty · Alphalpha dashboard: main@0646d69, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2121,7 +2153,7 @@
     },
     {
       "id": "source-7",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Thesis Baskets: 873 new / 1544 scanned",
       "summary": "last event 2026-05-11 14:29:47.883+00 · 6h old · memory/thesis-baskets-ingestion-state.json",
@@ -2132,7 +2164,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-05-11",
+      "date": "2026-05-12",
       "category": "Source health",
       "title": "Review queue: 7 pending / 1 high",
       "summary": "12 review items indexed · 5h old · memory/review-queue/latest-manifest.json",

@@ -228,7 +228,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
             <ProjectGrid projects={data.projects} loops={loops} onDiscuss={openThread} />
           )}
           {activeTab === "investing" && (
-            <InvestingTab investing={data.investing} digest={data.meta.investmentDecisionDigest} onDiscuss={openThread} />
+            <InvestingTab investing={data.investing} digest={data.meta.investmentDecisionDigest} changes={data.meta.investmentDecisionDigestChanges} onDiscuss={openThread} />
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />

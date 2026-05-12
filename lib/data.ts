@@ -61,6 +61,17 @@ export type InvestmentDecisionDigest = {
   source_health?: { latest_check_in_age_hours: number | null; degraded_layers: string[]; latest_sweep_at: string | null; ai_spend_available: boolean; notes: string[] };
 };
 
+export type InvestmentDecisionDigestChanges = {
+  generated_at: string;
+  previous_as_of: string | null;
+  current_as_of: string | null;
+  posture_changed: boolean;
+  totals: { added: number; removed: number; changed: number };
+  top_decisions?: { added: NonNullable<InvestmentDecisionDigest["top_decisions"]>; removed: NonNullable<InvestmentDecisionDigest["top_decisions"]> };
+  contradictions?: { added: NonNullable<InvestmentDecisionDigest["contradictions"]>; removed: NonNullable<InvestmentDecisionDigest["contradictions"]> };
+  research_queue?: { added: NonNullable<InvestmentDecisionDigest["research_queue"]>; removed: NonNullable<InvestmentDecisionDigest["research_queue"]> };
+};
+
 export type Digest = {
   id:       string;
   date:     string;
@@ -162,6 +173,7 @@ export type DashboardData = {
     deployment?: DeploymentMeta;
     activity?: ActivityItem[];
     investmentDecisionDigest?: InvestmentDecisionDigest | null;
+    investmentDecisionDigestChanges?: InvestmentDecisionDigestChanges | null;
   };
   stats: {
     openLoops:             number;
