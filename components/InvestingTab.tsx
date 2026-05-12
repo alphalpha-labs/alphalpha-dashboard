@@ -9,6 +9,10 @@ import type {
   InvestingConvictionLedger,
   InvestingThesisRegistry,
   InvestingTrustedSources,
+  InvestingPriceAlerts,
+  InvestingAccumulationOpportunities,
+  InvestingProposedTheses,
+  InvestingProposedThesisConfig,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -25,11 +29,15 @@ interface Props {
   convictionLedger?: InvestingConvictionLedger | null;
   accumulationPlan?: InvestingAccumulationPlan | null;
   trustedSources?: InvestingTrustedSources | null;
+  priceAlerts?: InvestingPriceAlerts | null;
+  accumulationOpportunities?: InvestingAccumulationOpportunities | null;
+  proposedTheses?: InvestingProposedTheses | null;
+  proposedThesisConfig?: InvestingProposedThesisConfig | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -38,6 +46,9 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
   const convictionEntries = convictionLedger?.entries ?? [];
   const plans = accumulationPlan?.plans ?? [];
   const sources = trustedSources?.sources ?? [];
+  const opportunities = accumulationOpportunities?.opportunities ?? [];
+  const quotes = accumulationOpportunities?.quotes ?? [];
+  const proposals = proposedTheses?.proposals ?? [];
 
   return (
     <div className="investingPage">
@@ -101,6 +112,19 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           {sources.slice(0, 6).map(source => <div key={source.id} className="investmentListRow"><strong>{source.name} · {source.usefulness || "unknown"}</strong><p>{source.biasStyle}</p><em>{(source.bestFor || []).join(", ")}</em></div>)}
         </section>
       )}
+
+      <div className="investmentTwoCol">
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Accumulation opportunities</h2><span>{opportunities.length}</span></div>
+          {opportunities.length ? opportunities.map(item => <div key={item.id} className="investmentListRow"><strong>{item.symbol} · {item.trigger}</strong><p>{item.message}</p><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol} accumulation opportunity`, decision: item.action, rationale: item.message, symbols: [item.symbol], thesisId: item.thesisId })}>Journal reminder</button></div>) : <p className="emptyText">No thesis-aware pullback opportunities currently triggered.</p>}
+          {quotes.slice(0, 6).map(q => <div key={q.symbol} className="investmentListRow"><strong>{q.symbol} · {typeof q.close === "number" ? `$${q.close.toFixed(2)}` : "quote unavailable"}</strong><p>{typeof q.pullbackPct === "number" ? `${q.pullbackPct.toFixed(1)}% from six-month high` : q.error || "No quote data"}</p></div>)}
+        </section>
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Proposed theses</h2><span>{proposals.length}</span></div>
+          {proposedThesisConfig?.thresholds && <p className="emptyText">Thresholds: evidence ≥ {proposedThesisConfig.thresholds.minimumEvidenceScore}, differentiation ≥ {proposedThesisConfig.thresholds.minimumDifferentiationScore}</p>}
+          {proposals.slice(0, 6).map(item => <div key={item.id} className="investmentListRow"><strong>{item.recommendation} · {item.title}</strong><p>{item.thesisDraft}</p><em>{(item.symbols || []).join(", ")} · evidence {item.evidenceScore} · differentiated {item.differentiationScore}</em><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: "proposed thesis", stance: item.recommendation })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "promote-thesis", { thesisId: item.id, stage: "candidate", title: item.title, symbols: item.symbols, rationale: item.thesisDraft })}>Approve candidate</button></div></div>)}
+        </section>
+      </div>
 
       {changes && changes.totals.changed > 0 && (
         <section className="investmentSection investmentChanges">

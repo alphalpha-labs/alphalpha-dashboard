@@ -55,6 +55,10 @@ function readSourceManifests() {
     investingConvictionLedger: readWorkspaceManifest(path.join('memory', 'investing', 'conviction-ledger.json')),
     investingAccumulationPlan: readWorkspaceManifest(path.join('memory', 'investing', 'accumulation-plan.json')),
     investingTrustedSources: readWorkspaceManifest(path.join('memory', 'investing', 'trusted-sources.json')),
+    investingPriceAlerts: readWorkspaceManifest(path.join('memory', 'investing', 'price-thesis-alerts.json')),
+    investingAccumulationOpportunities: readWorkspaceManifest(path.join('memory', 'investing', 'accumulation-opportunities.json')),
+    investingProposedTheses: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-theses.json')),
+    investingProposedThesisConfig: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-thesis-config.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -485,6 +489,10 @@ function buildData() {
       investingConvictionLedger: sourceManifests.investingConvictionLedger || null,
       investingAccumulationPlan: sourceManifests.investingAccumulationPlan || null,
       investingTrustedSources: sourceManifests.investingTrustedSources || null,
+      investingPriceAlerts: sourceManifests.investingPriceAlerts || null,
+      investingAccumulationOpportunities: sourceManifests.investingAccumulationOpportunities || null,
+      investingProposedTheses: sourceManifests.investingProposedTheses || null,
+      investingProposedThesisConfig: sourceManifests.investingProposedThesisConfig || null,
     },
     stats: {
       openLoops:        checked.length,

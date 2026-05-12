@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-12T02:16:00.273Z",
+    "generatedAt": "2026-05-12T02:28:40.125Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "74c8dc7",
+      "commit": "503118f",
       "branch": "main",
-      "generatedAt": "2026-05-12T02:16:00.287Z",
+      "generatedAt": "2026-05-12T02:28:40.138Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 4
@@ -243,16 +243,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@457948d, 13 dirty · Alphalpha dashboard: main@74c8dc7, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@2fdc9c6, 13 dirty · Alphalpha dashboard: main@503118f, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@457948d · 13 dirty · 0 ahead · 0 behind"
+            "value": "master@2fdc9c6 · 13 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@74c8dc7 · 4 dirty · 16 ahead · 0 behind"
+            "value": "main@503118f · 4 dirty · 17 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -895,6 +895,254 @@
         }
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/trusted-sources.json"
+    },
+    "investingPriceAlerts": {
+      "generatedAt": "2026-05-12T02:28:36.061Z",
+      "schemaVersion": "2026-05-12.1",
+      "policy": {
+        "purpose": "Surface thesis-aware accumulation reminders when price/valuation becomes attractive, without becoming noisy trading alerts.",
+        "defaultAction": "remind-to-accumulate-on-pullbacks",
+        "requiresThesis": true,
+        "requiresNoBlockingInvalidator": true,
+        "requiresPortfolioRoom": true,
+        "notificationStyle": "concise thesis-aware prompt"
+      },
+      "watchRules": [
+        {
+          "id": "ai-power-infrastructure-pullback",
+          "thesisId": "ai-power-infrastructure",
+          "symbols": [
+            "EME",
+            "FIX",
+            "PWR",
+            "BWXT"
+          ],
+          "status": "draft-needs-thresholds",
+          "triggerType": "pullback-or-buy-zone",
+          "triggerDescription": "Alert when a tracked AI power infrastructure candidate enters a pre-defined buy zone or has a meaningful pullback while thesis conditions still hold.",
+          "messageTemplate": "{symbol} is looking attractive relative to the {thesisTitle} thesis. If the thesis still holds and portfolio room exists, remember to accumulate on pullbacks. Pause if: {pauseCondition}.",
+          "neededInputs": [
+            "buy zone or pullback threshold per symbol",
+            "current/desired/max exposure",
+            "blocking invalidators",
+            "valuation comfort notes"
+          ]
+        }
+      ],
+      "recentAlerts": [],
+      "path": "/home/node/.openclaw/workspace/memory/investing/price-thesis-alerts.json"
+    },
+    "investingAccumulationOpportunities": {
+      "generatedAt": "2026-05-12T02:28:36.061Z",
+      "quotes": [
+        {
+          "symbol": "EME",
+          "close": 931.5,
+          "sixMonthHigh": 943.75,
+          "sixMonthLow": 581.5800170898438,
+          "pullbackPct": -1.2980132450331128,
+          "oneMonthPct": 16.084893199694868,
+          "asOf": "2026-05-12T02:28:35.906Z"
+        },
+        {
+          "symbol": "FIX",
+          "close": 2032.97998046875,
+          "sixMonthHigh": 2032.97998046875,
+          "sixMonthLow": 876.1900024414062,
+          "pullbackPct": 0,
+          "oneMonthPct": 27.632406525018688,
+          "asOf": "2026-05-12T02:28:35.963Z"
+        },
+        {
+          "symbol": "PWR",
+          "close": 781.3800048828125,
+          "sixMonthHigh": 785.239990234375,
+          "sixMonthLow": 413.1700134277344,
+          "pullbackPct": -0.4915675971126214,
+          "oneMonthPct": 33.48708904547378,
+          "asOf": "2026-05-12T02:28:36.009Z"
+        },
+        {
+          "symbol": "BWXT",
+          "close": 210.8000030517578,
+          "sixMonthHigh": 238.4199981689453,
+          "sixMonthLow": 168.1199951171875,
+          "pullbackPct": -11.584596648480748,
+          "oneMonthPct": -8.176157021222856,
+          "asOf": "2026-05-12T02:28:36.060Z"
+        }
+      ],
+      "opportunities": [],
+      "path": "/home/node/.openclaw/workspace/memory/investing/accumulation-opportunities.json"
+    },
+    "investingProposedTheses": {
+      "generatedAt": "2026-05-12T02:28:36.094Z",
+      "schemaVersion": "2026-05-12.1",
+      "thresholds": {
+        "minimumEvidenceScore": 0.6,
+        "minimumDifferentiationScore": 0.45,
+        "minimumTrustedSourceCount": 1,
+        "maxProposals": 6
+      },
+      "proposals": [
+        {
+          "id": "japanese-financial-reflation",
+          "title": "Japanese financial reflation",
+          "status": "proposed",
+          "generatedAt": "2026-05-12T02:28:36.094Z",
+          "symbols": [
+            "MUFG",
+            "SMFG"
+          ],
+          "bestTickerExpressions": [
+            {
+              "symbol": "MUFG",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            },
+            {
+              "symbol": "SMFG",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            }
+          ],
+          "source": "tmp-thesis-baskets-digest-2026-04-30.md",
+          "supportingSources": [
+            "tmp-thesis-baskets-digest-2026-04-30.md"
+          ],
+          "thesisDraft": "Recent/local Thesis Baskets material appears to reference Japanese financial candidates.",
+          "evidenceScore": 0.75,
+          "differentiationScore": 1,
+          "trustedSourceCount": 1,
+          "recommendation": "propose-for-approval",
+          "openQuestions": [
+            "What must be true for this to compound over 5-10 years?",
+            "Which ticker is the cleanest expression after valuation and portfolio-overlap checks?",
+            "What would invalidate the thesis?"
+          ]
+        },
+        {
+          "id": "optical-networking-ai-bandwidth",
+          "title": "Optical networking and AI bandwidth bottleneck",
+          "status": "proposed",
+          "generatedAt": "2026-05-12T02:28:36.094Z",
+          "symbols": [
+            "CIEN",
+            "GLW"
+          ],
+          "bestTickerExpressions": [
+            {
+              "symbol": "CIEN",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            },
+            {
+              "symbol": "GLW",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            }
+          ],
+          "source": "tmp-thesis-baskets-digest-2026-05-11.md",
+          "supportingSources": [
+            "tmp-thesis-baskets-digest-2026-05-11.md"
+          ],
+          "thesisDraft": "Recent/local Thesis Baskets material appears to reference optical/networking candidates.",
+          "evidenceScore": 0.75,
+          "differentiationScore": 0.94,
+          "trustedSourceCount": 1,
+          "recommendation": "propose-for-approval",
+          "openQuestions": [
+            "What must be true for this to compound over 5-10 years?",
+            "Which ticker is the cleanest expression after valuation and portfolio-overlap checks?",
+            "What would invalidate the thesis?"
+          ]
+        },
+        {
+          "id": "medical-tools-compounders",
+          "title": "Medical tools and specialty device compounders",
+          "status": "proposed",
+          "generatedAt": "2026-05-12T02:28:36.094Z",
+          "symbols": [
+            "DHR",
+            "BSX"
+          ],
+          "bestTickerExpressions": [
+            {
+              "symbol": "DHR",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            },
+            {
+              "symbol": "BSX",
+              "role": "candidate expression",
+              "note": "Needs valuation and fit review before promotion."
+            }
+          ],
+          "source": "existing investing watchlist/open-loop candidates",
+          "supportingSources": [
+            "existing investing watchlist/open-loop candidates"
+          ],
+          "thesisDraft": "Potential quality compounder sleeve outside macro/industrial themes.",
+          "evidenceScore": 0.75,
+          "differentiationScore": 0.95,
+          "trustedSourceCount": 1,
+          "recommendation": "propose-for-approval",
+          "openQuestions": [
+            "What must be true for this to compound over 5-10 years?",
+            "Which ticker is the cleanest expression after valuation and portfolio-overlap checks?",
+            "What would invalidate the thesis?"
+          ]
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/proposed-theses.json"
+    },
+    "investingProposedThesisConfig": {
+      "generatedAt": "2026-05-12T02:26:00.000Z",
+      "schemaVersion": "2026-05-12.1",
+      "thresholds": {
+        "minimumEvidenceScore": 0.6,
+        "minimumDifferentiationScore": 0.45,
+        "minimumTrustedSourceCount": 1,
+        "maxProposals": 6
+      },
+      "scoringPolicy": {
+        "evidenceScore": "0-1 based on source quality, repeated independent support, thesis specificity, and investable expression clarity.",
+        "differentiationScore": "0-1 based on distance from active thesis registry; lower means likely duplicate/extension.",
+        "proposalGate": "propose when evidenceScore and differentiationScore clear thresholds, or when strong trusted dissent/support suggests a thesis should be considered explicitly."
+      },
+      "candidateThemes": [
+        {
+          "id": "japanese-financial-reflation",
+          "title": "Japanese financial reflation",
+          "source": "existing investing watchlist/open-loop candidates",
+          "symbols": [
+            "MUFG",
+            "SMFG"
+          ],
+          "seedReason": "Candidate tickers already appear in durable investing watchlist; differentiated from AI/power and defense themes."
+        },
+        {
+          "id": "optical-networking-ai-bandwidth",
+          "title": "Optical networking and AI bandwidth bottleneck",
+          "source": "existing investing watchlist/open-loop candidates",
+          "symbols": [
+            "CIEN",
+            "GLW"
+          ],
+          "seedReason": "AI infrastructure adjacent but differentiated from power/grid by focusing on data movement and optical capacity."
+        },
+        {
+          "id": "medical-tools-compounders",
+          "title": "Medical tools and specialty device compounders",
+          "source": "existing investing watchlist/open-loop candidates",
+          "symbols": [
+            "DHR",
+            "BSX"
+          ],
+          "seedReason": "Potential quality compounder sleeve outside macro/industrial themes."
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/proposed-thesis-config.json"
     }
   },
   "stats": {
@@ -2435,7 +2683,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@457948d, 13 dirty · Alphalpha dashboard: main@74c8dc7, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@2fdc9c6, 13 dirty · Alphalpha dashboard: main@503118f, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

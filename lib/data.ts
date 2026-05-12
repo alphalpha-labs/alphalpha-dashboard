@@ -196,6 +196,12 @@ export type InvestingConvictionLedger = { generatedAt: string; entries: Array<{ 
 export type InvestingAccumulationPlan = { generatedAt: string; plans: Array<{ id: string; thesisId: string; title: string; currentExposure?: string; desiredExposure?: string; maxExposure?: string; entryConditions?: string[]; pauseConditions?: string[]; nextReview?: string; status?: string }> };
 export type InvestingTrustedSources = { generatedAt: string; sources: Array<{ id: string; name: string; type?: string; domains?: string[]; usefulness?: string; biasStyle?: string; timeHorizon?: string; bestFor?: string[]; relevantTheses?: string[] }> };
 
+
+export type InvestingPriceAlerts = { generatedAt: string; watchRules: Array<{ id: string; thesisId: string; symbols: string[]; status?: string; triggerDescription?: string; neededInputs?: string[] }>; recentAlerts?: Array<{ id: string; symbol: string; thesisId: string; message: string; trigger: string; action: string }> };
+export type InvestingAccumulationOpportunities = { generatedAt: string; quotes: Array<{ symbol: string; close?: number | null; pullbackPct?: number | null; oneMonthPct?: number | null; error?: string }>; opportunities: Array<{ id: string; symbol: string; thesisId: string; thesisTitle: string; close: number | null; pullbackPct: number | null; trigger: string; action: string; message: string }> };
+export type InvestingProposedTheses = { generatedAt: string; thresholds?: { minimumEvidenceScore?: number; minimumDifferentiationScore?: number; minimumTrustedSourceCount?: number; maxProposals?: number }; proposals: Array<{ id: string; title: string; status: string; symbols: string[]; bestTickerExpressions?: Array<{ symbol: string; role: string; note: string }>; thesisDraft: string; evidenceScore: number; differentiationScore: number; trustedSourceCount: number; recommendation: string; openQuestions?: string[]; supportingSources?: string[] }> };
+export type InvestingProposedThesisConfig = { generatedAt: string; thresholds?: { minimumEvidenceScore?: number; minimumDifferentiationScore?: number; minimumTrustedSourceCount?: number; maxProposals?: number } };
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -216,6 +222,10 @@ export type DashboardData = {
     investingConvictionLedger?: InvestingConvictionLedger | null;
     investingAccumulationPlan?: InvestingAccumulationPlan | null;
     investingTrustedSources?: InvestingTrustedSources | null;
+    investingPriceAlerts?: InvestingPriceAlerts | null;
+    investingAccumulationOpportunities?: InvestingAccumulationOpportunities | null;
+    investingProposedTheses?: InvestingProposedTheses | null;
+    investingProposedThesisConfig?: InvestingProposedThesisConfig | null;
   };
   stats: {
     openLoops:             number;
