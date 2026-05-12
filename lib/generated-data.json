@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-12T22:02:29.878Z",
+    "generatedAt": "2026-05-12T22:14:46.909Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "8663134",
+      "commit": "2da0634",
       "branch": "main",
-      "generatedAt": "2026-05-12T22:02:29.893Z",
+      "generatedAt": "2026-05-12T22:14:46.921Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 3
     },
     "contextHealth": {
       "generatedAt": "2026-05-12T13:15:06.272Z",
@@ -243,16 +243,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@fb17ca0, 18 dirty · Alphalpha dashboard: main@8663134, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@e57d175, 18 dirty · Alphalpha dashboard: main@2da0634, 3 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@fb17ca0 · 18 dirty · 0 ahead · 0 behind"
+            "value": "master@e57d175 · 18 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@8663134 · 4 dirty · 18 ahead · 0 behind"
+            "value": "main@2da0634 · 3 dirty · 19 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -795,12 +795,12 @@
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest-changes.json"
     },
     "investmentRuntimePreflight": {
-      "generatedAt": "2026-05-12T21:52:10.551Z",
+      "generatedAt": "2026-05-12T22:05:19.229Z",
       "endpoint": {
         "ok": true,
         "status": 200,
         "authorized": true,
-        "body_sample": "{\"schema_version\":\"2026-05-11.1\",\"as_of\":\"2026-05-12T21:52:13.121Z\",\"horizon\":\"5-10y\",\"source_url\":\"https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c\""
+        "body_sample": "{\"schema_version\":\"2026-05-11.1\",\"as_of\":\"2026-05-12T22:05:20.725Z\",\"horizon\":\"5-10y\",\"source_url\":\"https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c\""
       },
       "local_env": {
         "preferred": {
@@ -811,7 +811,8 @@
           "ALPHALPHA_DIGEST_TOKEN": false,
           "CRON_SECRET": false
         },
-        "vercel_token_present": true
+        "vercel_token_present": true,
+        "thesis_baskets_vercel_token_present": true
       },
       "endpoint_status": null,
       "vercel": {
@@ -820,19 +821,16 @@
           "projectId": "prj_KgJZ10Q3nCKNh2gF7dlkK0f99JTp",
           "orgId": "team_bLLcsc7pFADW4oQLqSr225UV"
         },
-        "env_command_ok": false,
+        "env_command_ok": true,
         "required_env_observed": {
-          "NEXT_PUBLIC_SUPABASE_URL": false,
-          "SUPABASE_SERVICE_ROLE_KEY": false
+          "NEXT_PUBLIC_SUPABASE_URL": true,
+          "SUPABASE_SERVICE_ROLE_KEY": true
         },
         "note": null
       },
       "summary": {
-        "status": "blocked",
-        "blockers": [
-          "Vercel env not observed via CLI: NEXT_PUBLIC_SUPABASE_URL",
-          "Vercel env not observed via CLI: SUPABASE_SERVICE_ROLE_KEY"
-        ]
+        "status": "ready",
+        "blockers": []
       },
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/runtime-preflight.json"
     },
@@ -4883,7 +4881,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@fb17ca0, 18 dirty · Alphalpha dashboard: main@8663134, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@e57d175, 18 dirty · Alphalpha dashboard: main@2da0634, 3 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

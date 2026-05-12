@@ -84,6 +84,41 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         </section>
       )}
 
+      {tradeReview && (
+        <section className="investmentSection investmentTradeReview investmentTradeReviewFeatured">
+          <div className="tradeReviewHeader">
+            <div>
+              <span className="digestEyebrow">Robinhood/SnapTrade behavior check</span>
+              <h2>Weekly trade review</h2>
+              <p>{tradeReview.startDate} → {tradeReview.endDate} · journal {tradeJournal?.entries?.[0]?.status || "pending"}</p>
+            </div>
+            <div className="tradeReviewStats">
+              <span><strong>{tradeReview.summary.tradeCount}</strong> trades</span>
+              <span><strong>{tradeReview.summary.needsDiscussion}</strong> discuss</span>
+              <span><strong>{weeklyTrades?.summary?.buy_count ?? 0}</strong> buys</span>
+              <span><strong>{weeklyTrades?.summary?.sell_count ?? 0}</strong> sells</span>
+            </div>
+          </div>
+          <div className="tradeReviewMix">{Object.entries(tradeReview.summary.byAlignment || {}).map(([k, v]) => <span key={k}>{k.replace(/-/g, " ")} <strong>{v}</strong></span>)}</div>
+          {tradePrompts.length > 0 && (
+            <div className="tradePromptGrid">
+              {tradePrompts.slice(0, 4).map(item => <div key={item.id} className="tradePromptCard"><strong>{item.symbol || "Trade"} · {item.alignment.replace(/-/g, " ")}</strong><p>{item.prompt}</p><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.symbol || "Trade review", theme: "weekly trade review", stance: item.alignment })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol || "Trade"} review`, decision: item.alignment, rationale: item.prompt })}>Journal</button></div></div>)}
+            </div>
+          )}
+          <div className="tradeTable">
+            <div className="tradeTableHead"><span>Trade</span><span>Placed</span><span>Qty</span><span>Price</span><span>Amount</span><span>Plan</span></div>
+            {reviewedTrades.slice(0, 12).map(item => <div key={`trade-${item.id}`} className="tradeTableRow">
+              <span><strong>{item.action.toUpperCase()} {item.symbol || "cash"}</strong><em>{item.description || "No description"}</em></span>
+              <span>{formatDateTime(item.trade_date)}</span>
+              <span>{formatQuantity(item.quantity)}</span>
+              <span>{formatMoney(item.price)}</span>
+              <span>{formatMoneyAbs(item.amount)}</span>
+              <span><b className={`tradeBadge tradeBadge--${item.alignment}`}>{item.alignment.replace(/-/g, " ")}</b><em>{item.valuationState || "unknown"}</em></span>
+            </div>)}
+          </div>
+        </section>
+      )}
+
       {theses.length > 0 && (
         <section className="investmentSection">
           <div className="sectionTitleRow"><h2>Active thesis registry</h2><span>{theses.length}</span></div>
@@ -135,15 +170,6 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           {proposals.slice(0, 6).map(item => <div key={item.id} className="investmentListRow"><strong>{item.recommendation} · {item.title}</strong><p>{item.thesisDraft}</p><em>{(item.symbols || []).join(", ")} · evidence {item.evidenceScore} · differentiated {item.differentiationScore}</em><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: "proposed thesis", stance: item.recommendation })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "promote-thesis", { thesisId: item.id, stage: "candidate", title: item.title, symbols: item.symbols, rationale: item.thesisDraft })}>Approve candidate</button></div></div>)}
         </section>
       </div>
-
-      {tradeReview && (
-        <section className="investmentSection investmentTradeReview">
-          <div className="sectionTitleRow"><h2>Weekly trade review</h2><span>{tradeReview.summary.tradeCount} trades · {tradeReview.summary.needsDiscussion} discuss</span></div>
-          <p className="emptyText">{tradeReview.startDate} → {tradeReview.endDate} · raw export {weeklyTrades?.summary?.trade_count ?? tradeReview.summary.tradeCount} trades · journal {tradeJournal?.entries?.[0]?.status || "pending"} · {Object.entries(tradeReview.summary.byAlignment || {}).map(([k, v]) => `${k}: ${v}`).join(" · ")}</p>
-          {tradePrompts.slice(0, 5).map(item => <div key={item.id} className="investmentListRow"><strong>{item.alignment} · {item.symbol || "trade"}</strong><p>{item.prompt}</p><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.symbol || "Trade review", theme: "weekly trade review", stance: item.alignment })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol || "Trade"} review`, decision: item.alignment, rationale: item.prompt })}>Journal</button></div></div>)}
-          {reviewedTrades.slice(0, 8).map(item => <div key={`trade-${item.id}`} className="investmentListRow"><strong>{item.action} {item.symbol || "cash"} · {item.alignment}</strong><p>{item.description || "No description"}</p><em>{item.trade_date ? formatDate(item.trade_date) : "date n/a"} · {typeof item.amount === "number" ? `$${Math.abs(item.amount).toFixed(2)}` : "amount n/a"} · {item.valuationState}</em></div>)}
-        </section>
-      )}
 
       {feedbackCalibration && (
         <section className="investmentSection">
@@ -277,4 +303,26 @@ function formatDate(iso?: string | null) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "n/a";
   return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function formatDateTime(iso?: string | null) {
+  if (!iso) return "n/a";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "n/a";
+  return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function formatQuantity(value?: number | null) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "—";
+  return value < 1 ? value.toFixed(6).replace(/0+$/, "").replace(/\.$/, "") : value.toLocaleString("en-US", { maximumFractionDigits: 4 });
+}
+
+function formatMoney(value?: number | null) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "—";
+  return value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
+}
+
+function formatMoneyAbs(value?: number | null) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "—";
+  return Math.abs(value).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
 }
