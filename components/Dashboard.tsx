@@ -254,6 +254,10 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               accumulationOpportunities={data.meta.investingAccumulationOpportunities}
               proposedTheses={data.meta.investingProposedTheses}
               proposedThesisConfig={data.meta.investingProposedThesisConfig}
+              weeklyTrades={data.meta.investingWeeklyTrades}
+              tradeReview={data.meta.investingTradeReview}
+              tradeJournal={data.meta.investingTradeJournal}
+              feedbackCalibration={data.meta.investingFeedbackCalibration}
               onDiscuss={openThread}
               onAction={handleInvestmentAction}
             />

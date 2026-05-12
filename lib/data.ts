@@ -202,6 +202,12 @@ export type InvestingAccumulationOpportunities = { generatedAt: string; quotes: 
 export type InvestingProposedTheses = { generatedAt: string; thresholds?: { minimumEvidenceScore?: number; minimumDifferentiationScore?: number; minimumTrustedSourceCount?: number; maxProposals?: number }; proposals: Array<{ id: string; title: string; status: string; symbols: string[]; bestTickerExpressions?: Array<{ symbol: string; role: string; note: string }>; thesisDraft: string; evidenceScore: number; differentiationScore: number; trustedSourceCount: number; recommendation: string; openQuestions?: string[]; supportingSources?: string[] }> };
 export type InvestingProposedThesisConfig = { generatedAt: string; thresholds?: { minimumEvidenceScore?: number; minimumDifferentiationScore?: number; minimumTrustedSourceCount?: number; maxProposals?: number } };
 
+
+export type InvestingWeeklyTrades = { generated_at?: string; generatedAt?: string; start_date?: string; end_date?: string; summary?: { trade_count?: number; buy_count?: number; sell_count?: number; symbols?: string[] }; trades?: Array<{ id: string; symbol?: string | null; action: string; description?: string | null; trade_date?: string | null; quantity?: number | null; price?: number | null; amount?: number | null }> };
+export type InvestingTradeReview = { generatedAt: string; startDate: string; endDate: string; summary: { tradeCount: number; byAlignment: Record<string, number>; needsDiscussion: number }; trades: Array<{ id: string; symbol?: string | null; action: string; description?: string | null; trade_date?: string | null; amount?: number | null; thesisId?: string | null; thesisTitle?: string | null; valuationState?: string; alignment: string; prompt?: string | null }>; prompts: Array<{ id: string; symbol?: string | null; alignment: string; prompt: string }> };
+export type InvestingTradeJournal = { generatedAt: string; entries: Array<{ id: string; createdAt: string; startDate: string; endDate: string; status: string; summary: { tradeCount: number; needsDiscussion: number; byAlignment: Record<string, number> }; prompts?: Array<{ id: string; symbol?: string | null; alignment: string; prompt: string }> }> };
+export type InvestingFeedbackCalibration = { generatedAt: string; metrics: Record<string, number | Record<string, number>>; calibrationPrompts: string[] };
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -226,6 +232,10 @@ export type DashboardData = {
     investingAccumulationOpportunities?: InvestingAccumulationOpportunities | null;
     investingProposedTheses?: InvestingProposedTheses | null;
     investingProposedThesisConfig?: InvestingProposedThesisConfig | null;
+    investingWeeklyTrades?: InvestingWeeklyTrades | null;
+    investingTradeReview?: InvestingTradeReview | null;
+    investingTradeJournal?: InvestingTradeJournal | null;
+    investingFeedbackCalibration?: InvestingFeedbackCalibration | null;
   };
   stats: {
     openLoops:             number;

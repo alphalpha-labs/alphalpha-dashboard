@@ -13,6 +13,10 @@ import type {
   InvestingAccumulationOpportunities,
   InvestingProposedTheses,
   InvestingProposedThesisConfig,
+  InvestingWeeklyTrades,
+  InvestingTradeReview,
+  InvestingTradeJournal,
+  InvestingFeedbackCalibration,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -33,11 +37,15 @@ interface Props {
   accumulationOpportunities?: InvestingAccumulationOpportunities | null;
   proposedTheses?: InvestingProposedTheses | null;
   proposedThesisConfig?: InvestingProposedThesisConfig | null;
+  weeklyTrades?: InvestingWeeklyTrades | null;
+  tradeReview?: InvestingTradeReview | null;
+  tradeJournal?: InvestingTradeJournal | null;
+  feedbackCalibration?: InvestingFeedbackCalibration | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -49,6 +57,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
   const opportunities = accumulationOpportunities?.opportunities ?? [];
   const quotes = accumulationOpportunities?.quotes ?? [];
   const proposals = proposedTheses?.proposals ?? [];
+  const tradePrompts = tradeReview?.prompts ?? [];
+  const reviewedTrades = tradeReview?.trades ?? [];
 
   return (
     <div className="investingPage">
@@ -125,6 +135,22 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           {proposals.slice(0, 6).map(item => <div key={item.id} className="investmentListRow"><strong>{item.recommendation} · {item.title}</strong><p>{item.thesisDraft}</p><em>{(item.symbols || []).join(", ")} · evidence {item.evidenceScore} · differentiated {item.differentiationScore}</em><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: "proposed thesis", stance: item.recommendation })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "promote-thesis", { thesisId: item.id, stage: "candidate", title: item.title, symbols: item.symbols, rationale: item.thesisDraft })}>Approve candidate</button></div></div>)}
         </section>
       </div>
+
+      {tradeReview && (
+        <section className="investmentSection investmentTradeReview">
+          <div className="sectionTitleRow"><h2>Weekly trade review</h2><span>{tradeReview.summary.tradeCount} trades · {tradeReview.summary.needsDiscussion} discuss</span></div>
+          <p className="emptyText">{tradeReview.startDate} → {tradeReview.endDate} · raw export {weeklyTrades?.summary?.trade_count ?? tradeReview.summary.tradeCount} trades · journal {tradeJournal?.entries?.[0]?.status || "pending"} · {Object.entries(tradeReview.summary.byAlignment || {}).map(([k, v]) => `${k}: ${v}`).join(" · ")}</p>
+          {tradePrompts.slice(0, 5).map(item => <div key={item.id} className="investmentListRow"><strong>{item.alignment} · {item.symbol || "trade"}</strong><p>{item.prompt}</p><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.symbol || "Trade review", theme: "weekly trade review", stance: item.alignment })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol || "Trade"} review`, decision: item.alignment, rationale: item.prompt })}>Journal</button></div></div>)}
+          {reviewedTrades.slice(0, 8).map(item => <div key={`trade-${item.id}`} className="investmentListRow"><strong>{item.action} {item.symbol || "cash"} · {item.alignment}</strong><p>{item.description || "No description"}</p><em>{item.trade_date ? formatDate(item.trade_date) : "date n/a"} · {typeof item.amount === "number" ? `$${Math.abs(item.amount).toFixed(2)}` : "amount n/a"} · {item.valuationState}</em></div>)}
+        </section>
+      )}
+
+      {feedbackCalibration && (
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Feedback calibration</h2><span>{typeof feedbackCalibration.metrics.openTradeReviews === "number" ? feedbackCalibration.metrics.openTradeReviews : 0} open reviews</span></div>
+          {feedbackCalibration.calibrationPrompts.map(prompt => <div key={prompt} className="investmentListRow"><strong>Calibration prompt</strong><p>{prompt}</p></div>)}
+        </section>
+      )}
 
       {changes && changes.totals.changed > 0 && (
         <section className="investmentSection investmentChanges">

@@ -59,6 +59,10 @@ function readSourceManifests() {
     investingAccumulationOpportunities: readWorkspaceManifest(path.join('memory', 'investing', 'accumulation-opportunities.json')),
     investingProposedTheses: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-theses.json')),
     investingProposedThesisConfig: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-thesis-config.json')),
+    investingWeeklyTrades: readWorkspaceManifest(path.join('memory', 'investing', 'weekly-trades', 'latest.json')),
+    investingTradeReview: readWorkspaceManifest(path.join('memory', 'investing', 'trade-review', 'latest.json')),
+    investingTradeJournal: readWorkspaceManifest(path.join('memory', 'investing', 'trade-journal.json')),
+    investingFeedbackCalibration: readWorkspaceManifest(path.join('memory', 'investing', 'feedback-calibration.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -493,6 +497,10 @@ function buildData() {
       investingAccumulationOpportunities: sourceManifests.investingAccumulationOpportunities || null,
       investingProposedTheses: sourceManifests.investingProposedTheses || null,
       investingProposedThesisConfig: sourceManifests.investingProposedThesisConfig || null,
+      investingWeeklyTrades: sourceManifests.investingWeeklyTrades || null,
+      investingTradeReview: sourceManifests.investingTradeReview || null,
+      investingTradeJournal: sourceManifests.investingTradeJournal || null,
+      investingFeedbackCalibration: sourceManifests.investingFeedbackCalibration || null,
     },
     stats: {
       openLoops:        checked.length,
