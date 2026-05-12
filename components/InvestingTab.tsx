@@ -1,14 +1,27 @@
-import type { InvestmentDecisionDigest, InvestmentDecisionDigestChanges, Ticker } from "@/lib/data";
+import type {
+  InvestmentCrawlPlan,
+  InvestmentDecisionDigest,
+  InvestmentDecisionDigestChanges,
+  InvestmentJournal,
+  InvestmentResearchActions,
+  InvestmentRuntimePreflight,
+  Ticker,
+} from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
 interface Props {
   investing: Ticker[];
   digest?: InvestmentDecisionDigest | null;
   changes?: InvestmentDecisionDigestChanges | null;
+  preflight?: InvestmentRuntimePreflight | null;
+  journal?: InvestmentJournal | null;
+  researchActions?: InvestmentResearchActions | null;
+  crawlPlan?: InvestmentCrawlPlan | null;
   onDiscuss: (ctx: ThreadContext) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, onDiscuss }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -18,6 +31,13 @@ export default function InvestingTab({ investing, digest, changes, onDiscuss }: 
     <div className="investingPage">
       <h1 className="tabTitle">Investing decision layer</h1>
       <p className="tabSubtitle">5–10 year accumulation focus · {decisions.length || investing.length} current signals</p>
+
+      {preflight && preflight.summary?.status !== "ready" && (
+        <section className="investmentSection investmentPreflight">
+          <div className="sectionTitleRow"><h2>Live digest preflight</h2><span>{preflight.summary?.status || "unknown"}</span></div>
+          {(preflight.summary?.blockers ?? []).map(blocker => <div key={blocker} className="investmentListRow"><strong>Blocked</strong><p>{blocker}</p></div>)}
+        </section>
+      )}
 
       {digest && (
         <section className="investmentDigestHero">
@@ -51,9 +71,14 @@ export default function InvestingTab({ investing, digest, changes, onDiscuss }: 
                 <h3>{item.title}</h3>
                 <p>{item.rationale}</p>
                 <div className="decisionMeta">{item.basket || "No basket"} · {(item.asset_symbols || []).join(", ") || "theme"}</div>
-                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: item.basket || undefined, stance: item.action })}>
-                  <span className="alphaGlyph">α</span> Discuss
-                </button>
+                <div className="investmentButtonRow">
+                  <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: item.basket || undefined, stance: item.action })}>
+                    <span className="alphaGlyph">α</span> Discuss
+                  </button>
+                  <button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: item.title, decision: item.action, rationale: item.rationale, basket: item.basket, symbols: item.asset_symbols })}>
+                    Journal
+                  </button>
+                </div>
               </article>
             ))}
           </div>
@@ -78,8 +103,29 @@ export default function InvestingTab({ investing, digest, changes, onDiscuss }: 
             <div key={item.id} className="investmentListRow">
               <strong>{item.priority} · {item.question}</strong>
               <p>{item.reason}</p>
+              <button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "research-note", { title: item.question, rationale: item.reason, basket: item.basket, symbols: item.asset_symbols })}>Track action</button>
             </div>
           )) : <p className="emptyText">No research questions exported yet.</p>}
+        </section>
+      </div>
+
+      {crawlPlan && (
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Cost-aware crawl planner</h2><span>{crawlPlan.recommended_expensive_crawls?.length ?? 0} paid candidates</span></div>
+          {crawlPlan.policy?.default && <p className="emptyText">{crawlPlan.policy.default}</p>}
+          {(crawlPlan.recommended_expensive_crawls ?? []).map(item => <div key={item.id} className="investmentListRow"><strong>Consider targeted crawl · {item.title}</strong><p>{item.reason}</p><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "crawl-candidate", item)}>Track crawl candidate</button></div>)}
+          {(crawlPlan.deterministic_only ?? []).slice(0, 4).map(item => <div key={item.id} className="investmentListRow"><strong>Do not spend AI yet · {item.title}</strong><p>{item.reason}</p><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "deterministic-research", item)}>Track deterministic research</button></div>)}
+        </section>
+      )}
+
+      <div className="investmentTwoCol">
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Decision journal</h2><span>{journal?.entries?.length ?? 0}</span></div>
+          {(journal?.entries ?? []).slice(0, 5).map(item => <div key={item.id} className="investmentListRow"><strong>{item.decision || "decision"} · {item.title}</strong><p>{item.rationale}</p><em>{item.next}</em></div>)}
+        </section>
+        <section className="investmentSection">
+          <div className="sectionTitleRow"><h2>Research actions</h2><span>{researchActions?.items?.length ?? 0}</span></div>
+          {(researchActions?.items ?? []).slice(0, 5).map(item => <div key={item.id} className="investmentListRow"><strong>{item.type || "action"} · {item.title}</strong><p>{item.rationale}</p><em>{item.next}</em></div>)}
         </section>
       </div>
 

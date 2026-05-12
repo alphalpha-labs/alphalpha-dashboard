@@ -72,6 +72,18 @@ export type InvestmentDecisionDigestChanges = {
   research_queue?: { added: NonNullable<InvestmentDecisionDigest["research_queue"]>; removed: NonNullable<InvestmentDecisionDigest["research_queue"]> };
 };
 
+export type InvestmentRuntimePreflight = {
+  generatedAt: string;
+  summary?: { status: string; blockers: string[] };
+  endpoint?: { status: number | null; authorized: boolean; body_sample?: string };
+  local_env?: { auth?: Record<string, boolean>; vercel_token_present?: boolean };
+  vercel?: { linked_project?: { projectName?: string; projectId?: string } | null; required_env_observed?: Record<string, boolean>; note?: string | null };
+};
+
+export type InvestmentJournal = { generatedAt: string; entries: Array<{ id: string; createdAt: string; title: string; decision?: string | null; rationale?: string; next?: string; status?: string; symbols?: string[]; basket?: string | null }> };
+export type InvestmentResearchActions = { generatedAt: string; items: Array<{ id: string; createdAt: string; title: string; type?: string; rationale?: string; next?: string; status?: string; symbols?: string[]; basket?: string | null }> };
+export type InvestmentCrawlPlan = { generatedAt: string; policy?: { default?: string; expensive_crawl_cap?: number }; recommended_expensive_crawls?: Array<{ id: string; title: string; reason: string; action: string; symbols?: string[]; basket?: string | null }>; deterministic_only?: Array<{ id: string; title: string; reason: string; action: string; symbols?: string[]; basket?: string | null }>; ignored_noise?: Array<{ id: string; title: string; reason: string }> };
+
 export type Digest = {
   id:       string;
   date:     string;
@@ -174,6 +186,10 @@ export type DashboardData = {
     activity?: ActivityItem[];
     investmentDecisionDigest?: InvestmentDecisionDigest | null;
     investmentDecisionDigestChanges?: InvestmentDecisionDigestChanges | null;
+    investmentRuntimePreflight?: InvestmentRuntimePreflight | null;
+    investmentDecisionJournal?: InvestmentJournal | null;
+    investmentResearchActions?: InvestmentResearchActions | null;
+    investmentCrawlPlan?: InvestmentCrawlPlan | null;
   };
   stats: {
     openLoops:             number;

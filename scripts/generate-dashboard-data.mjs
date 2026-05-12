@@ -47,6 +47,10 @@ function readSourceManifests() {
     thesisBaskets: readWorkspaceManifest(path.join('memory', 'thesis-baskets-ingestion-state.json')),
     investmentDecisionDigest: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest.json')),
     investmentDecisionDigestChanges: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest-changes.json')),
+    investmentRuntimePreflight: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'runtime-preflight.json')),
+    investmentDecisionJournal: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'decision-journal.json')),
+    investmentResearchActions: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'research-actions.json')),
+    investmentCrawlPlan: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'crawl-plan.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -469,6 +473,10 @@ function buildData() {
       activity: readActivity(),
       investmentDecisionDigest: sourceManifests.investmentDecisionDigest || null,
       investmentDecisionDigestChanges: sourceManifests.investmentDecisionDigestChanges || null,
+      investmentRuntimePreflight: sourceManifests.investmentRuntimePreflight || null,
+      investmentDecisionJournal: sourceManifests.investmentDecisionJournal || null,
+      investmentResearchActions: sourceManifests.investmentResearchActions || null,
+      investmentCrawlPlan: sourceManifests.investmentCrawlPlan || null,
     },
     stats: {
       openLoops:        checked.length,

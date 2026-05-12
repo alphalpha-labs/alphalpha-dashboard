@@ -755,3 +755,5 @@ input { font-family: inherit; }
 .investmentHealth ul { margin: 8px 0 0 18px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.5; }
 .emptyText { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-faint); }
 @media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol { grid-template-columns: 1fr; flex-direction: column; } }
+.investmentPreflight { border-color: rgba(177, 80, 45, .35); background: rgba(255, 244, 235, .72); }
+.investmentButtonRow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }

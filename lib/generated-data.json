@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-12T00:03:37.082Z",
+    "generatedAt": "2026-05-12T01:33:13.317Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "0646d69",
+      "commit": "b2d1480",
       "branch": "main",
-      "generatedAt": "2026-05-12T00:03:37.094Z",
+      "generatedAt": "2026-05-12T01:33:13.337Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 6
     },
     "contextHealth": {
       "generatedAt": "2026-05-11T19:13:53.661Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "26 active files / 15008 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "11h old",
+        "age": "12h old",
         "summary": "15 family / 94 music latest",
         "detail": "37 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "9h old",
+        "age": "11h old",
         "summary": "12 selected / 24 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "11h old",
+        "age": "12h old",
         "summary": "19 tickers / 1 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "13h old",
+        "age": "14h old",
         "summary": "2 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -196,7 +196,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "19 enabled / 6 paused",
         "detail": "25 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -243,16 +243,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@8e64cbf, 14 dirty · Alphalpha dashboard: main@0646d69, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@3be4097, 12 dirty · Alphalpha dashboard: main@b2d1480, 6 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@8e64cbf · 14 dirty · 0 ahead · 0 behind"
+            "value": "master@3be4097 · 12 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@0646d69 · 4 dirty · 14 ahead · 0 behind"
+            "value": "main@b2d1480 · 6 dirty · 15 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -270,7 +270,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "OK",
-        "age": "6h old",
+        "age": "8h old",
         "summary": "873 new / 1544 scanned",
         "detail": "last event 2026-05-11 14:29:47.883+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -299,7 +299,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "7 pending / 1 high",
         "detail": "12 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -605,12 +605,135 @@
         "changed": 0
       },
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest-changes.json"
+    },
+    "investmentRuntimePreflight": {
+      "generatedAt": "2026-05-12T01:30:59.468Z",
+      "endpoint": {
+        "ok": false,
+        "status": 401,
+        "authorized": false,
+        "body_sample": "{\"error\":\"Unauthorized\"}"
+      },
+      "local_env": {
+        "preferred": {
+          "THESIS_BASKETS_DIGEST_TOKEN": false
+        },
+        "auth": {
+          "THESIS_BASKETS_DIGEST_TOKEN": false,
+          "ALPHALPHA_DIGEST_TOKEN": false,
+          "CRON_SECRET": false
+        },
+        "vercel_token_present": true
+      },
+      "endpoint_status": null,
+      "vercel": {
+        "checked": true,
+        "linked_project": {
+          "projectName": "next-app",
+          "projectId": "prj_MnfAj2z7uoJVUk2kShmiAZIwrIM9",
+          "orgId": "team_7Co2xtGSlVkAp6rFD3OhgczP"
+        },
+        "env_command_ok": true,
+        "required_env_observed": {
+          "NEXT_PUBLIC_SUPABASE_URL": false,
+          "SUPABASE_SERVICE_ROLE_KEY": false
+        },
+        "note": "Local Vercel CLI is linked to a generic next-app project; confirm this is the intended Thesis Baskets production project."
+      },
+      "summary": {
+        "status": "blocked",
+        "blockers": [
+          "No local digest auth token available for OpenClaw fetches. Set THESIS_BASKETS_DIGEST_TOKEN or mirror ALPHALPHA_DIGEST_TOKEN/CRON_SECRET.",
+          "Digest endpoint returned 401 with current runtime env. Token mismatch or missing token.",
+          "Vercel CLI appears linked to generic next-app project; verify/fix Thesis Baskets production project linkage.",
+          "Vercel env not observed via CLI: NEXT_PUBLIC_SUPABASE_URL",
+          "Vercel env not observed via CLI: SUPABASE_SERVICE_ROLE_KEY"
+        ]
+      },
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/runtime-preflight.json"
+    },
+    "investmentDecisionJournal": {
+      "generatedAt": "2026-05-12T01:28:00.000Z",
+      "entries": [
+        {
+          "id": "2026-05-12-investment-decision-digest-phase-1",
+          "createdAt": "2026-05-12T01:28:00.000Z",
+          "type": "decision",
+          "itemId": "investment-decision-digest-phase-1",
+          "title": "Use Thesis Baskets as research engine and Alphalpha as decision layer",
+          "basket": null,
+          "symbols": [],
+          "decision": "accepted",
+          "rationale": "This separates noisy/expensive ingestion from the compact 5-10 year accumulation surface Alex actually needs.",
+          "next": "Wire live digest token/env, then start recording accumulate/monitor/reject decisions per asset.",
+          "status": "open"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/decision-journal.json"
+    },
+    "investmentResearchActions": {
+      "generatedAt": "2026-05-12T01:28:00.000Z",
+      "items": [
+        {
+          "id": "2026-05-12-configure-live-digest-env",
+          "createdAt": "2026-05-12T01:28:00.000Z",
+          "type": "preflight",
+          "itemId": "live-digest-env",
+          "title": "Configure live Thesis Baskets digest env/token",
+          "basket": null,
+          "symbols": [],
+          "decision": null,
+          "rationale": "OpenClaw fetches currently receive 401, and manual Thesis Baskets Vercel deploy linked a generic next-app project without Supabase env vars.",
+          "next": "Set THESIS_BASKETS_DIGEST_TOKEN or mirror ALPHALPHA_DIGEST_TOKEN/CRON_SECRET; fix Vercel project linkage/env for NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+          "status": "open"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/research-actions.json"
+    },
+    "investmentCrawlPlan": {
+      "generatedAt": "2026-05-12T01:31:01.361Z",
+      "mode": "scaffold",
+      "horizon": "5-10y",
+      "policy": {
+        "default": "Do not run broad scheduled X/AI crawls. Spend API/AI budget only on changed, high-priority decisions, contradictions, or research questions.",
+        "expensive_crawl_cap": 3,
+        "require_human_or_cron_token_for_execution": true
+      },
+      "recommended_expensive_crawls": [],
+      "deterministic_only": [
+        {
+          "kind": "research",
+          "id": "phase-1",
+          "title": "Fetch first live Thesis Baskets decision digest",
+          "basket": null,
+          "symbols": [],
+          "score": 3,
+          "reason": "Need live check-in/portfolio/watchlist data before ranking candidates.",
+          "changed": false,
+          "suggested_sources": [
+            "existing digest data",
+            "RSS/Substack/cache",
+            "manual research note"
+          ],
+          "action": "do-not-spend-ai-yet"
+        }
+      ],
+      "ignored_noise": [
+        {
+          "id": "x-default-off",
+          "title": "Broad scheduled X crawling",
+          "reason": "Too expensive/noisy until a targeted voice or basket clears a deterministic threshold."
+        }
+      ],
+      "symbols": [],
+      "baskets": [],
+      "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/crawl-plan.json"
     }
   },
   "stats": {
-    "openLoops": 50,
+    "openLoops": 51,
     "activeProjects": 6,
-    "highPriority": 6,
+    "highPriority": 7,
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 26,
@@ -2046,7 +2169,7 @@
       "date": "2026-05-08",
       "category": "Projects/Open loops",
       "title": "Project registry and open loops are now source files",
-      "summary": "Dashboard generated from 6 project entries and 50 open loops.",
+      "summary": "Dashboard generated from 6 project entries and 51 open loops.",
       "tags": [
         "#projects",
         "#open-loops"
@@ -2090,7 +2213,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Austin events: 15 family / 94 music latest",
-      "summary": "37 crawl artifacts indexed · 11h old · memory/events/latest-manifest.json",
+      "summary": "37 crawl artifacts indexed · 12h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2101,7 +2224,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "AI tooling: 12 selected / 24 recent deduped",
-      "summary": "308 raw items · 9h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 11h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2112,7 +2235,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Investing watchlist: 19 tickers / 1 themes",
-      "summary": "4 high-priority research candidates · 11h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 12h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2123,7 +2246,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Obsidian proposals: 2 proposed updates",
-      "summary": "proposal-only · 13h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2134,7 +2257,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Automations: 19 enabled / 6 paused",
-      "summary": "25 cron jobs indexed · 5h old · memory/automations/latest-manifest.json",
+      "summary": "25 cron jobs indexed · 6h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2145,7 +2268,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@8e64cbf, 14 dirty · Alphalpha dashboard: main@0646d69, 4 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@3be4097, 12 dirty · Alphalpha dashboard: main@b2d1480, 6 dirty · Obsidian vault: main@816dbfb · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2156,7 +2279,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Thesis Baskets: 873 new / 1544 scanned",
-      "summary": "last event 2026-05-11 14:29:47.883+00 · 6h old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-11 14:29:47.883+00 · 8h old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -2167,7 +2290,7 @@
       "date": "2026-05-12",
       "category": "Source health",
       "title": "Review queue: 7 pending / 1 high",
-      "summary": "12 review items indexed · 5h old · memory/review-queue/latest-manifest.json",
+      "summary": "12 review items indexed · 6h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

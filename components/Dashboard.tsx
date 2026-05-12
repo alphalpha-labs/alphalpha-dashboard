@@ -114,6 +114,16 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
     });
   }, [reviewItems]);
 
+  const handleInvestmentAction = useCallback((itemId: string, action: string, payload: object = {}) => {
+    postSignal("investment-action", itemId, {
+      action,
+      itemId,
+      ...payload,
+      durableTarget: action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
+      requestedAction: "apply-investment-action-and-refresh-dashboard",
+    });
+  }, []);
+
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
     const job = automations.find(j => j.id === jobId);
     setAutomations(prev => prev.map(job => {
@@ -228,7 +238,17 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
             <ProjectGrid projects={data.projects} loops={loops} onDiscuss={openThread} />
           )}
           {activeTab === "investing" && (
-            <InvestingTab investing={data.investing} digest={data.meta.investmentDecisionDigest} changes={data.meta.investmentDecisionDigestChanges} onDiscuss={openThread} />
+            <InvestingTab
+              investing={data.investing}
+              digest={data.meta.investmentDecisionDigest}
+              changes={data.meta.investmentDecisionDigestChanges}
+              preflight={data.meta.investmentRuntimePreflight}
+              journal={data.meta.investmentDecisionJournal}
+              researchActions={data.meta.investmentResearchActions}
+              crawlPlan={data.meta.investmentCrawlPlan}
+              onDiscuss={openThread}
+              onAction={handleInvestmentAction}
+            />
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />
