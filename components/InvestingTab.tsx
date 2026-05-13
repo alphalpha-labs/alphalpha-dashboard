@@ -17,6 +17,8 @@ import type {
   InvestingTradeReview,
   InvestingTradeJournal,
   InvestingFeedbackCalibration,
+  InvestingInputHealth,
+  InvestingPortfolioContextMap,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -41,11 +43,13 @@ interface Props {
   tradeReview?: InvestingTradeReview | null;
   tradeJournal?: InvestingTradeJournal | null;
   feedbackCalibration?: InvestingFeedbackCalibration | null;
+  inputHealth?: InvestingInputHealth | null;
+  portfolioContextMap?: InvestingPortfolioContextMap | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -116,6 +120,36 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
               <span><b className={`tradeBadge tradeBadge--${item.alignment}`}>{item.alignment.replace(/-/g, " ")}</b><em>{item.valuationState || "unknown"}</em></span>
             </div>)}
           </div>
+        </section>
+      )}
+
+      {(portfolioContextMap || inputHealth) && (
+        <div className="investmentTwoCol investmentContextRow">
+          {portfolioContextMap && (
+            <section className="investmentSection investmentPortfolioMap">
+              <div className="sectionTitleRow"><h2>Portfolio exposure map</h2><span>{portfolioContextMap.portfolio.holding_count ?? 0} holdings</span></div>
+              <p className="emptyText">Total equity {formatMoney(portfolioContextMap.portfolio.total_equity)} · cash {formatMoney(portfolioContextMap.portfolio.cash_balance)} · {portfolioContextMap.exposureMap.unmappedHoldings?.length ?? 0} unmapped holdings</p>
+              {(portfolioContextMap.exposureMap.byTheme ?? []).slice(0, 6).map(theme => <div key={theme.id} className="portfolioThemeRow"><strong>{theme.title}</strong><span>{formatMoney(theme.equity)} · {theme.portfolioPct.toFixed(1)}%</span><em>{theme.holdings.slice(0, 5).map(h => h.symbol).join(", ")}</em></div>)}
+              {(portfolioContextMap.prompts ?? []).filter(p => p.type === "map-holding").slice(0, 4).map(prompt => <div key={`${prompt.type}-${prompt.symbol}`} className="investmentListRow"><strong>Map holding · {prompt.symbol}</strong><p>{prompt.prompt}</p><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `holding-${prompt.symbol}`, type: "ticker", title: prompt.symbol || "Holding", theme: "portfolio mapping", stance: "needs thesis" })}>Discuss mapping</button></div>)}
+            </section>
+          )}
+          {inputHealth && (
+            <section className="investmentSection investmentInputHealth">
+              <div className="sectionTitleRow"><h2>Investor/news input health</h2><span>{inputHealth.status}</span></div>
+              <div className="inputHealthStats"><span><strong>{inputHealth.summary.investorPosts7d ?? 0}</strong> investor posts 7d</span><span><strong>{inputHealth.summary.highRelevanceInvestorPosts7d ?? 0}</strong> high-signal 7d</span><span><strong>{inputHealth.summary.newsItems7d ?? 0}</strong> news 7d</span><span><strong>{inputHealth.summary.failedInvestorFetchRuns14d ?? 0}</strong> failed runs</span></div>
+              {(inputHealth.health?.warnings ?? []).slice(0, 3).map(warning => <div key={warning} className="investmentListRow"><strong>Watch</strong><p>{warning}</p></div>)}
+              {(inputHealth.recommendations ?? []).slice(0, 3).map(rec => <div key={rec} className="investmentListRow"><strong>Recommendation</strong><p>{rec}</p></div>)}
+              {(inputHealth.investorPosts?.recentHighSignal ?? []).slice(0, 3).map(item => <div key={`${item.event_time}-${item.title}`} className="investmentListRow"><strong>{item.investor_name || item.source_label} · {item.title}</strong><p>{item.ai_summary}</p></div>)}
+            </section>
+          )}
+        </div>
+      )}
+
+      {portfolioContextMap?.obsidianSignals && (
+        <section className="investmentSection investmentObsidianSignals">
+          <div className="sectionTitleRow"><h2>Obsidian / podcast investing signals</h2><span>{portfolioContextMap.obsidianSignals.noteCount ?? 0} matched notes</span></div>
+          <div className="obsidianThemeGrid">{(portfolioContextMap.obsidianSignals.themeEvidence ?? []).slice(0, 6).map(theme => <div key={theme.theme} className="obsidianThemeCard"><strong>{theme.theme.replace(/-/g, " ")}</strong><span>{theme.noteCount} notes</span><em>{Object.entries(theme.symbols || {}).slice(0, 5).map(([s, n]) => `${s}×${n}`).join(" · ") || "theme evidence"}</em></div>)}</div>
+          {(portfolioContextMap.prompts ?? []).filter(p => p.type === "obsidian-theme").slice(0, 4).map(prompt => <div key={`${prompt.type}-${prompt.theme}`} className="investmentListRow"><strong>Review theme · {prompt.theme}</strong><p>{prompt.prompt}</p><em>{(prompt.examples || []).join(" · ")}</em></div>)}
         </section>
       )}
 

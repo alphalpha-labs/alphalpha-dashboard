@@ -63,6 +63,8 @@ function readSourceManifests() {
     investingTradeReview: readWorkspaceManifest(path.join('memory', 'investing', 'trade-review', 'latest.json')),
     investingTradeJournal: readWorkspaceManifest(path.join('memory', 'investing', 'trade-journal.json')),
     investingFeedbackCalibration: readWorkspaceManifest(path.join('memory', 'investing', 'feedback-calibration.json')),
+    investingInputHealth: readWorkspaceManifest(path.join('memory', 'investing', 'input-health.json')),
+    investingPortfolioContextMap: readWorkspaceManifest(path.join('memory', 'investing', 'portfolio-context-map.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -501,6 +503,8 @@ function buildData() {
       investingTradeReview: sourceManifests.investingTradeReview || null,
       investingTradeJournal: sourceManifests.investingTradeJournal || null,
       investingFeedbackCalibration: sourceManifests.investingFeedbackCalibration || null,
+      investingInputHealth: sourceManifests.investingInputHealth || null,
+      investingPortfolioContextMap: sourceManifests.investingPortfolioContextMap || null,
     },
     stats: {
       openLoops:        checked.length,

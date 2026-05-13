@@ -785,3 +785,18 @@ input { font-family: inherit; }
 .tradeBadge--watchlist-pullback, .tradeBadge--thesis-update-needed { background: rgba(177, 133, 61, .15); color: #89652a; }
 @media (max-width: 980px) { .tradeReviewHeader { grid-template-columns: 1fr; } .tradeReviewStats { grid-template-columns: repeat(4, minmax(0, 1fr)); } .tradeTable { overflow-x: auto; } .tradeTableHead, .tradeTableRow { min-width: 760px; } }
 @media (max-width: 620px) { .tradeReviewStats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Investing context map / input health */
+.investmentContextRow { align-items: start; }
+.portfolioThemeRow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 8px 0; border-top: 1px solid var(--border-faint); font-family: 'DM Sans', sans-serif; }
+.portfolioThemeRow strong { color: var(--ink-2); font-size: 12px; text-transform: capitalize; }
+.portfolioThemeRow span { color: var(--ink-muted); font-size: 11px; }
+.portfolioThemeRow em { grid-column: 1 / -1; color: var(--ink-faint); font-size: 10px; font-style: normal; }
+.inputHealthStats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+.inputHealthStats span { border: 1px solid var(--border); border-radius: 14px; background: var(--card); padding: 8px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
+.inputHealthStats strong { display: block; font-size: 17px; color: var(--ink); letter-spacing: 0; }
+.obsidianThemeGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 9px; margin-bottom: 10px; }
+.obsidianThemeCard { border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); padding: 10px; font-family: 'DM Sans', sans-serif; }
+.obsidianThemeCard strong { display: block; color: var(--ink-2); font-size: 12px; text-transform: capitalize; }
+.obsidianThemeCard span { display: block; margin: 4px 0; color: var(--ink-muted); font-size: 11px; }
+.obsidianThemeCard em { display: block; color: var(--ink-faint); font-size: 10px; font-style: normal; line-height: 1.35; }

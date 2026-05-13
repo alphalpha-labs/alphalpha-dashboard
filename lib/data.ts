@@ -207,6 +207,8 @@ export type InvestingWeeklyTrades = { generated_at?: string; generatedAt?: strin
 export type InvestingTradeReview = { generatedAt: string; startDate: string; endDate: string; summary: { tradeCount: number; byAlignment: Record<string, number>; needsDiscussion: number }; trades: Array<{ id: string; symbol?: string | null; action: string; description?: string | null; trade_date?: string | null; quantity?: number | null; price?: number | null; amount?: number | null; thesisId?: string | null; thesisTitle?: string | null; valuationState?: string; alignment: string; prompt?: string | null }>; prompts: Array<{ id: string; symbol?: string | null; alignment: string; prompt: string }> };
 export type InvestingTradeJournal = { generatedAt: string; entries: Array<{ id: string; createdAt: string; startDate: string; endDate: string; status: string; summary: { tradeCount: number; needsDiscussion: number; byAlignment: Record<string, number> }; prompts?: Array<{ id: string; symbol?: string | null; alignment: string; prompt: string }> }> };
 export type InvestingFeedbackCalibration = { generatedAt: string; metrics: Record<string, number | Record<string, number>>; calibrationPrompts: string[] };
+export type InvestingInputHealth = { generatedAt: string; status: string; summary: Record<string, number>; health?: { blockers?: string[]; warnings?: string[] }; investorPosts?: { bySource30d?: Array<{ source: string; platform?: string; posts: number; latest?: string; avg_thesis?: number; avg_macro?: number }>; recentHighSignal?: Array<{ investor_name?: string; source_label?: string; title?: string; url?: string; event_time?: string; ai_summary?: string; themes_detected?: string[] }> }; news?: { bySource30d?: Array<{ source: string; items: number; latest?: string; avg_relevance?: number }> }; fetchRuns?: { byStatus14d?: Array<{ status: string; runs: number; items_seen?: number; items_inserted?: number; latest?: string }> }; recommendations?: string[] };
+export type InvestingPortfolioContextMap = { generatedAt: string; portfolio: { holding_count?: number; account_count?: number; cash_balance?: number | null; total_equity?: number | null; warnings?: string[] }; exposureMap: { byTheme?: Array<{ id: string; title: string; equity: number; portfolioPct: number; holdings: Array<{ symbol: string; equity?: number | null; portfolio_pct?: number | null; name?: string | null }> }>; unmappedHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; prompt?: string | null }>; topHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; thesisTitle?: string | null; mappedTheme?: string | null }> }; obsidianSignals?: { noteCount?: number; themeEvidence?: Array<{ theme: string; noteCount: number; symbols?: Record<string, number>; examples?: Array<{ path: string; title?: string; snippet?: string }> }> }; prompts?: Array<{ type: string; symbol?: string; theme?: string; prompt: string; equity?: number | null; portfolio_pct?: number | null; examples?: string[] }> };
 
 export type DashboardData = {
   meta: {
@@ -236,6 +238,8 @@ export type DashboardData = {
     investingTradeReview?: InvestingTradeReview | null;
     investingTradeJournal?: InvestingTradeJournal | null;
     investingFeedbackCalibration?: InvestingFeedbackCalibration | null;
+    investingInputHealth?: InvestingInputHealth | null;
+    investingPortfolioContextMap?: InvestingPortfolioContextMap | null;
   };
   stats: {
     openLoops:             number;
@@ -257,4 +261,4 @@ export type DashboardData = {
 };
 
 import generated from "./generated-data.json";
-export const dashboardData = generated as DashboardData;
+export const dashboardData = generated as unknown as DashboardData;
