@@ -115,12 +115,13 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
   }, [reviewItems]);
 
   const handleInvestmentAction = useCallback((itemId: string, action: string, payload: object = {}) => {
+    const investingOsActions = new Set(["record-conviction", "promote-thesis", "add-source-note", "stage-taxonomy-decision"]);
     postSignal("investment-action", itemId, {
       action,
       itemId,
       ...payload,
-      durableTarget: action === "record-conviction" || action === "promote-thesis" || action === "add-source-note" ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
-      requestedAction: action === "record-conviction" || action === "promote-thesis" || action === "add-source-note" ? "apply-investing-os-action-and-refresh-dashboard" : "apply-investment-action-and-refresh-dashboard",
+      durableTarget: action === "stage-taxonomy-decision" ? "memory/investing/thesis-taxonomy-decisions.json" : investingOsActions.has(action) ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
+      requestedAction: investingOsActions.has(action) ? "apply-investing-os-action-and-refresh-dashboard" : "apply-investment-action-and-refresh-dashboard",
     });
   }, []);
 
@@ -260,6 +261,11 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               feedbackCalibration={data.meta.investingFeedbackCalibration}
               inputHealth={data.meta.investingInputHealth}
               portfolioContextMap={data.meta.investingPortfolioContextMap}
+              taxonomyDecisionSheet={data.meta.investingTaxonomyDecisionSheet}
+              taxonomyDecisionWorkflow={data.meta.investingTaxonomyDecisionWorkflow}
+              taxonomyDecisions={data.meta.investingTaxonomyDecisions}
+              basketGovernanceAudit={data.meta.investingBasketGovernanceAudit}
+              thesisUniverse={data.meta.investingThesisUniverse}
               onDiscuss={openThread}
               onAction={handleInvestmentAction}
             />

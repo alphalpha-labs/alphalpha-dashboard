@@ -758,6 +758,84 @@ input { font-family: inherit; }
 .investmentPreflight { border-color: rgba(177, 80, 45, .35); background: rgba(255, 244, 235, .72); }
 .investmentButtonRow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
+/* Investing taxonomy review */
+.taxonomyReview { border-color: rgba(45, 72, 98, .22); background: linear-gradient(180deg, rgba(250,246,238,.88), rgba(244,239,228,.56)); }
+.taxonomyHeroGrid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 14px; margin-bottom: 14px; }
+.taxonomyHeroGrid h3 { margin: 6px 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 28px; color: var(--ink); }
+.taxonomyHeroGrid p { margin: 0; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; color: var(--ink-muted); }
+.taxonomyStats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.taxonomyStats span { border: 1px solid var(--border); border-radius: 14px; background: var(--card); padding: 8px 10px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
+.taxonomyStats strong { display: block; font-size: 18px; color: var(--ink); letter-spacing: 0; }
+.taxonomyPrinciples { border: 1px solid rgba(138, 106, 58, .26); border-radius: var(--radius-card); background: rgba(255, 250, 238, .78); padding: 13px; }
+.taxonomyPrinciples strong { display: block; margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .12em; }
+.taxonomyPrinciples em { display: block; margin-top: 9px; font-family: 'DM Sans', sans-serif; font-style: normal; font-size: 11px; color: var(--accent-med); line-height: 1.35; }
+.taxonomyTwoCol { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 14px; margin-top: 14px; align-items: start; }
+.taxonomyPanel { border: 1px solid var(--border); border-radius: var(--radius-card); background: rgba(250,246,238,.72); padding: 12px; overflow: hidden; }
+.taxonomyTreemap { display: flex; flex-wrap: wrap; gap: 7px; align-items: stretch; min-height: 210px; }
+.taxonomyBlock { flex: 1 1 10%; min-width: 118px; min-height: 74px; border: 1px solid var(--border); border-radius: 12px; padding: 9px; display: flex; flex-direction: column; justify-content: space-between; background: var(--card); overflow: hidden; }
+.taxonomyBlock strong { font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.25; color: var(--ink-2); }
+.taxonomyBlock span { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: var(--ink); line-height: 1; }
+.taxonomyBlock em { font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); font-style: normal; text-transform: uppercase; letter-spacing: .08em; }
+.taxonomyBlock--canonical, .taxonomyKindFill--canonical, .taxonomyDot--canonical { background-color: rgba(76, 128, 94, .18); border-color: rgba(76, 128, 94, .32); }
+.taxonomyBlock--proposed, .taxonomyKindFill--proposed, .taxonomyDot--proposed { background-color: rgba(82, 106, 158, .16); border-color: rgba(82, 106, 158, .30); }
+.taxonomyBlock--sleeve, .taxonomyKindFill--sleeve, .taxonomyDot--sleeve { background-color: rgba(160, 124, 64, .17); border-color: rgba(160, 124, 64, .32); }
+.taxonomyBlock--legacy, .taxonomyKindFill--legacy, .taxonomyDot--legacy { background-color: rgba(122, 111, 98, .16); border-color: rgba(122, 111, 98, .30); }
+.taxonomyBlock--unmapped, .taxonomyKindFill--unmapped, .taxonomyDot--unmapped { background-color: rgba(168, 64, 48, .13); border-color: rgba(168, 64, 48, .30); }
+.taxonomyLegend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.taxonomyLegend span { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); }
+.taxonomyDot { width: 9px; height: 9px; border: 1px solid var(--border); border-radius: 99px; display: inline-block; }
+.taxonomyKindBars { display: grid; gap: 10px; }
+.taxonomyKindRow { display: grid; grid-template-columns: minmax(130px, .45fr) minmax(0, 1fr); gap: 10px; align-items: center; }
+.taxonomyKindRow strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); }
+.taxonomyKindRow span { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); }
+.taxonomyKindTrack { height: 12px; border-radius: 99px; background: rgba(216,206,187,.42); overflow: hidden; }
+.taxonomyKindFill { display: block; height: 100%; border-right: 1px solid rgba(0,0,0,.08); }
+.taxonomyDecisionLayout { grid-template-columns: minmax(0, .85fr) minmax(360px, 1.15fr); }
+.taxonomyClusterStack, .taxonomyDecisionQueue { display: grid; gap: 9px; }
+.taxonomyClusterCard, .taxonomyDecisionCard { border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: var(--card); padding: 11px; }
+.taxonomyClusterHeader { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.taxonomyClusterHeader strong, .taxonomyDecisionCard strong { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); line-height: 1.35; }
+.taxonomyClusterHeader span, .taxonomyDecisionCard span { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
+.taxonomyNodeLine { display: flex; flex-wrap: wrap; gap: 6px; margin: 9px 0; }
+.taxonomyNode { border: 1px solid var(--border); border-radius: var(--radius-pill); background: rgba(255,255,255,.52); padding: 3px 7px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); }
+.taxonomyClusterCard p, .taxonomyDecisionCard p { margin: 6px 0 0; font-family: 'Lora', Georgia, serif; font-size: 12px; line-height: 1.45; color: var(--ink-muted); }
+.taxonomyDecisionCard .btnAlphaDiscuss { margin-top: 9px; }
+.taxonomyDecisionCard--foundational { border-color: rgba(28, 24, 20, .34); box-shadow: inset 3px 0 0 var(--ink); }
+.taxonomyDecisionCard--high { border-color: rgba(168, 64, 48, .26); box-shadow: inset 3px 0 0 var(--accent-high); }
+.taxonomyDecisionCard--medium { border-color: rgba(160, 124, 64, .24); box-shadow: inset 3px 0 0 var(--accent-med); }
+.taxonomyDecisionCard--low { border-color: rgba(76, 128, 94, .22); box-shadow: inset 3px 0 0 var(--accent-low); }
+.taxonomyDecisionTop { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 7px; }
+.taxonomyDecisionTop b { border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 2px 7px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .08em; }
+.taxonomyDecisionQuestion { color: var(--ink-2) !important; margin-top: 5px !important; }
+.taxonomyRecommendation, .taxonomyWhy { border-top: 1px solid var(--border-faint); margin-top: 9px; padding-top: 8px; }
+.taxonomyRecommendation > span, .taxonomyWhy > span { display: block; margin-bottom: 3px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .12em; }
+.taxonomyRecommendation p { color: var(--ink-2) !important; font-weight: 600; }
+.taxonomyImpactLine { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-top: 9px; }
+.taxonomyImpactLine span { border-radius: var(--radius-pill); background: rgba(168, 64, 48, .10); color: var(--accent-high); padding: 3px 8px; font-family: 'DM Sans', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.taxonomyImpactLine em { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); font-style: normal; }
+.taxonomyConsequences { margin: 9px 0 0 16px; padding: 0; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
+.taxonomyChoiceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 7px; margin-top: 10px; }
+.taxonomyChoiceBtn { border: 1px solid var(--border); border-radius: 10px; background: rgba(255,255,255,.46); padding: 8px; text-align: left; transition: background 140ms ease, border-color 140ms ease, transform 80ms ease; }
+.taxonomyChoiceBtn:hover { background: var(--card-hover); border-color: var(--border-strong); }
+.taxonomyChoiceBtn:active { transform: scale(.98); }
+.taxonomyChoiceBtn strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-2); line-height: 1.2; }
+.taxonomyChoiceBtn span { display: block; margin-top: 3px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
+.taxonomyChoiceBtn--recommended { border-color: rgba(76, 128, 94, .35); background: rgba(76, 128, 94, .08); }
+.taxonomyChoiceBtn--selected { border-color: var(--ink); background: var(--card-hover); box-shadow: inset 0 0 0 1px var(--ink); }
+.taxonomyMatrixPanel { margin-top: 14px; }
+.taxonomyMatrix { overflow-x: auto; border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: var(--card); }
+.taxonomyMatrixHead, .taxonomyMatrixRow { display: grid; grid-template-columns: minmax(210px, 1.4fr) 128px 96px 118px 118px minmax(170px, 1fr) minmax(220px, 1.25fr); gap: 10px; align-items: start; min-width: 1160px; }
+.taxonomyMatrixHead { padding: 9px 11px; background: rgba(47,58,70,.045); font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .1em; }
+.taxonomyMatrixRow { padding: 10px 11px; border-top: 1px solid var(--border-faint); font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-muted); }
+.taxonomyMatrixRow strong { display: block; color: var(--ink-2); font-size: 12px; line-height: 1.25; }
+.taxonomyMatrixRow em { display: block; margin-top: 3px; color: var(--ink-faint); font-size: 9px; font-style: normal; line-height: 1.25; }
+.taxonomyPill { display: inline-block; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 3px 7px; font-size: 9px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .06em; }
+.taxonomyPill--canonical { background: rgba(76, 128, 94, .14); color: #3a6a3a; }
+.taxonomyPill--proposed { background: rgba(82, 106, 158, .13); color: #4d628e; }
+.taxonomyPill--sleeve { background: rgba(160, 124, 64, .14); color: #80602d; }
+.taxonomyPill--unmapped { background: rgba(168, 64, 48, .11); color: var(--accent-high); }
+@media (max-width: 980px) { .taxonomyHeroGrid, .taxonomyTwoCol, .taxonomyDecisionLayout { grid-template-columns: 1fr; } .taxonomyStats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /* Investing trade review polish */
 .investmentTradeReviewFeatured { border-color: rgba(78, 112, 150, .24); background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(245,241,232,.72)); box-shadow: 0 18px 44px rgba(46, 39, 28, .06); }
 .tradeReviewHeader { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: start; margin-bottom: 12px; }

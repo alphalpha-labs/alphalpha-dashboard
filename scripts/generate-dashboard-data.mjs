@@ -65,6 +65,11 @@ function readSourceManifests() {
     investingFeedbackCalibration: readWorkspaceManifest(path.join('memory', 'investing', 'feedback-calibration.json')),
     investingInputHealth: readWorkspaceManifest(path.join('memory', 'investing', 'input-health.json')),
     investingPortfolioContextMap: readWorkspaceManifest(path.join('memory', 'investing', 'portfolio-context-map.json')),
+    investingTaxonomyDecisionSheet: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-sheet', 'latest.json')),
+    investingTaxonomyDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-workflow', 'latest.json')),
+    investingTaxonomyDecisions: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-taxonomy-decisions.json')),
+    investingBasketGovernanceAudit: readWorkspaceManifest(path.join('memory', 'investing', 'basket-governance-audit', 'latest.json')),
+    investingThesisUniverse: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-universe', 'latest.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -505,6 +510,11 @@ function buildData() {
       investingFeedbackCalibration: sourceManifests.investingFeedbackCalibration || null,
       investingInputHealth: sourceManifests.investingInputHealth || null,
       investingPortfolioContextMap: sourceManifests.investingPortfolioContextMap || null,
+      investingTaxonomyDecisionSheet: sourceManifests.investingTaxonomyDecisionSheet || null,
+      investingTaxonomyDecisionWorkflow: sourceManifests.investingTaxonomyDecisionWorkflow || null,
+      investingTaxonomyDecisions: sourceManifests.investingTaxonomyDecisions || null,
+      investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
+      investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
     },
     stats: {
       openLoops:        checked.length,

@@ -210,6 +210,116 @@ export type InvestingFeedbackCalibration = { generatedAt: string; metrics: Recor
 export type InvestingInputHealth = { generatedAt: string; status: string; summary: Record<string, number>; health?: { blockers?: string[]; warnings?: string[] }; investorPosts?: { bySource30d?: Array<{ source: string; platform?: string; posts: number; latest?: string; avg_thesis?: number; avg_macro?: number }>; recentHighSignal?: Array<{ investor_name?: string; source_label?: string; title?: string; url?: string; event_time?: string; ai_summary?: string; themes_detected?: string[] }> }; news?: { bySource30d?: Array<{ source: string; items: number; latest?: string; avg_relevance?: number }> }; fetchRuns?: { byStatus14d?: Array<{ status: string; runs: number; items_seen?: number; items_inserted?: number; latest?: string }> }; recommendations?: string[] };
 export type InvestingPortfolioContextMap = { generatedAt: string; portfolio: { holding_count?: number; account_count?: number; cash_balance?: number | null; total_equity?: number | null; warnings?: string[] }; exposureMap: { byTheme?: Array<{ id: string; title: string; equity: number; portfolioPct: number; holdings: Array<{ symbol: string; equity?: number | null; portfolio_pct?: number | null; name?: string | null }> }>; unmappedHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; prompt?: string | null }>; topHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; thesisTitle?: string | null; mappedTheme?: string | null }> }; obsidianSignals?: { noteCount?: number; themeEvidence?: Array<{ theme: string; noteCount: number; symbols?: Record<string, number>; examples?: Array<{ path: string; title?: string; snippet?: string }> }> }; prompts?: Array<{ type: string; symbol?: string; theme?: string; prompt: string; equity?: number | null; portfolio_pct?: number | null; examples?: string[] }> };
 
+export type InvestingTaxonomyDecisionSheet = {
+  generatedAt?: string;
+  schemaVersion?: string;
+  purpose?: string;
+  canonicalKinds?: Array<{ kind: string; description: string }>;
+  primaryRule?: string;
+  clusters?: Array<{
+    id: string;
+    title: string;
+    recommendations?: Array<{ item: string; decision: string; rationale: string }>;
+    questions?: string[];
+  }>;
+  approvalPrompt?: string;
+};
+
+export type InvestingTaxonomyDecisionWorkflow = {
+  generatedAt?: string;
+  schemaVersion?: string;
+  purpose?: string;
+  decisionPrinciples?: string[];
+  decisionPoints?: Array<{
+    id: string;
+    clusterId: string;
+    title: string;
+    question: string;
+    recommendation: string;
+    why: string;
+    recommendedChoice: string;
+    options: Array<{ id: string; label: string; meaning: string }>;
+    affectedItems?: string[];
+    affectedAssets?: string[];
+    affectedAllocationPct?: number;
+    consequences?: string[];
+    blockingLevel?: "foundational" | "high" | "medium" | "low" | string;
+  }>;
+};
+
+export type InvestingTaxonomyDecisions = {
+  generatedAt?: string;
+  schemaVersion?: string;
+  status?: string;
+  decisions?: Array<{
+    decisionPointId: string;
+    choiceId: string;
+    rationale?: string;
+    status?: string;
+    updatedAt?: string;
+    source?: string;
+  }>;
+  history?: Array<Record<string, unknown>>;
+};
+
+export type InvestingBasketGovernanceAudit = {
+  generatedAt?: string;
+  schemaVersion?: string;
+  purpose?: string;
+  summary?: {
+    basketRows?: number;
+    canonicalAppRows?: number;
+    nonCanonicalRows?: number;
+    missingCanonicalTargets?: string[];
+    multiSourceConvictionRows?: string[];
+    notAuthoritativeForRebalance?: string[];
+  };
+  consolidationClusters?: Array<{ id: string; title: string; members: string[]; question: string }>;
+  baskets?: Array<{
+    id: string;
+    title: string;
+    sourceOfTruthStatus: string;
+    appStatus?: string | null;
+    currentAction?: string | null;
+    currentPortfolio?: { primaryPct?: number; secondaryPct?: number; totalReferencedPct?: number } | null;
+    definition?: {
+      appThesis?: string | null;
+      registryClaim?: string | null;
+      synthesisBoundary?: string | null;
+      role?: string | null;
+      canonicalBoundary?: { owns?: string | null; does_not_own?: string | null; classification_rule?: string | null } | null;
+    };
+    conviction?: { displayedScore?: number | null; auditStatus?: string; sources?: Array<{ source: string; value: string; field?: string | null }> };
+    targetWeights?: { displayedTarget?: number | null; displayedMin?: number | null; displayedMax?: number | null; auditStatus?: string; sources?: Array<{ source: string; value: string; field?: string | null }> };
+    assets?: {
+      appTickersAndAlternates?: Array<{ symbol?: string; name?: string | null; role?: string | null }>;
+      portfolioTopHoldings?: Array<{ symbol?: string; name?: string | null; portfolioPct?: number | null; bucketId?: string; role?: string }>;
+      watchlistSymbols?: Array<{ symbol?: string; theme?: string; stance?: string; confidence?: string }>;
+    };
+    overlaps?: Array<Record<string, unknown>>;
+    governanceQuestions?: string[];
+    recommendationAuthority?: string;
+  }>;
+  nextDecisionSequence?: string[];
+};
+
+export type InvestingThesisUniverse = {
+  generatedAt?: string;
+  schemaVersion?: string;
+  diagnostics?: {
+    thesisCount?: number;
+    appCanonicalCount?: number;
+    strictMappedPct?: number;
+    primaryThesisReferencePct?: number;
+    unmappedPct?: number;
+    activeHighConvictionUnderallocated?: Array<{ id: string; title: string; pct: number; target?: number | null; conviction?: number | null }>;
+    lowerConvictionOverallocated?: Array<{ id: string; title: string; pct: number; conviction?: number | null }>;
+    pausedWithExposure?: Array<{ id: string; title: string; primaryPct: number; secondaryPct: number }>;
+    needsCanonicalization?: Array<{ id: string; title: string; pct: number }>;
+  };
+  theses?: Array<{ id: string; title: string; state?: string; classification?: string; source?: string; convictionScore?: number | null; targetWeight?: number | null; portfolio?: { primaryPct?: number; secondaryPct?: number; totalReferencedPct?: number; topHoldings?: Array<{ symbol?: string; portfolioPct?: number }> }; flags?: string[]; recommendation?: string | null }>;
+};
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -240,6 +350,11 @@ export type DashboardData = {
     investingFeedbackCalibration?: InvestingFeedbackCalibration | null;
     investingInputHealth?: InvestingInputHealth | null;
     investingPortfolioContextMap?: InvestingPortfolioContextMap | null;
+    investingTaxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
+    investingTaxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
+    investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;
+    investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
+    investingThesisUniverse?: InvestingThesisUniverse | null;
   };
   stats: {
     openLoops:             number;

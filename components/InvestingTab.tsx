@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import type {
   InvestmentCrawlPlan,
   InvestmentDecisionDigest,
@@ -19,6 +20,11 @@ import type {
   InvestingFeedbackCalibration,
   InvestingInputHealth,
   InvestingPortfolioContextMap,
+  InvestingTaxonomyDecisionSheet,
+  InvestingTaxonomyDecisionWorkflow,
+  InvestingTaxonomyDecisions,
+  InvestingBasketGovernanceAudit,
+  InvestingThesisUniverse,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -45,11 +51,16 @@ interface Props {
   feedbackCalibration?: InvestingFeedbackCalibration | null;
   inputHealth?: InvestingInputHealth | null;
   portfolioContextMap?: InvestingPortfolioContextMap | null;
+  taxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
+  taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
+  taxonomyDecisions?: InvestingTaxonomyDecisions | null;
+  basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
+  thesisUniverse?: InvestingThesisUniverse | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -86,6 +97,18 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           </div>
           <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief ↗</a>
         </section>
+      )}
+
+      {(taxonomyDecisionSheet || basketGovernanceAudit || thesisUniverse) && (
+        <TaxonomyReview
+          taxonomyDecisionSheet={taxonomyDecisionSheet}
+          taxonomyDecisionWorkflow={taxonomyDecisionWorkflow}
+          taxonomyDecisions={taxonomyDecisions}
+          basketGovernanceAudit={basketGovernanceAudit}
+          thesisUniverse={thesisUniverse}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
       )}
 
       {tradeReview && (
@@ -330,6 +353,236 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       </section>
     </div>
   );
+}
+
+function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: {
+  taxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
+  taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
+  taxonomyDecisions?: InvestingTaxonomyDecisions | null;
+  basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
+  thesisUniverse?: InvestingThesisUniverse | null;
+  onDiscuss: (ctx: ThreadContext) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void;
+}) {
+  const baskets = basketGovernanceAudit?.baskets ?? [];
+  const clusters = taxonomyDecisionSheet?.clusters ?? [];
+  const decisionPoints = taxonomyDecisionWorkflow?.decisionPoints ?? [];
+  const diagnostics = thesisUniverse?.diagnostics;
+  const savedChoices = useMemo(() => Object.fromEntries((taxonomyDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [taxonomyDecisions]);
+  const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
+  const visibleBaskets = baskets
+    .filter(basket => (basket.currentPortfolio?.primaryPct ?? 0) > 0 || basket.sourceOfTruthStatus === "canonical-app-basket" || (basket.governanceQuestions?.length ?? 0) > 0)
+    .sort((a, b) => (b.currentPortfolio?.primaryPct ?? 0) - (a.currentPortfolio?.primaryPct ?? 0));
+  const kindRows = taxonomyKindBreakdown(baskets);
+  const topBlocks = visibleBaskets.filter(basket => (basket.currentPortfolio?.primaryPct ?? 0) > 0).slice(0, 12);
+  const stagedCount = Object.keys(stagedChoices).length;
+  const savedCount = taxonomyDecisions?.decisions?.length ?? 0;
+  const decisionCards = decisionPoints.length ? decisionPoints : clusters.flatMap(cluster => (cluster.questions ?? []).map((question, idx) => ({
+    id: `${cluster.id}-${idx}`,
+    clusterId: cluster.id,
+    title: question,
+    question,
+    recommendation: cluster.recommendations?.[0]?.decision || "Review needed",
+    why: cluster.recommendations?.[0]?.rationale || "This decision affects taxonomy clarity.",
+    recommendedChoice: cluster.recommendations?.[0]?.decision || "review",
+    options: (cluster.recommendations ?? []).map(rec => ({ id: rec.decision, label: rec.decision, meaning: rec.rationale })),
+    affectedAllocationPct: undefined,
+    blockingLevel: "medium",
+    consequences: [],
+    affectedAssets: [],
+  })));
+  const clusterTitleById = useMemo(() => new Map(clusters.map(cluster => [cluster.id, cluster.title])), [clusters]);
+  function stageChoice(pointId: string, choiceId: string) {
+    setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    onAction?.(pointId, "stage-taxonomy-decision", {
+      decisionPointId: pointId,
+      choiceId,
+      workflowVersion: taxonomyDecisionWorkflow?.schemaVersion,
+      durableTarget: "memory/investing/thesis-taxonomy-decisions.json",
+      requestedAction: "stage-investing-taxonomy-decision-and-refresh-dashboard",
+    });
+  }
+
+  return (
+    <section className="investmentSection taxonomyReview">
+      <div className="sectionTitleRow">
+        <h2>Taxonomy review · pass 1</h2>
+        <span>{basketGovernanceAudit?.summary?.notAuthoritativeForRebalance?.length ?? 0} gated before rebalance</span>
+      </div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Read-only decision map</span>
+          <h3>Classify the portfolio before acting on it</h3>
+          <p>{taxonomyDecisionSheet?.purpose || basketGovernanceAudit?.purpose || "Visual taxonomy review for investing baskets, sleeves, overlaps, and unresolved governance decisions."}</p>
+          <div className="taxonomyStats">
+            <span><strong>{diagnostics?.strictMappedPct?.toFixed(1) ?? "—"}%</strong> mapped</span>
+            <span><strong>{basketGovernanceAudit?.summary?.canonicalAppRows ?? "—"}</strong> canonical</span>
+            <span><strong>{basketGovernanceAudit?.summary?.nonCanonicalRows ?? "—"}</strong> needs kind</span>
+            <span><strong>{basketGovernanceAudit?.summary?.multiSourceConvictionRows?.length ?? "—"}</strong> conviction conflicts</span>
+            <span><strong>{decisionCards.length}</strong> decision points</span>
+            <span><strong>{stagedCount}</strong> staged choices</span>
+            {savedCount > 0 && <span><strong>{savedCount}</strong> saved</span>}
+          </div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Rule for this view</strong>
+          <p>{taxonomyDecisionSheet?.primaryRule || "One primary classification for allocation math; secondary tags are for overlap only."}</p>
+          <em>No trim/add/rebalance recommendation is authoritative until kind, boundary, conviction source, target source, and overlap policy are explicit.</em>
+        </div>
+      </div>
+
+      <div className="taxonomyTwoCol">
+        <div className="taxonomyPanel">
+          <div className="sectionTitleRow"><h2>Current primary breakdown</h2><span>{topBlocks.length} blocks</span></div>
+          <div className="taxonomyTreemap" aria-label="Portfolio allocation by current primary classification">
+            {topBlocks.map(block => {
+              const pct = block.currentPortfolio?.primaryPct ?? 0;
+              return (
+                <div key={block.id} className={`taxonomyBlock taxonomyBlock--${kindClass(block.sourceOfTruthStatus)}`} style={{ flexBasis: `${Math.max(pct, 3)}%` }} title={`${block.title}: ${pct.toFixed(2)}%`}>
+                  <strong>{block.title}</strong>
+                  <span>{pct.toFixed(1)}%</span>
+                  <em>{labelForSourceStatus(block.sourceOfTruthStatus)}</em>
+                </div>
+              );
+            })}
+          </div>
+          <div className="taxonomyLegend">
+            {kindRows.map(row => <span key={row.kind}><i className={`taxonomyDot taxonomyDot--${row.className}`} />{row.label}: {row.pct.toFixed(1)}%</span>)}
+          </div>
+        </div>
+
+        <div className="taxonomyPanel">
+          <div className="sectionTitleRow"><h2>Kind breakdown</h2><span>proposed taxonomy</span></div>
+          <div className="taxonomyKindBars">
+            {kindRows.map(row => (
+              <div key={row.kind} className="taxonomyKindRow">
+                <div><strong>{row.label}</strong><span>{row.count} rows · {row.pct.toFixed(1)}%</span></div>
+                <div className="taxonomyKindTrack"><i className={`taxonomyKindFill taxonomyKindFill--${row.className}`} style={{ width: `${Math.min(100, Math.max(row.pct, row.count ? 4 : 0))}%` }} /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="taxonomyTwoCol taxonomyDecisionLayout">
+        <div className="taxonomyPanel">
+          <div className="sectionTitleRow"><h2>Overlap / consolidation clusters</h2><span>{clusters.length}</span></div>
+          <div className="taxonomyClusterStack">
+            {clusters.map(cluster => (
+              <article key={cluster.id} className="taxonomyClusterCard">
+                <div className="taxonomyClusterHeader"><strong>{cluster.title}</strong><span>{cluster.recommendations?.length ?? 0} calls</span></div>
+                <div className="taxonomyNodeLine">
+                  {(cluster.recommendations ?? []).map(rec => <span key={`${cluster.id}-${rec.item}`} className="taxonomyNode">{shortId(rec.item)}</span>)}
+                </div>
+                {(cluster.questions ?? []).slice(0, 2).map(question => <p key={question}>{question}</p>)}
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="taxonomyPanel">
+          <div className="sectionTitleRow"><h2>Decision queue</h2><span>{decisionCards.length} explicit calls</span></div>
+          <div className="taxonomyDecisionQueue">
+            {decisionCards.map(card => (
+              <article key={card.id} className={`taxonomyDecisionCard taxonomyDecisionCard--${card.blockingLevel || "medium"}`}>
+                <div className="taxonomyDecisionTop"><span>{clusterTitleById.get(card.clusterId) || card.clusterId}</span><b>{card.blockingLevel || "medium"}</b></div>
+                <strong>{card.title}</strong>
+                <p className="taxonomyDecisionQuestion">{card.question}</p>
+                <div className="taxonomyRecommendation"><span>Recommendation</span><p>{card.recommendation}</p></div>
+                <div className="taxonomyWhy"><span>Why</span><p>{card.why}</p></div>
+                {(card.affectedAllocationPct != null || (card.affectedAssets?.length ?? 0) > 0) && (
+                  <div className="taxonomyImpactLine">
+                    {card.affectedAllocationPct != null && <span>{card.affectedAllocationPct.toFixed(1)}% affected</span>}
+                    {(card.affectedAssets?.length ?? 0) > 0 && <em>{card.affectedAssets?.slice(0, 9).join(", ")}</em>}
+                  </div>
+                )}
+                {(card.consequences?.length ?? 0) > 0 && <ul className="taxonomyConsequences">{card.consequences?.slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>}
+                <div className="taxonomyChoiceGrid">
+                  {card.options.map(option => {
+                    const selected = stagedChoices[card.id] === option.id;
+                    const recommended = card.recommendedChoice === option.id;
+                    return (
+                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}`} onClick={() => stageChoice(card.id, option.id)} title={option.meaning}>
+                        <strong>{option.label}</strong>
+                        <span>{recommended ? "Recommended" : "Option"}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: card.id, type: "decision", title: card.question, category: "investing taxonomy", summary: `${clusterTitleById.get(card.clusterId) || card.clusterId}: ${card.recommendation}` })}>Discuss decision</button>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="taxonomyPanel taxonomyMatrixPanel">
+        <div className="sectionTitleRow"><h2>Basket detail matrix</h2><span>{visibleBaskets.length} rows</span></div>
+        <div className="taxonomyMatrix">
+          <div className="taxonomyMatrixHead"><span>Item</span><span>Kind/status</span><span>Allocation</span><span>Conviction</span><span>Target</span><span>Assets</span><span>Governance gate</span></div>
+          {visibleBaskets.slice(0, 18).map(basket => {
+            const assets = uniqueSymbols([...(basket.assets?.appTickersAndAlternates ?? []), ...(basket.assets?.portfolioTopHoldings ?? []), ...(basket.assets?.watchlistSymbols ?? [])]).slice(0, 8);
+            return (
+              <div key={basket.id} className="taxonomyMatrixRow">
+                <span><strong>{basket.title}</strong><em>{basket.id}</em></span>
+                <span><b className={`taxonomyPill taxonomyPill--${kindClass(basket.sourceOfTruthStatus)}`}>{labelForSourceStatus(basket.sourceOfTruthStatus)}</b><em>{basket.appStatus || "not in app"}</em></span>
+                <span>{(basket.currentPortfolio?.primaryPct ?? 0).toFixed(1)}%<em>{(basket.currentPortfolio?.secondaryPct ?? 0).toFixed(1)}% secondary</em></span>
+                <span>{basket.conviction?.displayedScore ?? "—"}<em>{basket.conviction?.auditStatus || "unknown"}</em></span>
+                <span>{basket.targetWeights?.displayedTarget ?? "—"}<em>{basket.targetWeights?.auditStatus || "unknown"}</em></span>
+                <span>{assets.join(", ") || "—"}</span>
+                <span>{(basket.governanceQuestions ?? ["Ready for review"]).slice(0, 1).join(" ")}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function taxonomyKindBreakdown(baskets: NonNullable<InvestingBasketGovernanceAudit["baskets"]>) {
+  const base = [
+    { kind: "canonical", label: "Canonical theses", className: "canonical", count: 0, pct: 0 },
+    { kind: "proposed", label: "Proposed/watchlist", className: "proposed", count: 0, pct: 0 },
+    { kind: "sleeve", label: "Sleeves needed", className: "sleeve", count: 0, pct: 0 },
+    { kind: "legacy", label: "Legacy/archive", className: "legacy", count: 0, pct: 0 },
+    { kind: "unmapped", label: "Unmapped/unclear", className: "unmapped", count: 0, pct: 0 },
+  ];
+  for (const basket of baskets) {
+    const pctValue = basket.currentPortfolio?.primaryPct ?? 0;
+    const status = basket.sourceOfTruthStatus;
+    const id = basket.id;
+    const row = status === "canonical-app-basket" ? base[0]
+      : /quality|ballast|cash|bonds|broad|speculative/.test(id) ? base[2]
+      : /doomberg|legacy|archive/.test(id) ? base[3]
+      : /watchlist|proposal/.test(status) ? base[1]
+      : base[4];
+    row.count += 1;
+    row.pct += pctValue;
+  }
+  return base;
+}
+
+function kindClass(status: string) {
+  if (status === "canonical-app-basket") return "canonical";
+  if (/watchlist|proposal/.test(status)) return "proposed";
+  if (/derived|low-confidence/.test(status)) return "unmapped";
+  return "sleeve";
+}
+
+function labelForSourceStatus(status: string) {
+  if (status === "canonical-app-basket") return "canonical thesis";
+  if (/watchlist|proposal/.test(status)) return "watchlist/proposal";
+  if (/portfolio-derived/.test(status)) return "needs kind decision";
+  return status.replace(/-/g, " ");
+}
+
+function shortId(value: string) {
+  return value.replace(/-/g, " ").replace(/\b(ai|em)\b/gi, match => match.toUpperCase()).slice(0, 34);
+}
+
+function uniqueSymbols(rows: Array<{ symbol?: string }>) {
+  return Array.from(new Set(rows.map(row => row.symbol).filter((symbol): symbol is string => Boolean(symbol))));
 }
 
 function formatDate(iso?: string | null) {
