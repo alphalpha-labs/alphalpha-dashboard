@@ -122,6 +122,11 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
       ...payload,
       durableTarget: action === "stage-taxonomy-decision" ? "memory/investing/thesis-taxonomy-decisions.json" : investingOsActions.has(action) ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
       requestedAction: investingOsActions.has(action) ? "apply-investing-os-action-and-refresh-dashboard" : "apply-investment-action-and-refresh-dashboard",
+      canonicalBridge: action === "promote-thesis"
+        ? { mode: "dry-run", endpoint: "/api/alphalpha/thesis-baskets/propose", applyRequires: "canonical-mode=apply" }
+        : action === "stage-taxonomy-decision"
+          ? { mode: "dry-run", endpoint: "/api/alphalpha/thesis-baskets/:id", applyRequires: "canonical-mode=apply" }
+          : undefined,
     });
   }, []);
 
