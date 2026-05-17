@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-05-17T13:04:39.348Z",
+    "generatedAt": "2026-05-17T13:06:14.987Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "8e18e0d",
+      "commit": "89453ec",
       "branch": "main",
-      "generatedAt": "2026-05-17T13:04:39.362Z",
+      "generatedAt": "2026-05-17T13:06:15.001Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-05-17T13:04:20.554Z",
+      "generatedAt": "2026-05-17T13:06:11.419Z",
       "sourcePath": "../memory/context/index.json",
       "files": 34,
       "words": 32732,
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6b565dc, 31 dirty · Alphalpha dashboard: main@8e18e0d · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@89453ec · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@6b565dc · 31 dirty · 0 ahead · 0 behind"
+            "value": "master@6b565dc · 33 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@8e18e0d · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@89453ec · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -1616,7 +1616,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/trusted-sources.json"
     },
     "investingPriceAlerts": {
-      "generatedAt": "2026-05-16T14:00:08.269Z",
+      "generatedAt": "2026-05-17T13:06:02.610Z",
       "schemaVersion": "2026-05-12.1",
       "policy": {
         "purpose": "Keep approved themes/tickers on watchlists when valuations are stretched, encourage patience, and surface thesis-aware accumulation reminders when pullbacks enter planned value ranges.",
@@ -1757,6 +1757,80 @@
         }
       ],
       "recentAlerts": [
+        {
+          "id": "BWXT-ai-power-infrastructure-pullback-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:01.646Z",
+          "symbol": "BWXT",
+          "thesisId": "ai-power-infrastructure",
+          "thesisTitle": "AI power infrastructure bottleneck",
+          "close": 204.72000122070312,
+          "pullbackPct": -14.134719070152094,
+          "oneMonthPct": -11.299827333713745,
+          "trigger": "pullback -14.1% from six-month high",
+          "action": "remember-to-accumulate-on-pullbacks",
+          "message": "BWXT is back near the value range for the AI power infrastructure bottleneck thesis. If the thesis still holds and portfolio room exists, remember to accumulate on pullbacks. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "checks": {
+            "thesisStage": "candidate",
+            "conviction": "medium",
+            "planStatus": "research-before-accumulation",
+            "threshold": {
+              "pullbackPct": -12
+            }
+          }
+        },
+        {
+          "id": "DHR-medical-tools-specialty-device-compounders-valuation-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:02.510Z",
+          "symbol": "DHR",
+          "thesisId": "medical-tools-specialty-device-compounders",
+          "thesisTitle": "Medical tools and specialty device compounders",
+          "close": 161.91000366210938,
+          "pullbackPct": -33.10886113581747,
+          "oneMonthPct": -16.44648328927146,
+          "trigger": "below buy zone 170",
+          "action": "remember-to-accumulate-on-pullbacks",
+          "message": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
+          "checks": {
+            "thesisStage": "approved-watchlist",
+            "conviction": "medium",
+            "planStatus": "approved-watchlist",
+            "threshold": {
+              "buyBelow": 170,
+              "starterBelow": 170,
+              "attractiveBelow": 160,
+              "veryAttractiveBelow": 150,
+              "pullbackPct": -12,
+              "pauseCondition": "DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality."
+            }
+          }
+        },
+        {
+          "id": "BSX-medical-tools-specialty-device-compounders-valuation-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:02.610Z",
+          "symbol": "BSX",
+          "thesisId": "medical-tools-specialty-device-compounders",
+          "thesisTitle": "Medical tools and specialty device compounders",
+          "close": 52.68000030517578,
+          "pullbackPct": -48.231132862349185,
+          "oneMonthPct": -16.934718028781898,
+          "trigger": "below buy zone 55",
+          "action": "remember-to-accumulate-on-pullbacks",
+          "message": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
+          "checks": {
+            "thesisStage": "approved-watchlist",
+            "conviction": "medium",
+            "planStatus": "approved-watchlist",
+            "threshold": {
+              "buyBelow": 55,
+              "starterBelow": 55,
+              "attractiveBelow": 48,
+              "veryAttractiveBelow": 43,
+              "pullbackPct": -12,
+              "requiresQuoteVerification": true,
+              "pauseCondition": "BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified."
+            }
+          }
+        },
         {
           "id": "BWXT-ai-power-infrastructure-pullback-2026-05-16",
           "generatedAt": "2026-05-16T14:00:07.441Z",
@@ -2097,7 +2171,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/price-thesis-alerts.json"
     },
     "investingAccumulationOpportunities": {
-      "generatedAt": "2026-05-16T14:00:08.269Z",
+      "generatedAt": "2026-05-17T13:06:02.610Z",
       "quotes": [
         {
           "symbol": "EME",
@@ -2106,7 +2180,7 @@
           "sixMonthLow": 581.5800170898438,
           "pullbackPct": -3.246624068708609,
           "oneMonthPct": 15.255283730080468,
-          "asOf": "2026-05-16T14:00:07.002Z"
+          "asOf": "2026-05-17T13:06:01.242Z"
         },
         {
           "symbol": "FIX",
@@ -2115,7 +2189,7 @@
           "sixMonthLow": 876.1900024414062,
           "pullbackPct": -2.429542072557113,
           "oneMonthPct": 24.083265975509775,
-          "asOf": "2026-05-16T14:00:07.151Z"
+          "asOf": "2026-05-17T13:06:01.387Z"
         },
         {
           "symbol": "PWR",
@@ -2124,7 +2198,7 @@
           "sixMonthLow": 413.1700134277344,
           "pullbackPct": -1.9420814260170634,
           "oneMonthPct": 31.079978998968134,
-          "asOf": "2026-05-16T14:00:07.305Z"
+          "asOf": "2026-05-17T13:06:01.491Z"
         },
         {
           "symbol": "BWXT",
@@ -2133,7 +2207,7 @@
           "sixMonthLow": 168.1199951171875,
           "pullbackPct": -14.134719070152094,
           "oneMonthPct": -11.299827333713745,
-          "asOf": "2026-05-16T14:00:07.441Z"
+          "asOf": "2026-05-17T13:06:01.646Z"
         },
         {
           "symbol": "MUFG",
@@ -2142,7 +2216,7 @@
           "sixMonthLow": 14.880000114440918,
           "pullbackPct": -4.510894122137213,
           "oneMonthPct": 2.5027258586779126,
-          "asOf": "2026-05-16T14:00:07.582Z"
+          "asOf": "2026-05-17T13:06:01.997Z"
         },
         {
           "symbol": "SMFG",
@@ -2151,7 +2225,7 @@
           "sixMonthLow": 16.540000915527344,
           "pullbackPct": -8.273831825037888,
           "oneMonthPct": 2.2471888039352814,
-          "asOf": "2026-05-16T14:00:07.702Z"
+          "asOf": "2026-05-17T13:06:02.146Z"
         },
         {
           "symbol": "CIEN",
@@ -2160,7 +2234,7 @@
           "sixMonthLow": 176.4499969482422,
           "pullbackPct": -6.273135029177336,
           "oneMonthPct": 11.973667010749779,
-          "asOf": "2026-05-16T14:00:07.854Z"
+          "asOf": "2026-05-17T13:06:02.239Z"
         },
         {
           "symbol": "GLW",
@@ -2169,7 +2243,7 @@
           "sixMonthLow": 78.02999877929688,
           "pullbackPct": -7.907624984267213,
           "oneMonthPct": 15.492530975350643,
-          "asOf": "2026-05-16T14:00:07.998Z"
+          "asOf": "2026-05-17T13:06:02.380Z"
         },
         {
           "symbol": "DHR",
@@ -2178,7 +2252,7 @@
           "sixMonthLow": 161.91000366210938,
           "pullbackPct": -33.10886113581747,
           "oneMonthPct": -16.44648328927146,
-          "asOf": "2026-05-16T14:00:08.152Z"
+          "asOf": "2026-05-17T13:06:02.510Z"
         },
         {
           "symbol": "BSX",
@@ -2187,13 +2261,13 @@
           "sixMonthLow": 52.68000030517578,
           "pullbackPct": -48.231132862349185,
           "oneMonthPct": -16.934718028781898,
-          "asOf": "2026-05-16T14:00:08.269Z"
+          "asOf": "2026-05-17T13:06:02.610Z"
         }
       ],
       "opportunities": [
         {
-          "id": "BWXT-ai-power-infrastructure-pullback-2026-05-16",
-          "generatedAt": "2026-05-16T14:00:07.441Z",
+          "id": "BWXT-ai-power-infrastructure-pullback-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:01.646Z",
           "symbol": "BWXT",
           "thesisId": "ai-power-infrastructure",
           "thesisTitle": "AI power infrastructure bottleneck",
@@ -2213,8 +2287,8 @@
           }
         },
         {
-          "id": "DHR-medical-tools-specialty-device-compounders-valuation-2026-05-16",
-          "generatedAt": "2026-05-16T14:00:08.152Z",
+          "id": "DHR-medical-tools-specialty-device-compounders-valuation-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:02.510Z",
           "symbol": "DHR",
           "thesisId": "medical-tools-specialty-device-compounders",
           "thesisTitle": "Medical tools and specialty device compounders",
@@ -2239,8 +2313,8 @@
           }
         },
         {
-          "id": "BSX-medical-tools-specialty-device-compounders-valuation-2026-05-16",
-          "generatedAt": "2026-05-16T14:00:08.269Z",
+          "id": "BSX-medical-tools-specialty-device-compounders-valuation-2026-05-17",
+          "generatedAt": "2026-05-17T13:06:02.610Z",
           "symbol": "BSX",
           "thesisId": "medical-tools-specialty-device-compounders",
           "thesisTitle": "Medical tools and specialty device compounders",
@@ -28606,7 +28680,7 @@
       "status": "approved",
       "source": "memory/automations/latest-manifest.json",
       "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "generatedAt": "2026-05-17T13:04:23.300Z",
+      "generatedAt": "2026-05-17T13:06:14.313Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -28831,6 +28905,49 @@
       }
     },
     {
+      "id": "source-dGhlc2lzLWJhc2tldH",
+      "kind": "source-health",
+      "title": "Thesis Baskets is STALE",
+      "summary": "873 new / 1544 scanned. last event 2026-05-11 14:29:47.883+00. Age: 6d old",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "source": "memory/thesis-baskets-ingestion-state.json",
+      "target": "dashboard-source-health",
+      "generatedAt": "2026-05-17T13:04:39.348Z",
+      "actionHint": "Acknowledge or run refresh",
+      "payload": {
+        "source": {
+          "id": "thesis-baskets",
+          "label": "Thesis Baskets",
+          "status": "STALE",
+          "age": "6d old",
+          "summary": "873 new / 1544 scanned",
+          "detail": "last event 2026-05-11 14:29:47.883+00",
+          "path": "memory/thesis-baskets-ingestion-state.json",
+          "details": [
+            {
+              "label": "Last run",
+              "value": "2026-05-11T17:58:49.876Z"
+            },
+            {
+              "label": "Last event",
+              "value": "2026-05-11 14:29:47.883+00"
+            },
+            {
+              "label": "New events",
+              "value": "873"
+            },
+            {
+              "label": "Scanned events",
+              "value": "1544"
+            }
+          ],
+          "staleAfterHours": 72,
+          "failingAfterHours": 168
+        }
+      }
+    },
+    {
       "id": "investing-QldYVA",
       "kind": "investing-review",
       "title": "Review high-priority ticker: BWXT",
@@ -28955,49 +29072,6 @@
             "catalyst",
             "invalidation"
           ]
-        }
-      }
-    },
-    {
-      "id": "source-dGhlc2lzLWJhc2tldH",
-      "kind": "source-health",
-      "title": "Thesis Baskets is STALE",
-      "summary": "873 new / 1544 scanned. last event 2026-05-11 14:29:47.883+00. Age: 5d old",
-      "priority": "MEDIUM",
-      "status": "pending",
-      "source": "memory/thesis-baskets-ingestion-state.json",
-      "target": "dashboard-source-health",
-      "generatedAt": "2026-05-17T02:27:46.234Z",
-      "actionHint": "Acknowledge or run refresh",
-      "payload": {
-        "source": {
-          "id": "thesis-baskets",
-          "label": "Thesis Baskets",
-          "status": "STALE",
-          "age": "5d old",
-          "summary": "873 new / 1544 scanned",
-          "detail": "last event 2026-05-11 14:29:47.883+00",
-          "path": "memory/thesis-baskets-ingestion-state.json",
-          "details": [
-            {
-              "label": "Last run",
-              "value": "2026-05-11T17:58:49.876Z"
-            },
-            {
-              "label": "Last event",
-              "value": "2026-05-11 14:29:47.883+00"
-            },
-            {
-              "label": "New events",
-              "value": "873"
-            },
-            {
-              "label": "Scanned events",
-              "value": "1544"
-            }
-          ],
-          "staleAfterHours": 72,
-          "failingAfterHours": 168
         }
       }
     },
@@ -29234,7 +29308,7 @@
       "date": "2026-05-17",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6b565dc, 31 dirty · Alphalpha dashboard: main@8e18e0d · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@89453ec · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
