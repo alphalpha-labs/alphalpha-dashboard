@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-05-17T13:06:14.987Z",
+    "generatedAt": "2026-05-17T13:15:08.020Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "89453ec",
+      "commit": "a498548",
       "branch": "main",
-      "generatedAt": "2026-05-17T13:06:15.001Z",
+      "generatedAt": "2026-05-17T13:15:08.034Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-05-17T13:06:11.419Z",
+      "generatedAt": "2026-05-17T13:15:04.870Z",
       "sourcePath": "../memory/context/index.json",
       "files": 34,
       "words": 32732,
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "1d old",
+        "age": "0h old",
         "summary": "9 family / 55 music latest",
         "detail": "41 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "1d old",
+        "age": "0h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "2h old",
+        "age": "0h old",
         "summary": "21 tickers / 11 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@89453ec · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@a498548 · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@89453ec · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@a498548 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -28680,7 +28680,7 @@
       "status": "approved",
       "source": "memory/automations/latest-manifest.json",
       "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "generatedAt": "2026-05-17T13:06:14.313Z",
+      "generatedAt": "2026-05-17T13:15:07.720Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -28905,6 +28905,134 @@
       }
     },
     {
+      "id": "investing-QldYVA",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: BWXT",
+      "summary": "Nuclear services + defense nuclear — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "dismissed",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-17T13:15:05.070Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "BWXT",
+          "theme": "Nuclear services + defense nuclear",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md",
+            "memory/obsidian/latest-signals.json",
+            "memory/obsidian/proposed-updates/latest-manifest.json"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-Q0NK",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: CCJ",
+      "summary": "Uranium / nuclear fuel cycle — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "dismissed",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-17T13:15:05.070Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "CCJ",
+          "theme": "Uranium / nuclear fuel cycle",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md",
+            "memory/obsidian/latest-signals.json",
+            "memory/obsidian/proposed-updates/latest-manifest.json"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-RU1F",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: EME",
+      "summary": "Grid/data-center construction — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "dismissed",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-17T13:15:05.070Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "EME",
+          "theme": "Grid/data-center construction",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md",
+            "memory/obsidian/latest-signals.json",
+            "memory/obsidian/proposed-updates/latest-manifest.json"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
+      "id": "investing-UFdS",
+      "kind": "investing-review",
+      "title": "Review high-priority ticker: PWR",
+      "summary": "Transmission/grid hardening — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
+      "priority": "MEDIUM",
+      "status": "dismissed",
+      "source": "memory/investing/latest-watchlist.json",
+      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
+      "generatedAt": "2026-05-17T13:15:05.070Z",
+      "actionHint": "Promote to open loop if you want active research follow-up",
+      "payload": {
+        "ticker": {
+          "ticker": "PWR",
+          "theme": "Transmission/grid hardening",
+          "stance": "High-priority research",
+          "confidence": "HIGH",
+          "sourcePaths": [
+            "context/OPEN_LOOPS.md",
+            "memory/obsidian/latest-signals.json",
+            "memory/obsidian/proposed-updates/latest-manifest.json"
+          ],
+          "nextResearchFields": [
+            "valuation",
+            "crowding",
+            "entry trigger",
+            "catalyst",
+            "invalidation"
+          ]
+        }
+      }
+    },
+    {
       "id": "source-dGhlc2lzLWJhc2tldH",
       "kind": "source-health",
       "title": "Thesis Baskets is STALE",
@@ -28913,7 +29041,7 @@
       "status": "pending",
       "source": "memory/thesis-baskets-ingestion-state.json",
       "target": "dashboard-source-health",
-      "generatedAt": "2026-05-17T13:04:39.348Z",
+      "generatedAt": "2026-05-17T13:06:14.987Z",
       "actionHint": "Acknowledge or run refresh",
       "payload": {
         "source": {
@@ -28948,134 +29076,6 @@
       }
     },
     {
-      "id": "investing-QldYVA",
-      "kind": "investing-review",
-      "title": "Review high-priority ticker: BWXT",
-      "summary": "Nuclear services + defense nuclear — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
-      "priority": "MEDIUM",
-      "status": "dismissed",
-      "source": "memory/investing/latest-watchlist.json",
-      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-17T11:30:08.335Z",
-      "actionHint": "Promote to open loop if you want active research follow-up",
-      "payload": {
-        "ticker": {
-          "ticker": "BWXT",
-          "theme": "Nuclear services + defense nuclear",
-          "stance": "High-priority research",
-          "confidence": "HIGH",
-          "sourcePaths": [
-            "context/OPEN_LOOPS.md",
-            "memory/obsidian/latest-signals.json",
-            "memory/obsidian/proposed-updates/latest-manifest.json"
-          ],
-          "nextResearchFields": [
-            "valuation",
-            "crowding",
-            "entry trigger",
-            "catalyst",
-            "invalidation"
-          ]
-        }
-      }
-    },
-    {
-      "id": "investing-Q0NK",
-      "kind": "investing-review",
-      "title": "Review high-priority ticker: CCJ",
-      "summary": "Uranium / nuclear fuel cycle — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
-      "priority": "MEDIUM",
-      "status": "dismissed",
-      "source": "memory/investing/latest-watchlist.json",
-      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-17T11:30:08.335Z",
-      "actionHint": "Promote to open loop if you want active research follow-up",
-      "payload": {
-        "ticker": {
-          "ticker": "CCJ",
-          "theme": "Uranium / nuclear fuel cycle",
-          "stance": "High-priority research",
-          "confidence": "HIGH",
-          "sourcePaths": [
-            "context/OPEN_LOOPS.md",
-            "memory/obsidian/latest-signals.json",
-            "memory/obsidian/proposed-updates/latest-manifest.json"
-          ],
-          "nextResearchFields": [
-            "valuation",
-            "crowding",
-            "entry trigger",
-            "catalyst",
-            "invalidation"
-          ]
-        }
-      }
-    },
-    {
-      "id": "investing-RU1F",
-      "kind": "investing-review",
-      "title": "Review high-priority ticker: EME",
-      "summary": "Grid/data-center construction — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
-      "priority": "MEDIUM",
-      "status": "dismissed",
-      "source": "memory/investing/latest-watchlist.json",
-      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-17T11:30:08.335Z",
-      "actionHint": "Promote to open loop if you want active research follow-up",
-      "payload": {
-        "ticker": {
-          "ticker": "EME",
-          "theme": "Grid/data-center construction",
-          "stance": "High-priority research",
-          "confidence": "HIGH",
-          "sourcePaths": [
-            "context/OPEN_LOOPS.md",
-            "memory/obsidian/latest-signals.json",
-            "memory/obsidian/proposed-updates/latest-manifest.json"
-          ],
-          "nextResearchFields": [
-            "valuation",
-            "crowding",
-            "entry trigger",
-            "catalyst",
-            "invalidation"
-          ]
-        }
-      }
-    },
-    {
-      "id": "investing-UFdS",
-      "kind": "investing-review",
-      "title": "Review high-priority ticker: PWR",
-      "summary": "Transmission/grid hardening — High-priority research. Needs: valuation, crowding, entry trigger, catalyst, invalidation",
-      "priority": "MEDIUM",
-      "status": "dismissed",
-      "source": "memory/investing/latest-watchlist.json",
-      "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-05-17T11:30:08.335Z",
-      "actionHint": "Promote to open loop if you want active research follow-up",
-      "payload": {
-        "ticker": {
-          "ticker": "PWR",
-          "theme": "Transmission/grid hardening",
-          "stance": "High-priority research",
-          "confidence": "HIGH",
-          "sourcePaths": [
-            "context/OPEN_LOOPS.md",
-            "memory/obsidian/latest-signals.json",
-            "memory/obsidian/proposed-updates/latest-manifest.json"
-          ],
-          "nextResearchFields": [
-            "valuation",
-            "crowding",
-            "entry trigger",
-            "catalyst",
-            "invalidation"
-          ]
-        }
-      }
-    },
-    {
       "id": "event-ZmFtaWx5OkF1c3Rpbi",
       "kind": "event-feedback",
       "title": "Give event feedback: Austin Cactus & Succulent Society May Meeting",
@@ -29084,7 +29084,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-16T13:15:04.705Z",
+      "generatedAt": "2026-05-17T13:15:04.944Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -29110,7 +29110,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-16T13:15:04.705Z",
+      "generatedAt": "2026-05-17T13:15:04.944Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -29136,7 +29136,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-16T13:15:04.705Z",
+      "generatedAt": "2026-05-17T13:15:04.944Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -29162,7 +29162,7 @@
       "status": "pending",
       "source": "memory/events/latest-manifest.json",
       "target": "memory/events/feedback-manifest.json",
-      "generatedAt": "2026-05-16T13:15:04.705Z",
+      "generatedAt": "2026-05-17T13:15:04.944Z",
       "actionHint": "Use dashboard event feedback controls to train future picks",
       "payload": {
         "event": {
@@ -29253,7 +29253,7 @@
       "date": "2026-05-17",
       "category": "Source health",
       "title": "Austin events: 9 family / 55 music latest",
-      "summary": "41 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "41 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -29264,7 +29264,7 @@
       "date": "2026-05-17",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 1d old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 0h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -29275,7 +29275,7 @@
       "date": "2026-05-17",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 11 themes",
-      "summary": "4 high-priority research candidates · 2h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -29308,7 +29308,7 @@
       "date": "2026-05-17",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@89453ec · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6b565dc, 33 dirty · Alphalpha dashboard: main@a498548 · Obsidian vault: main@1e31f3f · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
