@@ -24,15 +24,39 @@ export async function POST(req: NextRequest) {
       body.itemId,
       body.payload ?? {},
     );
+    const text = await res.text().catch(() => "");
     if (!res.ok) {
-      const text = await res.text().catch(() => "");
       console.error("[signal] upstream error:", res.status, text);
       return NextResponse.json({ error: "Signal failed" }, { status: 502 });
     }
+    const upstream = parseMaybeJson(text);
+    return NextResponse.json({
+      ok: true,
+      type: body.type,
+      itemId: body.itemId,
+      acceptedAt: new Date().toISOString(),
+      receipt: receiptFor(body.type, body.itemId, body.payload),
+      upstream,
+    });
   } catch (err) {
     console.error("[signal] OpenClaw unavailable:", err);
     return NextResponse.json({ error: "Signal unavailable" }, { status: 503 });
   }
+}
 
-  return NextResponse.json({ ok: true });
+function receiptFor(type: string, itemId: string, payload: unknown) {
+  const p = payload && typeof payload === "object" ? payload as Record<string, unknown> : {};
+  if (type === "investment-action" && p.action === "stage-taxonomy-decision") {
+    return `Decision saved for ${p.decisionPointId || itemId}: ${p.choiceId || "choice recorded"}.`;
+  }
+  if (type === "review-action") return `Review action ${p.action || "recorded"} accepted for ${itemId}.`;
+  if (type === "automation-action") return `Automation action ${p.action || "recorded"} accepted.`;
+  if (type === "refresh-dashboard") return "Refresh request accepted.";
+  return `Dashboard action ${type} accepted.`;
+}
+
+function parseMaybeJson(text: string) {
+  if (!text) return undefined;
+  try { return JSON.parse(text); }
+  catch { return { text }; }
 }

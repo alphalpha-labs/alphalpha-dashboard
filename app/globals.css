@@ -45,6 +45,7 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; padding: 0; }
+button:disabled { cursor: progress; opacity: 0.68; }
 input { font-family: inherit; }
 
 /* 3b. Keyframes */
@@ -696,6 +697,15 @@ input { font-family: inherit; }
   font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-muted); background: rgba(250,246,238,0.65);
 }
 .refreshBtn:hover { border-color: var(--border-strong); color: var(--ink-2); background: var(--card-hover); }
+.refreshBtn--busy { border-color: var(--border-strong); color: var(--ink-2); background: var(--card-hover); }
+.signalReceipt {
+  max-width: min(34vw, 360px); border: 1px solid var(--border); border-radius: var(--radius-pill);
+  padding: 5px 10px; background: rgba(250,246,238,.86); font-family: 'DM Sans', sans-serif;
+  font-size: 11px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.signalReceipt--success { border-color: rgba(76,128,94,.30); color: #3a6a3a; background: rgba(76,128,94,.09); }
+.signalReceipt--error { border-color: rgba(168,64,48,.30); color: var(--accent-high); background: rgba(168,64,48,.08); }
+.signalReceipt--info { border-color: rgba(82,106,158,.24); color: #4d628e; background: rgba(82,106,158,.08); }
 .activityPanel { margin: 0 0 14px; border: 1px solid var(--border-faint); border-radius: var(--radius-sm); background: rgba(250,246,238,0.45); padding: 9px; }
 .activityHeader { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
 .activityHeader h2 { margin: 0; font-family: 'DM Sans', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-muted); }
@@ -822,6 +832,16 @@ input { font-family: inherit; }
 .taxonomyChoiceBtn span { display: block; margin-top: 3px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
 .taxonomyChoiceBtn--recommended { border-color: rgba(76, 128, 94, .35); background: rgba(76, 128, 94, .08); }
 .taxonomyChoiceBtn--selected { border-color: var(--ink); background: var(--card-hover); box-shadow: inset 0 0 0 1px var(--ink); }
+.taxonomyChoiceBtn--saving { position: relative; overflow: hidden; }
+.taxonomyChoiceBtn--saving::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
+  animation: choiceSaving 1.1s linear infinite;
+}
+.taxonomyReceipt { margin-top: 8px; border-radius: var(--radius-sm); padding: 7px 9px; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.35; }
+.taxonomyReceipt--success { color: #3a6a3a; background: rgba(76,128,94,.10); border: 1px solid rgba(76,128,94,.24); }
+.taxonomyReceipt--error { color: var(--accent-high); background: rgba(168,64,48,.08); border: 1px solid rgba(168,64,48,.24); }
+@keyframes choiceSaving { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 .taxonomyMatrixPanel { margin-top: 14px; }
 .taxonomyMatrix { overflow-x: auto; border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: var(--card); }
 .taxonomyMatrixHead, .taxonomyMatrixRow { display: grid; grid-template-columns: minmax(210px, 1.4fr) 128px 96px 118px 118px minmax(170px, 1fr) minmax(220px, 1.25fr); gap: 10px; align-items: start; min-width: 1160px; }

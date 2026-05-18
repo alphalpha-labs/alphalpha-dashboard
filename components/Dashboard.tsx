@@ -14,6 +14,22 @@ import SystemTab from "./SystemTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 
+type SignalResult = {
+  ok?: boolean;
+  type?: string;
+  itemId?: string;
+  acceptedAt?: string;
+  receipt?: string;
+  upstream?: unknown;
+  error?: string;
+};
+
+type SignalReceipt = {
+  id: string;
+  tone: "success" | "error" | "info";
+  message: string;
+};
+
 export type ThreadContext = {
   id:        string;
   type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc";
@@ -44,12 +60,15 @@ export type DashboardTab = typeof TABS[number]["id"];
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
 // When OpenClaw wires up the real endpoint, no changes needed here —
 // only app/api/signal/route.ts needs to be updated.
-async function postSignal(type: string, itemId: string, payload?: object) {
-  await fetch("/api/signal", {
+async function postSignal(type: string, itemId: string, payload?: object): Promise<SignalResult> {
+  const res = await fetch("/api/signal", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ type, itemId, payload }),
-  }).catch(() => {});
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(json?.error || `Signal failed (${res.status})`);
+  return json;
 }
 
 export default function Dashboard({ data, initialTab = "today" }: { data: DashboardData; initialTab?: DashboardTab }) {
@@ -61,21 +80,44 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
   const [reviewItems, setReviewItems] = useState(data.reviewQueue || []);
   const [focusIdx, setFocusIdx]   = useState(0);
   const [thread, setThread]       = useState<ThreadContext | null>(null);
+  const [pendingSignals, setPendingSignals] = useState<Record<string, string>>({});
+  const [receipt, setReceipt] = useState<SignalReceipt | null>(null);
 
   const activeActions  = actions.filter(a => !a.done && !a.snoozed);
   const snoozedActions = actions.filter(a => a.snoozed);
 
+  const dispatchSignal = useCallback(async (type: string, itemId: string, payload?: object, label?: string) => {
+    const key = `${type}:${itemId}`;
+    setPendingSignals(prev => ({ ...prev, [key]: label || type }));
+    setReceipt({ id: key, tone: "info", message: `${label || "Action"}…` });
+    try {
+      const result = await postSignal(type, itemId, payload);
+      setReceipt({ id: key, tone: "success", message: result.receipt || `${label || "Action"} accepted.` });
+      return result;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Signal failed";
+      setReceipt({ id: key, tone: "error", message });
+      throw error;
+    } finally {
+      setPendingSignals(prev => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
+  }, []);
+
   const handleDone = useCallback((id: string) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, done: true } : a));
     setFocusIdx(0);
-    postSignal("done", id);
-  }, []);
+    void dispatchSignal("done", id, undefined, "Marked done").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleSnooze = useCallback((id: string, label: string) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, snoozed: true, snoozeLabel: label } : a));
     setFocusIdx(0);
-    postSignal("snooze", id, { label });
-  }, []);
+    void dispatchSignal("snooze", id, { label }, "Snoozed").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleSkip = useCallback(() => {
     setFocusIdx(i => (i + 1) % Math.max(activeActions.length, 1));
@@ -83,42 +125,42 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
 
   const handleWake = useCallback((id: string) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, snoozed: false, snoozeLabel: null } : a));
-    postSignal("wake", id);
-  }, []);
+    void dispatchSignal("wake", id, undefined, "Woke item").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleAdd = useCallback((input: CaptureInput) => {
     const newLoop: Loop = { id: `l${Date.now()}`, text: input.text, project: input.project || "Inbox", priority: input.priority || "MEDIUM" };
     setLoops(prev => [newLoop, ...prev]);
-    postSignal("add-loop", newLoop.id, {
+    void dispatchSignal("add-loop", newLoop.id, {
       ...input,
       loop: newLoop,
       durableTarget: "context/OPEN_LOOPS.md",
       requestedAction: "append-open-loop-and-refresh-dashboard",
-    });
-  }, []);
+    }, "Added loop").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleEventFeedback = useCallback((eventId: string, feedbackType: string, payload: object) => {
-    postSignal("event-feedback", eventId, { type: feedbackType, ...payload });
-  }, []);
+    void dispatchSignal("event-feedback", eventId, { type: feedbackType, ...payload }, "Recorded feedback").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleReviewAction = useCallback((itemId: string, action: string, payload: object = {}) => {
     const item = reviewItems.find(i => i.id === itemId);
     setReviewItems(prev => prev.map(item => item.id === itemId
       ? { ...item, status: action === "dismiss" ? "dismissed" : action === "approve" || action === "promote-loop" ? "approved" : item.status }
       : item));
-    postSignal("review-action", itemId, {
+    void dispatchSignal("review-action", itemId, {
       action,
       itemId,
       item,
       ...payload,
       durableTarget: item?.target || item?.source || "memory/review-queue/latest-manifest.json",
       requestedAction: action === "promote-loop" ? "append-open-loop-and-mark-review-approved" : "persist-review-decision-and-refresh-dashboard",
-    });
-  }, [reviewItems]);
+    }, `Review ${action}`).catch(() => {});
+  }, [dispatchSignal, reviewItems]);
 
-  const handleInvestmentAction = useCallback((itemId: string, action: string, payload: object = {}) => {
+  const handleInvestmentAction = useCallback(async (itemId: string, action: string, payload: object = {}) => {
     const investingOsActions = new Set(["record-conviction", "promote-thesis", "add-source-note", "stage-taxonomy-decision"]);
-    postSignal("investment-action", itemId, {
+    await dispatchSignal("investment-action", itemId, {
       action,
       itemId,
       ...payload,
@@ -129,8 +171,8 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
         : action === "stage-taxonomy-decision"
           ? { mode: "dry-run", endpoint: "/api/alphalpha/thesis-baskets/:id", applyRequires: "canonical-mode=apply" }
           : undefined,
-    });
-  }, []);
+    }, action === "stage-taxonomy-decision" ? "Saving decision" : "Investing action");
+  }, [dispatchSignal]);
 
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
     const job = automations.find(j => j.id === jobId);
@@ -142,30 +184,31 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
       if (action === "set-every" && "every" in payload) return { ...job, scheduleLabel: `every ${String((payload as { every?: string }).every)}` };
       return job;
     }));
-    postSignal("automation-action", jobId, {
+    void dispatchSignal("automation-action", jobId, {
       action,
       jobId,
       job,
       ...payload,
       durableTarget: "memory/dashboard/automation-actions.json",
       requestedAction: "apply-automation-action-log-and-refresh-dashboard",
-    });
-  }, [automations]);
+    }, `Automation ${action}`).catch(() => {});
+  }, [automations, dispatchSignal]);
 
   const handleLoopDone = useCallback((id: string) => {
     setLoops(prev => prev.map(l => l.id === id ? { ...l, done: true } : l));
-    postSignal("done", id);
-  }, []);
+    void dispatchSignal("done", id, undefined, "Marked done").catch(() => {});
+  }, [dispatchSignal]);
 
   const handleLoopSnooze = useCallback((id: string, label: string) => {
     setLoops(prev => prev.map(l => l.id === id ? { ...l, snoozed: true, snoozeLabel: label } : l));
-    postSignal("snooze", id, { label });
-  }, []);
+    void dispatchSignal("snooze", id, { label }, "Snoozed").catch(() => {});
+  }, [dispatchSignal]);
 
   const openThread  = useCallback((ctx: ThreadContext) => setThread(ctx), []);
   const closeThread = useCallback(() => setThread(null), []);
 
   const drawerOpen = !!thread;
+  const signalBusy = Object.keys(pendingSignals).length > 0;
 
   const [dateStr, setDateStr] = useState("");
   useEffect(() => {
@@ -203,19 +246,21 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
         </nav>
         <div className="mastheadTools">
           <button
-            className="refreshBtn"
-            onClick={() => postSignal("refresh-dashboard", "dashboard", { requestedAction: "regenerate-manifests-and-deploy" })}
+            className={`refreshBtn${signalBusy ? " refreshBtn--busy" : ""}`}
+            onClick={() => void dispatchSignal("refresh-dashboard", "dashboard", { requestedAction: "regenerate-manifests-and-deploy" }, "Refresh requested").catch(() => {})}
+            disabled={signalBusy}
             title="Ask OpenClaw to regenerate dashboard data and deploy"
           >
-            Refresh
+            {signalBusy ? "Working…" : "Refresh"}
           </button>
+          {receipt && <div className={`signalReceipt signalReceipt--${receipt.tone}`} role="status" aria-live="polite">{receipt.message}</div>}
           <div className="mastheadDate" aria-hidden="true">
             {dateStr}
           </div>
         </div>
       </header>
 
-      <main className="mainContent" style={{ marginRight: drawerOpen ? 360 : 0 }}>
+      <main className="mainContent" style={{ marginRight: drawerOpen ? 360 : 0 }} aria-busy={signalBusy}>
         <div key={activeTab} className="tabContent">
           {activeTab === "today" && (
             <TodayTab

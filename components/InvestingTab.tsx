@@ -57,7 +57,7 @@ interface Props {
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
   onDiscuss: (ctx: ThreadContext) => void;
-  onAction?: (itemId: string, action: string, payload?: object) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
 export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
@@ -362,7 +362,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
   onDiscuss: (ctx: ThreadContext) => void;
-  onAction?: (itemId: string, action: string, payload?: object) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }) {
   const baskets = basketGovernanceAudit?.baskets ?? [];
   const clusters = taxonomyDecisionSheet?.clusters ?? [];
@@ -370,6 +370,8 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
   const diagnostics = thesisUniverse?.diagnostics;
   const savedChoices = useMemo(() => Object.fromEntries((taxonomyDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [taxonomyDecisions]);
   const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
+  const [savingChoices, setSavingChoices] = useState<Record<string, string>>({});
+  const [choiceReceipts, setChoiceReceipts] = useState<Record<string, { tone: "success" | "error"; text: string }>>({});
   const visibleBaskets = baskets
     .filter(basket => (basket.currentPortfolio?.primaryPct ?? 0) > 0 || basket.sourceOfTruthStatus === "canonical-app-basket" || (basket.governanceQuestions?.length ?? 0) > 0)
     .sort((a, b) => (b.currentPortfolio?.primaryPct ?? 0) - (a.currentPortfolio?.primaryPct ?? 0));
@@ -392,15 +394,35 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
     affectedAssets: [],
   })));
   const clusterTitleById = useMemo(() => new Map(clusters.map(cluster => [cluster.id, cluster.title])), [clusters]);
-  function stageChoice(pointId: string, choiceId: string) {
+  async function stageChoice(pointId: string, choiceId: string, label: string) {
+    const previousChoice = stagedChoices[pointId];
     setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
-    onAction?.(pointId, "stage-taxonomy-decision", {
-      decisionPointId: pointId,
-      choiceId,
-      workflowVersion: taxonomyDecisionWorkflow?.schemaVersion,
-      durableTarget: "memory/investing/thesis-taxonomy-decisions.json",
-      requestedAction: "stage-investing-taxonomy-decision-and-refresh-dashboard",
-    });
+    setSavingChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saving “${label}”…` } }));
+    try {
+      await onAction?.(pointId, "stage-taxonomy-decision", {
+        decisionPointId: pointId,
+        choiceId,
+        workflowVersion: taxonomyDecisionWorkflow?.schemaVersion,
+        durableTarget: "memory/investing/thesis-taxonomy-decisions.json",
+        requestedAction: "stage-investing-taxonomy-decision-and-refresh-dashboard",
+      });
+      setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saved “${label}”. Receipt recorded and dashboard refresh queued.` } }));
+    } catch (error) {
+      setStagedChoices(prev => {
+        const next = { ...prev };
+        if (previousChoice) next[pointId] = previousChoice;
+        else delete next[pointId];
+        return next;
+      });
+      setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "error", text: error instanceof Error ? error.message : "Could not save this decision." } }));
+    } finally {
+      setSavingChoices(prev => {
+        const next = { ...prev };
+        delete next[pointId];
+        return next;
+      });
+    }
   }
 
   return (
@@ -484,7 +506,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
           <div className="sectionTitleRow"><h2>Decision queue</h2><span>{decisionCards.length} explicit calls</span></div>
           <div className="taxonomyDecisionQueue">
             {decisionCards.map(card => (
-              <article key={card.id} className={`taxonomyDecisionCard taxonomyDecisionCard--${card.blockingLevel || "medium"}`}>
+              <article key={card.id} className={`taxonomyDecisionCard taxonomyDecisionCard--${card.blockingLevel || "medium"}`} aria-busy={Boolean(savingChoices[card.id])}>
                 <div className="taxonomyDecisionTop"><span>{clusterTitleById.get(card.clusterId) || card.clusterId}</span><b>{card.blockingLevel || "medium"}</b></div>
                 <strong>{card.title}</strong>
                 <p className="taxonomyDecisionQuestion">{card.question}</p>
@@ -501,14 +523,16 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
                   {card.options.map(option => {
                     const selected = stagedChoices[card.id] === option.id;
                     const recommended = card.recommendedChoice === option.id;
+                    const saving = savingChoices[card.id] === option.id;
                     return (
-                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}`} onClick={() => stageChoice(card.id, option.id)} title={option.meaning}>
+                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => void stageChoice(card.id, option.id, option.label)} title={option.meaning} disabled={Boolean(savingChoices[card.id])}>
                         <strong>{option.label}</strong>
-                        <span>{recommended ? "Recommended" : "Option"}</span>
+                        <span>{saving ? "Saving…" : selected ? "Selected" : recommended ? "Recommended" : "Option"}</span>
                       </button>
                     );
                   })}
                 </div>
+                {choiceReceipts[card.id] && <div className={`taxonomyReceipt taxonomyReceipt--${choiceReceipts[card.id].tone}`} role="status">{choiceReceipts[card.id].text}</div>}
                 <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: card.id, type: "decision", title: card.question, category: "investing taxonomy", summary: `${clusterTitleById.get(card.clusterId) || card.clusterId}: ${card.recommendation}` })}>Discuss decision</button>
               </article>
             ))}
