@@ -104,6 +104,21 @@ export type SourceHealth = {
   details?: Array<{ label: string; value: string; href?: string | null }>;
 };
 
+
+export type SystemDoc = {
+  id: string;
+  title: string;
+  path: string;
+  layer: "core" | "context" | "plan" | "private" | string;
+  sensitivity: "public" | "internal" | "private";
+  summary: string;
+  excerpt: string;
+  content?: string | null;
+  mtime?: string | null;
+  words: number;
+  tags: string[];
+};
+
 export type DeploymentMeta = {
   commit: string;
   branch: string;
@@ -355,6 +370,7 @@ export type DashboardData = {
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
+    systemDocs?: SystemDoc[];
   };
   stats: {
     openLoops:             number;

@@ -32,6 +32,64 @@ function readWorkspaceManifest(rel) {
   }
   return null;
 }
+function readWorkspaceText(rel) {
+  const candidates = [
+    path.resolve(contextRoot, '..', rel),
+    path.resolve(repoRoot, '..', rel),
+  ];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return { text: fs.readFileSync(candidate, 'utf8'), path: candidate, mtime: fs.statSync(candidate).mtime.toISOString() };
+  }
+  return null;
+}
+function wordCount(text) {
+  return text.trim() ? text.trim().split(/\s+/).length : 0;
+}
+function excerptMarkdown(text, maxChars = 1400) {
+  const cleaned = text.replace(/<!--([\s\S]*?)-->/g, '').trim();
+  if (cleaned.length <= maxChars) return cleaned;
+  return `${cleaned.slice(0, maxChars).trim()}…`;
+}
+function summarizeMarkdown(text, fallback) {
+  const firstPara = text.split(/\n\s*\n/).map(part => part.trim()).find(part => part && !part.startsWith('#') && !part.startsWith('_Source:'));
+  return firstSentence(firstPara || text, fallback);
+}
+function buildSystemDocs() {
+  const docs = [
+    { id: 'soul', title: 'Soul / persona', path: 'SOUL.md', layer: 'core', sensitivity: 'internal', tags: ['#identity', '#persona'], full: true },
+    { id: 'agents', title: 'Workspace agent rules', path: 'AGENTS.md', layer: 'core', sensitivity: 'internal', tags: ['#rules', '#workspace'], full: true },
+    { id: 'identity', title: 'Alphalpha identity', path: 'IDENTITY.md', layer: 'core', sensitivity: 'internal', tags: ['#identity'], full: true },
+    { id: 'user', title: 'Alex profile scaffold', path: 'USER.md', layer: 'private', sensitivity: 'private', tags: ['#alex', '#profile'], full: false },
+    { id: 'memory', title: 'Curated long-term memory', path: 'MEMORY.md', layer: 'private', sensitivity: 'private', tags: ['#memory', '#private'], full: false },
+    { id: 'operating-model', title: 'Operating model', path: 'context/OPERATING_MODEL.md', layer: 'context', sensitivity: 'internal', tags: ['#operating-model', '#approval'], full: true },
+    { id: 'memory-protocol', title: 'Memory protocol', path: 'context/MEMORY_PROTOCOL.md', layer: 'context', sensitivity: 'internal', tags: ['#memory', '#protocol'], full: true },
+    { id: 'open-loops', title: 'Open loops', path: 'context/OPEN_LOOPS.md', layer: 'context', sensitivity: 'internal', tags: ['#open-loops'], full: true },
+    { id: 'projects', title: 'Project registry', path: 'context/PROJECTS.md', layer: 'context', sensitivity: 'internal', tags: ['#projects'], full: true },
+    { id: 'decisions', title: 'Decision log', path: 'context/DECISIONS.md', layer: 'context', sensitivity: 'internal', tags: ['#decisions'], full: true },
+    { id: 'preferences', title: 'Preferences', path: 'context/PREFERENCES.md', layer: 'context', sensitivity: 'internal', tags: ['#preferences'], full: true },
+    { id: 'uncertainties', title: 'Uncertainties', path: 'context/UNCERTAINTIES.md', layer: 'context', sensitivity: 'internal', tags: ['#uncertainties'], full: true },
+    { id: 'foundation', title: 'Agentic OS foundation', path: 'context/agentic-os-foundation.md', layer: 'context', sensitivity: 'internal', tags: ['#agentic-os', '#foundation'], full: true },
+    { id: 'next-system-changes', title: 'Next high-leverage system changes', path: 'context/agentic-os-next-system-changes.md', layer: 'plan', sensitivity: 'internal', tags: ['#agentic-os', '#roadmap'], full: true },
+  ];
+  return docs.map(doc => {
+    const file = readWorkspaceText(doc.path);
+    const text = file?.text || '';
+    const missingSummary = `Missing ${doc.path}; regenerate locally after creating this file.`;
+    return {
+      id: doc.id,
+      title: doc.title,
+      path: doc.path,
+      layer: doc.layer,
+      sensitivity: doc.sensitivity,
+      summary: text ? summarizeMarkdown(text, `${doc.title} workspace document.`) : missingSummary,
+      excerpt: text ? excerptMarkdown(text, doc.full ? 2400 : 1000) : missingSummary,
+      content: text && doc.full ? text : null,
+      mtime: file?.mtime || null,
+      words: wordCount(text),
+      tags: doc.tags,
+    };
+  });
+}
 function readContextIndex() {
   return readWorkspaceManifest(path.join('memory', 'context', 'index.json'));
 }
@@ -515,6 +573,7 @@ function buildData() {
       investingTaxonomyDecisions: sourceManifests.investingTaxonomyDecisions || null,
       investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
       investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
+      systemDocs: buildSystemDocs(),
     },
     stats: {
       openLoops:        checked.length,

@@ -37,6 +37,8 @@ function openerFor(ctx: ThreadContext): string {
       : `This is a manually-tracked project. What aspect of "${t}" do you want to think through?`;
     case "ticker":   return `${t} — ${ctx.theme ?? ""}. Want to think through the thesis, timing, or what would change your mind?`;
     case "digest":   return `"${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" — want to dig into this, connect it to other threads, or decide what to do with it?`;
+    case "systemDoc": return `This is one of Alphalpha's source documents. Want to inspect the policy, revise it, or turn part of it into an action?`;
+    default:         return `Want to think through "${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" together?`;
   }
 }
 

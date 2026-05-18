@@ -10,12 +10,13 @@ import InvestingTab from "./InvestingTab";
 import DigestsTab from "./DigestsTab";
 import AutomationsTab from "./AutomationsTab";
 import ReviewTab from "./ReviewTab";
+import SystemTab from "./SystemTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 
 export type ThreadContext = {
   id:        string;
-  type:      "decision" | "loop" | "project" | "ticker" | "digest";
+  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc";
   title:     string;
   project?:  string;
   priority?: string;
@@ -35,6 +36,7 @@ const TABS = [
   { id: "digests",   label: "Digests", href: "/digests" },
   { id: "review",    label: "Review", href: "/review" },
   { id: "automations", label: "Automations", href: "/automations" },
+  { id: "system", label: "System", href: "/system" },
 ] as const;
 
 export type DashboardTab = typeof TABS[number]["id"];
@@ -280,6 +282,9 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           )}
           {activeTab === "review" && (
             <ReviewTab items={reviewItems} onAction={handleReviewAction} />
+          )}
+          {activeTab === "system" && (
+            <SystemTab docs={data.meta.systemDocs || []} onDiscuss={openThread} />
           )}
           {activeTab === "automations" && (
             <AutomationsTab automations={automations} onAction={handleAutomationAction} />
