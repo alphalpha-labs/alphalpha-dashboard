@@ -64,6 +64,7 @@ function buildSystemDocs() {
     { id: 'operating-model', title: 'Operating model', path: 'context/OPERATING_MODEL.md', layer: 'context', sensitivity: 'internal', tags: ['#operating-model', '#approval'], full: true },
     { id: 'memory-protocol', title: 'Memory protocol', path: 'context/MEMORY_PROTOCOL.md', layer: 'context', sensitivity: 'internal', tags: ['#memory', '#protocol'], full: true },
     { id: 'open-loops', title: 'Open loops', path: 'context/OPEN_LOOPS.md', layer: 'context', sensitivity: 'internal', tags: ['#open-loops'], full: true },
+    { id: 'commitments', title: 'Commitments', path: 'context/COMMITMENTS.md', layer: 'context', sensitivity: 'internal', tags: ['#commitments', '#follow-through'], full: true },
     { id: 'projects', title: 'Project registry', path: 'context/PROJECTS.md', layer: 'context', sensitivity: 'internal', tags: ['#projects'], full: true },
     { id: 'decisions', title: 'Decision log', path: 'context/DECISIONS.md', layer: 'context', sensitivity: 'internal', tags: ['#decisions'], full: true },
     { id: 'preferences', title: 'Preferences', path: 'context/PREFERENCES.md', layer: 'context', sensitivity: 'internal', tags: ['#preferences'], full: true },
