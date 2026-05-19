@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T22:30:46.176Z",
+    "generatedAt": "2026-05-19T22:33:40.651Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "ec24737",
+      "commit": "6ec05d7",
       "branch": "main",
-      "generatedAt": "2026-05-19T22:30:46.188Z",
+      "generatedAt": "2026-05-19T22:33:40.668Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "39 active files / 35563 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@ec24737 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@6ec05d7 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@ec24737 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@6ec05d7 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -42779,7 +42779,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@ec24737 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@6ec05d7 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
