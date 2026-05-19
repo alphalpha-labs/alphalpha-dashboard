@@ -412,6 +412,12 @@ input { font-family: inherit; }
   color: var(--dark-fill-text); flex-shrink: 0; margin-top: 2px;
 }
 .threadBubble { padding: 9px 12px; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; max-width: min(260px, calc(100vw - 96px)); overflow-wrap: anywhere; }
+.threadBubble p { margin: 0 0 0.7em; }
+.threadBubble p:last-child { margin-bottom: 0; }
+.threadMarkdownHeading { display: block; margin: 0.15em 0 0.45em; font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.35; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+.threadMarkdownList { margin: 0.2em 0 0.85em; padding-left: 1.15em; display: grid; gap: 0.35em; }
+.threadMarkdownList:last-child { margin-bottom: 0; }
+.threadMarkdownList li { padding-left: 0.1em; }
 .threadMsgRow--assistant .threadBubble { background: var(--bg-side); color: var(--ink-2); border-radius: 11px 11px 11px 3px; }
 .threadMsgRow--user .threadBubble { background: var(--dark-fill); color: var(--dark-fill-text); border-radius: 11px 11px 3px 11px; }
 .threadLoading { letter-spacing: 0.2em; opacity: 0.6; }
