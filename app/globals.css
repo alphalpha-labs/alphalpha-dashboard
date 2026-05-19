@@ -832,6 +832,7 @@ input { font-family: inherit; }
 .taxonomyChoiceBtn span { display: block; margin-top: 3px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .08em; }
 .taxonomyChoiceBtn--recommended { border-color: rgba(76, 128, 94, .35); background: rgba(76, 128, 94, .08); }
 .taxonomyChoiceBtn--selected { border-color: var(--ink); background: var(--card-hover); box-shadow: inset 0 0 0 1px var(--ink); }
+.taxonomyChoiceBtn--pending { border-color: rgba(138,106,58,.48); background: rgba(255,250,238,.92); }
 .taxonomyChoiceBtn--saving { position: relative; overflow: hidden; }
 .taxonomyChoiceBtn--saving::after {
   content: ""; position: absolute; inset: 0;
@@ -841,6 +842,12 @@ input { font-family: inherit; }
 .taxonomyReceipt { margin-top: 8px; border-radius: var(--radius-sm); padding: 7px 9px; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.35; }
 .taxonomyReceipt--success { color: #3a6a3a; background: rgba(76,128,94,.10); border: 1px solid rgba(76,128,94,.24); }
 .taxonomyReceipt--error { color: var(--accent-high); background: rgba(168,64,48,.08); border: 1px solid rgba(168,64,48,.24); }
+.taxonomyConfirm { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 9px; padding: 8px; border: 1px solid rgba(138,106,58,.28); border-radius: var(--radius-sm); background: rgba(255,250,238,.72); }
+.taxonomyConfirm span { margin-right: auto; color: var(--accent-med); }
+.taxonomyConfirmBtn { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 9px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); background: var(--card); }
+.taxonomyConfirmBtn:hover { border-color: var(--border-strong); color: var(--ink-2); background: var(--card-hover); }
+.taxonomyConfirmBtn--primary { border-color: var(--ink); color: var(--dark-fill-text); background: var(--dark-fill); }
+.taxonomyConfirmBtn--primary:hover { color: var(--dark-fill-text); background: var(--ink-2); }
 @keyframes choiceSaving { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 .taxonomyMatrixPanel { margin-top: 14px; }
 .taxonomyMatrix { overflow-x: auto; border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: var(--card); }

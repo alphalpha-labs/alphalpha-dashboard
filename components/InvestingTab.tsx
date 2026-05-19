@@ -370,6 +370,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
   const diagnostics = thesisUniverse?.diagnostics;
   const savedChoices = useMemo(() => Object.fromEntries((taxonomyDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [taxonomyDecisions]);
   const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
+  const [pendingChoices, setPendingChoices] = useState<Record<string, string>>({});
   const [savingChoices, setSavingChoices] = useState<Record<string, string>>({});
   const [choiceReceipts, setChoiceReceipts] = useState<Record<string, { tone: "success" | "error"; text: string }>>({});
   const visibleBaskets = baskets
@@ -394,9 +395,38 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
     affectedAssets: [],
   })));
   const clusterTitleById = useMemo(() => new Map(clusters.map(cluster => [cluster.id, cluster.title])), [clusters]);
-  async function stageChoice(pointId: string, choiceId: string, label: string) {
-    const previousChoice = stagedChoices[pointId];
+  function promptChoice(pointId: string, choiceId: string, label: string) {
+    const existingChoice = savedChoices[pointId] || stagedChoices[pointId];
+    setPendingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    setChoiceReceipts(prev => ({
+      ...prev,
+      [pointId]: {
+        tone: "success",
+        text: existingChoice && existingChoice !== choiceId
+          ? `Double-check: change from “${existingChoice}” to “${label}”?`
+          : `Double-check: confirm “${label}” before saving.`,
+      },
+    }));
+  }
+
+  function cancelChoice(pointId: string) {
+    setPendingChoices(prev => {
+      const next = { ...prev };
+      delete next[pointId];
+      return next;
+    });
+    setStagedChoices(prev => {
+      const next = { ...prev };
+      if (savedChoices[pointId]) next[pointId] = savedChoices[pointId];
+      else delete next[pointId];
+      return next;
+    });
+    setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: "Selection canceled. Nothing was saved." } }));
+  }
+
+  async function confirmChoice(pointId: string, choiceId: string, label: string) {
+    const previousChoice = stagedChoices[pointId];
     setSavingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saving “${label}”…` } }));
     try {
@@ -417,6 +447,11 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
       });
       setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "error", text: error instanceof Error ? error.message : "Could not save this decision." } }));
     } finally {
+      setPendingChoices(prev => {
+        const next = { ...prev };
+        delete next[pointId];
+        return next;
+      });
       setSavingChoices(prev => {
         const next = { ...prev };
         delete next[pointId];
@@ -523,15 +558,27 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
                   {card.options.map(option => {
                     const selected = stagedChoices[card.id] === option.id;
                     const recommended = card.recommendedChoice === option.id;
+                    const pending = pendingChoices[card.id] === option.id;
                     const saving = savingChoices[card.id] === option.id;
                     return (
-                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => void stageChoice(card.id, option.id, option.label)} title={option.meaning} disabled={Boolean(savingChoices[card.id])}>
+                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${pending ? " taxonomyChoiceBtn--pending" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => promptChoice(card.id, option.id, option.label)} title={option.meaning} disabled={Boolean(savingChoices[card.id])}>
                         <strong>{option.label}</strong>
-                        <span>{saving ? "Saving…" : selected ? "Selected" : recommended ? "Recommended" : "Option"}</span>
+                        <span>{saving ? "Saving…" : pending ? "Confirm below" : selected ? "Selected" : recommended ? "Recommended" : "Option"}</span>
                       </button>
                     );
                   })}
                 </div>
+                {pendingChoices[card.id] && (() => {
+                  const option = card.options.find(option => option.id === pendingChoices[card.id]);
+                  if (!option) return null;
+                  return (
+                    <div className="taxonomyConfirm" role="group" aria-label={`Confirm ${card.title}`}>
+                      <span>Confirm “{option.label}”?</span>
+                      <button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={Boolean(savingChoices[card.id])}>Confirm</button>
+                      <button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={Boolean(savingChoices[card.id])}>Cancel</button>
+                    </div>
+                  );
+                })()}
                 {choiceReceipts[card.id] && <div className={`taxonomyReceipt taxonomyReceipt--${choiceReceipts[card.id].tone}`} role="status">{choiceReceipts[card.id].text}</div>}
                 <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: card.id, type: "decision", title: card.question, category: "investing taxonomy", summary: `${clusterTitleById.get(card.clusterId) || card.clusterId}: ${card.recommendation}` })}>Discuss decision</button>
               </article>

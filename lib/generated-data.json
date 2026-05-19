@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-18T23:06:35.327Z",
+    "generatedAt": "2026-05-19T01:58:18.885Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "00622fb",
+      "commit": "a36327c",
       "branch": "main",
-      "generatedAt": "2026-05-18T23:06:35.339Z",
+      "generatedAt": "2026-05-19T01:58:18.897Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 2
     },
     "contextHealth": {
       "generatedAt": "2026-05-18T14:00:05.890Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "9h old",
+        "age": "12h old",
         "summary": "35 active files / 26693 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "10h old",
+        "age": "13h old",
         "summary": "9 family / 55 music latest",
         "detail": "41 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "8h old",
+        "age": "11h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "10h old",
+        "age": "13h old",
         "summary": "21 tickers / 11 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "12h old",
+        "age": "14h old",
         "summary": "9 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -212,14 +212,14 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "10h old",
-        "summary": "27 enabled / 6 paused",
-        "detail": "33 cron jobs indexed",
+        "age": "2h old",
+        "summary": "30 enabled / 6 paused",
+        "detail": "36 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
           {
             "label": "agentic-os-weekly-audit",
-            "value": "enabled · error · next 2026-05-18T14:00:00.000Z"
+            "value": "enabled · error · next 2026-05-25T14:00:00.000Z"
           },
           {
             "label": "recommended-reads-packet",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 46 dirty · Alphalpha dashboard: main@00622fb, 4 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@a36327c, 2 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@b1852bb · 46 dirty · 0 ahead · 0 behind"
+            "value": "master@b1852bb · 56 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@00622fb · 4 dirty · 4 ahead · 0 behind"
+            "value": "main@a36327c · 2 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -281,27 +281,27 @@
       {
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
-        "status": "FAILING",
-        "age": "7d old",
-        "summary": "873 new / 1544 scanned",
-        "detail": "last event 2026-05-11 14:29:47.883+00",
+        "status": "OK",
+        "age": "2h old",
+        "summary": "1217 new / 2112 scanned",
+        "detail": "last event 2026-05-18 23:42:13.702+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
         "details": [
           {
             "label": "Last run",
-            "value": "2026-05-11T17:58:49.876Z"
+            "value": "2026-05-19T00:27:14.485Z"
           },
           {
             "label": "Last event",
-            "value": "2026-05-11 14:29:47.883+00"
+            "value": "2026-05-18 23:42:13.702+00"
           },
           {
             "label": "New events",
-            "value": "873"
+            "value": "1217"
           },
           {
             "label": "Scanned events",
-            "value": "1544"
+            "value": "2112"
           }
         ],
         "staleAfterHours": 72,
@@ -311,9 +311,9 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "10h old",
-        "summary": "14 pending / 8 high",
-        "detail": "19 review items indexed",
+        "age": "2h old",
+        "summary": "4 pending / 0 high",
+        "detail": "18 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "details": [
           {
@@ -321,32 +321,32 @@
             "value": "HIGH · approved · Run now, pause, or inspect failure logs"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Gold.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Review high-priority ticker: BWXT",
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Review high-priority ticker: CCJ",
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Macro Volatility.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Review high-priority ticker: EME",
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Review high-priority ticker: PWR",
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Give event feedback: Austin Cactus & Succulent Society May Meeting",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Life/Media Tracking.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Give event feedback: Austin Area Begonia Society May Meeting",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
           },
           {
-            "label": "Approve Obsidian update: Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-            "value": "HIGH · pending · Review/edit then approve"
+            "label": "Give event feedback: Mac DeMarco",
+            "value": "LOW · pending · Use dashboard event feedback controls to train future picks"
           }
         ],
         "staleAfterHours": 24,
@@ -554,70 +554,41 @@
     ],
     "investmentDecisionDigest": {
       "schema_version": "2026-05-11.1",
-      "as_of": "2026-05-12T21:54:33.821Z",
+      "as_of": "2026-05-19T00:26:30.074Z",
       "horizon": "5-10y",
-      "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c",
+      "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b",
       "latest_check_in": {
-        "id": "08ac8754-a159-4b82-a66e-6fa207fdd03c",
-        "title": "Power and nuclear remain the live macro; energy risk premium rises, while stale cyclicals lose support",
-        "date": "2026-05-10",
-        "created_at": "2026-05-11T02:09:07.043213+00:00",
+        "id": "323005f1-86f7-4d60-b821-c7a4c441c61b",
+        "title": "AI-power demand still validates power/nuclear; stale support and macro fragility argue trimming confidence elsewhere",
+        "date": "2026-05-17",
+        "created_at": "2026-05-18T01:35:18.780098+00:00",
         "degraded": true,
         "degradation_summary": [
-          "investor_posts: No investor posts loaded",
           "feedback_digest: Feedback below minimum vote threshold for prompt scopes"
         ]
       },
       "posture": {
-        "headline": "Power and nuclear remain the live macro; energy risk premium rises, while stale cyclicals lose support",
-        "summary": "Fresh evidence continues to validate the electricity-scarcity and nuclear buildout theses, with India emerging as a meaningful incremental demand and capex center. Energy supply-constraint also benefits from renewed Hormuz/Middle East risk premium, though infrastructure redundancy tempers the most extreme scarcity outcomes. By contrast, several lower-conviction baskets lack fresh confirming evidence and should be marked down on staleness alone, with copper specifically under pressure.",
+        "headline": "AI-power demand still validates power/nuclear; stale support and macro fragility argue trimming confidence elsewhere",
+        "summary": "The clearest live macro remains AI infrastructure converting into hard power demand, reinforcing dispatchable generation, grid spend, and parts of the nuclear chain. But the broader backdrop is less clean than a one-way real-asset boom: policy-regime uncertainty, hot-inflation risk, and narrow market leadership increase reversal risk, while several baskets lack fresh validation and should see confidence trimmed on staleness alone.",
         "key_risk": null
       },
       "top_decisions": [
         {
-          "id": "watchlist-0-APH",
+          "id": "watchlist-0-CF",
           "action": "research",
-          "title": "APH: condition flagged",
+          "title": "CF: condition flagged",
           "asset_symbols": [
-            "APH"
+            "CF"
           ],
-          "basket": null,
-          "rationale": "",
-          "time_horizon": "5-10y",
-          "confidence": "moderate",
-          "source": "watchlist_changes",
-          "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
-        },
-        {
-          "id": "watchlist-1-CEG",
-          "action": "research",
-          "title": "CEG: condition flagged",
-          "asset_symbols": [
-            "CEG"
-          ],
-          "basket": "Nuclear Power",
+          "basket": "Agricultural Commodities Boom Downstream of Hormuz",
           "rationale": "",
           "time_horizon": "5-10y",
           "confidence": "low",
           "source": "watchlist_changes",
-          "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
         },
         {
-          "id": "watchlist-2-JBL",
-          "action": "research",
-          "title": "JBL: condition flagged",
-          "asset_symbols": [
-            "JBL"
-          ],
-          "basket": null,
-          "rationale": "",
-          "time_horizon": "5-10y",
-          "confidence": "low",
-          "source": "watchlist_changes",
-          "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
-        },
-        {
-          "id": "watchlist-3-MU",
+          "id": "watchlist-1-MU",
           "action": "research",
           "title": "MU: condition flagged",
           "asset_symbols": [
@@ -628,72 +599,86 @@
           "time_horizon": "5-10y",
           "confidence": "low",
           "source": "watchlist_changes",
-          "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
         },
         {
-          "id": "watchlist-4-BTC",
+          "id": "watchlist-2-GEHC",
           "action": "research",
-          "title": "BTC: condition flagged",
+          "title": "GEHC: condition flagged",
           "asset_symbols": [
-            "BTC"
+            "GEHC"
           ],
-          "basket": "Crypto as non-sovereign stores of value and new financial rails for AI",
+          "basket": null,
           "rationale": "",
           "time_horizon": "5-10y",
           "confidence": "moderate",
           "source": "watchlist_changes",
-          "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
+        },
+        {
+          "id": "watchlist-3-APH",
+          "action": "research",
+          "title": "APH: condition flagged",
+          "asset_symbols": [
+            "APH"
+          ],
+          "basket": null,
+          "rationale": "",
+          "time_horizon": "5-10y",
+          "confidence": "moderate",
+          "source": "watchlist_changes",
+          "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
+        },
+        {
+          "id": "watchlist-4-ANET",
+          "action": "research",
+          "title": "ANET: condition flagged",
+          "asset_symbols": [
+            "ANET"
+          ],
+          "basket": "AI Physical Infrastructure",
+          "rationale": "",
+          "time_horizon": "5-10y",
+          "confidence": "low",
+          "source": "watchlist_changes",
+          "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
         }
       ],
       "thesis_changes": [
         {
           "basket": "Power / Electricity Scarcity",
-          "trend": "rising",
+          "trend": "stable",
           "conviction": 10,
-          "freshness": "fresh",
-          "why_it_matters": "Power / Electricity Scarcity conviction is rising; thesis status AI/data-center load is tightening power, grid, and generation capacity, with utilities, OEMs, and nuclear-linked assets as key beneficiaries. Thesis remains strongest when de…"
+          "freshness": "aging",
+          "why_it_matters": "Power / Electricity Scarcity conviction is stable; thesis status AI/data-center load and grid bottlenecks continue to support a real power-capacity scarcity thesis; focus has shifted from narrative to project conversion, pricing, and finan…"
         },
         {
-          "basket": "Re-armament / Defense Supercycle",
+          "basket": "Nuclear Power",
           "trend": "rising",
           "conviction": 8,
-          "freshness": "fresh",
-          "why_it_matters": "Re-armament / Defense Supercycle conviction is rising; thesis status Defense spending is structurally higher, but the investable edge depends on backlog conversion, production ramp, and deliveries rather than headline geopolitics. Baseline…"
-        },
-        {
-          "basket": "Energy — Supply Constraint",
-          "trend": "falling",
-          "conviction": 5,
-          "freshness": "fresh",
-          "why_it_matters": "Energy — Supply Constraint conviction is falling; thesis status Energy security/Hormuz risk still matters, but the pure scarcity thesis has weakened as supply response, pricing-in, and normalization risk offset disruption. This is now a co…"
+          "freshness": "aging",
+          "why_it_matters": "Nuclear Power conviction is rising; thesis status Nuclear normalization/buildout remains structurally supported by baseload demand, policy, and now financing momentum; the gating issue is execution and supply-chain scale. Recent evidence i…"
         },
         {
           "basket": "Agricultural Commodities Boom Downstream of Hormuz",
           "trend": "falling",
-          "conviction": 3,
-          "freshness": "fresh",
-          "why_it_matters": "Agricultural Commodities Boom Downstream of Hormuz conviction is falling; thesis status The ag/fertilizer upside case remains a second-order transmission from Hormuz disruption, not a directly validated supply shock. Keep as a low-convicti…"
+          "conviction": 1,
+          "freshness": "aging",
+          "why_it_matters": "Agricultural Commodities Boom Downstream of Hormuz conviction is falling; thesis status This remains a second-order, highly contingent thesis requiring sustained Hormuz disruption and clear transmission into ag/fertilizer. With no direct a…"
         },
         {
-          "basket": "Critical Materials / Copper",
+          "basket": "Latin Americas Turn",
           "trend": "falling",
-          "conviction": 2,
-          "freshness": "fresh",
-          "why_it_matters": "Critical Materials / Copper conviction is falling; thesis status Long-run electrification demand still supports copper, but the near-term bottleneck/scarcity framing has eroded on supply growth, execution issues, and repeated lack of fresh…"
+          "conviction": 0,
+          "freshness": "stale",
+          "why_it_matters": "Latin Americas Turn conviction is falling; thesis status Structural rerating logic may still exist, but the timing case is overwhelmed by EM/liquidity fragility and lack of fresh basket-specific support. Treat as inactive unless new region…"
         },
         {
           "basket": "Precious Metals",
           "trend": "falling",
-          "conviction": 2,
+          "conviction": 1,
           "freshness": "aging",
-          "why_it_matters": "Precious Metals conviction is falling; thesis status Macro hedging logic remains conceptually supportive, but basket-level evidence has stayed thin and too narrow to justify more than low conviction. Silver-specific support has not broaden…"
-        },
-        {
-          "basket": "Doomberg’s Energy View",
-          "trend": "falling",
-          "conviction": 0,
-          "freshness": "aging",
-          "why_it_matters": "Doomberg’s Energy View conviction is falling; thesis status This remains a contested energy/midstream expression where operating data and geopolitics have not produced a clean, durable validator. Baseline stance is effectively sidelined un…"
+          "why_it_matters": "Precious Metals conviction is falling; thesis status Long-run hedge/store-of-value logic survives, but recent support has been narrow and insufficient to justify broader basket conviction. This is a low-conviction placeholder, not an activ…"
         }
       ],
       "contradictions": [],
@@ -752,35 +737,28 @@
       "portfolio_drift": [],
       "ignored_noise": [],
       "cost_summary": {
-        "business_date": "2026-05-11",
-        "total_cost_usd": 0.167406,
-        "total_tokens": 102702,
-        "total_requests": 40,
+        "business_date": "2026-05-18",
+        "total_cost_usd": 0.120268,
+        "total_tokens": 51144,
+        "total_requests": 22,
         "groups": [
           {
             "job_key": "investor_triage",
-            "total_cost_usd": 0.129136,
-            "total_tokens": 25699,
+            "total_cost_usd": 0.105617,
+            "total_tokens": 24510,
             "request_count": 10
           },
           {
-            "job_key": "manual_watchlist",
-            "total_cost_usd": 0.022939,
-            "total_tokens": 49921,
-            "request_count": 18
-          },
-          {
             "job_key": "basket_alternates",
-            "total_cost_usd": 0.015331,
-            "total_tokens": 27082,
+            "total_cost_usd": 0.014651,
+            "total_tokens": 26634,
             "request_count": 12
           }
         ]
       },
       "source_health": {
-        "latest_check_in_age_hours": 438,
+        "latest_check_in_age_hours": 229,
         "degraded_layers": [
-          "investor_posts: No investor posts loaded",
           "feedback_digest: Feedback below minimum vote threshold for prompt scopes"
         ],
         "latest_sweep_at": "2026-04-23T21:57:52.802342+00:00",
@@ -793,13 +771,99 @@
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest.json"
     },
     "investmentDecisionDigestChanges": {
-      "generated_at": "2026-05-12T21:54:33.852Z",
-      "previous_as_of": "2026-05-12T21:13:24.373Z",
-      "current_as_of": "2026-05-12T21:54:33.821Z",
-      "posture_changed": false,
+      "generated_at": "2026-05-19T00:26:30.100Z",
+      "previous_as_of": "2026-05-12T21:54:33.821Z",
+      "current_as_of": "2026-05-19T00:26:30.074Z",
+      "posture_changed": true,
       "top_decisions": {
-        "added": [],
-        "removed": []
+        "added": [
+          {
+            "id": "watchlist-0-CF",
+            "action": "research",
+            "title": "CF: condition flagged",
+            "asset_symbols": [
+              "CF"
+            ],
+            "basket": "Agricultural Commodities Boom Downstream of Hormuz",
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "low",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
+          },
+          {
+            "id": "watchlist-2-GEHC",
+            "action": "research",
+            "title": "GEHC: condition flagged",
+            "asset_symbols": [
+              "GEHC"
+            ],
+            "basket": null,
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "moderate",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
+          },
+          {
+            "id": "watchlist-4-ANET",
+            "action": "research",
+            "title": "ANET: condition flagged",
+            "asset_symbols": [
+              "ANET"
+            ],
+            "basket": "AI Physical Infrastructure",
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "low",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/323005f1-86f7-4d60-b821-c7a4c441c61b"
+          }
+        ],
+        "removed": [
+          {
+            "id": "watchlist-1-CEG",
+            "action": "research",
+            "title": "CEG: condition flagged",
+            "asset_symbols": [
+              "CEG"
+            ],
+            "basket": "Nuclear Power",
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "low",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          },
+          {
+            "id": "watchlist-2-JBL",
+            "action": "research",
+            "title": "JBL: condition flagged",
+            "asset_symbols": [
+              "JBL"
+            ],
+            "basket": null,
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "low",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          },
+          {
+            "id": "watchlist-4-BTC",
+            "action": "research",
+            "title": "BTC: condition flagged",
+            "asset_symbols": [
+              "BTC"
+            ],
+            "basket": "Crypto as non-sovereign stores of value and new financial rails for AI",
+            "rationale": "",
+            "time_horizon": "5-10y",
+            "confidence": "moderate",
+            "source": "watchlist_changes",
+            "source_url": "https://thesis-baskets.vercel.app/checkins/08ac8754-a159-4b82-a66e-6fa207fdd03c"
+          }
+        ]
       },
       "contradictions": {
         "added": [],
@@ -818,9 +882,9 @@
         "removed": []
       },
       "totals": {
-        "added": 0,
-        "removed": 0,
-        "changed": 0
+        "added": 3,
+        "removed": 3,
+        "changed": 7
       },
       "path": "/home/node/.openclaw/workspace/memory/thesis-baskets/latest-decision-digest-changes.json"
     },
@@ -36398,10 +36462,10 @@
         "layer": "core",
         "sensitivity": "internal",
         "summary": "This workspace is Alphalpha’s home.",
-        "excerpt": "# AGENTS.md - Workspace Operating Rules\n\nThis workspace is Alphalpha’s home. Keep it useful, private, and recoverable.\n\n## Startup\n- Read `SOUL.md`, `USER.md`, and recent daily memory (`memory/YYYY-MM-DD.md` today/yesterday) when needed for continuity.\n- In direct/main sessions only, use `MEMORY.md` or memory tools for private long-term context. Do not load/share private memory in group contexts.\n\n## Memory\n- Daily raw notes: `memory/YYYY-MM-DD.md`.\n- Curated long-term memory: `MEMORY.md`.\n- Write down durable decisions, lessons, todos, and repeated friction. Files survive; mental notes do not.\n- Detailed memory/heartbeat/group-chat/platform protocols live in `context/OPERATING_PROTOCOLS.md` and should be loaded on demand, not kept in every turn.\n\n## Boundaries\n- Keep private data private.\n- Ask before external/public sends, destructive cleanup, credential/config changes, or uncertain actions.\n- Prefer recoverable changes (`trash`, backups, archives) over irreversible deletion.\n- Safe to act internally on reversible workspace/documentation/organization tasks.\n\n## Style\nBe concise, direct, useful, and human. Prefer action and evidence over filler.\n\n## Context budget\nKeep always-on guidance lean. Move long examples/checklists into focused skills or `context/*` files. For recurring automations, prefer `lightContext:true`, bounded artifacts, concise summaries, and isolated/fresh sessions unless continuity is explicitly needed.",
-        "content": "# AGENTS.md - Workspace Operating Rules\n\nThis workspace is Alphalpha’s home. Keep it useful, private, and recoverable.\n\n## Startup\n- Read `SOUL.md`, `USER.md`, and recent daily memory (`memory/YYYY-MM-DD.md` today/yesterday) when needed for continuity.\n- In direct/main sessions only, use `MEMORY.md` or memory tools for private long-term context. Do not load/share private memory in group contexts.\n\n## Memory\n- Daily raw notes: `memory/YYYY-MM-DD.md`.\n- Curated long-term memory: `MEMORY.md`.\n- Write down durable decisions, lessons, todos, and repeated friction. Files survive; mental notes do not.\n- Detailed memory/heartbeat/group-chat/platform protocols live in `context/OPERATING_PROTOCOLS.md` and should be loaded on demand, not kept in every turn.\n\n## Boundaries\n- Keep private data private.\n- Ask before external/public sends, destructive cleanup, credential/config changes, or uncertain actions.\n- Prefer recoverable changes (`trash`, backups, archives) over irreversible deletion.\n- Safe to act internally on reversible workspace/documentation/organization tasks.\n\n## Style\nBe concise, direct, useful, and human. Prefer action and evidence over filler.\n\n## Context budget\nKeep always-on guidance lean. Move long examples/checklists into focused skills or `context/*` files. For recurring automations, prefer `lightContext:true`, bounded artifacts, concise summaries, and isolated/fresh sessions unless continuity is explicitly needed.\n",
-        "mtime": "2026-05-06T02:53:48.744Z",
-        "words": 186,
+        "excerpt": "# AGENTS.md - Workspace Operating Rules\n\nThis workspace is Alphalpha’s home. Keep it useful, private, and recoverable.\n\n## Startup\n- Read `SOUL.md`, `USER.md`, and recent daily memory (`memory/YYYY-MM-DD.md` today/yesterday) when needed for continuity.\n- In direct/main sessions only, use `MEMORY.md` or memory tools for private long-term context. Do not load/share private memory in group contexts.\n\n## Memory\n- Daily raw notes: `memory/YYYY-MM-DD.md`.\n- Curated long-term memory: `MEMORY.md`.\n- Write down durable decisions, lessons, todos, and repeated friction. Files survive; mental notes do not.\n- Detailed memory/heartbeat/group-chat/platform protocols live in `context/OPERATING_PROTOCOLS.md` and should be loaded on demand, not kept in every turn.\n\n## Boundaries\n- Keep private data private.\n- Ask before external/public sends, destructive cleanup, credential/config changes, or uncertain actions.\n- Prefer recoverable changes (`trash`, backups, archives) over irreversible deletion.\n- Safe to act internally on reversible workspace/documentation/organization tasks.\n\n## Style\nBe concise, direct, useful, and human. Prefer action and evidence over filler.\n\n## Context budget\nKeep always-on guidance lean. Move long examples/checklists into focused skills or `context/*` files. For recurring automations, prefer `lightContext:true`, bounded artifacts, concise summaries, and isolated/fresh sessions unless continuity is explicitly needed.\n\n## Recurring automations\n- Durable standing orders live in `context/STANDING_ORDERS.md`.\n- Cron prompts should reference the named standing-order program instead of repeating long instructions inline.\n- When adding or changing recurring jobs, update the standing-order program first, then keep the cron payload as a short pointer to it.",
+        "content": "# AGENTS.md - Workspace Operating Rules\n\nThis workspace is Alphalpha’s home. Keep it useful, private, and recoverable.\n\n## Startup\n- Read `SOUL.md`, `USER.md`, and recent daily memory (`memory/YYYY-MM-DD.md` today/yesterday) when needed for continuity.\n- In direct/main sessions only, use `MEMORY.md` or memory tools for private long-term context. Do not load/share private memory in group contexts.\n\n## Memory\n- Daily raw notes: `memory/YYYY-MM-DD.md`.\n- Curated long-term memory: `MEMORY.md`.\n- Write down durable decisions, lessons, todos, and repeated friction. Files survive; mental notes do not.\n- Detailed memory/heartbeat/group-chat/platform protocols live in `context/OPERATING_PROTOCOLS.md` and should be loaded on demand, not kept in every turn.\n\n## Boundaries\n- Keep private data private.\n- Ask before external/public sends, destructive cleanup, credential/config changes, or uncertain actions.\n- Prefer recoverable changes (`trash`, backups, archives) over irreversible deletion.\n- Safe to act internally on reversible workspace/documentation/organization tasks.\n\n## Style\nBe concise, direct, useful, and human. Prefer action and evidence over filler.\n\n## Context budget\nKeep always-on guidance lean. Move long examples/checklists into focused skills or `context/*` files. For recurring automations, prefer `lightContext:true`, bounded artifacts, concise summaries, and isolated/fresh sessions unless continuity is explicitly needed.\n\n## Recurring automations\n- Durable standing orders live in `context/STANDING_ORDERS.md`.\n- Cron prompts should reference the named standing-order program instead of repeating long instructions inline.\n- When adding or changing recurring jobs, update the standing-order program first, then keep the cron payload as a short pointer to it.\n",
+        "mtime": "2026-05-18T23:18:13.186Z",
+        "words": 234,
         "tags": [
           "#rules",
           "#workspace"
@@ -36953,186 +37017,6 @@
   ],
   "automations": [
     {
-      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
-      "name": "dashboard-source-health-alert",
-      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 8 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "15 8 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-18T13:15:00.000Z",
-      "lastRunAt": "2026-05-17T13:15:00.006Z",
-      "lastStatus": "ok",
-      "lastDuration": "12s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-05-17T13:15:12.416Z"
-    },
-    {
-      "id": "0ca265e1-ea6c-494b-9c2b-5adb76b1b981",
-      "name": "yard-plan-may-checkin-2026",
-      "description": "Austin Yard Planting Plan — May planning check-in",
-      "category": "events",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 4,18 5 *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 4,18 5 * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read"
-      ],
-      "delivery": "announce -> discord:channel:1497977285217878178",
-      "nextRunAt": "2026-05-18T14:00:00.000Z",
-      "lastRunAt": "2026-05-04T14:06:03.080Z",
-      "lastStatus": "ok",
-      "lastDuration": "55s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Austin Yard Planting Plan — May planning check-in",
-      "updatedAt": "2026-05-06T02:54:39.957Z"
-    },
-    {
-      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "name": "agentic-os-weekly-audit",
-      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "write",
-        "exec",
-        "web_fetch",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-18T14:00:00.000Z",
-      "lastRunAt": "2026-05-11T14:00:00.004Z",
-      "lastStatus": "error",
-      "lastDuration": "3m",
-      "consecutiveErrors": 1,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "updatedAt": "2026-05-11T14:03:12.152Z"
-    },
-    {
-      "id": "b81b68f1-dc71-4d65-a55d-1ccdfaefcbdd",
-      "name": "Investing OS weekly trade review",
-      "description": "Read-only weekly SnapTrade/Thesis Baskets trade export into Alphalpha trade review artifacts.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 1",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 1 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [
-        "exec",
-        "process",
-        "read"
-      ],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-05-18T14:00:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Read-only weekly SnapTrade/Thesis Baskets trade export into Alphalpha trade review artifacts.",
-      "updatedAt": "2026-05-13T02:45:59.925Z"
-    },
-    {
-      "id": "a260a513-3cc0-463f-9b58-fd946626246e",
-      "name": "Investing OS input health and context map",
-      "description": "Weekly diagnosis of investor/news input health plus portfolio/Obsidian triangulation context.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 14 * * 1",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "30 14 * * 1 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [
-        "exec",
-        "process",
-        "read"
-      ],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-05-18T14:30:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Weekly diagnosis of investor/news input health plus portfolio/Obsidian triangulation context.",
-      "updatedAt": "2026-05-14T00:11:31.773Z"
-    },
-    {
-      "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
-      "name": "ai-tooling-digest-discord",
-      "description": "Render and post AI tooling queue digest to #ai-tooling",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 15 * * 1,3,5",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 15 * * 1,3,5 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "announce -> discord:channel:1493060480737083412",
-      "nextRunAt": "2026-05-18T15:00:00.000Z",
-      "lastRunAt": "2026-05-15T15:00:00.006Z",
-      "lastStatus": "ok",
-      "lastDuration": "13s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Render and post AI tooling queue digest to #ai-tooling",
-      "updatedAt": "2026-05-15T15:00:12.652Z"
-    },
-    {
       "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
       "name": "obsidian-synthesis-review",
       "description": "Daily Obsidian sync + signal review + proposal generation + auto-promotion/full-reorg-safe reporting + investing/system-health generation. Uses normal commits only; never rebase/squash/force-push; includes rollback hashes in reports.",
@@ -37159,7 +37043,67 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Daily Obsidian sync + signal review + proposal generation + auto-promotion/full-reorg-safe reporting + investing/system-health generation. Uses normal commits only; never rebase/sq",
-      "updatedAt": "2026-05-18T11:31:44.147Z"
+      "updatedAt": "2026-05-18T23:19:21.619Z"
+    },
+    {
+      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
+      "name": "dashboard-source-health-alert",
+      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "15 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-19T13:15:00.000Z",
+      "lastRunAt": "2026-05-18T13:15:00.008Z",
+      "lastStatus": "ok",
+      "lastDuration": "16s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-05-18T23:19:21.627Z"
+    },
+    {
+      "id": "a5fb63b7-9e0d-459a-a823-6d87e6c0c992",
+      "name": "workspace-health-check",
+      "description": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1505316436761907320",
+      "nextRunAt": "2026-05-19T13:30:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
+      "updatedAt": "2026-05-18T23:19:46.504Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -37189,13 +37133,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-05-18T01:02:26.206Z"
+      "updatedAt": "2026-05-18T23:19:21.653Z"
     },
     {
       "id": "874b8557-602e-4f4f-9cc8-fe86dff0b8be",
       "name": "fmp-api-key-reminder",
       "description": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
-      "category": "investing",
+      "category": "ops",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -37207,6 +37151,7 @@
       "lightContext": true,
       "toolsAllow": [
         "exec",
+        "read",
         "message"
       ],
       "delivery": "not requested",
@@ -37218,13 +37163,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
-      "updatedAt": "2026-05-18T02:26:49.095Z"
+      "updatedAt": "2026-05-18T23:19:46.497Z"
     },
     {
       "id": "c1c86ac9-e164-4423-bbac-9a9da5c99f6d",
       "name": "finnhub-api-key-reminder",
       "description": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
-      "category": "investing",
+      "category": "ops",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -37236,6 +37181,7 @@
       "lightContext": true,
       "toolsAllow": [
         "exec",
+        "read",
         "message"
       ],
       "delivery": "not requested",
@@ -37247,7 +37193,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
-      "updatedAt": "2026-05-18T01:59:48.253Z"
+      "updatedAt": "2026-05-18T23:19:35.847Z"
     },
     {
       "id": "32d1156d-65fd-403b-9f77-a673621984c3",
@@ -37276,7 +37222,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "updatedAt": "2026-05-17T15:00:42.901Z"
+      "updatedAt": "2026-05-18T23:18:41.411Z"
     },
     {
       "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
@@ -37305,13 +37251,73 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin event crawl plus compact event manifest generation every four days",
-      "updatedAt": "2026-05-16T12:02:50.706Z"
+      "updatedAt": "2026-05-18T23:18:28.849Z"
+    },
+    {
+      "id": "3cfe444f-179e-4b62-b34a-63de3f2d3320",
+      "name": "spoken-podcast-approval-queue",
+      "description": "Dry-run recent Spoken.md podcast candidates and post approval queue to #investing only when candidates exist.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * 1,3,5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 * * 1,3,5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-20T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Dry-run recent Spoken.md podcast candidates and post approval queue to #investing only when candidates exist.",
+      "updatedAt": "2026-05-18T23:19:46.517Z"
+    },
+    {
+      "id": "f01180ad-4290-4cc7-9be6-ab5e3b22d918",
+      "name": "ai-tooling-digest-discord",
+      "description": "Render and post AI tooling queue digest to #ai-tooling",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 15 * * 1,3,5",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 15 * * 1,3,5 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1493060480737083412",
+      "nextRunAt": "2026-05-20T15:00:00.000Z",
+      "lastRunAt": "2026-05-18T15:00:00.008Z",
+      "lastStatus": "ok",
+      "lastDuration": "18s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Render and post AI tooling queue digest to #ai-tooling",
+      "updatedAt": "2026-05-18T23:18:41.394Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
       "name": "weekly-recommended-article",
       "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "category": "events",
+      "category": "ops",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -37340,13 +37346,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-05-17T18:39:36.568Z"
+      "updatedAt": "2026-05-18T23:19:35.828Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
       "name": "weekly-media-recommendations",
       "description": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
-      "category": "events",
+      "category": "obsidian",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -37375,7 +37381,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
-      "updatedAt": "2026-05-17T19:33:58.288Z"
+      "updatedAt": "2026-05-18T23:19:35.839Z"
     },
     {
       "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
@@ -37407,13 +37413,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Weekly crawl for OpenClaw-specific tips, docs changes, operational tricks, and skill/workflow ideas; DM Alex a concise digest.",
-      "updatedAt": "2026-05-18T13:02:37.713Z"
+      "updatedAt": "2026-05-18T23:19:09.250Z"
     },
     {
       "id": "fc6d6869-f92b-4868-84e9-dfd3621c95da",
       "name": "weekly-executive-brief",
       "description": "Monday 8am CT detailed weekly executive brief to Alex on Discord DM and Telegram, including open loops, stale/missing items, and next actions.",
-      "category": "events",
+      "category": "ops",
       "enabled": true,
       "schedule": {
         "kind": "cron",
@@ -37437,7 +37443,129 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Monday 8am CT detailed weekly executive brief to Alex on Discord DM and Telegram, including open loops, stale/missing items, and next actions.",
-      "updatedAt": "2026-05-18T13:06:00.440Z"
+      "updatedAt": "2026-05-18T23:19:21.636Z"
+    },
+    {
+      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+      "name": "agentic-os-weekly-audit",
+      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-25T14:00:00.000Z",
+      "lastRunAt": "2026-05-18T14:00:00.006Z",
+      "lastStatus": "error",
+      "lastDuration": "2m",
+      "consecutiveErrors": 2,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "updatedAt": "2026-05-18T23:18:41.401Z"
+    },
+    {
+      "id": "b81b68f1-dc71-4d65-a55d-1ccdfaefcbdd",
+      "name": "Investing OS weekly trade review",
+      "description": "Read-only weekly SnapTrade/Thesis Baskets trade export into Alphalpha trade review artifacts.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 1",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 1 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [
+        "exec",
+        "process",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-05-25T14:00:00.000Z",
+      "lastRunAt": "2026-05-18T14:02:28.543Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Read-only weekly SnapTrade/Thesis Baskets trade export into Alphalpha trade review artifacts.",
+      "updatedAt": "2026-05-18T23:19:21.645Z"
+    },
+    {
+      "id": "a260a513-3cc0-463f-9b58-fd946626246e",
+      "name": "Investing OS input health and context map",
+      "description": "Weekly diagnosis of investor/news input health plus portfolio/Obsidian triangulation context.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 14 * * 1",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "30 14 * * 1 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [
+        "exec",
+        "process",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-05-25T14:30:00.000Z",
+      "lastRunAt": "2026-05-18T14:30:00.010Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly diagnosis of investor/news input health plus portfolio/Obsidian triangulation context.",
+      "updatedAt": "2026-05-18T23:19:35.816Z"
+    },
+    {
+      "id": "4510ea21-183e-457a-83fe-a0108dbd3fd6",
+      "name": "podcast-transcript-contribution-review",
+      "description": "Weekly review-first synthesis of fetched podcast transcripts into claim queue and contribution/cost usefulness artifacts.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 10 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "20 10 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-25T15:20:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Weekly review-first synthesis of fetched podcast transcripts into claim queue and contribution/cost usefulness artifacts.",
+      "updatedAt": "2026-05-18T23:19:46.526Z"
     },
     {
       "id": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
@@ -37467,7 +37595,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Monthly long-horizon allocation and feedback calibration memo.",
-      "updatedAt": "2026-05-14T16:32:28.577Z"
+      "updatedAt": "2026-05-18T23:19:35.808Z"
     },
     {
       "id": "9a45a31f-1b49-4547-a77c-c5fdad19cd7e",
@@ -37495,7 +37623,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — June planning/layout check-in",
-      "updatedAt": "2026-05-06T02:54:39.964Z"
+      "updatedAt": "2026-05-18T23:18:41.427Z"
     },
     {
       "id": "e0cb9d53-ac43-48f9-b499-5d2d87bff8a5",
@@ -37523,7 +37651,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — July prep check-in",
-      "updatedAt": "2026-05-06T02:54:39.972Z"
+      "updatedAt": "2026-05-18T23:18:56.063Z"
     },
     {
       "id": "368958d3-f1b7-4b09-8c89-7563613745ae",
@@ -37551,7 +37679,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — August weekly sourcing check-in",
-      "updatedAt": "2026-05-06T02:54:52.374Z"
+      "updatedAt": "2026-05-18T23:18:56.072Z"
     },
     {
       "id": "395cac40-eca5-4ac5-a637-4bdb7ae8615c",
@@ -37579,7 +37707,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — September twice-weekly planting check-in",
-      "updatedAt": "2026-05-06T02:54:52.381Z"
+      "updatedAt": "2026-05-18T23:18:56.081Z"
     },
     {
       "id": "02f8eda0-10d5-4107-83a2-db76745f2d08",
@@ -37607,7 +37735,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — October weekly planting follow-up",
-      "updatedAt": "2026-05-06T02:54:52.392Z"
+      "updatedAt": "2026-05-18T23:18:56.090Z"
     },
     {
       "id": "c30bae06-5d78-41b8-b5fc-ba6e7c4a29fc",
@@ -37635,7 +37763,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Austin Yard Planting Plan — November freeze-risk check-in",
-      "updatedAt": "2026-05-06T02:54:52.403Z"
+      "updatedAt": "2026-05-18T23:18:56.098Z"
     },
     {
       "id": "30fcf0de-9658-4325-9142-8e5c58b7d7ca",
@@ -37662,7 +37790,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": true,
       "summary": "Austin Yard Planting Plan — February 2027 winter review",
-      "updatedAt": "2026-05-06T02:55:02.855Z"
+      "updatedAt": "2026-05-18T23:19:09.219Z"
     },
     {
       "id": "dee8ba9c-a0a4-441e-8b30-6adba8828a50",
@@ -37689,7 +37817,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": true,
       "summary": "Austin Yard Planting Plan — March 2027 spring follow-up",
-      "updatedAt": "2026-05-06T02:55:02.865Z"
+      "updatedAt": "2026-05-18T23:19:09.226Z"
     },
     {
       "id": "b72c701f-81d7-4fe8-adac-9f6f5e626b46",
@@ -37716,7 +37844,35 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": true,
       "summary": "Austin Yard Planting Plan — April 2027 warm-season planting",
-      "updatedAt": "2026-05-06T02:55:02.878Z"
+      "updatedAt": "2026-05-18T23:19:09.235Z"
+    },
+    {
+      "id": "0ca265e1-ea6c-494b-9c2b-5adb76b1b981",
+      "name": "yard-plan-may-checkin-2026",
+      "description": "Austin Yard Planting Plan — May planning check-in",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 4,18 5 *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 4,18 5 * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2027-05-04T14:00:00.000Z",
+      "lastRunAt": "2026-05-18T14:02:16.632Z",
+      "lastStatus": "ok",
+      "lastDuration": "12s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Austin Yard Planting Plan — May planning check-in",
+      "updatedAt": "2026-05-18T23:18:41.419Z"
     },
     {
       "id": "8b69eff0-3b77-4942-b257-445707777fe7",
@@ -37743,13 +37899,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": true,
       "summary": "Austin Yard Planting Plan — May 2027 warm-season follow-up",
-      "updatedAt": "2026-05-06T02:55:02.885Z"
+      "updatedAt": "2026-05-18T23:19:09.243Z"
     },
     {
       "id": "23071b9f-1bea-4eb3-94b7-2fcede19a581",
       "name": "recommended-reads-packet",
       "description": "",
-      "category": "automation",
+      "category": "ops",
       "enabled": false,
       "schedule": {
         "kind": "cron",
@@ -37770,8 +37926,8 @@
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
-      "summary": "In /home/node/.openclaw/workspace/openclaw-workspace/recommended-reads-engine, run: ./scripts/run_if_due.sh --min-hours 44 && ./scripts/print_latest_packet.sh. Keep output concise;",
-      "updatedAt": "2026-05-09T14:17:15.816Z"
+      "summary": "In /home/node/.openclaw/workspace, read context/STANDING_ORDERS.md and run the inactive standing-order program `recommended-reads-packet` only if this job has been intentionally re",
+      "updatedAt": "2026-05-18T23:20:19.025Z"
     },
     {
       "id": "558e296a-b058-4582-9352-d7adcaa38650",
@@ -37798,7 +37954,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Crawl AI tooling sources and save queue items for digest generation",
-      "updatedAt": "2026-05-06T12:22:31.238Z"
+      "updatedAt": "2026-05-18T23:20:19.035Z"
     },
     {
       "id": "73a3e084-5b1f-4337-b6a6-d03dbd8a07bf",
@@ -37828,7 +37984,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Family feed notification: Mon + Thu 8am CT",
-      "updatedAt": "2026-05-06T12:22:43.680Z"
+      "updatedAt": "2026-05-18T23:20:19.004Z"
     },
     {
       "id": "c7a2aee5-4fa4-4517-8817-b5567c2d4f1a",
@@ -37858,13 +38014,13 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Music feed notification: Mon + Thu + Sat 9am CT",
-      "updatedAt": "2026-05-06T12:22:43.687Z"
+      "updatedAt": "2026-05-18T23:20:19.014Z"
     },
     {
       "id": "cf866fcf-8778-4ce5-b1ec-dac9f507c897",
       "name": "thesis-baskets-ingest",
       "description": "",
-      "category": "events",
+      "category": "investing",
       "enabled": false,
       "schedule": {
         "kind": "cron",
@@ -37888,8 +38044,8 @@
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
-      "summary": "In /home/node/.openclaw/workspace, run the Thesis Baskets Supabase ingestion job with: node scripts/ingest-thesis-baskets.mjs --lookback-days=7 --limit=5000. If it creates an Obsid",
-      "updatedAt": "2026-05-06T12:22:43.674Z"
+      "summary": "In /home/node/.openclaw/workspace, read context/STANDING_ORDERS.md and run the inactive standing-order program `thesis-baskets-ingest` only if this job has been intentionally re-en",
+      "updatedAt": "2026-05-18T23:20:19.044Z"
     },
     {
       "id": "db5e98b6-3200-4a28-9825-d5acb2a422d6",
@@ -37918,7 +38074,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Disabled after consolidation into obsidian-synthesis-review; kept for rollback/reference.",
-      "updatedAt": "2026-05-08T00:36:53.848Z"
+      "updatedAt": "2026-05-18T23:20:19.054Z"
     }
   ],
   "reviewQueue": [
@@ -37926,12 +38082,12 @@
       "id": "automation-NzM4YWM0ZTItODEwNy",
       "kind": "automation-review",
       "title": "Automation needs attention: agentic-os-weekly-audit",
-      "summary": "error; 1 consecutive errors. Schedule: 0 9 * * 1 (America/Chicago)",
+      "summary": "error; 2 consecutive errors. Schedule: 0 9 * * 1 (America/Chicago)",
       "priority": "HIGH",
       "status": "approved",
       "source": "memory/automations/latest-manifest.json",
       "target": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "generatedAt": "2026-05-18T13:15:07.948Z",
+      "generatedAt": "2026-05-19T00:25:58.579Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -37956,182 +38112,15 @@
             "message"
           ],
           "delivery": "not requested",
-          "nextRunAt": "2026-05-18T14:00:00.000Z",
-          "lastRunAt": "2026-05-11T14:00:00.004Z",
+          "nextRunAt": "2026-05-25T14:00:00.000Z",
+          "lastRunAt": "2026-05-18T14:00:00.006Z",
           "lastStatus": "error",
-          "lastDuration": "3m",
-          "consecutiveErrors": 1,
+          "lastDuration": "2m",
+          "consecutiveErrors": 2,
           "consecutiveSkipped": 0,
           "deleteAfterRun": false,
           "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-          "updatedAt": "2026-05-11T14:03:12.152Z"
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Gold.md",
-      "summary": "--- type: synthesis domain: Investing owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Gold _Purpose: Track gold-related levels, macro arguments, source claims, alerts, and open research questions._ ## Current synthesized read - Proposed from newly ingested Obsidian signals. Review before pro",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
-      "target": "Alphalpha/Syntheses/Investing/Gold.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "investing:gold",
-          "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
-          "signalCount": 8
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-      "summary": "--- type: synthesis domain: Investing owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # AI Power Infrastructure _Purpose: Track the power/grid/transformer bottleneck as an AI infrastructure investment theme._ ## Current synthesized read - Proposed from newly ingested Obsidian signals. Review b",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-      "target": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "investing:ai-power-grid",
-          "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-          "signalCount": 9
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Macro Volatility.md",
-      "summary": "--- type: synthesis domain: Investing owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Macro Volatility _Purpose: Track macro volatility, rates, fiscal dominance, commodity volatility, and market regime signals._ ## Current synthesized read - Proposed from newly ingested Obsidian signals. Rev",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
-      "target": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "investing:macro-volatility",
-          "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
-          "signalCount": 9
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-      "summary": "--- type: synthesis domain: Investing owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Event-Driven Catalysts _Purpose: Track event-driven signals such as activists, CEO changes, investor days, overhang removals, and re-rating setups._ ## Current synthesized read - Proposed from newly ingeste",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-      "target": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "investing:event-driven-catalysts",
-          "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-          "signalCount": 6
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-      "summary": "--- type: synthesis domain: Agentic OS / Systems owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Obsidian Workflow Reliability _Purpose: Track Obsidian capture, Working Copy, iOS Shortcut, sync, and vault-ingestion reliability._ ## Current synthesized read - Proposed from newly ingested Obsi",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-      "target": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "systems:obsidian-workflow",
-          "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-          "signalCount": 7
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Life/Media Tracking.md",
-      "summary": "--- type: synthesis domain: Life / Personal Systems owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Media Tracking _Purpose: Track ideas for books, TV, movies, watch/read queues, and recommendation workflows._ ## Current synthesized read - Proposed from newly ingested Obsidian signals. Revie",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
-      "target": "Alphalpha/Syntheses/Life/Media Tracking.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "media-tracking",
-          "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
-          "signalCount": 10
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-      "summary": "--- type: synthesis domain: Agentic OS / Inputs owner: Alphalpha status: proposed generated: 2026-05-18T11:30:36.539Z --- # Newsletter Ingestion _Purpose: Track newsletter capture/crawling workflow decisions and setup tasks._ ## Current synthesized read - Proposed from newly ingested Obsidian signals. Review before pro",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-      "target": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "theme-synthesis",
-          "theme": "newsletter-ingestion",
-          "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
-          "signalCount": 8
-        }
-      }
-    },
-    {
-      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
-      "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Dashboard.md",
-      "summary": "# Proposed Dashboard Review Block Generated: 2026-05-18T11:30:36.539Z ## Highest-priority recommended actions | Priority | Action | Why now | Evidence / Source trail | Confidence | | --- | --- | --- | --- | --- | | high | Review/promote into Gold, AI Power Infrastructure, Macro Volatility, Event-Driven Catalysts, Obsid",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
-      "target": "Alphalpha/Dashboard.md",
-      "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Review/edit then approve",
-      "payload": {
-        "proposal": {
-          "type": "dashboard-block",
-          "targetVaultPath": "Alphalpha/Dashboard.md",
-          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
-          "signalCount": 15
+          "updatedAt": "2026-05-18T23:18:41.401Z"
         }
       }
     },
@@ -38264,49 +38253,6 @@
       }
     },
     {
-      "id": "source-dGhlc2lzLWJhc2tldH",
-      "kind": "source-health",
-      "title": "Thesis Baskets is STALE",
-      "summary": "873 new / 1544 scanned. last event 2026-05-11 14:29:47.883+00. Age: 7d old",
-      "priority": "MEDIUM",
-      "status": "pending",
-      "source": "memory/thesis-baskets-ingestion-state.json",
-      "target": "dashboard-source-health",
-      "generatedAt": "2026-05-18T13:02:50.419Z",
-      "actionHint": "Acknowledge or run refresh",
-      "payload": {
-        "source": {
-          "id": "thesis-baskets",
-          "label": "Thesis Baskets",
-          "status": "STALE",
-          "age": "7d old",
-          "summary": "873 new / 1544 scanned",
-          "detail": "last event 2026-05-11 14:29:47.883+00",
-          "path": "memory/thesis-baskets-ingestion-state.json",
-          "details": [
-            {
-              "label": "Last run",
-              "value": "2026-05-11T17:58:49.876Z"
-            },
-            {
-              "label": "Last event",
-              "value": "2026-05-11 14:29:47.883+00"
-            },
-            {
-              "label": "New events",
-              "value": "873"
-            },
-            {
-              "label": "Scanned events",
-              "value": "1544"
-            }
-          ],
-          "staleAfterHours": 72,
-          "failingAfterHours": 168
-        }
-      }
-    },
-    {
       "id": "event-ZmFtaWx5OkF1c3Rpbi",
       "kind": "event-feedback",
       "title": "Give event feedback: Austin Cactus & Succulent Society May Meeting",
@@ -38413,20 +38359,1186 @@
     {
       "id": "obsidian-MjAyNi0wNS0xOFQxMT",
       "kind": "obsidian-proposal",
-      "title": "Approve Obsidian update: Alphalpha/Open Loops.md",
-      "summary": "# Proposed Open Loops additions Generated: 2026-05-18T11:30:36.539Z Source signal review: 2026-05-18 No task/reminder/voice-note candidates above threshold in this run.",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Investing/Gold.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
       "priority": "LOW",
-      "status": "pending",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+      "target": "Alphalpha/Syntheses/Investing/Gold.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "investing:gold",
+          "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+          "signalCount": 8
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+      "target": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "investing:ai-power-grid",
+          "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+          "signalCount": 9
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Investing/Macro Volatility.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+      "target": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "investing:macro-volatility",
+          "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+          "signalCount": 9
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+      "target": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "investing:event-driven-catalysts",
+          "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+          "signalCount": 6
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+      "target": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "systems:obsidian-workflow",
+          "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+          "signalCount": 7
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Life/Media Tracking.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+      "target": "Alphalpha/Syntheses/Life/Media Tracking.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "media-tracking",
+          "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+          "signalCount": 10
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+      "target": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "theme-synthesis",
+          "theme": "newsletter-ingestion",
+          "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+          "signalCount": 8
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Open Loops.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
       "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
       "target": "Alphalpha/Open Loops.md",
       "generatedAt": "2026-05-18T11:30:36.647Z",
-      "actionHint": "Usually dismiss unless useful as a placeholder",
+      "actionHint": "No action needed; already auto-promoted",
       "payload": {
         "proposal": {
           "type": "open-loops",
           "targetVaultPath": "Alphalpha/Open Loops.md",
           "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
           "signalCount": 0
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
+        }
+      }
+    },
+    {
+      "id": "obsidian-MjAyNi0wNS0xOFQxMT",
+      "kind": "obsidian-proposal",
+      "title": "Auto-promoted Obsidian update: Alphalpha/Dashboard.md",
+      "summary": "Already auto-promoted by latest-manifest.json in commit d6e88d3; retained here as review evidence.",
+      "priority": "LOW",
+      "status": "approved",
+      "source": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+      "target": "Alphalpha/Dashboard.md",
+      "generatedAt": "2026-05-18T11:30:36.647Z",
+      "actionHint": "No action needed; already auto-promoted",
+      "payload": {
+        "proposal": {
+          "type": "dashboard-block",
+          "targetVaultPath": "Alphalpha/Dashboard.md",
+          "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+          "signalCount": 15
+        },
+        "promotion": {
+          "generatedAt": "2026-05-18T11:30:36.693Z",
+          "sourceManifest": "memory/obsidian/proposed-updates/latest-manifest.json",
+          "sourceDate": "2026-05-18",
+          "mode": "auto-promote-all",
+          "gitPolicy": {
+            "historyRewriteAllowed": false,
+            "rollbackMethod": "git revert <commit>",
+            "forbidden": [
+              "squash",
+              "rebase",
+              "push --force",
+              "push --force-with-lease"
+            ]
+          },
+          "promotedCount": 9,
+          "promoted": [
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:gold",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Gold.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Gold.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:ai-power-grid",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:macro-volatility",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md",
+              "signalCount": 9,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "investing:event-driven-catalysts",
+              "targetVaultPath": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+              "signalCount": 6,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "systems:obsidian-workflow",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
+              "signalCount": 7,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "media-tracking",
+              "targetVaultPath": "Alphalpha/Syntheses/Life/Media Tracking.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md",
+              "signalCount": 10,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Life/Media Tracking.md"
+            },
+            {
+              "type": "theme-synthesis",
+              "theme": "newsletter-ingestion",
+              "targetVaultPath": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-vault-files/Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+              "signalCount": 8,
+              "promotedAs": "full-note",
+              "targetRel": "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md"
+            },
+            {
+              "type": "open-loops",
+              "targetVaultPath": "Alphalpha/Open Loops.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-open-loops.md",
+              "signalCount": 0,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Open Loops.md"
+            },
+            {
+              "type": "dashboard-block",
+              "targetVaultPath": "Alphalpha/Dashboard.md",
+              "proposalPath": "memory/obsidian/proposed-updates/2026-05-18/proposed-dashboard-block.md",
+              "signalCount": 15,
+              "promotedAs": "managed-section",
+              "targetRel": "Alphalpha/Dashboard.md"
+            }
+          ],
+          "changedFiles": [
+            "Alphalpha/Dashboard.md",
+            "Alphalpha/Open Loops.md",
+            "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
+            "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
+            "Alphalpha/Syntheses/Investing/Gold.md",
+            "Alphalpha/Syntheses/Investing/Macro Volatility.md",
+            "Alphalpha/Syntheses/Life/Media Tracking.md",
+            "Alphalpha/Syntheses/Systems/Newsletter Ingestion.md",
+            "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+          ],
+          "commit": "d6e88d3",
+          "rollback": "git revert d6e88d3"
         }
       }
     }
@@ -38501,10 +39613,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
       "title": "Austin events: 9 family / 55 music latest",
-      "summary": "41 crawl artifacts indexed · 10h old · memory/events/latest-manifest.json",
+      "summary": "41 crawl artifacts indexed · 13h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38512,10 +39624,10 @@
     },
     {
       "id": "source-2",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 8h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 11h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38523,10 +39635,10 @@
     },
     {
       "id": "source-3",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 11 themes",
-      "summary": "4 high-priority research candidates · 10h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 13h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38534,10 +39646,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
       "title": "Obsidian proposals: 9 proposed updates",
-      "summary": "proposal-only · 12h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38545,10 +39657,10 @@
     },
     {
       "id": "source-5",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
-      "title": "Automations: 27 enabled / 6 paused",
-      "summary": "33 cron jobs indexed · 10h old · memory/automations/latest-manifest.json",
+      "title": "Automations: 30 enabled / 6 paused",
+      "summary": "36 cron jobs indexed · 2h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38556,10 +39668,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 46 dirty · Alphalpha dashboard: main@00622fb, 4 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@a36327c, 2 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38567,10 +39679,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
-      "title": "Thesis Baskets: 873 new / 1544 scanned",
-      "summary": "last event 2026-05-11 14:29:47.883+00 · 7d old · memory/thesis-baskets-ingestion-state.json",
+      "title": "Thesis Baskets: 1217 new / 2112 scanned",
+      "summary": "last event 2026-05-18 23:42:13.702+00 · 2h old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -38578,10 +39690,10 @@
     },
     {
       "id": "source-8",
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "category": "Source health",
-      "title": "Review queue: 14 pending / 8 high",
-      "summary": "19 review items indexed · 10h old · memory/review-queue/latest-manifest.json",
+      "title": "Review queue: 4 pending / 0 high",
+      "summary": "18 review items indexed · 2h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
