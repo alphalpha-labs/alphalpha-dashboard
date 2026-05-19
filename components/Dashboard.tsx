@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import type { DashboardData, Action, Loop, AutomationJob } from "@/lib/data";
 import type { CaptureInput } from "./QuickAdd";
@@ -84,6 +84,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
   const [thread, setThread]       = useState<ThreadContext | null>(null);
   const [pendingSignals, setPendingSignals] = useState<Record<string, string>>({});
   const [receipt, setReceipt] = useState<SignalReceipt | null>(null);
+  const signalQueueRef = useRef<Promise<unknown>>(Promise.resolve());
 
   const activeActions  = actions.filter(a => !a.done && !a.snoozed);
   const snoozedActions = actions.filter(a => a.snoozed);
@@ -91,9 +92,16 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
   const dispatchSignal = useCallback(async (type: string, itemId: string, payload?: object, label?: string) => {
     const key = `${type}:${itemId}`;
     setPendingSignals(prev => ({ ...prev, [key]: label || type }));
-    setReceipt({ id: key, tone: "info", message: `${label || "Action"}…` });
+    setReceipt({ id: key, tone: "info", message: `${label || "Action"} queued…` });
     try {
-      const result = await postSignal(type, itemId, payload);
+      const run = signalQueueRef.current
+        .catch(() => undefined)
+        .then(async () => {
+          setReceipt({ id: key, tone: "info", message: `${label || "Action"}…` });
+          return postSignal(type, itemId, payload);
+        });
+      signalQueueRef.current = run;
+      const result = await run;
       setReceipt({ id: key, tone: "success", message: result.receipt || `${label || "Action"} accepted.` });
       return result;
     } catch (error) {

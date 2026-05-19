@@ -380,6 +380,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
   const topBlocks = visibleBaskets.filter(basket => (basket.currentPortfolio?.primaryPct ?? 0) > 0).slice(0, 12);
   const stagedCount = Object.keys(stagedChoices).length;
   const savedCount = taxonomyDecisions?.decisions?.length ?? 0;
+  const savingAnyChoice = Object.keys(savingChoices).length > 0;
   const decisionCards = decisionPoints.length ? decisionPoints : clusters.flatMap(cluster => (cluster.questions ?? []).map((question, idx) => ({
     id: `${cluster.id}-${idx}`,
     clusterId: cluster.id,
@@ -561,7 +562,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
                     const pending = pendingChoices[card.id] === option.id;
                     const saving = savingChoices[card.id] === option.id;
                     return (
-                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${pending ? " taxonomyChoiceBtn--pending" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => promptChoice(card.id, option.id, option.label)} title={option.meaning} disabled={Boolean(savingChoices[card.id])}>
+                      <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${pending ? " taxonomyChoiceBtn--pending" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => promptChoice(card.id, option.id, option.label)} title={option.meaning} disabled={savingAnyChoice}>
                         <strong>{option.label}</strong>
                         <span>{saving ? "Saving…" : pending ? "Confirm below" : selected ? "Selected" : recommended ? "Recommended" : "Option"}</span>
                       </button>
@@ -573,9 +574,9 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
                   if (!option) return null;
                   return (
                     <div className="taxonomyConfirm" role="group" aria-label={`Confirm ${card.title}`}>
-                      <span>Confirm “{option.label}”?</span>
-                      <button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={Boolean(savingChoices[card.id])}>Confirm</button>
-                      <button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={Boolean(savingChoices[card.id])}>Cancel</button>
+                      <span>{`Confirm “${option.label}”?`}</span>
+                      <button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={savingAnyChoice}>Confirm</button>
+                      <button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={savingAnyChoice}>Cancel</button>
                     </div>
                   );
                 })()}
