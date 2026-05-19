@@ -169,19 +169,19 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
   }, [dispatchSignal, reviewItems]);
 
   const handleInvestmentAction = useCallback(async (itemId: string, action: string, payload: object = {}) => {
-    const investingOsActions = new Set(["record-conviction", "promote-thesis", "add-source-note", "stage-taxonomy-decision"]);
+    const investingOsActions = new Set(["record-conviction", "promote-thesis", "add-source-note", "stage-taxonomy-decision", "stage-manual-investing-decision"]);
     await dispatchSignal("investment-action", itemId, {
       action,
       itemId,
       ...payload,
-      durableTarget: action === "stage-taxonomy-decision" ? "memory/investing/thesis-taxonomy-decisions.json" : investingOsActions.has(action) ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
+      durableTarget: action === "stage-taxonomy-decision" ? "memory/investing/thesis-taxonomy-decisions.json" : action === "stage-manual-investing-decision" ? "memory/investing/investment-manual-decisions.json" : investingOsActions.has(action) ? "memory/investing/" : action === "record-decision" ? "memory/thesis-baskets/decision-journal.json" : "memory/thesis-baskets/research-actions.json",
       requestedAction: investingOsActions.has(action) ? "apply-investing-os-action-and-refresh-dashboard" : "apply-investment-action-and-refresh-dashboard",
       canonicalBridge: action === "promote-thesis"
         ? { mode: "dry-run", endpoint: "/api/alphalpha/thesis-baskets/propose", applyRequires: "canonical-mode=apply" }
         : action === "stage-taxonomy-decision"
           ? { mode: "dry-run", endpoint: "/api/alphalpha/thesis-baskets/:id", applyRequires: "canonical-mode=apply" }
           : undefined,
-    }, action === "stage-taxonomy-decision" ? "Saving decision" : "Investing action");
+    }, action === "stage-taxonomy-decision" || action === "stage-manual-investing-decision" ? "Saving decision" : "Investing action");
   }, [dispatchSignal]);
 
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
@@ -326,6 +326,8 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               taxonomyDecisionSheet={data.meta.investingTaxonomyDecisionSheet}
               taxonomyDecisionWorkflow={data.meta.investingTaxonomyDecisionWorkflow}
               taxonomyDecisions={data.meta.investingTaxonomyDecisions}
+              manualDecisionWorkflow={data.meta.investingManualDecisionWorkflow}
+              manualDecisions={data.meta.investingManualDecisions}
               basketGovernanceAudit={data.meta.investingBasketGovernanceAudit}
               thesisUniverse={data.meta.investingThesisUniverse}
               onDiscuss={openThread}

@@ -23,6 +23,8 @@ import type {
   InvestingTaxonomyDecisionSheet,
   InvestingTaxonomyDecisionWorkflow,
   InvestingTaxonomyDecisions,
+  InvestingManualDecisionWorkflow,
+  InvestingManualDecisions,
   InvestingBasketGovernanceAudit,
   InvestingThesisUniverse,
   Ticker,
@@ -54,13 +56,15 @@ interface Props {
   taxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
   taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
   taxonomyDecisions?: InvestingTaxonomyDecisions | null;
+  manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+  manualDecisions?: InvestingManualDecisions | null;
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, manualDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -97,6 +101,15 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           </div>
           <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief ↗</a>
         </section>
+      )}
+
+      {(manualDecisionWorkflow || manualDecisions) && (
+        <ManualDecisionReview
+          manualDecisionWorkflow={manualDecisionWorkflow}
+          manualDecisions={manualDecisions}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
       )}
 
       {(taxonomyDecisionSheet || basketGovernanceAudit || thesisUniverse) && (
@@ -352,6 +365,137 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         ))}
       </section>
     </div>
+  );
+}
+
+function ManualDecisionReview({ manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
+  manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+  manualDecisions?: InvestingManualDecisions | null;
+  onDiscuss: (ctx: ThreadContext) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
+}) {
+  const decisionCards = manualDecisionWorkflow?.decisionPoints ?? [];
+  const savedChoices = useMemo(() => Object.fromEntries((manualDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [manualDecisions]);
+  const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
+  const [pendingChoices, setPendingChoices] = useState<Record<string, string>>({});
+  const [savingChoices, setSavingChoices] = useState<Record<string, string>>({});
+  const [choiceReceipts, setChoiceReceipts] = useState<Record<string, { tone: "success" | "error"; text: string }>>({});
+  const unresolvedDecisionCards = decisionCards.filter(card => !savedChoices[card.id]);
+  const completedDecisionCards = decisionCards.filter(card => savedChoices[card.id]);
+  const savingAnyChoice = Object.keys(savingChoices).length > 0;
+
+  function promptChoice(pointId: string, choiceId: string, label: string) {
+    const existingChoice = savedChoices[pointId] || stagedChoices[pointId];
+    setPendingChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    setChoiceReceipts(prev => ({
+      ...prev,
+      [pointId]: {
+        tone: "success",
+        text: existingChoice && existingChoice !== choiceId
+          ? `Double-check: change from “${existingChoice}” to “${label}”?`
+          : `Double-check: confirm “${label}” before saving.`,
+      },
+    }));
+  }
+
+  function cancelChoice(pointId: string) {
+    setPendingChoices(prev => { const next = { ...prev }; delete next[pointId]; return next; });
+    setStagedChoices(prev => { const next = { ...prev }; if (savedChoices[pointId]) next[pointId] = savedChoices[pointId]; else delete next[pointId]; return next; });
+    setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: "Selection canceled. Nothing was saved." } }));
+  }
+
+  async function confirmChoice(pointId: string, choiceId: string, label: string) {
+    const previousChoice = stagedChoices[pointId];
+    setSavingChoices(prev => ({ ...prev, [pointId]: choiceId }));
+    setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saving “${label}”…` } }));
+    try {
+      await onAction?.(pointId, "stage-manual-investing-decision", {
+        decisionPointId: pointId,
+        choiceId,
+        workflowVersion: manualDecisionWorkflow?.schemaVersion,
+        durableTarget: "memory/investing/investment-manual-decisions.json",
+        requestedAction: "stage-manual-investing-decision-and-refresh-dashboard",
+      });
+      setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saved “${label}”. Receipt recorded and dashboard refresh queued.` } }));
+    } catch (error) {
+      setStagedChoices(prev => { const next = { ...prev }; if (previousChoice) next[pointId] = previousChoice; else delete next[pointId]; return next; });
+      setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "error", text: error instanceof Error ? error.message : "Could not save this decision." } }));
+    } finally {
+      setPendingChoices(prev => { const next = { ...prev }; delete next[pointId]; return next; });
+      setSavingChoices(prev => { const next = { ...prev }; delete next[pointId]; return next; });
+    }
+  }
+
+  if (!decisionCards.length && !completedDecisionCards.length) return null;
+
+  return (
+    <section className="investmentSection taxonomyReview">
+      <div className="sectionTitleRow"><h2>Manual decision queue · policy + valuation</h2><span>{unresolvedDecisionCards.length} open · {completedDecisionCards.length} complete</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Action authority gates</span>
+          <h3>Approve ranges before signals become decisions</h3>
+          <p>{manualDecisionWorkflow?.purpose || "Manual investment policy and valuation decisions required before authoritative add/trim recommendations."}</p>
+          <div className="taxonomyStats">
+            <span><strong>{unresolvedDecisionCards.length}</strong> open</span>
+            <span><strong>{completedDecisionCards.length}</strong> complete</span>
+            <span><strong>{manualDecisionWorkflow?.summary?.portfolioEquity ? formatMoney(manualDecisionWorkflow.summary.portfolioEquity) : "—"}</strong> equity</span>
+          </div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Rule for this queue</strong>
+          <p>These choices decide policy ranges, alert authority, and first valuation-review batches. Trade execution still requires explicit Alex confirmation.</p>
+          <em>Same flow as taxonomy: first click stages, Confirm saves durably, Cancel backs out.</em>
+        </div>
+      </div>
+      <div className="taxonomyPanel">
+        {unresolvedDecisionCards.length === 0 ? (
+          <div className="taxonomyCompleteState">
+            <strong>All current manual decisions are saved</strong>
+            <p>This queue will repopulate when a future review finds new policy-range or valuation-authority gaps.</p>
+            <div className="taxonomyCompletedList">
+              {completedDecisionCards.slice(0, 6).map(card => {
+                const choiceId = savedChoices[card.id];
+                const label = card.options.find(option => option.id === choiceId)?.label || choiceId;
+                return <span key={card.id}>{card.title}: <b>{label}</b></span>;
+              })}
+              {completedDecisionCards.length > 6 && <em>+{completedDecisionCards.length - 6} more completed</em>}
+            </div>
+          </div>
+        ) : (
+          <div className="taxonomyDecisionQueue">
+            {unresolvedDecisionCards.map(card => (
+              <article key={card.id} className={`taxonomyDecisionCard taxonomyDecisionCard--${card.blockingLevel || "medium"}`} aria-busy={Boolean(savingChoices[card.id])}>
+                <div className="taxonomyDecisionTop"><span>{card.clusterId}</span><b>{card.blockingLevel || "medium"}</b></div>
+                <strong>{card.title}</strong>
+                <p className="taxonomyDecisionQuestion">{card.question}</p>
+                <div className="taxonomyRecommendation"><span>Recommendation</span><p>{card.recommendation}</p></div>
+                <div className="taxonomyWhy"><span>Why</span><p>{card.why}</p></div>
+                {(card.affectedAllocationPct != null || (card.affectedAssets?.length ?? 0) > 0) && <div className="taxonomyImpactLine">{card.affectedAllocationPct != null && <span>{card.affectedAllocationPct.toFixed(1)}% affected</span>}{(card.affectedAssets?.length ?? 0) > 0 && <em>{card.affectedAssets?.slice(0, 9).join(", ")}</em>}</div>}
+                {(card.consequences?.length ?? 0) > 0 && <ul className="taxonomyConsequences">{card.consequences?.slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>}
+                <div className="taxonomyChoiceGrid">
+                  {card.options.map(option => {
+                    const selected = stagedChoices[card.id] === option.id;
+                    const recommended = card.recommendedChoice === option.id;
+                    const pending = pendingChoices[card.id] === option.id;
+                    const saving = savingChoices[card.id] === option.id;
+                    return <button key={option.id} className={`taxonomyChoiceBtn${selected ? " taxonomyChoiceBtn--selected" : ""}${recommended ? " taxonomyChoiceBtn--recommended" : ""}${pending ? " taxonomyChoiceBtn--pending" : ""}${saving ? " taxonomyChoiceBtn--saving" : ""}`} onClick={() => promptChoice(card.id, option.id, option.label)} title={option.meaning} disabled={savingAnyChoice}><strong>{option.label}</strong><span>{saving ? "Saving…" : pending ? "Confirm below" : selected ? "Selected" : recommended ? "Recommended" : "Option"}</span></button>;
+                  })}
+                </div>
+                {pendingChoices[card.id] && (() => {
+                  const option = card.options.find(option => option.id === pendingChoices[card.id]);
+                  if (!option) return null;
+                  return <div className="taxonomyConfirm" role="group" aria-label={`Confirm ${card.title}`}><span>{`Confirm “${option.label}”?`}</span><button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={savingAnyChoice}>Confirm</button><button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={savingAnyChoice}>Cancel</button></div>;
+                })()}
+                {choiceReceipts[card.id] && <div className={`taxonomyReceipt taxonomyReceipt--${choiceReceipts[card.id].tone}`} role="status">{choiceReceipts[card.id].text}</div>}
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: card.id, type: "decision", title: card.question, category: "investing policy/valuation", summary: `${card.clusterId}: ${card.recommendation}` })}>Discuss decision</button>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 

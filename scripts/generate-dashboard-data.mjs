@@ -134,6 +134,8 @@ function readSourceManifests() {
     investingTaxonomyDecisionSheet: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-sheet', 'latest.json')),
     investingTaxonomyDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-workflow', 'latest.json')),
     investingTaxonomyDecisions: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-taxonomy-decisions.json')),
+    investingManualDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'manual-decision-workflow', 'latest.json')),
+    investingManualDecisions: readWorkspaceManifest(path.join('memory', 'investing', 'investment-manual-decisions.json')),
     investingBasketGovernanceAudit: readWorkspaceManifest(path.join('memory', 'investing', 'basket-governance-audit', 'latest.json')),
     investingThesisUniverse: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-universe', 'latest.json')),
   };
@@ -698,6 +700,8 @@ function buildData() {
       investingTaxonomyDecisionSheet: sourceManifests.investingTaxonomyDecisionSheet || null,
       investingTaxonomyDecisionWorkflow: sourceManifests.investingTaxonomyDecisionWorkflow || null,
       investingTaxonomyDecisions: sourceManifests.investingTaxonomyDecisions || null,
+      investingManualDecisionWorkflow: sourceManifests.investingManualDecisionWorkflow || null,
+      investingManualDecisions: sourceManifests.investingManualDecisions || null,
       investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
       investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
       systemDocs: buildSystemDocs(),

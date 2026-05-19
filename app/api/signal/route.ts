@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
 function receiptFor(type: string, itemId: string, payload: unknown) {
   const p = payload && typeof payload === "object" ? payload as Record<string, unknown> : {};
-  if (type === "investment-action" && p.action === "stage-taxonomy-decision") {
+  if (type === "investment-action" && (p.action === "stage-taxonomy-decision" || p.action === "stage-manual-investing-decision")) {
     return `Decision saved for ${p.decisionPointId || itemId}: ${p.choiceId || "choice recorded"}.`;
   }
   if (type === "review-action") return `Review action ${p.action || "recorded"} accepted for ${itemId}.`;

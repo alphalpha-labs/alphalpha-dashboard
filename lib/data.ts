@@ -282,7 +282,7 @@ export type InvestingTaxonomyDecisionWorkflow = {
     options: Array<{ id: string; label: string; meaning: string }>;
     affectedItems?: string[];
     affectedAssets?: string[];
-    affectedAllocationPct?: number;
+    affectedAllocationPct?: number | null;
     consequences?: string[];
     blockingLevel?: "foundational" | "high" | "medium" | "low" | string;
   }>;
@@ -302,6 +302,12 @@ export type InvestingTaxonomyDecisions = {
   }>;
   history?: Array<Record<string, unknown>>;
 };
+
+export type InvestingManualDecisionWorkflow = InvestingTaxonomyDecisionWorkflow & {
+  sourceArtifacts?: Record<string, string>;
+  summary?: { totalDecisionPoints?: number; savedDecisionCount?: number; openDecisionCount?: number; portfolioEquity?: number | null };
+};
+export type InvestingManualDecisions = InvestingTaxonomyDecisions;
 
 export type InvestingBasketGovernanceAudit = {
   generatedAt?: string;
@@ -394,6 +400,8 @@ export type DashboardData = {
     investingTaxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
     investingTaxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;
+    investingManualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+    investingManualDecisions?: InvestingManualDecisions | null;
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
     systemDocs?: SystemDoc[];
