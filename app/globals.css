@@ -848,6 +848,13 @@ input { font-family: inherit; }
 .taxonomyConfirmBtn:hover { border-color: var(--border-strong); color: var(--ink-2); background: var(--card-hover); }
 .taxonomyConfirmBtn--primary { border-color: var(--ink); color: var(--dark-fill-text); background: var(--dark-fill); }
 .taxonomyConfirmBtn--primary:hover { color: var(--dark-fill-text); background: var(--ink-2); }
+.taxonomyCompleteState { border: 1px solid rgba(76,128,94,.24); border-radius: var(--radius-card); background: rgba(76,128,94,.08); padding: 13px; }
+.taxonomyCompleteState > strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: #3a6a3a; text-transform: uppercase; letter-spacing: .09em; }
+.taxonomyCompleteState p { margin: 6px 0 0; font-family: 'Lora', Georgia, serif; font-size: 12px; line-height: 1.45; color: var(--ink-muted); }
+.taxonomyCompletedList { display: grid; gap: 5px; margin-top: 10px; }
+.taxonomyCompletedList span { display: block; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); text-transform: none; letter-spacing: 0; }
+.taxonomyCompletedList b { color: var(--ink-2); font-weight: 600; }
+.taxonomyCompletedList em { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); font-style: normal; }
 @keyframes choiceSaving { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 .taxonomyMatrixPanel { margin-top: 14px; }
 .taxonomyMatrix { overflow-x: auto; border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: var(--card); }

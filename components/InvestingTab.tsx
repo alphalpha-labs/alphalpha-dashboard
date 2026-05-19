@@ -395,6 +395,8 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
     consequences: [],
     affectedAssets: [],
   })));
+  const unresolvedDecisionCards = decisionCards.filter(card => !savedChoices[card.id]);
+  const completedDecisionCards = decisionCards.filter(card => savedChoices[card.id]);
   const clusterTitleById = useMemo(() => new Map(clusters.map(cluster => [cluster.id, cluster.title])), [clusters]);
   function promptChoice(pointId: string, choiceId: string, label: string) {
     const existingChoice = savedChoices[pointId] || stagedChoices[pointId];
@@ -477,7 +479,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
             <span><strong>{basketGovernanceAudit?.summary?.canonicalAppRows ?? "—"}</strong> canonical</span>
             <span><strong>{basketGovernanceAudit?.summary?.nonCanonicalRows ?? "—"}</strong> needs kind</span>
             <span><strong>{basketGovernanceAudit?.summary?.multiSourceConvictionRows?.length ?? "—"}</strong> conviction conflicts</span>
-            <span><strong>{decisionCards.length}</strong> decision points</span>
+            <span><strong>{unresolvedDecisionCards.length}</strong> open decisions</span>
             <span><strong>{stagedCount}</strong> staged choices</span>
             {savedCount > 0 && <span><strong>{savedCount}</strong> saved</span>}
           </div>
@@ -539,9 +541,23 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
         </div>
 
         <div className="taxonomyPanel">
-          <div className="sectionTitleRow"><h2>Decision queue</h2><span>{decisionCards.length} explicit calls</span></div>
+          <div className="sectionTitleRow"><h2>Decision queue</h2><span>{unresolvedDecisionCards.length} open · {completedDecisionCards.length} complete</span></div>
+          {unresolvedDecisionCards.length === 0 ? (
+            <div className="taxonomyCompleteState">
+              <strong>All current decisions are saved</strong>
+              <p>This queue will repopulate only when a future taxonomy/audit pass generates new unresolved decision points.</p>
+              <div className="taxonomyCompletedList">
+                {completedDecisionCards.slice(0, 6).map(card => {
+                  const choiceId = savedChoices[card.id];
+                  const label = card.options.find(option => option.id === choiceId)?.label || choiceId;
+                  return <span key={card.id}>{card.title}: <b>{label}</b></span>;
+                })}
+                {completedDecisionCards.length > 6 && <em>+{completedDecisionCards.length - 6} more completed</em>}
+              </div>
+            </div>
+          ) : (
           <div className="taxonomyDecisionQueue">
-            {decisionCards.map(card => (
+            {unresolvedDecisionCards.map(card => (
               <article key={card.id} className={`taxonomyDecisionCard taxonomyDecisionCard--${card.blockingLevel || "medium"}`} aria-busy={Boolean(savingChoices[card.id])}>
                 <div className="taxonomyDecisionTop"><span>{clusterTitleById.get(card.clusterId) || card.clusterId}</span><b>{card.blockingLevel || "medium"}</b></div>
                 <strong>{card.title}</strong>
@@ -585,6 +601,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
               </article>
             ))}
           </div>
+          )}
         </div>
       </div>
 
