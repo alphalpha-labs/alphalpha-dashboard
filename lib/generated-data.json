@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T04:34:28.362Z",
+    "generatedAt": "2026-05-19T04:35:11.122Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "4c1d31c",
+      "commit": "889bc85",
       "branch": "main",
-      "generatedAt": "2026-05-19T04:34:28.375Z",
+      "generatedAt": "2026-05-19T04:35:11.135Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@4c1d31c · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@889bc85 · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@4c1d31c · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@889bc85 · 0 dirty · 1 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -39989,7 +39989,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@4c1d31c · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@889bc85 · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
