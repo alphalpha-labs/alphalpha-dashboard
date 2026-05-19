@@ -25,6 +25,9 @@ import type {
   InvestingTaxonomyDecisions,
   InvestingManualDecisionWorkflow,
   InvestingManualDecisions,
+  InvestingExecutionBoundaryPolicy,
+  InvestingRankedActionQueue,
+  InvestingSourceReliabilityPlan,
   InvestingBasketGovernanceAudit,
   InvestingThesisUniverse,
   Ticker,
@@ -57,14 +60,18 @@ interface Props {
   taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
   taxonomyDecisions?: InvestingTaxonomyDecisions | null;
   manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+  holdingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   manualDecisions?: InvestingManualDecisions | null;
+  executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
+  rankedActionQueue?: InvestingRankedActionQueue | null;
+  sourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, manualDecisions, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -103,9 +110,34 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         </section>
       )}
 
+      {(executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
+        <InvestmentActionCommandCenter
+          executionBoundaryPolicy={executionBoundaryPolicy}
+          rankedActionQueue={rankedActionQueue}
+          sourceReliabilityPlan={sourceReliabilityPlan}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
+      )}
+
       {(manualDecisionWorkflow || manualDecisions) && (
         <ManualDecisionReview
+          title="Manual decision queue · policy + valuation"
+          eyebrow="Action authority gates"
+          headline="Approve ranges before signals become decisions"
           manualDecisionWorkflow={manualDecisionWorkflow}
+          manualDecisions={manualDecisions}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
+      )}
+
+      {(holdingRoleDecisionWorkflow || manualDecisions) && (
+        <ManualDecisionReview
+          title="Holding role queue · mapping cleanup"
+          eyebrow="Role resolution"
+          headline="Classify ambiguous exposure before ranked actions"
+          manualDecisionWorkflow={holdingRoleDecisionWorkflow}
           manualDecisions={manualDecisions}
           onDiscuss={onDiscuss}
           onAction={onAction}
@@ -368,7 +400,61 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
   );
 }
 
-function ManualDecisionReview({ manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
+function InvestmentActionCommandCenter({ executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, onDiscuss, onAction }: {
+  executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
+  rankedActionQueue?: InvestingRankedActionQueue | null;
+  sourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
+  onDiscuss: (ctx: ThreadContext) => void;
+  onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
+}) {
+  const actions = rankedActionQueue?.actions ?? [];
+  const failures = sourceReliabilityPlan?.actionableFailures ?? [];
+  return (
+    <section className="investmentSection investmentActionCommand">
+      <div className="sectionTitleRow"><h2>Ranked investment action queue</h2><span>{actions.length} cards · {rankedActionQueue?.summary?.blockedByManualGates ?? 0} gated</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Execution boundary · {executionBoundaryPolicy?.status || "active"}</span>
+          <h3>{executionBoundaryPolicy?.defaultTradePosture === "never-execute" ? "Recommendations only — no automated trades" : "Execution policy loaded"}</h3>
+          <p>{executionBoundaryPolicy?.purpose || "The system may rank and stage decisions, but trades require explicit Alex confirmation."}</p>
+          <div className="taxonomyStats"><span><strong>{rankedActionQueue?.sourceHealth?.status || "—"}</strong> source health</span><span><strong>{rankedActionQueue?.sourceHealth?.actionableFailedRuns14 ?? "—"}</strong> actionable failures 14d</span><span><strong>{rankedActionQueue?.sourceHealth?.penalty ?? 0}</strong> score penalty</span></div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Hard rule</strong>
+          <p>Dashboard cards can recommend, stage, and journal. Actual trades stay outside automation and require explicit Alex confirmation.</p>
+          <em>{executionBoundaryPolicy?.dashboardReceiptRule || "Every saved action needs a durable receipt."}</em>
+        </div>
+      </div>
+      <div className="investmentCardGrid">
+        {actions.slice(0, 10).map(action => (
+          <article key={action.id} className="investmentDecision">
+            <div className="decisionTop"><span>#{action.rank} · score {action.rankScore}</span><strong>{action.allowedActionLevel}</strong></div>
+            <h3>{action.title}</h3>
+            <p>{action.recommendation}</p>
+            <div className="decisionMeta">{(action.tickers || []).join(", ") || "theme"} · blockers {(action.blockers || []).length}</div>
+            <p className="emptyText">{action.rationale}</p>
+            {(action.blockers || []).length > 0 && <div className="taxonomyImpactLine"><span>Blocked by</span><em>{(action.blockers || []).join(", ")}</em></div>}
+            <div className="investmentButtonRow">
+              <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: action.id, type: "decision", title: action.title, category: "ranked investment action", summary: action.recommendation })}>Discuss</button>
+              <button className="btnAlphaDiscuss" onClick={() => onAction?.(action.id, "record-decision", { title: action.title, decision: action.allowedActionLevel, rationale: action.rationale, symbols: action.tickers })}>Journal</button>
+            </div>
+          </article>
+        ))}
+      </div>
+      {failures.length > 0 && (
+        <div className="taxonomyPanel">
+          <div className="sectionTitleRow"><h2>Source reliability hardening</h2><span>{failures.length} actionable groups</span></div>
+          {failures.slice(0, 4).map(item => <div key={item.id} className="investmentListRow"><strong>{item.priority} · {item.platform} · {item.runs} runs</strong><p>{item.recommendedAction}</p><em>{item.error}</em></div>)}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ManualDecisionReview({ title = "Manual decision queue · policy + valuation", eyebrow = "Action authority gates", headline = "Approve ranges before signals become decisions", manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
+  title?: string;
+  eyebrow?: string;
+  headline?: string;
   manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   manualDecisions?: InvestingManualDecisions | null;
   onDiscuss: (ctx: ThreadContext) => void;
@@ -431,16 +517,16 @@ function ManualDecisionReview({ manualDecisionWorkflow, manualDecisions, onDiscu
 
   return (
     <section className="investmentSection taxonomyReview">
-      <div className="sectionTitleRow"><h2>Manual decision queue · policy + valuation</h2><span>{unresolvedDecisionCards.length} open · {completedDecisionCards.length} complete</span></div>
+      <div className="sectionTitleRow"><h2>{title}</h2><span>{unresolvedDecisionCards.length} open · {completedDecisionCards.length} complete</span></div>
       <div className="taxonomyHeroGrid">
         <div>
-          <span className="digestEyebrow">Action authority gates</span>
-          <h3>Approve ranges before signals become decisions</h3>
+          <span className="digestEyebrow">{eyebrow}</span>
+          <h3>{headline}</h3>
           <p>{manualDecisionWorkflow?.purpose || "Manual investment policy and valuation decisions required before authoritative add/trim recommendations."}</p>
           <div className="taxonomyStats">
             <span><strong>{unresolvedDecisionCards.length}</strong> open</span>
             <span><strong>{completedDecisionCards.length}</strong> complete</span>
-            <span><strong>{manualDecisionWorkflow?.summary?.portfolioEquity ? formatMoney(manualDecisionWorkflow.summary.portfolioEquity) : "—"}</strong> equity</span>
+            <span><strong>{typeof manualDecisionWorkflow?.summary?.portfolioEquity === "number" ? formatMoney(manualDecisionWorkflow.summary.portfolioEquity) : "—"}</strong> equity</span>
           </div>
         </div>
         <div className="taxonomyPrinciples">

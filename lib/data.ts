@@ -305,9 +305,12 @@ export type InvestingTaxonomyDecisions = {
 
 export type InvestingManualDecisionWorkflow = InvestingTaxonomyDecisionWorkflow & {
   sourceArtifacts?: Record<string, string>;
-  summary?: { totalDecisionPoints?: number; savedDecisionCount?: number; openDecisionCount?: number; portfolioEquity?: number | null };
+  summary?: Record<string, number | string | null | undefined>;
 };
 export type InvestingManualDecisions = InvestingTaxonomyDecisions;
+export type InvestingExecutionBoundaryPolicy = { generatedAt?: string; status?: string; title?: string; purpose?: string; allowedWithoutAdditionalApproval?: string[]; requiresExplicitAlexConfirmation?: string[]; recommendationLevels?: Array<{ id: string; meaning: string }>; dashboardReceiptRule?: string; defaultTradePosture?: string };
+export type InvestingRankedActionQueue = { generatedAt?: string; purpose?: string; summary?: Record<string, number | string | null>; sourceHealth?: { status?: string; actionableFailedRuns14?: number | null; penalty?: number }; actions?: Array<{ rank: number; id: string; title: string; rankScore: number; recommendation: string; allowedActionLevel: string; explicitTradeConfirmationRequired?: boolean; rationale: string; tickers?: string[]; blockers?: string[]; scoreComponents?: Record<string, unknown> }> };
+export type InvestingSourceReliabilityPlan = { generatedAt?: string; status?: string; summary?: Record<string, number>; actionableFailures?: Array<{ id: string; platform: string; runs: number; error: string; recommendedAction: string; priority: string }>; recommendations?: string[] };
 
 export type InvestingBasketGovernanceAudit = {
   generatedAt?: string;
@@ -401,7 +404,11 @@ export type DashboardData = {
     investingTaxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;
     investingManualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+    investingHoldingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
     investingManualDecisions?: InvestingManualDecisions | null;
+    investingExecutionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
+    investingRankedActionQueue?: InvestingRankedActionQueue | null;
+    investingSourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
     systemDocs?: SystemDoc[];

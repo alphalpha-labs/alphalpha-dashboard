@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T17:13:22.099Z",
+    "generatedAt": "2026-05-19T17:34:10.244Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "80a5eff",
+      "commit": "6ba3ce1",
       "branch": "main",
-      "generatedAt": "2026-05-19T17:13:22.114Z",
+      "generatedAt": "2026-05-19T17:34:10.259Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 5
+      "dirtyFiles": 4
     },
     "contextHealth": {
       "generatedAt": "2026-05-19T16:28:56.281Z",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "63 tickers / 64 themes",
         "detail": "33 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 76 dirty · Alphalpha dashboard: main@80a5eff, 5 dirty · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@17b5d8b, 66 dirty · Alphalpha dashboard: main@6ba3ce1, 4 dirty · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@b1852bb · 76 dirty · 0 ahead · 0 behind"
+            "value": "master@17b5d8b · 66 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@80a5eff · 5 dirty · 0 ahead · 0 behind"
+            "value": "main@6ba3ce1 · 4 dirty · 1 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -25831,7 +25831,985 @@
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/manual-decision-workflow/latest.json"
     },
+    "investingHoldingRoleDecisionWorkflow": {
+      "generatedAt": "2026-05-19T17:31:26.977Z",
+      "schemaVersion": "2026-05-19.1",
+      "purpose": "Resolve remaining unmapped and needs-role holdings into explicit thesis/sleeve/watchlist/sandbox/trim/noise roles before ranked action scoring.",
+      "decisionPrinciples": [
+        "Every material holding gets one primary role for allocation math.",
+        "Secondary tags may explain overlap but must not double-count capital.",
+        "Unmapped/noise positions should not block high-confidence action queue generation once explicitly classified."
+      ],
+      "sourceArtifacts": {
+        "thesisUniverse": "memory/investing/thesis-universe/latest.json",
+        "portfolioContextMap": "memory/investing/portfolio-context-map.json",
+        "savedManualDecisions": "memory/investing/investment-manual-decisions.json"
+      },
+      "summary": {
+        "totalDecisionPoints": 8,
+        "savedDecisionCount": 0,
+        "openDecisionCount": 8,
+        "strictMappedPct": 96.7381,
+        "unmappedPct": 3.2619
+      },
+      "decisionPoints": [
+        {
+          "id": "role-ai-platforms-compute-semiconductors",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · AI platforms / compute / semiconductors",
+          "question": "AI platforms / compute / semiconductors is 10.42% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Treat as the consolidated AI compute / physical infrastructure thesis, separate from power scarcity.",
+          "why": "The taxonomy decision consolidated AI compute and physical infrastructure. This bucket has meaningful exposure and should not stay as an ad hoc portfolio-derived bucket.",
+          "recommendedChoice": "thesis",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "ai-platforms-compute-semiconductors"
+          ],
+          "affectedAssets": [
+            "AMZN",
+            "GOOGL",
+            "MU",
+            "ACMR",
+            "MSFT",
+            "BOTZ",
+            "SNPS",
+            "QCOM",
+            "ANET",
+            "AAPL",
+            "ARKQ",
+            "META"
+          ],
+          "affectedAllocationPct": 10.42,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "high"
+        },
+        {
+          "id": "role-quality-income-ballast",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Quality / income / ballast",
+          "question": "Quality / income / ballast is 8.95% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Classify as portfolio sleeve with policy range, not alpha thesis.",
+          "why": "Quality/income functions as ballast and dividend/quality exposure. It should be governed by allocation policy rather than conviction ranking.",
+          "recommendedChoice": "sleeve",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "quality-income-ballast"
+          ],
+          "affectedAssets": [
+            "BRK.B",
+            "VYM",
+            "SCHD",
+            "DIA",
+            "XLP",
+            "PM",
+            "STAG",
+            "JPM",
+            "BN",
+            "VIG",
+            "XLF",
+            "VICI"
+          ],
+          "affectedAllocationPct": 8.95,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "high"
+        },
+        {
+          "id": "role-portfolio-ballast-cash-bonds",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Broad market / cash / bonds / allocation wrappers",
+          "question": "Broad market / cash / bonds / allocation wrappers is 6.01% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Classify as liquidity/duration/broad-beta sleeve.",
+          "why": "Cash, bonds, and broad wrappers are portfolio construction roles, not falsifiable investment theses.",
+          "recommendedChoice": "sleeve",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "portfolio-ballast-cash-bonds"
+          ],
+          "affectedAssets": [
+            "CASH",
+            "GAA",
+            "IVV",
+            "IWM",
+            "IEF",
+            "SWAN",
+            "VTI",
+            "JIRE",
+            "CGW",
+            "KWEB",
+            "TLT",
+            "PQNT"
+          ],
+          "affectedAllocationPct": 6.01,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "high"
+        },
+        {
+          "id": "role-clean-energy-water-infrastructure-diversifiers",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Clean energy / water / infrastructure diversifiers",
+          "question": "Clean energy / water / infrastructure diversifiers is 2.29% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Fold into adjacent infrastructure/resource themes and keep as watchlist unless refreshed.",
+          "why": "The saved taxonomy choice was fold/watchlist; it should not produce active allocation authority until there is a differentiated thesis.",
+          "recommendedChoice": "watchlist-thesis",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "clean-energy-water-infrastructure-diversifiers"
+          ],
+          "affectedAssets": [
+            "XLI",
+            "ICLN",
+            "BEPC",
+            "FIW",
+            "ECL"
+          ],
+          "affectedAllocationPct": 2.29,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "medium"
+        },
+        {
+          "id": "role-healthcare-quality-compounders",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Healthcare quality / life-science tools / specialty medtech",
+          "question": "Healthcare quality / life-science tools / specialty medtech is 1.05% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Keep as watchlist thesis pending valuation and overlap review.",
+          "why": "Healthcare/medtech was approved as a canonical watchlist thesis, not yet an active allocation target.",
+          "recommendedChoice": "watchlist-thesis",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "healthcare-quality-compounders"
+          ],
+          "affectedAssets": [
+            "ABBV",
+            "JNJ",
+            "NVO",
+            "MRK",
+            "XLV",
+            "DHR",
+            "XBI",
+            "GEHC"
+          ],
+          "affectedAllocationPct": 1.05,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "medium"
+        },
+        {
+          "id": "role-speculative-experiments",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Speculative / thematic / small experimental positions",
+          "question": "Speculative / thematic / small experimental positions is 0.7% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Classify as capped speculative sandbox.",
+          "why": "Small experimental positions need a max cap and review discipline, not normal thesis scoring.",
+          "recommendedChoice": "sandbox",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "speculative-experiments"
+          ],
+          "affectedAssets": [
+            "GRNY",
+            "HOOD",
+            "ARKG"
+          ],
+          "affectedAllocationPct": 0.7,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "medium"
+        },
+        {
+          "id": "role-optical-networking-ai-bandwidth",
+          "clusterId": "holding-role-resolution",
+          "title": "Assign role · Optical networking + AI bandwidth bottleneck",
+          "question": "Optical networking + AI bandwidth bottleneck is 0.07% of portfolio but still needs canonical role resolution. What role should the system use?",
+          "recommendation": "Use as AI infrastructure sub-thesis/tag unless it earns a separate target.",
+          "why": "Optical networking is an AI-infra bottleneck expression, but separate target authority would add sprawl before valuation/role review.",
+          "recommendedChoice": "sub-thesis",
+          "options": [
+            {
+              "id": "thesis",
+              "label": "Thesis",
+              "meaning": "Active evidence-ranked thesis with target/min/max and action scoring."
+            },
+            {
+              "id": "sleeve",
+              "label": "Sleeve",
+              "meaning": "Portfolio construction role governed by policy range, not alpha conviction."
+            },
+            {
+              "id": "watchlist-thesis",
+              "label": "Watchlist thesis",
+              "meaning": "Track and research; no active allocation authority yet."
+            },
+            {
+              "id": "sub-thesis",
+              "label": "Sub-thesis/tag",
+              "meaning": "Use for tagging/overlap context without standalone allocation target."
+            },
+            {
+              "id": "sandbox",
+              "label": "Sandbox",
+              "meaning": "Capped speculative/experimental sleeve."
+            },
+            {
+              "id": "trim-justify",
+              "label": "Trim/justify",
+              "meaning": "Queue for reduce-or-defend review before future adds."
+            },
+            {
+              "id": "ignore-noise",
+              "label": "Ignore/noise",
+              "meaning": "Exclude small/noisy positions from thesis action scoring."
+            }
+          ],
+          "affectedItems": [
+            "optical-networking-ai-bandwidth"
+          ],
+          "affectedAssets": [
+            "CIEN"
+          ],
+          "affectedAllocationPct": 0.07,
+          "consequences": [
+            "Determines whether this exposure enters thesis rankings, sleeve policy, watchlist, sandbox, or trim review.",
+            "Prevents ambiguous holdings from contaminating allocation gap math.",
+            "Creates a durable receipt for future action scoring."
+          ],
+          "blockingLevel": "medium"
+        },
+        {
+          "id": "role-unmapped-small-positions",
+          "clusterId": "holding-role-resolution",
+          "title": "Classify remaining unmapped small positions",
+          "question": "20 unmapped holdings remain in the portfolio context map. Should they be mapped individually, grouped as noise, or queued as trim/justify candidates?",
+          "recommendation": "Group sub-0.25% leftovers as ignore/noise unless they are intentional watchlist/sandbox positions; map larger names individually.",
+          "why": "The thesis universe is now 96.74% strictly mapped. The residual should not block action scoring, but larger unmapped names still need a role.",
+          "recommendedChoice": "map-large-ignore-small",
+          "options": [
+            {
+              "id": "map-large-ignore-small",
+              "label": "Map large / ignore small",
+              "meaning": "Map material names; exclude tiny leftovers from action scoring."
+            },
+            {
+              "id": "map-all",
+              "label": "Map all",
+              "meaning": "Force every holding into a role before action queue authority."
+            },
+            {
+              "id": "trim-justify-unmapped",
+              "label": "Trim/justify unmapped",
+              "meaning": "Treat unmapped exposure as cleanup candidates."
+            }
+          ],
+          "affectedAssets": [
+            "GLDM",
+            "IXC",
+            "COMB",
+            "XLB",
+            "FCG",
+            "VYM",
+            "BRK.B",
+            "AMZN",
+            "SIVR",
+            "GOOGL",
+            "URA",
+            "SCHD",
+            "COPX",
+            "XOP",
+            "INFL"
+          ],
+          "affectedAllocationPct": 3.26,
+          "consequences": [
+            "Moves residual unmapped exposure out of the critical path.",
+            "Still preserves review for material positions.",
+            "Improves ranked action queue confidence."
+          ],
+          "blockingLevel": "medium"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
+    },
     "investingManualDecisions": null,
+    "investingExecutionBoundaryPolicy": {
+      "generatedAt": "2026-05-19T17:31:26.940Z",
+      "schemaVersion": "2026-05-19.1",
+      "status": "active",
+      "title": "Investment execution boundary",
+      "purpose": "Defines what Alphalpha/OpenClaw may do with investment decisions and what remains explicitly reserved for Alex.",
+      "allowedWithoutAdditionalApproval": [
+        "classify holdings into thesis/sleeve/watchlist/sandbox/archive/noise roles",
+        "rank candidate add/trim/hold/review decisions",
+        "stage dashboard decision cards and save confirmation receipts",
+        "journal explicit decisions and rationale",
+        "generate reminders, source-health warnings, valuation-review queues, and research tasks",
+        "update local derived artifacts and dashboard views from approved decisions"
+      ],
+      "requiresExplicitAlexConfirmation": [
+        "placing, routing, or automating any trade order",
+        "submitting any brokerage transaction or portfolio rebalance",
+        "turning a recommendation into execution instructions outside a confirmed dashboard decision card",
+        "credential/config changes that enable production Thesis Baskets or brokerage writes",
+        "public/external communication of investment advice or recommendations"
+      ],
+      "recommendationLevels": [
+        {
+          "id": "review",
+          "meaning": "Needs human review; no action authority."
+        },
+        {
+          "id": "watch",
+          "meaning": "Track and remind; no capital action suggested."
+        },
+        {
+          "id": "stage",
+          "meaning": "Can stage a non-trade decision card or journal entry."
+        },
+        {
+          "id": "trade-confirmation-required",
+          "meaning": "May present a trade consideration, but execution requires explicit Alex confirmation."
+        }
+      ],
+      "dashboardReceiptRule": "Every investment-system decision saved through the dashboard must write a durable receipt before disappearing from a queue.",
+      "defaultTradePosture": "never-execute",
+      "path": "/home/node/.openclaw/workspace/memory/investing/execution-boundary-policy.json"
+    },
+    "investingRankedActionQueue": {
+      "generatedAt": "2026-05-19T17:31:27.058Z",
+      "schemaVersion": "2026-05-19.1",
+      "purpose": "Rank candidate investment decisions by conviction gap, allocation gap, valuation, catalyst freshness, invalidation risk, concentration, source health, and opportunity cost.",
+      "executionBoundary": {
+        "policy": "memory/investing/execution-boundary-policy.json",
+        "defaultTradePosture": "never-execute"
+      },
+      "sourceHealth": {
+        "status": "watch",
+        "actionableFailedRuns14": 70,
+        "penalty": 8
+      },
+      "scoringRubric": [
+        "conviction gap",
+        "allocation gap",
+        "valuation state",
+        "catalyst freshness",
+        "invalidation risk",
+        "concentration risk",
+        "source-health penalty",
+        "opportunity cost"
+      ],
+      "summary": {
+        "candidateCount": 15,
+        "shown": 10,
+        "blockedByManualGates": 10,
+        "tradeConfirmationRequired": 10
+      },
+      "actions": [
+        {
+          "rank": 1,
+          "id": "action-accumulate-power-electricity-ai-grid",
+          "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
+          "rankScore": 60.8,
+          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "actionType": "trade",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation.",
+          "tickers": [],
+          "blockers": [
+            "policy-range-ai-compute-power",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "convictionGap": 92,
+            "allocationGap": 8.3,
+            "valuationSignal": "no-trigger",
+            "catalystFreshness": "needs-review",
+            "invalidationRisk": "unknown",
+            "concentrationRisk": "moderate"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 2,
+          "id": "action-trim-justify-precious-metals-debasement-hedge",
+          "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
+          "rankScore": 60.5,
+          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "actionType": "trade",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling.",
+          "tickers": [
+            "GLDM",
+            "SIVR",
+            "INFL",
+            "GDX",
+            "GLTR",
+            "SIL",
+            "WPM",
+            "SGOL",
+            "NEM",
+            "FNV"
+          ],
+          "blockers": [
+            "policy-range-precious-metals",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "convictionGap": 55,
+            "allocationGap": "above soft target pending policy",
+            "valuationSignal": "not-primary-driver",
+            "catalystFreshness": "hedge-dependent",
+            "invalidationRisk": "policy-range-missing",
+            "concentrationRisk": "high"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 3,
+          "id": "action-range-gate-energy-supply-infrastructure",
+          "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
+          "rankScore": 57,
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "tickers": [
+            "MLPX",
+            "XLE",
+            "IXC",
+            "FCG",
+            "XOP",
+            "VDE",
+            "SLB",
+            "LNG",
+            "MPLX",
+            "KMI"
+          ],
+          "blockers": [
+            "policy-range-energy-supply",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "convictionGap": 82,
+            "allocationGap": "range-missing",
+            "valuationSignal": "mixed",
+            "catalystFreshness": "needs-source-refresh",
+            "invalidationRisk": "boundary/range pending",
+            "concentrationRisk": "high"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 4,
+          "id": "action-range-gate-critical-materials-resource-security",
+          "title": "Resolve range before adds/trims · Critical materials / resource security",
+          "rankScore": 57,
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "tickers": [
+            "REMX",
+            "COMB",
+            "XLB",
+            "COPX",
+            "GUNR",
+            "XME",
+            "DBA",
+            "WEAT",
+            "PICK",
+            "CORN"
+          ],
+          "blockers": [
+            "policy-range-critical-materials",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "convictionGap": 84,
+            "allocationGap": "range-missing",
+            "valuationSignal": "mixed",
+            "catalystFreshness": "needs-source-refresh",
+            "invalidationRisk": "boundary/range pending",
+            "concentrationRisk": "high"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 5,
+          "id": "action-valuation-review-DHR",
+          "title": "Valuation review · DHR",
+          "rankScore": 55,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
+          "tickers": [
+            "DHR"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "below buy zone 216",
+            "pullbackPct": -30.844867887130224,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 6,
+          "id": "action-valuation-review-BSX",
+          "title": "Valuation review · BSX",
+          "rankScore": 55,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
+          "tickers": [
+            "BSX"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "below buy zone 65",
+            "pullbackPct": -44.39358181515295,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 7,
+          "id": "action-valuation-review-CEG",
+          "title": "Valuation review · CEG",
+          "rankScore": 55,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "CEG is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "tickers": [
+            "CEG"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "below buy zone 294",
+            "pullbackPct": -31.447436777388944,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 8,
+          "id": "action-valuation-review-OKLO",
+          "title": "Valuation review · OKLO",
+          "rankScore": 55,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "OKLO is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "tickers": [
+            "OKLO"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "pullback -50.1% from six-month high",
+            "pullbackPct": -50.06717488751854,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 9,
+          "id": "action-valuation-review-VST",
+          "title": "Valuation review · VST",
+          "rankScore": 54.38,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "VST is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "tickers": [
+            "VST"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "pullback -24.4% from six-month high",
+            "pullbackPct": -24.378393594458668,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 10,
+          "id": "action-valuation-review-URA",
+          "title": "Valuation review · URA",
+          "rankScore": 53.17,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "review",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "URA is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "tickers": [
+            "URA"
+          ],
+          "blockers": [
+            "valuation-review-first-batch",
+            "valuation-authority-dynamic-ranges"
+          ],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "pullback -23.2% from six-month high",
+            "pullbackPct": -23.167771196672543,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/ranked-action-queue/latest.json"
+    },
+    "investingSourceReliabilityPlan": {
+      "generatedAt": "2026-05-19T17:31:27.023Z",
+      "schemaVersion": "2026-05-19.1",
+      "status": "watch",
+      "summary": {
+        "investorPosts7d": 347,
+        "investorPosts30d": 1069,
+        "highRelevanceInvestorPosts7d": 131,
+        "newsItems7d": 131,
+        "newsItems30d": 524,
+        "productiveSources30d": 20,
+        "failedInvestorFetchRuns14d": 516,
+        "ignoredFailureRuns14": 446,
+        "actionableFailedRuns14": 70
+      },
+      "purpose": "Triage actionable non-X/non-credit investing input failures and feed source-health penalties into ranked action scoring.",
+      "ignoredKnownFailures": [
+        {
+          "platform": "x",
+          "runs": 432,
+          "error": "X timeline fetch failed (402)"
+        }
+      ],
+      "actionableFailures": [
+        {
+          "id": "source-fix-1-substack",
+          "platform": "substack",
+          "runs": 56,
+          "latest": "2026-05-12 08:52:44.487+00",
+          "error": "Substack post upsert failed: there is no unique or exclusion constraint matching the ON CONFLICT specification",
+          "recommendedAction": "fix-upsert-constraint",
+          "priority": "high"
+        },
+        {
+          "id": "source-fix-2-podcast",
+          "platform": "podcast",
+          "runs": 14,
+          "latest": "2026-05-18 08:33:51.432+00",
+          "error": "(partial/empty error)",
+          "recommendedAction": "separate-partial-success-from-failure",
+          "priority": "medium"
+        },
+        {
+          "id": "source-fix-3-rss",
+          "platform": "rss",
+          "runs": 7,
+          "latest": "2026-05-18 09:02:09.516+00",
+          "error": "Feed request failed (403)",
+          "recommendedAction": "demote-or-add-user-agent/proxy",
+          "priority": "medium"
+        },
+        {
+          "id": "source-fix-4-rss",
+          "platform": "rss",
+          "runs": 7,
+          "latest": "2026-05-18 09:02:09.501+00",
+          "error": "fetch failed",
+          "recommendedAction": "retry-backoff-and-source-test",
+          "priority": "medium"
+        }
+      ],
+      "recommendations": [
+        "Fix Substack ON CONFLICT/upsert schema first because it creates high-volume deterministic loss.",
+        "Treat RSS 403/fetch failures as source-specific demote/fix tasks rather than global blockers.",
+        "Keep X 402 failures ignored for action scoring unless paid X access becomes available.",
+        "Apply source-health penalty to ranked action queue while actionable failures exceed 50 over 14 days."
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/source-reliability/latest.json"
+    },
     "investingBasketGovernanceAudit": {
       "generatedAt": "2026-05-17T13:04:01.151Z",
       "schemaVersion": "2026-05-15.1",
@@ -41830,7 +42808,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "Investing watchlist: 63 tickers / 64 themes",
-      "summary": "33 high-priority research candidates · 3h old · memory/investing/latest-watchlist.json",
+      "summary": "33 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -41863,7 +42841,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 76 dirty · Alphalpha dashboard: main@80a5eff, 5 dirty · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@17b5d8b, 66 dirty · Alphalpha dashboard: main@6ba3ce1, 4 dirty · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
