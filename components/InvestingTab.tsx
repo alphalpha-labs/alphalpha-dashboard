@@ -462,16 +462,18 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
 }) {
   const decisionCards = manualDecisionWorkflow?.decisionPoints ?? [];
   const savedChoices = useMemo(() => Object.fromEntries((manualDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [manualDecisions]);
+  const [localSavedChoices, setLocalSavedChoices] = useState<Record<string, string>>({});
+  const effectiveSavedChoices = { ...savedChoices, ...localSavedChoices };
   const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
   const [pendingChoices, setPendingChoices] = useState<Record<string, string>>({});
   const [savingChoices, setSavingChoices] = useState<Record<string, string>>({});
   const [choiceReceipts, setChoiceReceipts] = useState<Record<string, { tone: "success" | "error"; text: string }>>({});
-  const unresolvedDecisionCards = decisionCards.filter(card => !savedChoices[card.id]);
-  const completedDecisionCards = decisionCards.filter(card => savedChoices[card.id]);
+  const unresolvedDecisionCards = decisionCards.filter(card => !effectiveSavedChoices[card.id]);
+  const completedDecisionCards = decisionCards.filter(card => effectiveSavedChoices[card.id]);
   const savingAnyChoice = Object.keys(savingChoices).length > 0;
 
   function promptChoice(pointId: string, choiceId: string, label: string) {
-    const existingChoice = savedChoices[pointId] || stagedChoices[pointId];
+    const existingChoice = effectiveSavedChoices[pointId] || stagedChoices[pointId];
     setPendingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setChoiceReceipts(prev => ({
@@ -487,7 +489,7 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
 
   function cancelChoice(pointId: string) {
     setPendingChoices(prev => { const next = { ...prev }; delete next[pointId]; return next; });
-    setStagedChoices(prev => { const next = { ...prev }; if (savedChoices[pointId]) next[pointId] = savedChoices[pointId]; else delete next[pointId]; return next; });
+    setStagedChoices(prev => { const next = { ...prev }; if (effectiveSavedChoices[pointId]) next[pointId] = effectiveSavedChoices[pointId]; else delete next[pointId]; return next; });
     setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: "Selection canceled. Nothing was saved." } }));
   }
 
@@ -503,6 +505,7 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
         durableTarget: "memory/investing/investment-manual-decisions.json",
         requestedAction: "stage-manual-investing-decision-and-refresh-dashboard",
       });
+      setLocalSavedChoices(prev => ({ ...prev, [pointId]: choiceId }));
       setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saved “${label}”. Receipt recorded and dashboard refresh queued.` } }));
     } catch (error) {
       setStagedChoices(prev => { const next = { ...prev }; if (previousChoice) next[pointId] = previousChoice; else delete next[pointId]; return next; });
@@ -542,7 +545,7 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
             <p>This queue will repopulate when a future review finds new policy-range or valuation-authority gaps.</p>
             <div className="taxonomyCompletedList">
               {completedDecisionCards.slice(0, 6).map(card => {
-                const choiceId = savedChoices[card.id];
+                const choiceId = effectiveSavedChoices[card.id];
                 const label = card.options.find(option => option.id === choiceId)?.label || choiceId;
                 return <span key={card.id}>{card.title}: <b>{label}</b></span>;
               })}
@@ -599,6 +602,8 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
   const decisionPoints = taxonomyDecisionWorkflow?.decisionPoints ?? [];
   const diagnostics = thesisUniverse?.diagnostics;
   const savedChoices = useMemo(() => Object.fromEntries((taxonomyDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [taxonomyDecisions]);
+  const [localSavedChoices, setLocalSavedChoices] = useState<Record<string, string>>({});
+  const effectiveSavedChoices = { ...savedChoices, ...localSavedChoices };
   const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
   const [pendingChoices, setPendingChoices] = useState<Record<string, string>>({});
   const [savingChoices, setSavingChoices] = useState<Record<string, string>>({});
@@ -625,11 +630,11 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
     consequences: [],
     affectedAssets: [],
   })));
-  const unresolvedDecisionCards = decisionCards.filter(card => !savedChoices[card.id]);
-  const completedDecisionCards = decisionCards.filter(card => savedChoices[card.id]);
+  const unresolvedDecisionCards = decisionCards.filter(card => !effectiveSavedChoices[card.id]);
+  const completedDecisionCards = decisionCards.filter(card => effectiveSavedChoices[card.id]);
   const clusterTitleById = useMemo(() => new Map(clusters.map(cluster => [cluster.id, cluster.title])), [clusters]);
   function promptChoice(pointId: string, choiceId: string, label: string) {
-    const existingChoice = savedChoices[pointId] || stagedChoices[pointId];
+    const existingChoice = effectiveSavedChoices[pointId] || stagedChoices[pointId];
     setPendingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setChoiceReceipts(prev => ({
@@ -651,7 +656,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
     });
     setStagedChoices(prev => {
       const next = { ...prev };
-      if (savedChoices[pointId]) next[pointId] = savedChoices[pointId];
+      if (effectiveSavedChoices[pointId]) next[pointId] = effectiveSavedChoices[pointId];
       else delete next[pointId];
       return next;
     });
@@ -670,6 +675,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
         durableTarget: "memory/investing/thesis-taxonomy-decisions.json",
         requestedAction: "stage-investing-taxonomy-decision-and-refresh-dashboard",
       });
+      setLocalSavedChoices(prev => ({ ...prev, [pointId]: choiceId }));
       setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saved “${label}”. Receipt recorded and dashboard refresh queued.` } }));
     } catch (error) {
       setStagedChoices(prev => {
@@ -778,7 +784,7 @@ function TaxonomyReview({ taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxon
               <p>This queue will repopulate only when a future taxonomy/audit pass generates new unresolved decision points.</p>
               <div className="taxonomyCompletedList">
                 {completedDecisionCards.slice(0, 6).map(card => {
-                  const choiceId = savedChoices[card.id];
+                  const choiceId = effectiveSavedChoices[card.id];
                   const label = card.options.find(option => option.id === choiceId)?.label || choiceId;
                   return <span key={card.id}>{card.title}: <b>{label}</b></span>;
                 })}
