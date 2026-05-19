@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T01:58:18.885Z",
+    "generatedAt": "2026-05-19T02:01:44.451Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "a36327c",
+      "commit": "51f1e28",
       "branch": "main",
-      "generatedAt": "2026-05-19T01:58:18.897Z",
+      "generatedAt": "2026-05-19T02:01:44.462Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 2
+      "dirtyFiles": 5
     },
     "contextHealth": {
       "generatedAt": "2026-05-18T14:00:05.890Z",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "14h old",
+        "age": "15h old",
         "summary": "9 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@a36327c, 2 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@51f1e28, 5 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@a36327c · 2 dirty · 0 ahead · 0 behind"
+            "value": "main@51f1e28 · 5 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -36673,6 +36673,161 @@
           "#roadmap"
         ]
       }
+    ],
+    "queues": [
+      {
+        "id": "books",
+        "label": "Books to read next",
+        "kind": "books",
+        "path": "obsidian-vault/Books to Read Next.md",
+        "updatedAt": "2026-05-17T00:53:31.377Z",
+        "summary": "5 confirmed · 2 need clarification",
+        "items": [
+          {
+            "id": "books-1-shadow-claw-gene-wolfe",
+            "title": "Shadow & Claw — Gene Wolfe",
+            "status": "Want to read",
+            "priority": "High",
+            "creator": "Gene Wolfe",
+            "source": "[[Daily Notes/2026-05-16]]",
+            "link": "https://torpublishinggroup.com/shadow-claw/?isbn=9781250781253&format=trade",
+            "why": "Explicitly named as a candidate for the “Next Up Books” queue.",
+            "added": "2026-05-17",
+            "notes": "Omnibus of the first two books of *The Book of the New Sun*; dense/literary speculative fiction, likely rewards close reading.",
+            "themes": []
+          },
+          {
+            "id": "books-2-the-greatest-story-ever-sold-michael-green",
+            "title": "The Greatest Story Ever Sold — Michael Green",
+            "status": "Buy when released / track availability",
+            "priority": "High",
+            "creator": "Michael Green",
+            "source": "[[Daily Notes/2026-05-15]]",
+            "link": "https://www.barnesandnoble.com/w/the-greatest-story-ever-sold-michael-green/1149067568",
+            "why": "Explicit purchase reminder; relevant to passive investing, market structure, and portfolio model assumptions.",
+            "added": "2026-05-17",
+            "notes": "Daily note said expected June 2026; verify release date and format before purchase.",
+            "themes": []
+          },
+          {
+            "id": "books-3-last-branch-standing-sarah-isgur",
+            "title": "Last Branch Standing — Sarah Isgur",
+            "status": "To consider",
+            "priority": "Medium",
+            "creator": "Sarah Isgur",
+            "source": "[[Snipd/Data/Interesting Times with Ross Douthat/Trump Is the End of a 100-Year Experiment]]",
+            "link": "https://www.kirkusreviews.com/book-reviews/sarah-isgur/last-branch-standing/",
+            "why": "Mentioned in a Snipd note; potentially relevant to law/politics/institutions.",
+            "added": "2026-05-17",
+            "notes": null,
+            "themes": []
+          },
+          {
+            "id": "books-4-the-chinese-economy-adaptation-and-growth-barry-",
+            "title": "The Chinese Economy: Adaptation and Growth — Barry Naughton",
+            "status": "To consider",
+            "priority": "Medium",
+            "creator": "Barry Naughton",
+            "source": "[[Snipd/Data/Monetary Matters with Jack Farley/The Triumphs & Crises of China’s Economy _ Professor Barry Naughton on China’s Debt, Deflation, and “Industrial Policy 3.0”]]",
+            "link": "https://www.barnesandnoble.com/w/the-chinese-economy-second-edition-barry-j-naughton/1148608454",
+            "why": "Mentioned in Snipd; useful as a serious China economy reference.",
+            "added": "2026-05-17",
+            "notes": null,
+            "themes": []
+          },
+          {
+            "id": "books-5-the-beginning-of-infinity-david-deutsch",
+            "title": "The Beginning of Infinity — David Deutsch",
+            "status": "To consider",
+            "priority": "Medium",
+            "creator": "David Deutsch",
+            "source": "[[Snipd/Data/Bankless/3 Megatrends Every Investor Needs to Know_ Demographics, Wealth Inequality, & the End of Labor (with Jeff Park)]]",
+            "link": "https://www.nytimes.com/2011/08/14/books/review/the-beginning-of-infinity-by-david-deutsch-book-review.html",
+            "why": "Mentioned in Snipd; fits Alex’s philosophy/science/progress interests.",
+            "added": "2026-05-17",
+            "notes": null,
+            "themes": []
+          }
+        ],
+        "needsClarification": [
+          {
+            "id": "books-6-the-book-charlie-recommended-read",
+            "title": "“The book Charlie recommended/read”",
+            "status": "Needs clarification",
+            "priority": "Medium",
+            "creator": null,
+            "source": "[[Daily Notes/2026-05-16]]",
+            "link": null,
+            "why": "Explicitly captured as a candidate, but title/author are unknown.",
+            "added": "2026-05-17",
+            "notes": null,
+            "themes": []
+          },
+          {
+            "id": "books-7-amy-michelle-welbeck-book",
+            "title": "“Amy Michelle Welbeck book”",
+            "status": "Needs clarification",
+            "priority": "Medium",
+            "creator": null,
+            "source": "[[Daily Notes/2026-05-16]]",
+            "link": null,
+            "why": "Explicitly captured as a candidate, but the name/title appears ambiguous.",
+            "added": "2026-05-17",
+            "notes": "Search did not find a clear “Amy Michelle Welbeck” book. Re-check with more context before promoting to confirmed queue.",
+            "themes": []
+          }
+        ]
+      },
+      {
+        "id": "articles",
+        "label": "Article queue",
+        "kind": "articles",
+        "path": "obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md",
+        "updatedAt": "2026-05-17T18:39:06.826Z",
+        "items": [
+          {
+            "id": "articles-1-machines-of-loving-grace",
+            "title": "Machines of Loving Grace",
+            "status": "saved-to-instapaper-test",
+            "priority": "4",
+            "creator": "Dario Amodei",
+            "source": "Dario Amodei",
+            "link": "https://www.darioamodei.com/essay/machines-of-loving-grace",
+            "why": "A long, thesis-driven essay about what a radically positive AI future could look like if risks are handled well.",
+            "added": "2026-05-17",
+            "notes": null,
+            "themes": [
+              "AI upside",
+              "AI risk",
+              "future of work",
+              "science",
+              "social transformation"
+            ]
+          }
+        ],
+        "needsClarification": [],
+        "summary": "1 candidates · weekly pick source"
+      },
+      {
+        "id": "shows",
+        "label": "Shows to watch",
+        "kind": "shows",
+        "path": "obsidian-vault/Shows to Watch.md",
+        "updatedAt": "2026-05-17T19:27:37.720Z",
+        "summary": "0 confirmed · 0 need clarification",
+        "items": [],
+        "needsClarification": []
+      },
+      {
+        "id": "movies",
+        "label": "Movies to watch",
+        "kind": "movies",
+        "path": "obsidian-vault/Movies to Watch.md",
+        "updatedAt": "2026-05-17T18:51:41.117Z",
+        "summary": "0 confirmed · 0 need clarification",
+        "items": [],
+        "needsClarification": []
+      }
     ]
   },
   "stats": {
@@ -39649,7 +39804,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "Obsidian proposals: 9 proposed updates",
-      "summary": "proposal-only · 14h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 15h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -39671,7 +39826,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@a36327c, 2 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 56 dirty · Alphalpha dashboard: main@51f1e28, 5 dirty · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

@@ -84,6 +84,32 @@ export type InvestmentJournal = { generatedAt: string; entries: Array<{ id: stri
 export type InvestmentResearchActions = { generatedAt: string; items: Array<{ id: string; createdAt: string; title: string; type?: string; rationale?: string; next?: string; status?: string; symbols?: string[]; basket?: string | null }> };
 export type InvestmentCrawlPlan = { generatedAt: string; policy?: { default?: string; expensive_crawl_cap?: number }; recommended_expensive_crawls?: Array<{ id: string; title: string; reason: string; action: string; symbols?: string[]; basket?: string | null }>; deterministic_only?: Array<{ id: string; title: string; reason: string; action: string; symbols?: string[]; basket?: string | null }>; ignored_noise?: Array<{ id: string; title: string; reason: string }> };
 
+
+export type QueueItem = {
+  id: string;
+  title: string;
+  status?: string | null;
+  priority?: string | null;
+  creator?: string | null;
+  source?: string | null;
+  link?: string | null;
+  why?: string | null;
+  added?: string | null;
+  notes?: string | null;
+  themes?: string[];
+};
+
+export type QueueGroup = {
+  id: string;
+  label: string;
+  kind: string;
+  path: string;
+  updatedAt?: string | null;
+  summary: string;
+  items: QueueItem[];
+  needsClarification: QueueItem[];
+};
+
 export type Digest = {
   id:       string;
   date:     string;
@@ -371,6 +397,7 @@ export type DashboardData = {
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
     systemDocs?: SystemDoc[];
+    queues?: QueueGroup[];
   };
   stats: {
     openLoops:             number;

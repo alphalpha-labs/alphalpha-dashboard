@@ -11,6 +11,7 @@ import DigestsTab from "./DigestsTab";
 import AutomationsTab from "./AutomationsTab";
 import ReviewTab from "./ReviewTab";
 import SystemTab from "./SystemTab";
+import QueuesTab from "./QueuesTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 
@@ -32,7 +33,7 @@ type SignalReceipt = {
 
 export type ThreadContext = {
   id:        string;
-  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc";
+  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc" | "queueItem";
   title:     string;
   project?:  string;
   priority?: string;
@@ -50,6 +51,7 @@ const TABS = [
   { id: "projects",  label: "Projects", href: "/projects" },
   { id: "investing", label: "Investing", href: "/investing" },
   { id: "digests",   label: "Digests", href: "/digests" },
+  { id: "queues",    label: "Queues", href: "/queues" },
   { id: "review",    label: "Review", href: "/review" },
   { id: "automations", label: "Automations", href: "/automations" },
   { id: "system", label: "System", href: "/system" },
@@ -324,6 +326,9 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />
+          )}
+          {activeTab === "queues" && (
+            <QueuesTab queues={data.meta.queues || []} onDiscuss={openThread} />
           )}
           {activeTab === "review" && (
             <ReviewTab items={reviewItems} onAction={handleReviewAction} />

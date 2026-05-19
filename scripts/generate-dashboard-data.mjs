@@ -42,6 +42,13 @@ function readWorkspaceText(rel) {
   }
   return null;
 }
+function workspacePath(rel) {
+  const candidates = [
+    path.resolve(contextRoot, '..', rel),
+    path.resolve(repoRoot, '..', rel),
+  ];
+  return candidates.find(candidate => fs.existsSync(candidate)) || candidates[0];
+}
 function wordCount(text) {
   return text.trim() ? text.trim().split(/\s+/).length : 0;
 }
@@ -258,6 +265,125 @@ function extractBullets(md, { checkedOnly = false } = {}) {
     .filter(l => checkedOnly ? /^- \[ \]\s+/.test(l.trim()) : /^-\s+/.test(l.trim()))
     .map(l => stripMarkdown(l.replace(/^- \[ \]\s+/, '- ')))
     .filter(Boolean);
+}
+function parseFrontmatter(md) {
+  const match = md.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const result = {};
+  const rows = match[1].split(/\r?\n/);
+  let current = null;
+  for (const row of rows) {
+    const keyValue = row.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (keyValue) {
+      current = keyValue[1];
+      result[current] = keyValue[2] || '';
+      continue;
+    }
+    const listItem = row.match(/^\s+-\s+(.*)$/);
+    if (listItem && current) {
+      if (!Array.isArray(result[current])) result[current] = result[current] ? [result[current]] : [];
+      result[current].push(listItem[1]);
+    }
+  }
+  return result;
+}
+function parseField(block, label) {
+  const re = new RegExp(`^-\\s*${label}:\\s*(.+)$`, 'im');
+  const match = block.match(re);
+  return match ? stripMarkdown(match[1]).replace(/^_+|_+$/g, '').trim() : null;
+}
+function parseMarkdownLink(text) {
+  const link = text?.match(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
+  if (link) return link[2];
+  const bare = text?.match(/https?:\/\/\S+/);
+  return bare ? bare[0] : null;
+}
+function queueItemFromBlock(queueId, title, block, index, section) {
+  const rawLink = parseField(block, 'Link') || parseField(block, 'Trailer/official') || parseField(block, 'Purchase') || parseField(block, 'URL');
+  return {
+    id: `${queueId}-${index + 1}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48)}`,
+    title: stripMarkdown(title),
+    status: parseField(block, 'Status') || (section?.toLowerCase().includes('clarification') ? 'Needs clarification' : 'Queued'),
+    priority: parseField(block, 'Priority'),
+    creator: title.includes('—') ? stripMarkdown(title.split('—').slice(1).join('—')) : null,
+    source: parseField(block, 'Source'),
+    link: parseMarkdownLink(rawLink || block),
+    why: parseField(block, 'Why it is here') || parseField(block, 'Why it might fit'),
+    added: parseField(block, 'Added'),
+    notes: parseField(block, 'Notes'),
+    themes: [],
+  };
+}
+function parseHeadingQueue({ id, label, kind, rel }) {
+  const file = readWorkspaceText(rel);
+  const text = file?.text || '';
+  const queue = { id, label, kind, path: rel, updatedAt: file?.mtime || null, summary: 'No queue file found yet.', items: [], needsClarification: [] };
+  if (!text) return queue;
+  let section = '';
+  const rows = lines(text);
+  const entries = [];
+  for (let i = 0; i < rows.length; i += 1) {
+    const line = rows[i].trim();
+    if (/^##\s+/.test(line)) section = stripMarkdown(line);
+    if (!/^###\s+/.test(line)) continue;
+    const title = stripMarkdown(line);
+    if (/^(Title|Movie Title|Show Title)\b/i.test(title)) continue;
+    const body = [];
+    for (let j = i + 1; j < rows.length && !/^###\s+/.test(rows[j]) && !/^##\s+/.test(rows[j]); j += 1) body.push(rows[j]);
+    entries.push({ title, block: body.join('\n'), section });
+  }
+  const parsed = entries.map((entry, idx) => queueItemFromBlock(id, entry.title, entry.block, idx, entry.section));
+  queue.needsClarification = parsed.filter(item => /needs clarification/i.test(item.status || '') || /needs clarification/i.test(item.title));
+  queue.items = parsed.filter(item => !queue.needsClarification.includes(item));
+  queue.summary = `${queue.items.length} confirmed · ${queue.needsClarification.length} need clarification`;
+  return queue;
+}
+function parseArticleCandidates() {
+  const candidatesDir = workspacePath(path.join('obsidian-vault', 'Alphalpha', 'Syntheses', 'Reading', 'Candidates'));
+  if (!fs.existsSync(candidatesDir)) return [];
+  return fs.readdirSync(candidatesDir)
+    .filter(name => name.endsWith('.md') && !name.startsWith('.'))
+    .sort()
+    .map((name, idx) => {
+      const full = path.join(candidatesDir, name);
+      const text = fs.readFileSync(full, 'utf8');
+      const fm = parseFrontmatter(text);
+      const title = stripMarkdown((text.match(/^#\s+(.+)$/m)?.[1] || name.replace(/\.md$/, '')).trim());
+      const why = extractSection(text, '## Why it might fit Alex') || firstSentence(text, 'Article candidate.');
+      return {
+        id: `articles-${idx + 1}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48)}`,
+        title,
+        status: fm.status || 'Queued',
+        priority: fm.priority ? String(fm.priority) : null,
+        creator: fm.author || fm.source || null,
+        source: fm.source || null,
+        link: fm.url || parseMarkdownLink(text),
+        why: firstSentence(why, 'Article candidate.'),
+        added: fm.added || null,
+        notes: null,
+        themes: Array.isArray(fm.themes) ? fm.themes : [],
+      };
+    });
+}
+function buildQueues() {
+  const articlesFile = readWorkspaceText(path.join('obsidian-vault', 'Alphalpha', 'Syntheses', 'Reading', 'Article Queue.md'));
+  const articles = {
+    id: 'articles',
+    label: 'Article queue',
+    kind: 'articles',
+    path: 'obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md',
+    updatedAt: articlesFile?.mtime || null,
+    items: parseArticleCandidates(),
+    needsClarification: [],
+    summary: 'Article candidates for weekly reading picks and read-later delivery.',
+  };
+  articles.summary = `${articles.items.length} candidates · weekly pick source`;
+  return [
+    parseHeadingQueue({ id: 'books', label: 'Books to read next', kind: 'books', rel: path.join('obsidian-vault', 'Books to Read Next.md') }),
+    articles,
+    parseHeadingQueue({ id: 'shows', label: 'Shows to watch', kind: 'shows', rel: path.join('obsidian-vault', 'Shows to Watch.md') }),
+    parseHeadingQueue({ id: 'movies', label: 'Movies to watch', kind: 'movies', rel: path.join('obsidian-vault', 'Movies to Watch.md') }),
+  ];
 }
 function priorityFor(text) {
   const lower = text.toLowerCase();
@@ -575,6 +701,7 @@ function buildData() {
       investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
       investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
       systemDocs: buildSystemDocs(),
+      queues: buildQueues(),
     },
     stats: {
       openLoops:        checked.length,
