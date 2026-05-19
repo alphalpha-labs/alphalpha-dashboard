@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T05:26:03.584Z",
+    "generatedAt": "2026-05-19T05:30:58.898Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "10995d2",
+      "commit": "4a14c5d",
       "branch": "main",
-      "generatedAt": "2026-05-19T05:26:03.596Z",
+      "generatedAt": "2026-05-19T05:30:58.912Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -99,15 +99,15 @@
         "path": "memory/events/latest-manifest.json",
         "details": [
           {
-            "label": "Austin Cactus & Succulent Society May Meeting",
-            "value": "family · Zilker Botanical Garden · 1.6 mi"
-          },
-          {
             "label": "Austin Area Begonia Society May Meeting",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
             "label": "Memorial Day Free Day!",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "Early Birds in the Garden",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "14h old",
+        "age": "15h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@10995d2 · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 60 dirty · Alphalpha dashboard: main@4a14c5d · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@b1852bb · 59 dirty · 0 ahead · 0 behind"
+            "value": "master@b1852bb · 60 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@10995d2 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@4a14c5d · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -355,19 +355,6 @@
     ],
     "eventCandidates": [
       {
-        "title": "Austin Cactus & Succulent Society May Meeting",
-        "source": "Zilker Botanical Garden",
-        "sourceId": "zilker-botanical",
-        "date": "2026-05-21T19:00:00-05:00",
-        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
-        "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/austin-cactus-succulent-society-may-meeting/",
-        "summary": "Cactus and Xerophytes In Situ: A kayak level view of desert plants This month’s presentation will take you on a boat ride down various rivers of Texas that pass through or border the Chihuahuan Desert. […]",
-        "score": 6.7,
-        "id": "family-1",
-        "kind": "family"
-      },
-      {
         "title": "Austin Area Begonia Society May Meeting",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
@@ -377,7 +364,7 @@
         "link": "https://zilkergarden.org/event/austin-area-begonia-society-may-meeting/",
         "summary": "Nest Tropicals is one of the most diverse Hoya nurseries in Texas with over 800 species and cultivars in production. Run by horticulturalist, Rhiannon Spaw, the Hoya greenhouse is a manifestation of her career-long dream",
         "score": 6.7,
-        "id": "family-2",
+        "id": "family-1",
         "kind": "family"
       },
       {
@@ -389,6 +376,19 @@
         "distanceMiles": 1.6,
         "link": "https://zilkergarden.org/event/memorial-day-free-day/",
         "summary": "On select dates throughout the year, the Zilker Botanical Garden offers free days where no admission is charged! Experience all 28 acres of botanical gardens and trails that are full of seasonal plants, flowers, trees, [",
+        "score": 6.7,
+        "id": "family-2",
+        "kind": "family"
+      },
+      {
+        "title": "Early Birds in the Garden",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-05-26T07:30:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/early-birds-in-the-garden-11/",
+        "summary": "Join Travis Audubon and Zilker Botanical Garden Conservancy experts on a morning hike throughout the Garden observing the birds and the plants they interact with. Bring your water, walking shoes, binoculars, and cameras ",
         "score": 6.7,
         "id": "family-3",
         "kind": "family"
@@ -39961,7 +39961,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 14h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 15h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -40005,7 +40005,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@10995d2 · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 60 dirty · Alphalpha dashboard: main@4a14c5d · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
