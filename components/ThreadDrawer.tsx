@@ -154,7 +154,14 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
   const isOpen = !!thread;
 
   return (
-    <aside className={`threadDrawer${isOpen ? " threadDrawer--open" : ""}`} aria-hidden={!isOpen}>
+    <>
+    <button
+      className={`threadScrim${isOpen ? " threadScrim--open" : ""}`}
+      aria-label="Close discussion"
+      tabIndex={isOpen ? 0 : -1}
+      onClick={onClose}
+    />
+    <aside className={`threadDrawer${isOpen ? " threadDrawer--open" : ""}`} aria-hidden={!isOpen} role="dialog" aria-modal={isOpen}>
       {thread && (
         <>
           <div className="threadHeader">
@@ -215,5 +222,6 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
         </>
       )}
     </aside>
+    </>
   );
 }

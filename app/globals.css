@@ -373,6 +373,12 @@ input { font-family: inherit; }
 .digestTag { font-family: 'DM Sans', sans-serif; font-size: 10px; color: #8a7f6a; background: #f0ebe0; border-radius: 4px; padding: 2px 6px; }
 
 /* 19. Thread drawer */
+.threadScrim {
+  position: fixed; inset: 0; z-index: 190;
+  border: 0; background: transparent; opacity: 0;
+  pointer-events: none; transition: opacity 0.28s ease;
+}
+.threadScrim--open { pointer-events: none; }
 .threadDrawer {
   position: fixed; right: 0; top: 0; bottom: 0; width: 360px;
   background: var(--card); border-left: 1px solid var(--border);
@@ -396,7 +402,7 @@ input { font-family: inherit; }
 .threadProject { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
 .threadClose { color: var(--ink-muted); font-size: 20px; line-height: 1; flex-shrink: 0; padding: 0 2px; cursor: pointer; }
 .threadClose:hover { color: var(--ink); }
-.threadMessages { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.threadMessages { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
 .threadMsgRow { display: flex; gap: 8px; align-items: flex-start; }
 .threadMsgRow--user { flex-direction: row-reverse; }
 .threadAvatarSm {
@@ -405,7 +411,7 @@ input { font-family: inherit; }
   font-family: 'Playfair Display', Georgia, serif; font-size: 11px;
   color: var(--dark-fill-text); flex-shrink: 0; margin-top: 2px;
 }
-.threadBubble { padding: 9px 12px; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; max-width: 260px; }
+.threadBubble { padding: 9px 12px; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; max-width: min(260px, calc(100vw - 96px)); overflow-wrap: anywhere; }
 .threadMsgRow--assistant .threadBubble { background: var(--bg-side); color: var(--ink-2); border-radius: 11px 11px 11px 3px; }
 .threadMsgRow--user .threadBubble { background: var(--dark-fill); color: var(--dark-fill-text); border-radius: 11px 11px 3px 11px; }
 .threadLoading { letter-spacing: 0.2em; opacity: 0.6; }
@@ -471,12 +477,24 @@ input { font-family: inherit; }
   .focusTitle { font-size: 22px; }
   .contextColumn { width: 100%; border-left: none; border-top: 1px solid var(--border); }
   .statusBar { display: none; }
+  .threadScrim--open {
+    pointer-events: auto;
+    background: rgba(28, 24, 20, 0.22);
+    opacity: 1;
+  }
   .threadDrawer {
-    top: auto; width: auto; height: 65vh; border-radius: 14px 14px 0 0;
-    box-shadow: var(--shadow-drawer); border-left: none;
+    inset: 0; width: 100vw; max-width: none; height: 100dvh;
+    border-radius: 0; box-shadow: var(--shadow-drawer); border-left: none;
     transform: translateY(100%);
   }
   .threadDrawer--open { transform: translateY(0); }
+  .threadHeader { padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px; }
+  .threadMessages { padding: 14px 12px 16px; gap: 10px; }
+  .threadBubble { max-width: calc(100vw - 72px); font-size: 14px; }
+  .threadFooter { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .threadInputRow { padding: 8px 12px 12px; align-items: flex-end; }
+  .threadInput { min-height: 42px; font-size: 16px; }
+  .threadSend { min-width: 44px; min-height: 42px; }
   .tabPage, .investingPage, .tabPageWide { padding: 20px 16px 48px; }
   .snoozedStrip { padding: 8px 20px; }
   .loopActions { opacity: 1; pointer-events: auto; }
