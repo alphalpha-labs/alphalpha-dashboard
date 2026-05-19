@@ -1,25 +1,25 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T16:26:16.516Z",
+    "generatedAt": "2026-05-19T16:28:56.655Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "dd582ba",
+      "commit": "4524661",
       "branch": "main",
-      "generatedAt": "2026-05-19T16:26:16.529Z",
+      "generatedAt": "2026-05-19T16:28:56.668Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-05-19T16:25:42.458Z",
+      "generatedAt": "2026-05-19T16:28:56.281Z",
       "sourcePath": "../memory/context/index.json",
       "files": 43,
-      "words": 43878,
-      "estimatedTokens": 57061,
+      "words": 43906,
+      "estimatedTokens": 57098,
       "activeFiles": 39,
-      "activeWords": 34473,
-      "activeEstimatedTokens": 44832,
+      "activeWords": 34501,
+      "activeEstimatedTokens": 44869,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -37,8 +37,8 @@
         },
         {
           "path": "context/alphalpha-dashboard.md",
-          "words": 2179,
-          "estimatedTokens": 2833,
+          "words": 2207,
+          "estimatedTokens": 2870,
           "readPolicy": "large: read targeted sections or use this manifest first"
         },
         {
@@ -61,7 +61,7 @@
         "label": "Context index",
         "status": "OK",
         "age": "0h old",
-        "summary": "39 active files / 34473 words",
+        "summary": "39 active files / 34501 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "details": [
@@ -75,7 +75,7 @@
           },
           {
             "label": "context/alphalpha-dashboard.md",
-            "value": "2179 words · large: read targeted sections or use this manifest first"
+            "value": "2207 words · large: read targeted sections or use this manifest first"
           },
           {
             "label": "context/agentic-os-survey.md",
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 70 dirty · Alphalpha dashboard: main@dd582ba · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 70 dirty · Alphalpha dashboard: main@4524661 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@dd582ba · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@4524661 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -38539,7 +38539,7 @@
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 39,
-    "contextActiveWords": 34473,
+    "contextActiveWords": 34501,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -41358,7 +41358,7 @@
       "date": "2026-05-19",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "39 active context files / 34473 active words; 9405 words archived.",
+      "summary": "39 active context files / 34501 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -41424,7 +41424,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 70 dirty · Alphalpha dashboard: main@dd582ba · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 70 dirty · Alphalpha dashboard: main@4524661 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
