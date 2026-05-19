@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T05:00:23.014Z",
+    "generatedAt": "2026-05-19T05:02:56.528Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "f0837ca",
+      "commit": "fa5491f",
       "branch": "main",
-      "generatedAt": "2026-05-19T05:00:23.026Z",
+      "generatedAt": "2026-05-19T05:02:56.544Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "17h old",
+        "age": "18h old",
         "summary": "9 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -255,7 +255,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@f0837ca · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@fa5491f · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -264,7 +264,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@f0837ca · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@fa5491f · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -40053,7 +40053,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "Obsidian proposals: 9 proposed updates",
-      "summary": "proposal-only · 17h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 18h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -40075,7 +40075,7 @@
       "date": "2026-05-19",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@f0837ca · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b1852bb, 59 dirty · Alphalpha dashboard: main@fa5491f · Obsidian vault: main@96f76db · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
