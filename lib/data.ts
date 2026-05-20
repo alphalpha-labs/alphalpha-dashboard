@@ -285,6 +285,8 @@ export type InvestingTaxonomyDecisionWorkflow = {
     affectedAllocationPct?: number | null;
     consequences?: string[];
     blockingLevel?: "foundational" | "high" | "medium" | "low" | string;
+    stage?: string;
+    decisionType?: string;
   }>;
 };
 

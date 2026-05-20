@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-20T12:10:46.711Z",
+    "generatedAt": "2026-05-20T12:29:52.095Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "72f10c7",
+      "commit": "de92008",
       "branch": "main",
-      "generatedAt": "2026-05-20T12:10:46.729Z",
+      "generatedAt": "2026-05-20T12:29:52.112Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 2
     },
     "contextHealth": {
       "generatedAt": "2026-05-19T22:37:19.535Z",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 3 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@4df1e20, 27 dirty · Alphalpha dashboard: main@72f10c7, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@a134ddb, 11 dirty · Alphalpha dashboard: main@de92008, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@4df1e20 · 27 dirty · 0 ahead · 0 behind"
+            "value": "master@a134ddb · 11 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@72f10c7 · 4 dirty · 2 ahead · 0 behind"
+            "value": "main@de92008 · 2 dirty · 3 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -26171,7 +26171,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
     },
     "investingDecisionPipeline": {
-      "generatedAt": "2026-05-20T12:07:53.301Z",
+      "generatedAt": "2026-05-20T12:29:51.392Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Unified investing decision pipeline: Evidence → thesis/role map → policy ranges → ranked actions → receipt → learning loop.",
       "antiConvolutionRule": "Show fewer, higher-quality decision cards. Archive evidence and debug scaffolding instead of creating new visible queues.",
@@ -26223,6 +26223,24 @@
               "label": "Cleanup / trim-justify",
               "meaning": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them.",
               "consequence": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26282,14 +26300,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26332,14 +26356,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26393,14 +26423,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26454,14 +26490,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26515,14 +26557,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -26567,14 +26615,20 @@
             {
               "id": "not-now",
               "label": "Not now",
-              "meaning": "Defer without rejecting the thesis/action.",
-              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
             },
             {
               "id": "archive-evidence",
-              "label": "Archive as evidence",
-              "meaning": "Keep the information but stop treating it as a decision.",
-              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
           "affectedItems": [],
@@ -43305,7 +43359,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@4df1e20, 27 dirty · Alphalpha dashboard: main@72f10c7, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@a134ddb, 11 dirty · Alphalpha dashboard: main@de92008, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

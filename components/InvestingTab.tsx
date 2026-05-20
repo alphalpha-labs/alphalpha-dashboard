@@ -513,12 +513,18 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
     setSavingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saving “${label}”…` } }));
     try {
+      const card = decisionCards.find(card => card.id === pointId);
       await onAction?.(pointId, "stage-manual-investing-decision", {
         decisionPointId: pointId,
         choiceId,
         workflowVersion: manualDecisionWorkflow?.schemaVersion,
         durableTarget: "memory/investing/investment-manual-decisions.json",
         requestedAction: "stage-manual-investing-decision-and-refresh-dashboard",
+        lifecycleStatus: choiceId === "not-now" || choiceId === "revisit-later" ? "deferred" : choiceId === "archive-evidence" ? "archived" : "staged",
+        revisitAt: choiceId === "revisit-later" ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString() : undefined,
+        stage: card?.stage,
+        decisionType: card?.decisionType,
+        rationale: card ? `${card.title}: ${card.recommendation}` : undefined,
       });
       setLocalSavedChoices(prev => ({ ...prev, [pointId]: choiceId }));
       setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saved “${label}”. Receipt recorded and dashboard refresh queued.` } }));
