@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-20T16:41:19.233Z",
+    "generatedAt": "2026-05-20T16:42:46.825Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "42b931b",
+      "commit": "d9bde32",
       "branch": "main",
-      "generatedAt": "2026-05-20T16:41:19.246Z",
+      "generatedAt": "2026-05-20T16:42:46.838Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@ad9332c, 37 dirty · Alphalpha dashboard: main@42b931b · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@ad9332c, 48 dirty · Alphalpha dashboard: main@d9bde32 · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@ad9332c · 37 dirty · 0 ahead · 0 behind"
+            "value": "master@ad9332c · 48 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@42b931b · 0 dirty · 7 ahead · 0 behind"
+            "value": "main@d9bde32 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -25637,7 +25637,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/manual-decision-workflow/latest.json"
     },
     "investingHoldingRoleDecisionWorkflow": {
-      "generatedAt": "2026-05-19T22:51:15.118Z",
+      "generatedAt": "2026-05-20T16:42:42.770Z",
       "schemaVersion": "2026-05-19.1",
       "purpose": "Resolve remaining unmapped and needs-role holdings into explicit thesis/sleeve/watchlist/sandbox/trim/noise roles before ranked action scoring.",
       "decisionPrinciples": [
@@ -25652,8 +25652,8 @@
       },
       "summary": {
         "totalDecisionPoints": 8,
-        "savedDecisionCount": 7,
-        "openDecisionCount": 1,
+        "savedDecisionCount": 8,
+        "openDecisionCount": 0,
         "strictMappedPct": 96.7381,
         "unmappedPct": 3.2619
       },
@@ -26121,14 +26121,14 @@
           "clusterId": "holding-role-resolution",
           "title": "Resolve the remaining unmapped holdings",
           "question": "20 holdings are still unmapped after the main taxonomy cleanup. How strict should the system be before it treats the portfolio map as actionable?",
-          "recommendation": "Choose “Map material only” unless you want a slower full cleanup. That maps meaningful names individually and lets tiny leftovers sit outside action scoring as explicit noise.",
-          "why": "The thesis universe is already 96.74% strictly mapped. The remaining 3.26% should not block the whole action queue, but material leftovers still need a role so they do not distort add/trim math.",
+          "recommendation": "Choose “Map material only” as “map every obvious role-expressing holding; exclude only true dust/no-role positions.” Size alone is not the test.",
+          "why": "The thesis universe is mostly mapped, but the residual list includes recognizable sleeve exposures. GLDM/SIVR-type holdings should be mapped because excluding them would misstate the portfolio bet; only holdings with no thesis, hedge, watchlist, or portfolio role should sit outside action scoring.",
           "recommendedChoice": "map-large-ignore-small",
           "options": [
             {
               "id": "map-large-ignore-small",
               "label": "Map material only",
-              "meaning": "Map larger or intentional leftovers one by one; explicitly exclude tiny incidental positions from action scoring."
+              "meaning": "Map all obvious thesis/sleeve/hedge/watchlist holdings, even when small; explicitly exclude only true dust with no role."
             },
             {
               "id": "map-all",
@@ -26160,9 +26160,9 @@
           ],
           "affectedAllocationPct": 3.26,
           "consequences": [
-            "Moves residual unmapped exposure out of the critical path.",
-            "Still preserves review for material positions.",
-            "Improves ranked action queue confidence."
+            "Maps role-expressing holdings before ranked action scoring treats the portfolio as clean.",
+            "Keeps GLDM/SIVR-style sleeve exposures inside their existing thesis/sleeve instead of noise.",
+            "Allows only true dust/no-role positions to stay outside the action engine."
           ],
           "blockingLevel": "medium"
         }
@@ -26170,22 +26170,21 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
     },
     "investingDecisionPipeline": {
-      "generatedAt": "2026-05-20T13:11:18.803Z",
+      "generatedAt": "2026-05-20T16:42:42.846Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Unified investing decision pipeline: Evidence → thesis/role map → policy ranges → ranked actions → receipt → learning loop.",
       "antiConvolutionRule": "Show fewer, higher-quality decision cards. Archive evidence and debug scaffolding instead of creating new visible queues.",
       "maxActiveCards": 7,
       "summary": {
         "activeDecisionCount": 7,
-        "candidateCount": 11,
-        "hiddenByLimitCount": 4,
-        "completedReceiptCount": 13,
+        "candidateCount": 10,
+        "hiddenByLimitCount": 3,
+        "completedReceiptCount": 14,
         "stages": {
-          "map": 1,
-          "act": 6
+          "act": 7
         },
-        "operationalGuardrailCount": 1,
-        "provisionalActionCount": 6
+        "operationalGuardrailCount": 0,
+        "provisionalActionCount": 0
       },
       "sourceArtifacts": {
         "manualPolicy": "memory/investing/manual-decision-workflow/latest.json",
@@ -26195,107 +26194,22 @@
       },
       "decisionPoints": [
         {
-          "id": "role-unmapped-small-positions",
-          "stage": "map",
-          "decisionType": "classify-role",
-          "clusterId": "holding-role-resolution",
-          "title": "Resolve the remaining unmapped holdings",
-          "question": "20 holdings are still unmapped after the main taxonomy cleanup. How strict should the system be before it treats the portfolio map as actionable?",
-          "recommendation": "Choose “Map material only” unless you want a slower full cleanup. That maps meaningful names individually and lets tiny leftovers sit outside action scoring as explicit noise.",
-          "why": "The thesis universe is already 96.74% strictly mapped. The remaining 3.26% should not block the whole action queue, but material leftovers still need a role so they do not distort add/trim math.",
-          "whyNow": "Unmapped or ambiguous holdings should not leak into allocation/action scoring.",
-          "whyThisMatters": "The thesis universe is already 96.74% strictly mapped. The remaining 3.26% should not block the whole action queue, but material leftovers still need a role so they do not distort add/trim math.",
-          "recommendedChoice": "map-large-ignore-small",
-          "options": [
-            {
-              "id": "map-large-ignore-small",
-              "label": "Map material only",
-              "meaning": "Map larger or intentional leftovers one by one; explicitly exclude tiny incidental positions from action scoring.",
-              "consequence": "Map larger or intentional leftovers one by one; explicitly exclude tiny incidental positions from action scoring."
-            },
-            {
-              "id": "map-all",
-              "label": "Map every straggler",
-              "meaning": "Force every unmapped holding, even tiny/noisy ones, into a thesis/sleeve/watchlist/sandbox/trim role before final action authority.",
-              "consequence": "Force every unmapped holding, even tiny/noisy ones, into a thesis/sleeve/watchlist/sandbox/trim role before final action authority."
-            },
-            {
-              "id": "trim-justify-unmapped",
-              "label": "Cleanup / trim-justify",
-              "meaning": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them.",
-              "consequence": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them."
-            },
-            {
-              "id": "not-now",
-              "label": "Not now",
-              "meaning": "Defer without making the underlying decision today.",
-              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
-            },
-            {
-              "id": "archive-evidence",
-              "label": "Archive evidence",
-              "meaning": "Keep the information but stop treating it as an active decision.",
-              "consequence": "Removes this from the active queue unless new evidence materially changes."
-            },
-            {
-              "id": "revisit-later",
-              "label": "Revisit later",
-              "meaning": "Set this aside for a future review cycle.",
-              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
-            }
-          ],
-          "affectedItems": [],
-          "affectedAssets": [
-            "GLDM",
-            "IXC",
-            "COMB",
-            "XLB",
-            "FCG",
-            "VYM",
-            "BRK.B",
-            "AMZN",
-            "SIVR",
-            "GOOGL",
-            "URA",
-            "SCHD",
-            "COPX",
-            "XOP",
-            "INFL"
-          ],
-          "affectedAllocationPct": 3.26,
-          "consequences": [
-            "Moves residual unmapped exposure out of the critical path.",
-            "Still preserves review for material positions.",
-            "Improves ranked action queue confidence."
-          ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 65.26,
-          "allowedActionLevel": "stage",
-          "receiptTarget": "memory/investing/investment-manual-decisions.json",
-          "sourceArtifacts": [
-            "memory/investing/holding-role-decision-workflow/latest.json"
-          ],
-          "originalKind": "holding-role",
-          "rank": 1
-        },
-        {
           "id": "action-accumulate-power-electricity-ai-grid",
           "stage": "act",
           "decisionType": "review-action",
           "clusterId": "ranked-action",
           "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
           "question": "What should we do with this ranked action: Review accumulation path · Power / electricity scarcity + AI grid bottleneck?",
-          "recommendation": "Provisional review only — High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
-          "why": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #1 with score 72.8, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "why": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation.",
+          "whyNow": "Ranked #1 with score 72.8.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26320,29 +26234,22 @@
           "affectedItems": [],
           "affectedAssets": [],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 57.8,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 72.8,
+          "allowedActionLevel": "trade-confirmation-required",
           "originalAllowedActionLevel": "trade-confirmation-required",
-          "operationalGuardrails": [
-            {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
-            }
-          ],
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
           ],
           "originalKind": "ranked-action",
-          "rank": 2
+          "rank": 1
         },
         {
           "id": "action-trim-justify-precious-metals-debasement-hedge",
@@ -26351,16 +26258,16 @@
           "clusterId": "ranked-action",
           "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
           "question": "What should we do with this ranked action: Trim-or-justify review · Precious metals / currency debasement hedge?",
-          "recommendation": "Provisional review only — Large lower-conviction allocation: defend the policy range or queue gradual trim.",
-          "why": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #2 with score 72.5, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "why": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling.",
+          "whyNow": "Ranked #2 with score 72.5.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26396,29 +26303,22 @@
             "FNV"
           ],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 57.5,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 72.5,
+          "allowedActionLevel": "trade-confirmation-required",
           "originalAllowedActionLevel": "trade-confirmation-required",
-          "operationalGuardrails": [
-            {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
-            }
-          ],
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
           ],
           "originalKind": "ranked-action",
-          "rank": 3
+          "rank": 2
         },
         {
           "id": "action-range-gate-energy-supply-infrastructure",
@@ -26427,16 +26327,16 @@
           "clusterId": "ranked-action",
           "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
           "question": "What should we do with this ranked action: Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths?",
-          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
-          "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #3 with score 69, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "whyNow": "Ranked #3 with score 69.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26472,29 +26372,22 @@
             "KMI"
           ],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 54,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
           "originalAllowedActionLevel": "stage",
-          "operationalGuardrails": [
-            {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
-            }
-          ],
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
           ],
           "originalKind": "ranked-action",
-          "rank": 4
+          "rank": 3
         },
         {
           "id": "action-range-gate-critical-materials-resource-security",
@@ -26503,16 +26396,16 @@
           "clusterId": "ranked-action",
           "title": "Resolve range before adds/trims · Critical materials / resource security",
           "question": "What should we do with this ranked action: Resolve range before adds/trims · Critical materials / resource security?",
-          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
-          "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #4 with score 69, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "whyNow": "Ranked #4 with score 69.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26548,29 +26441,22 @@
             "CORN"
           ],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 54,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
           "originalAllowedActionLevel": "stage",
-          "operationalGuardrails": [
-            {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
-            }
-          ],
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
           ],
           "originalKind": "ranked-action",
-          "rank": 5
+          "rank": 4
         },
         {
           "id": "action-valuation-review-DHR",
@@ -26579,16 +26465,16 @@
           "clusterId": "ranked-action",
           "title": "Valuation review · DHR",
           "question": "What should we do with this ranked action: Valuation review · DHR?",
-          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
-          "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality.. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #5 with score 67, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
+          "whyNow": "Ranked #5 with score 67.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26615,29 +26501,22 @@
             "DHR"
           ],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 52,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
           "originalAllowedActionLevel": "stage",
-          "operationalGuardrails": [
-            {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
-            }
-          ],
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
           ],
           "originalKind": "ranked-action",
-          "rank": 6
+          "rank": 5
         },
         {
           "id": "action-valuation-review-BSX",
@@ -26646,16 +26525,16 @@
           "clusterId": "ranked-action",
           "title": "Valuation review · BSX",
           "question": "What should we do with this ranked action: Valuation review · BSX?",
-          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
-          "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified.. Guardrail: 1 open portfolio role/map decision.",
-          "whyNow": "Ranked #6 with score 67, but foundational guardrails are still open.",
-          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
-          "recommendedChoice": "resolve-blockers",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
+          "whyNow": "Ranked #6 with score 67.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
           "options": [
             {
-              "id": "resolve-blockers",
-              "label": "Resolve blockers",
-              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26682,23 +26561,76 @@
             "BSX"
           ],
           "consequences": [
-            "Keeps this as provisional review until guardrails clear.",
+            "Does not execute or automate trades.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [
-            "open-map-role-decision"
-          ],
-          "blockingLevel": "high",
-          "priorityScore": 52,
-          "allowedActionLevel": "provisional-review",
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
           "originalAllowedActionLevel": "stage",
-          "operationalGuardrails": [
+          "operationalGuardrails": [],
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 6
+        },
+        {
+          "id": "action-valuation-review-CEG",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Valuation review · CEG",
+          "question": "What should we do with this ranked action: Valuation review · CEG?",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "why": "CEG is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "whyNow": "Ranked #7 with score 67.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
             {
-              "id": "open-map-role-decision",
-              "label": "1 open portfolio role/map decision"
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without making the underlying decision today.",
+              "consequence": "Records a not-now receipt so this does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive evidence",
+              "meaning": "Keep the information but stop treating it as an active decision.",
+              "consequence": "Removes this from the active queue unless new evidence materially changes."
+            },
+            {
+              "id": "revisit-later",
+              "label": "Revisit later",
+              "meaning": "Set this aside for a future review cycle.",
+              "consequence": "Records a revisit receipt for the weekly/monthly review loop."
             }
           ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "CEG"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "originalAllowedActionLevel": "stage",
+          "operationalGuardrails": [],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26710,34 +26642,43 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/decision-pipeline/latest.json"
     },
     "investingWeeklyDecisionReview": {
-      "generatedAt": "2026-05-20T13:11:18.838Z",
+      "generatedAt": "2026-05-20T16:42:42.882Z",
       "schemaVersion": "2026-05-20.1",
       "period": {
-        "since": "2026-05-13T13:11:18.838Z",
-        "until": "2026-05-20T13:11:18.838Z"
+        "since": "2026-05-13T16:42:42.882Z",
+        "until": "2026-05-20T16:42:42.882Z"
       },
       "purpose": "Weekly learning artifact for the unified investing decision pipeline: receipts, unresolved cards, source health, and calibration prompts.",
       "summary": {
         "activeDecisionCount": 7,
-        "hiddenByLimitCount": 4,
-        "receiptCountTotal": 13,
-        "receiptCount7d": 13,
+        "hiddenByLimitCount": 3,
+        "receiptCountTotal": 14,
+        "receiptCount7d": 14,
         "receiptsByStatus": {
-          "staged": 13
+          "staged": 14
         },
         "receiptsByStage": {
-          "map": 7,
+          "map": 8,
           "policy": 6
         },
         "activeByStage": {
-          "map": 1,
-          "act": 6
+          "act": 7
         },
         "sourceHealthStatus": "watch",
         "actionableSourceFailures14d": 65,
         "rankedActionsBlockedByManualGates": 0
       },
       "recentReceipts": [
+        {
+          "decisionPointId": "role-unmapped-small-positions",
+          "choiceId": "map-large-ignore-small",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": "classify-role",
+          "updatedAt": "2026-05-20T16:38:00.000Z",
+          "revisitAt": null,
+          "rationale": "Alex confirmed “Map material only” means map every obvious role-expressing holding into an existing thesis/sleeve even if small; exclude only true dust/no-role positions from action scoring. GLDM/SIVR-style precious-metals holdings are not noise."
+        },
         {
           "decisionPointId": "role-optical-networking-ai-bandwidth",
           "choiceId": "sub-thesis",
@@ -26871,93 +26812,81 @@
       ],
       "activeDecisions": [
         {
-          "id": "role-unmapped-small-positions",
+          "id": "action-accumulate-power-electricity-ai-grid",
           "rank": 1,
-          "stage": "map",
-          "title": "Resolve the remaining unmapped holdings",
-          "recommendation": "Choose “Map material only” unless you want a slower full cleanup. That maps meaningful names individually and lets tiny leftovers sit outside action scoring as explicit noise.",
-          "recommendedChoice": "map-large-ignore-small",
-          "priorityScore": 65.26,
+          "stage": "act",
+          "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
+          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 72.8,
+          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": []
+        },
+        {
+          "id": "action-trim-justify-precious-metals-debasement-hedge",
+          "rank": 2,
+          "stage": "act",
+          "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
+          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 72.5,
+          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": []
+        },
+        {
+          "id": "action-range-gate-energy-supply-infrastructure",
+          "rank": 3,
+          "stage": "act",
+          "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 69,
           "allowedActionLevel": "stage",
           "blockers": []
         },
         {
-          "id": "action-accumulate-power-electricity-ai-grid",
-          "rank": 2,
-          "stage": "act",
-          "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
-          "recommendation": "Provisional review only — High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 57.8,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
-        },
-        {
-          "id": "action-trim-justify-precious-metals-debasement-hedge",
-          "rank": 3,
-          "stage": "act",
-          "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
-          "recommendation": "Provisional review only — Large lower-conviction allocation: defend the policy range or queue gradual trim.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 57.5,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
-        },
-        {
-          "id": "action-range-gate-energy-supply-infrastructure",
+          "id": "action-range-gate-critical-materials-resource-security",
           "rank": 4,
           "stage": "act",
-          "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
-          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 54,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
-        },
-        {
-          "id": "action-range-gate-critical-materials-resource-security",
-          "rank": 5,
-          "stage": "act",
           "title": "Resolve range before adds/trims · Critical materials / resource security",
-          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 54,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
+          "blockers": []
         },
         {
           "id": "action-valuation-review-DHR",
-          "rank": 6,
+          "rank": 5,
           "stage": "act",
           "title": "Valuation review · DHR",
-          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 52,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "blockers": []
         },
         {
           "id": "action-valuation-review-BSX",
-          "rank": 7,
+          "rank": 6,
           "stage": "act",
           "title": "Valuation review · BSX",
-          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "resolve-blockers",
-          "priorityScore": 52,
-          "allowedActionLevel": "provisional-review",
-          "blockers": [
-            "open-map-role-decision"
-          ]
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        },
+        {
+          "id": "action-valuation-review-CEG",
+          "rank": 7,
+          "stage": "act",
+          "title": "Valuation review · CEG",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "blockers": []
         }
       ],
       "sourceReliability": {
@@ -27008,88 +26937,57 @@
         ]
       },
       "learningSignals": [
-        "4 candidate decisions are hidden by priority limit; weekly review should check whether they are truly lower-value.",
-        "65 actionable investing input failures in 14d; keep source-health penalty active.",
-        "Mapping cleanup remains before full action authority; do not over-trust ranked add/trim cards yet."
+        "3 candidate decisions are hidden by priority limit; weekly review should check whether they are truly lower-value.",
+        "65 actionable investing input failures in 14d; keep source-health penalty active."
       ],
       "recommendations": [
         "Keep the cockpit capped at 7 active cards.",
-        "Resolve mapping cleanup before treating action cards as authoritative.",
+        "Mapping layer is not currently blocking the visible cockpit.",
         "Use Not now / Archive evidence / Revisit later aggressively to keep the queue clean.",
         "Do not add new investing UI surfaces until receipt outcomes and weekly calibration are working."
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/weekly-decision-review/latest.json"
     },
     "investingLayerIntegrity": {
-      "generatedAt": "2026-05-20T13:11:18.877Z",
+      "generatedAt": "2026-05-20T16:42:42.916Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Validate that portfolio map, decision policy, and action queue layers line up before treating ranked investment decisions as authoritative.",
-      "status": "provisional",
+      "status": "watch",
       "summary": {
-        "issueCount": 6,
-        "blockingIssueCount": 2,
-        "openHoldingRoleDecisions": 1,
+        "issueCount": 5,
+        "blockingIssueCount": 0,
+        "openHoldingRoleDecisions": 0,
         "openPolicyDecisions": 0,
         "activeDecisionCards": 7,
-        "activeActionCards": 6,
-        "tradeConfirmationRequiredCards": 0,
+        "activeActionCards": 7,
+        "tradeConfirmationRequiredCards": 2,
         "strictMappedPct": 96.7381,
         "unmappedPct": 3.2619,
         "actionableSourceFailures14d": 65
       },
       "layers": {
         "portfolioMap": {
-          "status": "watch",
-          "openDecisionIds": [
-            "role-unmapped-small-positions"
-          ]
+          "status": "pass",
+          "openDecisionIds": []
         },
         "decisionPolicy": {
           "status": "pass",
           "openDecisionIds": []
         },
         "actionQueue": {
-          "status": "provisional",
+          "status": "pass",
           "activeActionIds": [
             "action-accumulate-power-electricity-ai-grid",
             "action-trim-justify-precious-metals-debasement-hedge",
             "action-range-gate-energy-supply-infrastructure",
             "action-range-gate-critical-materials-resource-security",
             "action-valuation-review-DHR",
-            "action-valuation-review-BSX"
+            "action-valuation-review-BSX",
+            "action-valuation-review-CEG"
           ]
         }
       },
       "issues": [
-        {
-          "id": "portfolio-map-open-role-decisions",
-          "layer": "portfolio-map",
-          "severity": "warn",
-          "title": "1 portfolio role decision still open",
-          "detail": "A material mapping cleanup decision remains unresolved, so action scoring should stay provisional rather than authoritative.",
-          "recommendation": "Resolve, defer, or archive the remaining role card before treating ranked add/trim cards as final action authority.",
-          "affected": [
-            "role-unmapped-small-positions"
-          ],
-          "blocksActionAuthority": true
-        },
-        {
-          "id": "actions-visible-while-map-open",
-          "layer": "action-queue",
-          "severity": "warn",
-          "title": "6 action cards are visible while mapping cleanup remains",
-          "detail": "This is acceptable for review, but it should be labeled provisional. Do not let it become trade-like authority.",
-          "recommendation": "Keep action cards at review/confirmation-required level until the map layer is clean.",
-          "affected": [
-            "action-accumulate-power-electricity-ai-grid",
-            "action-trim-justify-precious-metals-debasement-hedge",
-            "action-range-gate-energy-supply-infrastructure",
-            "action-range-gate-critical-materials-resource-security",
-            "action-valuation-review-DHR",
-            "action-valuation-review-BSX"
-          ],
-          "blocksActionAuthority": true
-        },
         {
           "id": "source-health-penalty-required",
           "layer": "evidence-quality",
@@ -27108,7 +27006,7 @@
           "severity": "watch",
           "title": "3.26% strict unmapped exposure remains",
           "detail": "This is below the original cleanup threshold but still enough to distort fine-grained action ranking if ignored.",
-          "recommendation": "Use Map material only unless Alex explicitly wants a full straggler cleanup pass.",
+          "recommendation": "Interpret Map material only as: map every obvious role-expressing holding, even if small; exclude only true dust/no-role positions.",
           "affected": [
             "role-unmapped-small-positions"
           ],
@@ -27125,6 +27023,19 @@
           "blocksActionAuthority": false
         },
         {
+          "id": "trade-confirmation-boundary-active",
+          "layer": "action-queue",
+          "severity": "pass",
+          "title": "2 cards correctly require explicit trade confirmation",
+          "detail": "The execution boundary is being preserved: these cards can prompt review but cannot execute trades.",
+          "recommendation": "Keep this boundary hard. If a card sounds like an instruction to trade, rewrite it as review/stage language.",
+          "affected": [
+            "action-accumulate-power-electricity-ai-grid",
+            "action-trim-justify-precious-metals-debasement-hedge"
+          ],
+          "blocksActionAuthority": false
+        },
+        {
           "id": "cockpit-card-count-contained",
           "layer": "dashboard-cockpit",
           "severity": "pass",
@@ -27135,7 +27046,7 @@
           "blocksActionAuthority": false
         }
       ],
-      "antiConvolutionRecommendation": "Keep action cards provisional and resolve/archive the blocking map/policy cards before adding new investing features.",
+      "antiConvolutionRecommendation": "Layer integrity is acceptable; continue compressing rather than adding new surfaces.",
       "path": "/home/node/.openclaw/workspace/memory/investing/layer-integrity/latest.json"
     },
     "investingManualDecisions": {
@@ -27146,13 +27057,39 @@
         {
           "decisionPointId": "role-unmapped-small-positions",
           "choiceId": "map-large-ignore-small",
-          "rationale": "Resolve remaining unmapped holdings by mapping material positions individually while letting tiny leftovers sit outside action scoring as explicit noise.",
+          "rationale": "Alex confirmed “Map material only” means map every obvious role-expressing holding into an existing thesis/sleeve even if small; exclude only true dust/no-role positions from action scoring. GLDM/SIVR-style precious-metals holdings are not noise.",
           "status": "staged",
           "updatedAt": "2026-05-20T16:38:00.000Z",
           "source": "alphalpha-dashboard",
           "workflowVersion": "2026-05-20.1",
           "stage": "map",
-          "decisionType": "classify-role"
+          "decisionType": "classify-role",
+          "interpretation": "map-obvious-role-expressing-holdings-exclude-only-true-dust",
+          "roleMappingRule": {
+            "mapIf": [
+              "existing thesis/sleeve/hedge/watchlist role is obvious",
+              "excluding would misstate portfolio bet"
+            ],
+            "excludeOnlyIf": [
+              "position is tiny",
+              "and no thesis/hedge/watchlist/portfolio role is identifiable"
+            ],
+            "examples": {
+              "preciousMetalsHedge": [
+                "GLDM",
+                "GLD",
+                "SGOL",
+                "SIVR",
+                "SLV",
+                "GLTR",
+                "GDX",
+                "SIL",
+                "NEM",
+                "PAAS",
+                "WPM"
+              ]
+            }
+          }
         },
         {
           "decisionPointId": "role-optical-networking-ai-bandwidth",
@@ -27263,14 +27200,40 @@
         {
           "decisionPointId": "role-unmapped-small-positions",
           "choiceId": "map-large-ignore-small",
-          "rationale": "Resolve remaining unmapped holdings by mapping material positions individually while letting tiny leftovers sit outside action scoring as explicit noise.",
+          "rationale": "Alex confirmed “Map material only” means map every obvious role-expressing holding into an existing thesis/sleeve even if small; exclude only true dust/no-role positions from action scoring. GLDM/SIVR-style precious-metals holdings are not noise.",
           "status": "staged",
           "updatedAt": "2026-05-20T16:38:00.000Z",
           "source": "alphalpha-dashboard",
           "workflowVersion": "2026-05-20.1",
           "stage": "map",
           "decisionType": "classify-role",
-          "previousChoiceId": null
+          "previousChoiceId": null,
+          "interpretation": "map-obvious-role-expressing-holdings-exclude-only-true-dust",
+          "roleMappingRule": {
+            "mapIf": [
+              "existing thesis/sleeve/hedge/watchlist role is obvious",
+              "excluding would misstate portfolio bet"
+            ],
+            "excludeOnlyIf": [
+              "position is tiny",
+              "and no thesis/hedge/watchlist/portfolio role is identifiable"
+            ],
+            "examples": {
+              "preciousMetalsHedge": [
+                "GLDM",
+                "GLD",
+                "SGOL",
+                "SIVR",
+                "SLV",
+                "GLTR",
+                "GDX",
+                "SIL",
+                "NEM",
+                "PAAS",
+                "WPM"
+              ]
+            }
+          }
         },
         {
           "decisionPointId": "role-optical-networking-ai-bandwidth",
@@ -27436,7 +27399,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/execution-boundary-policy.json"
     },
     "investingRankedActionQueue": {
-      "generatedAt": "2026-05-19T22:51:15.220Z",
+      "generatedAt": "2026-05-20T16:42:42.806Z",
       "schemaVersion": "2026-05-19.1",
       "purpose": "Rank candidate investment decisions by conviction gap, allocation gap, valuation, catalyst freshness, invalidation risk, concentration, source health, and opportunity cost.",
       "executionBoundary": {
@@ -27445,7 +27408,7 @@
       },
       "sourceHealth": {
         "status": "watch",
-        "actionableFailedRuns14": 70,
+        "actionableFailedRuns14": 65,
         "penalty": 8
       },
       "scoringRubric": [
@@ -27607,7 +27570,7 @@
           "scoreComponents": {
             "sourceHealthPenalty": 8,
             "valuationSignal": "below buy zone 216",
-            "pullbackPct": -30.844867887130224,
+            "pullbackPct": -31.056681688425808,
             "catalystFreshness": "price-trigger-current",
             "invalidationRisk": "manual-range-missing",
             "concentrationRisk": "depends-on-current-allocation"
@@ -27631,7 +27594,7 @@
           "scoreComponents": {
             "sourceHealthPenalty": 8,
             "valuationSignal": "below buy zone 65",
-            "pullbackPct": -44.39358181515295,
+            "pullbackPct": -44.398505095350906,
             "catalystFreshness": "price-trigger-current",
             "invalidationRisk": "manual-range-missing",
             "concentrationRisk": "depends-on-current-allocation"
@@ -27655,7 +27618,7 @@
           "scoreComponents": {
             "sourceHealthPenalty": 8,
             "valuationSignal": "below buy zone 294",
-            "pullbackPct": -31.447436777388944,
+            "pullbackPct": -27.353406204192904,
             "catalystFreshness": "price-trigger-current",
             "invalidationRisk": "manual-range-missing",
             "concentrationRisk": "depends-on-current-allocation"
@@ -27678,8 +27641,8 @@
           "blockers": [],
           "scoreComponents": {
             "sourceHealthPenalty": 8,
-            "valuationSignal": "pullback -50.1% from six-month high",
-            "pullbackPct": -50.06717488751854,
+            "valuationSignal": "pullback -47.9% from six-month high",
+            "pullbackPct": -47.8728168674055,
             "catalystFreshness": "price-trigger-current",
             "invalidationRisk": "manual-range-missing",
             "concentrationRisk": "depends-on-current-allocation"
@@ -27688,33 +27651,9 @@
         },
         {
           "rank": 9,
-          "id": "action-valuation-review-VST",
-          "title": "Valuation review · VST",
-          "rankScore": 66.38,
-          "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "actionType": "stage",
-          "allowedActionLevel": "stage",
-          "explicitTradeConfirmationRequired": true,
-          "rationale": "VST is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
-          "tickers": [
-            "VST"
-          ],
-          "blockers": [],
-          "scoreComponents": {
-            "sourceHealthPenalty": 8,
-            "valuationSignal": "pullback -24.4% from six-month high",
-            "pullbackPct": -24.378393594458668,
-            "catalystFreshness": "price-trigger-current",
-            "invalidationRisk": "manual-range-missing",
-            "concentrationRisk": "depends-on-current-allocation"
-          },
-          "receiptTarget": "memory/investing/trade-journal.json"
-        },
-        {
-          "rank": 10,
           "id": "action-valuation-review-URA",
           "title": "Valuation review · URA",
-          "rankScore": 65.17,
+          "rankScore": 65.19,
           "recommendation": "Review fair-value range before treating pullback as actionable.",
           "actionType": "stage",
           "allowedActionLevel": "stage",
@@ -27727,7 +27666,31 @@
           "scoreComponents": {
             "sourceHealthPenalty": 8,
             "valuationSignal": "pullback -23.2% from six-month high",
-            "pullbackPct": -23.167771196672543,
+            "pullbackPct": -23.1925256868723,
+            "catalystFreshness": "price-trigger-current",
+            "invalidationRisk": "manual-range-missing",
+            "concentrationRisk": "depends-on-current-allocation"
+          },
+          "receiptTarget": "memory/investing/trade-journal.json"
+        },
+        {
+          "rank": 10,
+          "id": "action-valuation-review-CCJ",
+          "title": "Valuation review · CCJ",
+          "rankScore": 64.06,
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "actionType": "stage",
+          "allowedActionLevel": "stage",
+          "explicitTradeConfirmationRequired": true,
+          "rationale": "CCJ is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
+          "tickers": [
+            "CCJ"
+          ],
+          "blockers": [],
+          "scoreComponents": {
+            "sourceHealthPenalty": 8,
+            "valuationSignal": "pullback -22.1% from six-month high",
+            "pullbackPct": -22.056080062614633,
             "catalystFreshness": "price-trigger-current",
             "invalidationRisk": "manual-range-missing",
             "concentrationRisk": "depends-on-current-allocation"
@@ -43866,7 +43829,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@ad9332c, 37 dirty · Alphalpha dashboard: main@42b931b · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@ad9332c, 48 dirty · Alphalpha dashboard: main@d9bde32 · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
