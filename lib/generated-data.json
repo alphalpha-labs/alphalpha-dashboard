@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-20T13:06:47.930Z",
+    "generatedAt": "2026-05-20T13:13:58.096Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "ca206db",
+      "commit": "bfccd22",
       "branch": "main",
-      "generatedAt": "2026-05-20T13:06:47.942Z",
+      "generatedAt": "2026-05-20T13:13:58.109Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 2
     },
     "contextHealth": {
       "generatedAt": "2026-05-19T22:37:19.535Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "14h old",
+        "age": "15h old",
         "summary": "39 active files / 35924 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 3 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@9ea75fa, 7 dirty · Alphalpha dashboard: main@ca206db, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@b660277, 13 dirty · Alphalpha dashboard: main@bfccd22, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@9ea75fa · 7 dirty · 0 ahead · 0 behind"
+            "value": "master@b660277 · 13 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@ca206db · 4 dirty · 5 ahead · 0 behind"
+            "value": "main@bfccd22 · 2 dirty · 6 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -26171,7 +26171,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
     },
     "investingDecisionPipeline": {
-      "generatedAt": "2026-05-20T12:29:51.392Z",
+      "generatedAt": "2026-05-20T13:11:18.803Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Unified investing decision pipeline: Evidence → thesis/role map → policy ranges → ranked actions → receipt → learning loop.",
       "antiConvolutionRule": "Show fewer, higher-quality decision cards. Archive evidence and debug scaffolding instead of creating new visible queues.",
@@ -26184,7 +26184,9 @@
         "stages": {
           "map": 1,
           "act": 6
-        }
+        },
+        "operationalGuardrailCount": 1,
+        "provisionalActionCount": 6
       },
       "sourceArtifacts": {
         "manualPolicy": "memory/investing/manual-decision-workflow/latest.json",
@@ -26285,16 +26287,16 @@
           "clusterId": "ranked-action",
           "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
           "question": "What should we do with this ranked action: Review accumulation path · Power / electricity scarcity + AI grid bottleneck?",
-          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
-          "why": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation.",
-          "whyNow": "Ranked #1 with score 72.8.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "why": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #1 with score 72.8, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26319,14 +26321,23 @@
           "affectedItems": [],
           "affectedAssets": [],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 72.8,
-          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 57.8,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "trade-confirmation-required",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26341,16 +26352,16 @@
           "clusterId": "ranked-action",
           "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
           "question": "What should we do with this ranked action: Trim-or-justify review · Precious metals / currency debasement hedge?",
-          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
-          "why": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling.",
-          "whyNow": "Ranked #2 with score 72.5.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "why": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #2 with score 72.5, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26386,14 +26397,23 @@
             "FNV"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 72.5,
-          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 57.5,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "trade-confirmation-required",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26408,16 +26428,16 @@
           "clusterId": "ranked-action",
           "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
           "question": "What should we do with this ranked action: Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths?",
-          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
-          "whyNow": "Ranked #3 with score 69.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #3 with score 69, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26453,14 +26473,23 @@
             "KMI"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 69,
-          "allowedActionLevel": "stage",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 54,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "stage",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26475,16 +26504,16 @@
           "clusterId": "ranked-action",
           "title": "Resolve range before adds/trims · Critical materials / resource security",
           "question": "What should we do with this ranked action: Resolve range before adds/trims · Critical materials / resource security?",
-          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
-          "whyNow": "Ranked #4 with score 69.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #4 with score 69, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26520,14 +26549,23 @@
             "CORN"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 69,
-          "allowedActionLevel": "stage",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 54,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "stage",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26542,16 +26580,16 @@
           "clusterId": "ranked-action",
           "title": "Valuation review · DHR",
           "question": "What should we do with this ranked action: Valuation review · DHR?",
-          "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
-          "whyNow": "Ranked #5 with score 67.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
+          "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality.. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #5 with score 67, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26578,14 +26616,23 @@
             "DHR"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 67,
-          "allowedActionLevel": "stage",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 52,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "stage",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26600,16 +26647,16 @@
           "clusterId": "ranked-action",
           "title": "Valuation review · BSX",
           "question": "What should we do with this ranked action: Valuation review · BSX?",
-          "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
-          "whyNow": "Ranked #6 with score 67.",
-          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
+          "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified.. Guardrail: 1 open portfolio role/map decision.",
+          "whyNow": "Ranked #6 with score 67, but foundational guardrails are still open.",
+          "whyThisMatters": "This action depends on unresolved map/policy integrity. It can be discussed, deferred, or archived, but should not be treated as authoritative action guidance yet.",
+          "recommendedChoice": "resolve-blockers",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "id": "resolve-blockers",
+              "label": "Resolve blockers",
+              "meaning": "Keep this active until the listed policy/map blockers are resolved.",
               "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
             },
             {
@@ -26636,14 +26683,23 @@
             "BSX"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
+            "Keeps this as provisional review until guardrails clear.",
             "Writes a durable decision receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
-          "blockers": [],
-          "blockingLevel": "medium",
-          "priorityScore": 67,
-          "allowedActionLevel": "stage",
+          "blockers": [
+            "open-map-role-decision"
+          ],
+          "blockingLevel": "high",
+          "priorityScore": 52,
+          "allowedActionLevel": "provisional-review",
+          "originalAllowedActionLevel": "stage",
+          "operationalGuardrails": [
+            {
+              "id": "open-map-role-decision",
+              "label": "1 open portfolio role/map decision"
+            }
+          ],
           "receiptTarget": "memory/investing/investment-manual-decisions.json",
           "sourceArtifacts": [
             "memory/investing/ranked-action-queue/latest.json"
@@ -26655,11 +26711,11 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/decision-pipeline/latest.json"
     },
     "investingWeeklyDecisionReview": {
-      "generatedAt": "2026-05-20T12:51:16.988Z",
+      "generatedAt": "2026-05-20T13:11:18.838Z",
       "schemaVersion": "2026-05-20.1",
       "period": {
-        "since": "2026-05-13T12:51:16.988Z",
-        "until": "2026-05-20T12:51:16.988Z"
+        "since": "2026-05-13T13:11:18.838Z",
+        "until": "2026-05-20T13:11:18.838Z"
       },
       "purpose": "Weekly learning artifact for the unified investing decision pipeline: receipts, unresolved cards, source health, and calibration prompts.",
       "summary": {
@@ -26831,66 +26887,78 @@
           "rank": 2,
           "stage": "act",
           "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
-          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 72.8,
-          "allowedActionLevel": "trade-confirmation-required",
-          "blockers": []
+          "recommendation": "Provisional review only — High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 57.8,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         },
         {
           "id": "action-trim-justify-precious-metals-debasement-hedge",
           "rank": 3,
           "stage": "act",
           "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
-          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 72.5,
-          "allowedActionLevel": "trade-confirmation-required",
-          "blockers": []
+          "recommendation": "Provisional review only — Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 57.5,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         },
         {
           "id": "action-range-gate-energy-supply-infrastructure",
           "rank": 4,
           "stage": "act",
           "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
-          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 69,
-          "allowedActionLevel": "stage",
-          "blockers": []
+          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 54,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         },
         {
           "id": "action-range-gate-critical-materials-resource-security",
           "rank": 5,
           "stage": "act",
           "title": "Resolve range before adds/trims · Critical materials / resource security",
-          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 69,
-          "allowedActionLevel": "stage",
-          "blockers": []
+          "recommendation": "Provisional review only — Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 54,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         },
         {
           "id": "action-valuation-review-DHR",
           "rank": 6,
           "stage": "act",
           "title": "Valuation review · DHR",
-          "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 67,
-          "allowedActionLevel": "stage",
-          "blockers": []
+          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 52,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         },
         {
           "id": "action-valuation-review-BSX",
           "rank": 7,
           "stage": "act",
           "title": "Valuation review · BSX",
-          "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
-          "priorityScore": 67,
-          "allowedActionLevel": "stage",
-          "blockers": []
+          "recommendation": "Provisional review only — Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "resolve-blockers",
+          "priorityScore": 52,
+          "allowedActionLevel": "provisional-review",
+          "blockers": [
+            "open-map-role-decision"
+          ]
         }
       ],
       "sourceReliability": {
@@ -26954,18 +27022,18 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/weekly-decision-review/latest.json"
     },
     "investingLayerIntegrity": {
-      "generatedAt": "2026-05-20T13:03:38.423Z",
+      "generatedAt": "2026-05-20T13:11:18.877Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Validate that portfolio map, decision policy, and action queue layers line up before treating ranked investment decisions as authoritative.",
       "status": "provisional",
       "summary": {
-        "issueCount": 7,
+        "issueCount": 6,
         "blockingIssueCount": 2,
         "openHoldingRoleDecisions": 1,
         "openPolicyDecisions": 0,
         "activeDecisionCards": 7,
         "activeActionCards": 6,
-        "tradeConfirmationRequiredCards": 2,
+        "tradeConfirmationRequiredCards": 0,
         "strictMappedPct": 96.7381,
         "unmappedPct": 3.2619,
         "actionableSourceFailures14d": 65
@@ -27055,19 +27123,6 @@
           "detail": "13 policy/valuation receipts are recorded.",
           "recommendation": "Keep policy complete; do not create new policy dimensions unless they change a real allocation decision.",
           "affected": [],
-          "blocksActionAuthority": false
-        },
-        {
-          "id": "trade-confirmation-boundary-active",
-          "layer": "action-queue",
-          "severity": "pass",
-          "title": "2 cards correctly require explicit trade confirmation",
-          "detail": "The execution boundary is being preserved: these cards can prompt review but cannot execute trades.",
-          "recommendation": "Keep this boundary hard. If a card sounds like an instruction to trade, rewrite it as review/stage language.",
-          "affected": [
-            "action-accumulate-power-electricity-ai-grid",
-            "action-trim-justify-precious-metals-debasement-hedge"
-          ],
           "blocksActionAuthority": false
         },
         {
@@ -43789,7 +43844,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@9ea75fa, 7 dirty · Alphalpha dashboard: main@ca206db, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@b660277, 13 dirty · Alphalpha dashboard: main@bfccd22, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

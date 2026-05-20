@@ -661,6 +661,8 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
                 <div className="taxonomyRecommendation"><span>Recommendation</span><p>{card.recommendation}</p></div>
                 <div className="taxonomyWhy"><span>Why</span><p>{card.why}</p></div>
                 {(card.affectedAllocationPct != null || (card.affectedAssets?.length ?? 0) > 0) && <div className="taxonomyImpactLine">{card.affectedAllocationPct != null && <span>{card.affectedAllocationPct.toFixed(1)}% affected</span>}{(card.affectedAssets?.length ?? 0) > 0 && <em>{card.affectedAssets?.slice(0, 9).join(", ")}</em>}</div>}
+                {card.allowedActionLevel && <div className="taxonomyImpactLine"><span>Allowed action</span><em>{card.allowedActionLevel}</em></div>}
+                {(card.blockers?.length ?? 0) > 0 && <div className="taxonomyImpactLine"><span>Blocked by</span><em>{card.blockers?.join(", ")}</em></div>}
                 {(card.consequences?.length ?? 0) > 0 && <ul className="taxonomyConsequences">{card.consequences?.slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>}
                 <div className="taxonomyChoiceGrid">
                   {card.options.map(option => {
