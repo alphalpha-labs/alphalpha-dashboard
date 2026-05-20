@@ -405,6 +405,7 @@ export type DashboardData = {
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;
     investingManualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
     investingHoldingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+    investingDecisionPipeline?: InvestingManualDecisionWorkflow | null;
     investingManualDecisions?: InvestingManualDecisions | null;
     investingExecutionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
     investingRankedActionQueue?: InvestingRankedActionQueue | null;

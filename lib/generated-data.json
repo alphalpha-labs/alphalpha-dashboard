@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-19T22:54:42.742Z",
+    "generatedAt": "2026-05-20T12:10:46.711Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "cb1d9c7",
+      "commit": "72f10c7",
       "branch": "main",
-      "generatedAt": "2026-05-19T22:54:42.753Z",
+      "generatedAt": "2026-05-20T12:10:46.729Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 0
+      "dirtyFiles": 4
     },
     "contextHealth": {
       "generatedAt": "2026-05-19T22:37:19.535Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "0h old",
+        "age": "14h old",
         "summary": "39 active files / 35924 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,9 +93,9 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "10h old",
-        "summary": "9 family / 55 music latest",
-        "detail": "41 crawl artifacts indexed",
+        "age": "0h old",
+        "summary": "8 family / 54 music latest",
+        "detail": "43 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
         "details": [
           {
@@ -111,16 +111,16 @@
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
-            "label": "Mac DeMarco",
-            "value": "music · ACL Live"
-          },
-          {
-            "label": "Josiah and the Bonnevilles - The Redline North America Tour",
-            "value": "music · Scoot Inn"
-          },
-          {
             "label": "Yot Club - Simpleton Tour",
             "value": "music · Scoot Inn"
+          },
+          {
+            "label": "Teen Suicide",
+            "value": "music · Scoot Inn"
+          },
+          {
+            "label": "Yot Club and zzzahara",
+            "value": "music · Songkick Austin"
           }
         ],
         "staleAfterHours": 36,
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "10h old",
+        "age": "23h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,9 +163,9 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "9h old",
-        "summary": "63 tickers / 64 themes",
-        "detail": "33 high-priority research candidates",
+        "age": "1h old",
+        "summary": "21 tickers / 12 themes",
+        "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
         "details": [],
         "staleAfterHours": 72,
@@ -175,34 +175,34 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "11h old",
+        "age": "1h old",
         "summary": "9 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
         "details": [
           {
             "label": "Alphalpha/Syntheses/Investing/Gold.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Investing/Gold.md"
           },
           {
             "label": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
           },
           {
             "label": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md"
           },
           {
             "label": "Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Investing/Event-Driven Catalysts.md"
           },
           {
             "label": "Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Systems/Obsidian Workflow Reliability.md"
           },
           {
             "label": "Alphalpha/Syntheses/Life/Media Tracking.md",
-            "value": "memory/obsidian/proposed-updates/2026-05-19/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md"
+            "value": "memory/obsidian/proposed-updates/2026-05-20/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md"
           }
         ],
         "staleAfterHours": 48,
@@ -212,9 +212,9 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "10h old",
-        "summary": "30 enabled / 6 paused",
-        "detail": "36 cron jobs indexed",
+        "age": "11h old",
+        "summary": "31 enabled / 6 paused",
+        "detail": "37 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
           {
@@ -254,21 +254,21 @@
         "label": "GitHub repos",
         "status": "OK",
         "age": "0h old",
-        "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@cb1d9c7 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown",
+        "summary": "4 repos / 3 dirty / 0 behind",
+        "detail": "Alphalpha workspace: master@4df1e20, 27 dirty · Alphalpha dashboard: main@72f10c7, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@df1c43f · 80 dirty · 0 ahead · 0 behind"
+            "value": "master@4df1e20 · 27 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@cb1d9c7 · 0 dirty · 1 ahead · 0 behind"
+            "value": "main@72f10c7 · 4 dirty · 2 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@cc0f721 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@0207619 · 1 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -282,7 +282,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "OK",
-        "age": "22h old",
+        "age": "2d old",
         "summary": "1217 new / 2112 scanned",
         "detail": "last event 2026-05-18 23:42:13.702+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -311,7 +311,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "10h old",
+        "age": "23h old",
         "summary": "0 pending / 0 high",
         "detail": "14 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -358,7 +358,7 @@
         "title": "Austin Area Begonia Society May Meeting",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
-        "date": "2026-05-24T13:30:00-05:00",
+        "date": "2026-05-24T14:00:00-05:00",
         "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
         "distanceMiles": 1.6,
         "link": "https://zilkergarden.org/event/austin-area-begonia-society-may-meeting/",
@@ -394,32 +394,6 @@
         "kind": "family"
       },
       {
-        "title": "Mac DeMarco",
-        "source": "ACL Live",
-        "sourceId": "acllive",
-        "date": "May 1617, 2026",
-        "venue": "ACL Live at The Moody Theater",
-        "distanceMiles": null,
-        "link": "https://www.acllive.com/event/2026-mac-demarco-at-8-pm",
-        "summary": "with Tex Crick",
-        "score": 3,
-        "id": "music-1",
-        "kind": "music"
-      },
-      {
-        "title": "Josiah and the Bonnevilles - The Redline North America Tour",
-        "source": "Scoot Inn",
-        "sourceId": "scoot-inn",
-        "date": "2026-05-16 18:00:00 America/Chicago",
-        "venue": "Scoot Inn",
-        "distanceMiles": null,
-        "link": "https://www.ticketmaster.com/josiah-and-the-bonnevilles-the-redline-austin-texas-05-16-2026/event/3A006446A13AA9F3",
-        "summary": "Rock • onsale",
-        "score": 2,
-        "id": "music-2",
-        "kind": "music"
-      },
-      {
         "title": "Yot Club - Simpleton Tour",
         "source": "Scoot Inn",
         "sourceId": "scoot-inn",
@@ -428,6 +402,32 @@
         "distanceMiles": null,
         "link": "https://www.ticketmaster.com/yot-club-simpleton-tour-austin-texas-05-22-2026/event/3A006436C387BE6C",
         "summary": "Rock • onsale",
+        "score": 2,
+        "id": "music-1",
+        "kind": "music"
+      },
+      {
+        "title": "Teen Suicide",
+        "source": "Scoot Inn",
+        "sourceId": "scoot-inn",
+        "date": "2026-05-30 17:00:00 America/Chicago",
+        "venue": "Scoot Inn",
+        "distanceMiles": null,
+        "link": "https://www.ticketmaster.com/teen-suicide-austin-texas-05-30-2026/event/3A00643C9C94B6C6",
+        "summary": "Rock • onsale",
+        "score": 2,
+        "id": "music-2",
+        "kind": "music"
+      },
+      {
+        "title": "Yot Club and zzzahara",
+        "source": "Songkick Austin",
+        "sourceId": "songkick",
+        "date": "Friday 22 May 2026",
+        "venue": "Scoot Inn, Austin, TX, US",
+        "distanceMiles": null,
+        "link": "https://www.songkick.com/concerts/43015056-yot-club-at-scoot-inn",
+        "summary": "Scoot Inn, Austin, TX, US",
         "score": 2,
         "id": "music-3",
         "kind": "music"
@@ -15064,26 +15064,26 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/feedback-calibration.json"
     },
     "investingInputHealth": {
-      "generatedAt": "2026-05-18T16:31:10.645Z",
+      "generatedAt": "2026-05-20T00:11:17.707Z",
       "source": "thesis-baskets-supabase",
       "available": true,
       "status": "watch",
       "summary": {
-        "investorPosts7d": 347,
-        "investorPosts30d": 1069,
-        "highRelevanceInvestorPosts7d": 131,
+        "investorPosts7d": 355,
+        "investorPosts30d": 1008,
+        "highRelevanceInvestorPosts7d": 132,
         "newsItems7d": 131,
         "newsItems30d": 524,
         "productiveSources30d": 20,
-        "failedInvestorFetchRuns14d": 516,
-        "ignoredFailureRuns14": 446,
-        "actionableFailedRuns14": 70
+        "failedInvestorFetchRuns14d": 475,
+        "ignoredFailureRuns14": 410,
+        "actionableFailedRuns14": 65
       },
       "health": {
         "status": "watch",
         "blockers": [],
         "warnings": [
-          "70 non-X/non-credit investor fetch runs failed in the last 14 days."
+          "65 non-X/non-credit investor fetch runs failed in the last 14 days."
         ]
       },
       "investorPosts": {
@@ -15092,265 +15092,250 @@
             "source": "Meb Faber",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 64,
+            "posts": 56,
             "latest": "2026-04-27 08:23:15.067+00",
-            "avg_thesis": 0.0825,
-            "avg_macro": 0.186875
+            "avg_thesis": 0.0832142857142857,
+            "avg_macro": 0.192142857142857
           },
           {
             "source": "Macro Voices",
             "platform": "podcast",
             "source_class": "first_party",
-            "posts": 55,
-            "latest": "2026-05-18 08:33:33.094+00",
-            "avg_thesis": 0.413090909090909,
-            "avg_macro": 0.534545454545454
+            "posts": 50,
+            "latest": "2026-05-19 08:32:03.673+00",
+            "avg_thesis": 0.3924,
+            "avg_macro": 0.512
           },
           {
             "source": "Andy Constan",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 45,
+            "posts": 40,
             "latest": "2026-04-27 08:23:15.821+00",
-            "avg_thesis": 0.0635555555555556,
-            "avg_macro": 0.236666666666667
+            "avg_thesis": 0.058,
+            "avg_macro": 0.2375
           },
           {
             "source": "Tracy Shuchart",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 45,
+            "posts": 40,
             "latest": "2026-04-28 08:15:51.197+00",
-            "avg_thesis": 0.448444444444444,
-            "avg_macro": 0.494
+            "avg_thesis": 0.4435,
+            "avg_macro": 0.47875
           },
           {
             "source": "Jack Farley",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 41,
+            "posts": 37,
             "latest": "2026-04-28 08:15:57.76+00",
-            "avg_thesis": 0.0987804878048781,
-            "avg_macro": 0.214390243902439
-          },
-          {
-            "source": "Andreas Steno Larsen",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 36,
-            "latest": "2026-04-28 08:15:48.777+00",
-            "avg_thesis": 0.129722222222222,
-            "avg_macro": 0.215555555555556
-          },
-          {
-            "source": "Robin J Brooks",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 34,
-            "latest": "2026-04-28 08:15:57.098+00",
-            "avg_thesis": 0.380588235294118,
-            "avg_macro": 0.693823529411765
-          },
-          {
-            "source": "Felix Jauvin",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 33,
-            "latest": "2026-04-28 08:15:56.505+00",
-            "avg_thesis": 0.0742424242424242,
-            "avg_macro": 0.156060606060606
-          },
-          {
-            "source": "Javier Blas",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 33,
-            "latest": "2026-04-28 08:15:52.233+00",
-            "avg_thesis": 0.588181818181818,
-            "avg_macro": 0.667575757575757
-          },
-          {
-            "source": "Alexander Campbell",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 32,
-            "latest": "2026-04-28 08:15:55.929+00",
-            "avg_thesis": 0.1078125,
-            "avg_macro": 0.22375
+            "avg_thesis": 0.109459459459459,
+            "avg_macro": 0.202432432432432
           },
           {
             "source": "Lance Roberts",
             "platform": "rss",
             "source_class": "trusted_media",
-            "posts": 32,
-            "latest": "2026-05-18 09:02:09.483+00",
-            "avg_thesis": 0.15125,
-            "avg_macro": 0.4471875
+            "posts": 34,
+            "latest": "2026-05-19 09:04:36.254+00",
+            "avg_thesis": 0.158823529411765,
+            "avg_macro": 0.445294117647059
           },
           {
-            "source": "Shay Boloor",
+            "source": "Andreas Steno Larsen",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 32,
+            "latest": "2026-04-28 08:15:48.777+00",
+            "avg_thesis": 0.1228125,
+            "avg_macro": 0.213125
+          },
+          {
+            "source": "Robin J Brooks",
             "platform": "x",
             "source_class": "first_party",
             "posts": 31,
-            "latest": "2026-04-27 08:23:16.386+00",
-            "avg_thesis": 0.311290322580645,
-            "avg_macro": 0.36258064516129
+            "latest": "2026-04-28 08:15:57.098+00",
+            "avg_thesis": 0.371935483870968,
+            "avg_macro": 0.683548387096774
+          },
+          {
+            "source": "Felix Jauvin",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 31,
+            "latest": "2026-04-28 08:15:56.505+00",
+            "avg_thesis": 0.0790322580645161,
+            "avg_macro": 0.156451612903226
+          },
+          {
+            "source": "Alexander Campbell",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 30,
+            "latest": "2026-04-28 08:15:55.929+00",
+            "avg_thesis": 0.106666666666667,
+            "avg_macro": 0.227
+          },
+          {
+            "source": "Javier Blas",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 30,
+            "latest": "2026-04-28 08:15:52.233+00",
+            "avg_thesis": 0.573,
+            "avg_macro": 0.649666666666667
           },
           {
             "source": "Jim Bianco",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 31,
+            "posts": 29,
             "latest": "2026-04-28 08:15:53.936+00",
-            "avg_thesis": 0.370322580645161,
-            "avg_macro": 0.496129032258065
+            "avg_thesis": 0.395862068965517,
+            "avg_macro": 0.530344827586207
           },
           {
-            "source": "Bob Elliot",
+            "source": "Shay Boloor",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 30,
-            "latest": "2026-04-28 08:15:59.427+00",
-            "avg_thesis": 0.392666666666667,
-            "avg_macro": 0.616
+            "posts": 28,
+            "latest": "2026-04-27 08:23:16.386+00",
+            "avg_thesis": 0.317142857142857,
+            "avg_macro": 0.377857142857143
           },
           {
             "source": "Citrini",
             "platform": "x",
             "source_class": "first_party",
-            "posts": 29,
+            "posts": 28,
             "latest": "2026-04-28 08:15:58.367+00",
-            "avg_thesis": 0.232068965517241,
-            "avg_macro": 0.286551724137931
-          },
-          {
-            "source": "Rick Rule",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 29,
-            "latest": "2026-04-25 08:12:02.357+00",
-            "avg_thesis": 0.0282758620689655,
-            "avg_macro": 0.136551724137931
-          },
-          {
-            "source": "Luke Gromen",
-            "platform": "x",
-            "source_class": "first_party",
-            "posts": 26,
-            "latest": "2026-04-28 08:15:47.913+00",
-            "avg_thesis": 0.341153846153846,
-            "avg_macro": 0.450769230769231
+            "avg_thesis": 0.240357142857143,
+            "avg_macro": 0.289642857142857
           },
           {
             "source": "Robin J Brooks",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 26,
-            "latest": "2026-05-18 09:01:47.527+00",
+            "posts": 27,
+            "latest": "2026-05-19 08:31:06.195+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
           {
             "source": "Bob Elliot",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 27,
+            "latest": "2026-04-28 08:15:59.427+00",
+            "avg_thesis": 0.382222222222222,
+            "avg_macro": 0.612962962962963
+          },
+          {
+            "source": "Rick Rule",
+            "platform": "x",
+            "source_class": "first_party",
+            "posts": 25,
+            "latest": "2026-04-25 08:12:02.357+00",
+            "avg_thesis": 0.0328,
+            "avg_macro": 0.1504
+          },
+          {
+            "source": "Bob Elliot",
             "platform": "substack",
             "source_class": "first_party",
+            "posts": 25,
+            "latest": "2026-05-19 08:31:07.015+00",
+            "avg_thesis": 0.4164,
+            "avg_macro": 0.6676
+          },
+          {
+            "source": "Luke Gromen",
+            "platform": "x",
+            "source_class": "first_party",
             "posts": 24,
-            "latest": "2026-05-18 09:01:48.273+00",
-            "avg_thesis": 0.43375,
-            "avg_macro": 0.687083333333333
+            "latest": "2026-04-28 08:15:47.913+00",
+            "avg_thesis": 0.3025,
+            "avg_macro": 0.419166666666667
           },
           {
             "source": "Capital Flows Research",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 23,
-            "latest": "2026-05-18 09:01:43.349+00",
-            "avg_thesis": 0.189130434782609,
-            "avg_macro": 0.805217391304348
+            "posts": 24,
+            "latest": "2026-05-19 08:31:01.594+00",
+            "avg_thesis": 0.183333333333333,
+            "avg_macro": 0.785833333333333
           }
         ],
         "recentHighSignal": [
           {
-            "investor_name": "Lance Roberts",
-            "source_label": "Real Investment Advice",
-            "title": "Commodity Supercycle: The Enemy Of The Bull Thesis (Part 1)",
-            "url": "https://realinvestmentadvice.com/resources/blog/commodity-supercycle-the-enemy-of-the-bull-thesis-part-1/",
-            "event_time": "2026-05-18 09:02:09.483+00",
-            "thesis_relevance_score": "0.69",
-            "macro_relevance_score": 0.85,
+            "investor_name": "Ryan Detrick",
+            "source_label": "Carson Group Research",
+            "title": "Surging Semiconductors",
+            "url": "https://www.carsongroup.com/insights/blog/surging-semiconductors/",
+            "event_time": "2026-05-19 09:04:36.259+00",
+            "thesis_relevance_score": "0.63",
+            "macro_relevance_score": 0.72,
             "themes_detected": [
-              "commodity supercycle",
-              "deglobalization",
-              "capital underinvestment"
+              "AI capex",
+              "semiconductor momentum",
+              "data center buildout"
             ],
-            "ai_summary": "A high-profile call for a multi-year commodity supercycle driven by deglobalization and chronic underinvestment supports bullish commodity, energy, metals, and agricultural scarcity theses."
+            "ai_summary": "Continued semiconductor strength and management commentary indicate AI demand is broadening beyond hype, reinforcing the case for sustained physical AI infrastructure spending."
           },
           {
-            "investor_name": "Lance Roberts",
-            "source_label": "Real Investment Advice",
-            "title": "Gold Bugs Faulty Thesis: M2 and Inflation",
-            "url": "https://realinvestmentadvice.com/resources/blog/gold-bugs-faulty-thesis-m2-and-inflation/",
-            "event_time": "2026-05-18 09:02:09.483+00",
-            "thesis_relevance_score": "0.69",
-            "macro_relevance_score": 0.8,
+            "investor_name": "Ryan Detrick",
+            "source_label": "Carson Group Research",
+            "title": "Inflation’s Elevated No Matter How You Slice It in 10 Charts",
+            "url": "https://www.carsongroup.com/insights/blog/inflations-elevated-no-matter-how-you-slice-it-in-10-charts/",
+            "event_time": "2026-05-19 09:04:36.259+00",
+            "thesis_relevance_score": "0.08",
+            "macro_relevance_score": 0.78,
             "themes_detected": [
-              "gold",
-              "money supply",
-              "inflation"
+              "inflation",
+              "rates regime",
+              "macro headwinds"
             ],
-            "ai_summary": "Post challenges the simplistic view that money supply growth alone is inherently inflationary and, by implication, questions one common bullish justification for owning gold as an inflation hedge."
+            "ai_summary": "Hotter-than-expected CPI and elevated three-month inflation momentum signal a sticky inflation regime, implying higher-for-longer rates and a tougher backdrop for duration-sensitive risk assets."
           },
           {
-            "investor_name": "Lance Roberts",
-            "source_label": "Real Investment Advice",
-            "title": "The Fed Is Losing Its Biggest Dove",
-            "url": "https://realinvestmentadvice.com/resources/blog/the-fed-is-losing-its-biggest-dove/",
-            "event_time": "2026-05-18 09:02:09.483+00",
+            "investor_name": "Ryan Detrick",
+            "source_label": "Carson Group Research",
+            "title": "Updated Bond View – Time to Opportunistically Rotate Cash to Bonds but Diversify Your Diversifiers",
+            "url": "https://www.carsongroup.com/insights/blog/updated-bond-view-time-to-opportunistically-rotate-cash-to-bonds-but-diversify-your-diversifiers/",
+            "event_time": "2026-05-19 09:04:36.259+00",
             "thesis_relevance_score": "0",
             "macro_relevance_score": 0.72,
             "themes_detected": [
-              "Fed transition",
-              "monetary policy",
+              "rising yields",
+              "US-Iran conflict",
               "rates regime"
             ],
-            "ai_summary": "A leadership change at the Fed is flagged as a potentially meaningful policy-regime shift, relevant for rates, liquidity, and cross-asset positioning even without a direct basket match."
+            "ai_summary": "Post highlights a roughly 50 bp rise in the 10-year Treasury yield since late February alongside US-Iran hostilities, signaling a potentially tighter financial-conditions and geopolitical risk regime."
           },
           {
-            "investor_name": "Lance Roberts",
-            "source_label": "Real Investment Advice",
-            "title": "Parabolic Semiconductor Rally Is Pricing In 2028 Already",
-            "url": "https://realinvestmentadvice.com/resources/blog/parabolic-semiconductor-rally-is-pricing-in-2028-already/",
-            "event_time": "2026-05-18 09:02:09.483+00",
-            "thesis_relevance_score": "0.43",
-            "macro_relevance_score": 0.74,
+            "investor_name": "Ryan Detrick",
+            "source_label": "Carson Group Research",
+            "title": "They’re Running It Hot, And We’re Still Riding the Wave",
+            "url": "https://www.carsongroup.com/insights/blog/theyre-running-it-hot-and-were-still-riding-the-wave/",
+            "event_time": "2026-05-19 09:04:36.259+00",
+            "thesis_relevance_score": "0.81",
+            "macro_relevance_score": 0.88,
             "themes_detected": [
-              "semiconductor momentum",
-              "technical extension",
-              "AI capex"
+              "inflationary growth",
+              "AI capex",
+              "energy shock"
             ],
-            "ai_summary": "The semiconductor rally appears parabolic and technically stretched, signaling potential overheating in AI-linked equities and possible spillover risk to AI infrastructure names if momentum breaks."
-          },
-          {
-            "investor_name": "Lance Roberts",
-            "source_label": "Real Investment Advice",
-            "title": "Hammack: More Pragmatist Then Hawk",
-            "url": "https://realinvestmentadvice.com/resources/blog/hammack-more-pragmatist-then-hawk/",
-            "event_time": "2026-05-18 09:02:09.483+00",
-            "thesis_relevance_score": "0",
-            "macro_relevance_score": 0.78,
-            "themes_detected": [
-              "Fed dissents",
-              "policy hawkishness",
-              "rates regime"
-            ],
-            "ai_summary": "Unusual dissent over FOMC statement language suggests a more hawkish policy bias and raises the odds that communication, not just rates, becomes an active tightening tool."
+            "ai_summary": "The post reinforces an inflationary-growth regime in which AI investment remains strong while a Middle East-driven energy price shock adds support for energy and power-scarcity related themes."
           },
           {
             "investor_name": "Lance Roberts",
             "source_label": "Real Investment Advice",
             "title": "Market Correction Risk: Why Summer 2026 Looks Risky",
             "url": "https://realinvestmentadvice.com/resources/blog/market-correction-risk-why-summer-2026-looks-risky/",
-            "event_time": "2026-05-18 09:02:09.483+00",
+            "event_time": "2026-05-19 09:04:36.254+00",
             "thesis_relevance_score": "0",
             "macro_relevance_score": 0.82,
             "themes_detected": [
@@ -15363,9 +15348,24 @@
           {
             "investor_name": "Lance Roberts",
             "source_label": "Real Investment Advice",
+            "title": "Gold Bugs Faulty Thesis: M2 and Inflation",
+            "url": "https://realinvestmentadvice.com/resources/blog/gold-bugs-faulty-thesis-m2-and-inflation/",
+            "event_time": "2026-05-19 09:04:36.254+00",
+            "thesis_relevance_score": "0.69",
+            "macro_relevance_score": 0.8,
+            "themes_detected": [
+              "gold",
+              "money supply",
+              "inflation"
+            ],
+            "ai_summary": "Post challenges the simplistic view that money supply growth alone is inherently inflationary and, by implication, questions one common bullish justification for owning gold as an inflation hedge."
+          },
+          {
+            "investor_name": "Lance Roberts",
+            "source_label": "Real Investment Advice",
             "title": "Does The Treasury Hold The Next Market Tailwind?",
             "url": "https://realinvestmentadvice.com/resources/blog/does-the-treasury-hold-the-next-market-tailwind/",
-            "event_time": "2026-05-18 09:02:09.483+00",
+            "event_time": "2026-05-19 09:04:36.254+00",
             "thesis_relevance_score": "0",
             "macro_relevance_score": 0.8,
             "themes_detected": [
@@ -15380,7 +15380,7 @@
             "source_label": "Real Investment Advice",
             "title": "Oil Rig Counts Don’t Tell The Whole Story",
             "url": "https://realinvestmentadvice.com/resources/blog/oil-rig-counts-dont-tell-the-whole-story/",
-            "event_time": "2026-05-18 09:02:09.483+00",
+            "event_time": "2026-05-19 09:04:36.254+00",
             "thesis_relevance_score": "0.72",
             "macro_relevance_score": 0.74,
             "themes_detected": [
@@ -15391,64 +15391,64 @@
             "ai_summary": "Post argues that a declining US oil rig count does not necessarily mean weaker production growth, implying that shale productivity gains can keep supply firmer than headline rig data suggest."
           },
           {
-            "investor_name": "Jordi Visser",
-            "source_label": "JordiVisser Substack",
-            "title": "The $16 Trillion Unlock: Why 2026 is When Trapped Capital Breaks Free",
-            "url": "https://visserlabs.substack.com/p/the-16-trillion-unlock-why-2026-is",
-            "event_time": "2026-05-18 09:01:48.588+00",
-            "thesis_relevance_score": "0.88",
-            "macro_relevance_score": 0.7,
+            "investor_name": "Lance Roberts",
+            "source_label": "Real Investment Advice",
+            "title": "Hammack: More Pragmatist Then Hawk",
+            "url": "https://realinvestmentadvice.com/resources/blog/hammack-more-pragmatist-then-hawk/",
+            "event_time": "2026-05-19 09:04:36.254+00",
+            "thesis_relevance_score": "0",
+            "macro_relevance_score": 0.78,
             "themes_detected": [
-              "crypto rails",
-              "financial friction",
-              "non-sovereign money"
+              "Fed dissents",
+              "policy hawkishness",
+              "rates regime"
             ],
-            "ai_summary": "The post highlights blockchain as a solution to financial-system friction, reinforcing the thesis for crypto as alternative financial rails and non-sovereign value storage."
+            "ai_summary": "Unusual dissent over FOMC statement language suggests a more hawkish policy bias and raises the odds that communication, not just rates, becomes an active tightening tool."
           },
           {
-            "investor_name": "Jordi Visser",
-            "source_label": "JordiVisser Substack",
-            "title": "The Machine Economy: Why AI Agents Need New Money",
-            "url": "https://visserlabs.substack.com/p/the-machine-economy-why-ai-agents",
-            "event_time": "2026-05-18 09:01:48.588+00",
-            "thesis_relevance_score": "0.8",
+            "investor_name": "Lance Roberts",
+            "source_label": "Real Investment Advice",
+            "title": "Parabolic Semiconductor Rally Is Pricing In 2028 Already",
+            "url": "https://realinvestmentadvice.com/resources/blog/parabolic-semiconductor-rally-is-pricing-in-2028-already/",
+            "event_time": "2026-05-19 09:04:36.254+00",
+            "thesis_relevance_score": "0.43",
+            "macro_relevance_score": 0.74,
+            "themes_detected": [
+              "semiconductor momentum",
+              "technical extension",
+              "AI capex"
+            ],
+            "ai_summary": "The semiconductor rally appears parabolic and technically stretched, signaling potential overheating in AI-linked equities and possible spillover risk to AI infrastructure names if momentum breaks."
+          },
+          {
+            "investor_name": "Lance Roberts",
+            "source_label": "Real Investment Advice",
+            "title": "Commodity Supercycle: The Enemy Of The Bull Thesis (Part 1)",
+            "url": "https://realinvestmentadvice.com/resources/blog/commodity-supercycle-the-enemy-of-the-bull-thesis-part-1/",
+            "event_time": "2026-05-19 09:04:36.254+00",
+            "thesis_relevance_score": "0.69",
+            "macro_relevance_score": 0.85,
+            "themes_detected": [
+              "commodity supercycle",
+              "deglobalization",
+              "capital underinvestment"
+            ],
+            "ai_summary": "A high-profile call for a multi-year commodity supercycle driven by deglobalization and chronic underinvestment supports bullish commodity, energy, metals, and agricultural scarcity theses."
+          },
+          {
+            "investor_name": "Lance Roberts",
+            "source_label": "Real Investment Advice",
+            "title": "The Fed Is Losing Its Biggest Dove",
+            "url": "https://realinvestmentadvice.com/resources/blog/the-fed-is-losing-its-biggest-dove/",
+            "event_time": "2026-05-19 09:04:36.254+00",
+            "thesis_relevance_score": "0",
             "macro_relevance_score": 0.72,
             "themes_detected": [
-              "power scarcity",
-              "infrastructure bottlenecks",
-              "AI industrial demand"
+              "Fed transition",
+              "monetary policy",
+              "rates regime"
             ],
-            "ai_summary": "The post appears to frame an always-on industrial/AI economy constrained by time-limited physical inputs, a useful signal for power scarcity and AI-enabling infrastructure bottleneck theses."
-          },
-          {
-            "investor_name": "Jordi Visser",
-            "source_label": "JordiVisser Substack",
-            "title": "Killing the Float: Programmable Money and the New Financial Guardrails",
-            "url": "https://visserlabs.substack.com/p/killing-the-float-programmable-money",
-            "event_time": "2026-05-18 09:01:48.588+00",
-            "thesis_relevance_score": "0.1",
-            "macro_relevance_score": 0.7,
-            "themes_detected": [
-              "global financial regime shift",
-              "systemic transition",
-              "monetary order"
-            ],
-            "ai_summary": "The post describes a converging shift in global financial guardrails, signaling a potentially important macro regime change even though no specific basket or instrument is identified in the excerpt."
-          },
-          {
-            "investor_name": "Jordi Visser",
-            "source_label": "JordiVisser Substack",
-            "title": "Time Is the Asset: Why Bitcoin Tests Patience More Than Conviction",
-            "url": "https://visserlabs.substack.com/p/time-is-the-asset-why-bitcoin-tests",
-            "event_time": "2026-05-18 09:01:48.588+00",
-            "thesis_relevance_score": "0.7",
-            "macro_relevance_score": 0.65,
-            "themes_detected": [
-              "precious metals",
-              "crypto sentiment",
-              "store of value"
-            ],
-            "ai_summary": "Weak bitcoin sentiment at a crypto conference contrasted with growing interest in silver, suggesting potential rotation toward precious metals and alternative stores of value."
+            "ai_summary": "A leadership change at the Fed is flagged as a potentially meaningful policy-regime shift, relevant for rates, liquidity, and cross-asset positioning even without a direct basket match."
           }
         ]
       },
@@ -15508,24 +15508,24 @@
         "byStatus14d": [
           {
             "status": "failed",
-            "runs": 502,
+            "runs": 461,
             "items_seen": 0,
             "items_inserted": 0,
-            "latest": "2026-05-18 09:02:09.516+00"
+            "latest": "2026-05-19 09:04:36.622+00"
           },
           {
             "status": "completed",
-            "runs": 124,
-            "items_seen": 1875,
-            "items_inserted": 292,
-            "latest": "2026-05-18 09:02:11.837+00"
+            "runs": 138,
+            "items_seen": 2140,
+            "items_inserted": 300,
+            "latest": "2026-05-19 09:04:39.53+00"
           },
           {
             "status": "partial",
             "runs": 14,
             "items_seen": 90,
             "items_inserted": 10,
-            "latest": "2026-05-18 08:33:51.432+00"
+            "latest": "2026-05-19 08:32:18.854+00"
           }
         ],
         "errorBreakdown14d": [
@@ -15533,14 +15533,14 @@
             "platform": "x",
             "status": "failed",
             "error": "X timeline fetch failed (402)",
-            "runs": 432,
+            "runs": 396,
             "latest": "2026-05-16 08:54:52.38+00"
           },
           {
             "platform": "substack",
             "status": "failed",
             "error": "Substack post upsert failed: there is no unique or exclusion constraint matching the ON CONFLICT specification",
-            "runs": 56,
+            "runs": 49,
             "latest": "2026-05-12 08:52:44.487+00"
           },
           {
@@ -15548,7 +15548,14 @@
             "status": "partial",
             "error": "",
             "runs": 14,
-            "latest": "2026-05-18 08:33:51.432+00"
+            "latest": "2026-05-19 08:32:18.854+00"
+          },
+          {
+            "platform": "rss",
+            "status": "failed",
+            "error": "fetch failed",
+            "runs": 8,
+            "latest": "2026-05-19 09:04:36.282+00"
           },
           {
             "platform": "rss",
@@ -15560,9 +15567,9 @@
           {
             "platform": "rss",
             "status": "failed",
-            "error": "fetch failed",
-            "runs": 7,
-            "latest": "2026-05-18 09:02:09.501+00"
+            "error": "Feed request failed (404)",
+            "runs": 1,
+            "latest": "2026-05-19 09:04:36.622+00"
           }
         ],
         "sourceFreshness30d": [
@@ -15571,7 +15578,7 @@
             "platform": "substack",
             "latest": "2026-05-16 08:44:00.722+00",
             "latest_status": "completed",
-            "runs": 30,
+            "runs": 29,
             "seen": 0,
             "inserted": 0,
             "updated": 0,
@@ -15582,9 +15589,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:45.969+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 17,
-            "inserted": 17,
+            "runs": 27,
+            "seen": 13,
+            "inserted": 13,
             "updated": 0,
             "failures": 18
           },
@@ -15593,9 +15600,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:46.379+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 26,
-            "inserted": 26,
+            "runs": 27,
+            "seen": 24,
+            "inserted": 24,
             "updated": 0,
             "failures": 18
           },
@@ -15604,7 +15611,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:46.599+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 0,
             "inserted": 0,
             "updated": 0,
@@ -15615,9 +15622,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:46.841+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 36,
-            "inserted": 36,
+            "runs": 27,
+            "seen": 32,
+            "inserted": 32,
             "updated": 0,
             "failures": 18
           },
@@ -15626,7 +15633,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.033+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 5,
             "inserted": 5,
             "updated": 0,
@@ -15637,7 +15644,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.2+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 0,
             "inserted": 0,
             "updated": 0,
@@ -15648,7 +15655,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.372+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 5,
             "inserted": 5,
             "updated": 0,
@@ -15659,9 +15666,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.545+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 16,
-            "inserted": 16,
+            "runs": 27,
+            "seen": 15,
+            "inserted": 15,
             "updated": 0,
             "failures": 18
           },
@@ -15670,7 +15677,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.719+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 0,
             "inserted": 0,
             "updated": 0,
@@ -15681,9 +15688,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:47.89+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 19,
-            "inserted": 19,
+            "runs": 27,
+            "seen": 18,
+            "inserted": 18,
             "updated": 0,
             "failures": 18
           },
@@ -15692,9 +15699,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.059+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 45,
-            "inserted": 45,
+            "runs": 27,
+            "seen": 40,
+            "inserted": 40,
             "updated": 0,
             "failures": 18
           },
@@ -15703,9 +15710,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.225+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 7,
-            "inserted": 7,
+            "runs": 27,
+            "seen": 6,
+            "inserted": 6,
             "updated": 0,
             "failures": 18
           },
@@ -15714,9 +15721,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.395+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 33,
-            "inserted": 33,
+            "runs": 27,
+            "seen": 30,
+            "inserted": 30,
             "updated": 0,
             "failures": 18
           },
@@ -15725,7 +15732,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.583+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 1,
             "inserted": 1,
             "updated": 0,
@@ -15736,7 +15743,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.749+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 11,
             "inserted": 11,
             "updated": 0,
@@ -15747,7 +15754,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:48.912+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 2,
             "inserted": 2,
             "updated": 0,
@@ -15758,9 +15765,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:49.096+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 31,
-            "inserted": 31,
+            "runs": 27,
+            "seen": 29,
+            "inserted": 29,
             "updated": 0,
             "failures": 18
           },
@@ -15769,9 +15776,9 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:49.261+00",
             "latest_status": "failed",
-            "runs": 28,
-            "seen": 9,
-            "inserted": 9,
+            "runs": 27,
+            "seen": 7,
+            "inserted": 7,
             "updated": 0,
             "failures": 18
           },
@@ -15780,7 +15787,7 @@
             "platform": "x",
             "latest": "2026-05-16 08:54:49.437+00",
             "latest_status": "failed",
-            "runs": 28,
+            "runs": 27,
             "seen": 0,
             "inserted": 0,
             "updated": 0,
@@ -26162,6 +26169,436 @@
         }
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
+    },
+    "investingDecisionPipeline": {
+      "generatedAt": "2026-05-20T12:07:53.301Z",
+      "schemaVersion": "2026-05-20.1",
+      "purpose": "Unified investing decision pipeline: Evidence → thesis/role map → policy ranges → ranked actions → receipt → learning loop.",
+      "antiConvolutionRule": "Show fewer, higher-quality decision cards. Archive evidence and debug scaffolding instead of creating new visible queues.",
+      "maxActiveCards": 7,
+      "summary": {
+        "activeDecisionCount": 7,
+        "candidateCount": 11,
+        "hiddenByLimitCount": 4,
+        "completedReceiptCount": 13,
+        "stages": {
+          "map": 1,
+          "act": 6
+        }
+      },
+      "sourceArtifacts": {
+        "manualPolicy": "memory/investing/manual-decision-workflow/latest.json",
+        "holdingRoles": "memory/investing/holding-role-decision-workflow/latest.json",
+        "rankedActions": "memory/investing/ranked-action-queue/latest.json",
+        "receipts": "memory/investing/investment-manual-decisions.json"
+      },
+      "decisionPoints": [
+        {
+          "id": "role-unmapped-small-positions",
+          "stage": "map",
+          "decisionType": "classify-role",
+          "clusterId": "holding-role-resolution",
+          "title": "Resolve the remaining unmapped holdings",
+          "question": "20 holdings are still unmapped after the main taxonomy cleanup. How strict should the system be before it treats the portfolio map as actionable?",
+          "recommendation": "Choose “Map material only” unless you want a slower full cleanup. That maps meaningful names individually and lets tiny leftovers sit outside action scoring as explicit noise.",
+          "why": "The thesis universe is already 96.74% strictly mapped. The remaining 3.26% should not block the whole action queue, but material leftovers still need a role so they do not distort add/trim math.",
+          "whyNow": "Unmapped or ambiguous holdings should not leak into allocation/action scoring.",
+          "whyThisMatters": "The thesis universe is already 96.74% strictly mapped. The remaining 3.26% should not block the whole action queue, but material leftovers still need a role so they do not distort add/trim math.",
+          "recommendedChoice": "map-large-ignore-small",
+          "options": [
+            {
+              "id": "map-large-ignore-small",
+              "label": "Map material only",
+              "meaning": "Map larger or intentional leftovers one by one; explicitly exclude tiny incidental positions from action scoring.",
+              "consequence": "Map larger or intentional leftovers one by one; explicitly exclude tiny incidental positions from action scoring."
+            },
+            {
+              "id": "map-all",
+              "label": "Map every straggler",
+              "meaning": "Force every unmapped holding, even tiny/noisy ones, into a thesis/sleeve/watchlist/sandbox/trim role before final action authority.",
+              "consequence": "Force every unmapped holding, even tiny/noisy ones, into a thesis/sleeve/watchlist/sandbox/trim role before final action authority."
+            },
+            {
+              "id": "trim-justify-unmapped",
+              "label": "Cleanup / trim-justify",
+              "meaning": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them.",
+              "consequence": "Treat unmapped positions as portfolio clutter unless you can justify keeping and mapping them."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "GLDM",
+            "IXC",
+            "COMB",
+            "XLB",
+            "FCG",
+            "VYM",
+            "BRK.B",
+            "AMZN",
+            "SIVR",
+            "GOOGL",
+            "URA",
+            "SCHD",
+            "COPX",
+            "XOP",
+            "INFL"
+          ],
+          "affectedAllocationPct": 3.26,
+          "consequences": [
+            "Moves residual unmapped exposure out of the critical path.",
+            "Still preserves review for material positions.",
+            "Improves ranked action queue confidence."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 65.26,
+          "allowedActionLevel": "stage",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/holding-role-decision-workflow/latest.json"
+          ],
+          "originalKind": "holding-role",
+          "rank": 1
+        },
+        {
+          "id": "action-accumulate-power-electricity-ai-grid",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
+          "question": "What should we do with this ranked action: Review accumulation path · Power / electricity scarcity + AI grid bottleneck?",
+          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "why": "Power / electricity scarcity + AI grid bottleneck is 3.7% vs target 12 with conviction 92. Current queue should review valuation ranges and candidate expressions before any trade confirmation.",
+          "whyNow": "Ranked #1 with score 72.8.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 72.8,
+          "allowedActionLevel": "trade-confirmation-required",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 2
+        },
+        {
+          "id": "action-trim-justify-precious-metals-debasement-hedge",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
+          "question": "What should we do with this ranked action: Trim-or-justify review · Precious metals / currency debasement hedge?",
+          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "why": "Precious metals / currency debasement hedge is 16.46% with conviction 45. Because this is hedge/policy exposure, the right next step is range approval and justification, not automatic selling.",
+          "whyNow": "Ranked #2 with score 72.5.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "GLDM",
+            "SIVR",
+            "INFL",
+            "GDX",
+            "GLTR",
+            "SIL",
+            "WPM",
+            "SGOL",
+            "NEM",
+            "FNV"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 72.5,
+          "allowedActionLevel": "trade-confirmation-required",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 3
+        },
+        {
+          "id": "action-range-gate-energy-supply-infrastructure",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
+          "question": "What should we do with this ranked action: Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths?",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "whyNow": "Ranked #3 with score 69.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "MLPX",
+            "XLE",
+            "IXC",
+            "FCG",
+            "XOP",
+            "VDE",
+            "SLB",
+            "LNG",
+            "MPLX",
+            "KMI"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 4
+        },
+        {
+          "id": "action-range-gate-critical-materials-resource-security",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Resolve range before adds/trims · Critical materials / resource security",
+          "question": "What should we do with this ranked action: Resolve range before adds/trims · Critical materials / resource security?",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
+          "whyNow": "Ranked #4 with score 69.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "REMX",
+            "COMB",
+            "XLB",
+            "COPX",
+            "GUNR",
+            "XME",
+            "DBA",
+            "WEAT",
+            "PICK",
+            "CORN"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 5
+        },
+        {
+          "id": "action-valuation-review-DHR",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Valuation review · DHR",
+          "question": "What should we do with this ranked action: Valuation review · DHR?",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
+          "whyNow": "Ranked #5 with score 67.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "DHR"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 6
+        },
+        {
+          "id": "action-valuation-review-BSX",
+          "stage": "act",
+          "decisionType": "review-action",
+          "clusterId": "ranked-action",
+          "title": "Valuation review · BSX",
+          "question": "What should we do with this ranked action: Valuation review · BSX?",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
+          "whyNow": "Ranked #6 with score 67.",
+          "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
+          "recommendedChoice": "review-now",
+          "options": [
+            {
+              "id": "review-now",
+              "label": "Review now",
+              "meaning": "Open this as the next review item; no trade execution is implied.",
+              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+            },
+            {
+              "id": "not-now",
+              "label": "Not now",
+              "meaning": "Defer without rejecting the thesis/action.",
+              "consequence": "Records a not-now receipt so the card does not keep nagging immediately."
+            },
+            {
+              "id": "archive-evidence",
+              "label": "Archive as evidence",
+              "meaning": "Keep the information but stop treating it as a decision.",
+              "consequence": "Moves this out of the active queue unless new evidence materially changes."
+            }
+          ],
+          "affectedItems": [],
+          "affectedAssets": [
+            "BSX"
+          ],
+          "consequences": [
+            "Does not execute or automate trades.",
+            "Writes a durable decision receipt.",
+            "Feeds the weekly learning/calibration loop."
+          ],
+          "blockers": [],
+          "blockingLevel": "medium",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "receiptTarget": "memory/investing/investment-manual-decisions.json",
+          "sourceArtifacts": [
+            "memory/investing/ranked-action-queue/latest.json"
+          ],
+          "originalKind": "ranked-action",
+          "rank": 7
+        }
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/decision-pipeline/latest.json"
     },
     "investingManualDecisions": {
       "generatedAt": "2026-05-19T22:51:15.086Z",
@@ -39628,8 +40065,8 @@
         "summary": "Private main-session memory for durable facts and preferences.",
         "excerpt": "# MEMORY.md - Curated Long-Term Memory\n\nPrivate main-session memory for durable facts and preferences. Use detailed context files for project depth.\n\n## Alex\n- Name: Alex; located in Austin, TX.\n- Roles: father, software/analytics engineer, investor, musician, personal systems builder.\n- Interests: AI automation, philosophy/literature/politics, investing, music, critical theory, history of ideas, science, Austin family/music events.\n- Family: married with young children; exact ages should be verified before relying on them.\n- Goals: prototype apps; curate investing and topic reading; organize notes/highlights/clippings; discover Austin family/music events; reduce cognitive overhead across work/life/projects.\n\n## Alphalpha\n- Role: digital assistant, sidekick, thought partner, and emerging chief-of-staff system.\n- Primary functions: app prototyping, content curation, knowledge/thought organization, event discovery, project/open-loop tracking, and workflow automation.\n- Channels: Discord…",
         "content": null,
-        "mtime": "2026-05-19T03:55:15.158Z",
-        "words": 411,
+        "mtime": "2026-05-20T11:51:02.384Z",
+        "words": 452,
         "tags": [
           "#memory",
           "#private"
@@ -40289,183 +40726,33 @@
   ],
   "automations": [
     {
-      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
-      "name": "dashboard-source-health-alert",
-      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "id": "6976b874-f9c3-483a-91be-0256f9b817b4",
+      "name": "workspace-generated-checkpoint-commit",
+      "description": "Periodically commit tracked generated memory artifacts so recurring automation outputs are recoverable without mixing in source/context edits.",
       "category": "ops",
       "enabled": true,
       "schedule": {
         "kind": "cron",
-        "expr": "15 8 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "15 8 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-19T13:15:00.000Z",
-      "lastRunAt": "2026-05-18T13:15:00.008Z",
-      "lastStatus": "ok",
-      "lastDuration": "16s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-05-18T23:19:21.627Z"
-    },
-    {
-      "id": "a5fb63b7-9e0d-459a-a823-6d87e6c0c992",
-      "name": "workspace-health-check",
-      "description": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 8 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 8 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "announce -> discord:channel:1505316436761907320",
-      "nextRunAt": "2026-05-19T13:30:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
-      "updatedAt": "2026-05-18T23:19:46.504Z"
-    },
-    {
-      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
-      "name": "Investing OS thesis/price watch",
-      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 2-6",
+        "expr": "17 */6 * * *",
         "tz": "UTC"
       },
-      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "scheduleLabel": "17 */6 * * * (UTC)",
       "sessionTarget": "isolated",
-      "lightContext": false,
+      "lightContext": true,
       "toolsAllow": [
         "exec",
-        "process",
         "read"
       ],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-05-19T14:00:00.000Z",
-      "lastRunAt": "2026-05-16T14:00:00.009Z",
-      "lastStatus": "ok",
-      "lastDuration": "39s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-05-18T23:19:21.653Z"
-    },
-    {
-      "id": "874b8557-602e-4f4f-9cc8-fe86dff0b8be",
-      "name": "fmp-api-key-reminder",
-      "description": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 */3 * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 */3 * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
       "delivery": "not requested",
-      "nextRunAt": "2026-05-19T14:00:00.000Z",
+      "nextRunAt": "2026-05-20T06:17:00.000Z",
       "lastRunAt": null,
       "lastStatus": null,
       "lastDuration": null,
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
-      "summary": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
-      "updatedAt": "2026-05-18T23:19:46.497Z"
-    },
-    {
-      "id": "c1c86ac9-e164-4423-bbac-9a9da5c99f6d",
-      "name": "finnhub-api-key-reminder",
-      "description": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 */3 * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 */3 * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-19T14:00:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
-      "updatedAt": "2026-05-18T23:19:35.847Z"
-    },
-    {
-      "id": "32d1156d-65fd-403b-9f77-a673621984c3",
-      "name": "agentic-os-question-cadence",
-      "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 10 */2 * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 10 */2 * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-05-19T15:00:00.000Z",
-      "lastRunAt": "2026-05-17T15:00:00.014Z",
-      "lastStatus": "ok",
-      "lastDuration": "43s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "deleteAfterRun": false,
-      "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
-      "updatedAt": "2026-05-18T23:18:41.411Z"
+      "summary": "Periodically commit tracked generated memory artifacts so recurring automation outputs are recoverable without mixing in source/context edits.",
+      "updatedAt": "2026-05-20T01:00:55.781Z"
     },
     {
       "id": "d08a0b65-a022-42bf-8a63-59980a2ea1b3",
@@ -40526,6 +40813,96 @@
       "updatedAt": "2026-05-18T23:18:28.849Z"
     },
     {
+      "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
+      "name": "dashboard-source-health-alert",
+      "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "15 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-20T13:15:00.000Z",
+      "lastRunAt": "2026-05-19T13:15:00.010Z",
+      "lastStatus": "ok",
+      "lastDuration": "21s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-05-19T13:15:20.914Z"
+    },
+    {
+      "id": "a5fb63b7-9e0d-459a-a823-6d87e6c0c992",
+      "name": "workspace-health-check",
+      "description": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 8 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 8 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1505316436761907320",
+      "nextRunAt": "2026-05-20T13:30:00.000Z",
+      "lastRunAt": "2026-05-19T13:30:00.014Z",
+      "lastStatus": "ok",
+      "lastDuration": "55s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Daily Alphalpha workspace hygiene check: git cleanliness, ignored-cache growth, stale generated artifacts, failed automations, and source-health warnings.",
+      "updatedAt": "2026-05-19T13:30:55.358Z"
+    },
+    {
+      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
+      "name": "Investing OS thesis/price watch",
+      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 2-6",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [
+        "exec",
+        "process",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-05-20T14:00:00.000Z",
+      "lastRunAt": "2026-05-19T14:00:00.017Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "updatedAt": "2026-05-19T14:01:58.101Z"
+    },
+    {
       "id": "3cfe444f-179e-4b62-b34a-63de3f2d3320",
       "name": "spoken-podcast-approval-queue",
       "description": "Dry-run recent Spoken.md podcast candidates and post approval queue to #investing only when candidates exist.",
@@ -40584,6 +40961,35 @@
       "deleteAfterRun": false,
       "summary": "Render and post AI tooling queue digest to #ai-tooling",
       "updatedAt": "2026-05-18T23:18:41.394Z"
+    },
+    {
+      "id": "32d1156d-65fd-403b-9f77-a673621984c3",
+      "name": "agentic-os-question-cadence",
+      "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 */2 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 */2 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-21T15:00:00.000Z",
+      "lastRunAt": "2026-05-19T15:00:00.007Z",
+      "lastStatus": "ok",
+      "lastDuration": "48s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
+      "updatedAt": "2026-05-19T15:00:47.664Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
@@ -40654,6 +41060,66 @@
       "deleteAfterRun": false,
       "summary": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
       "updatedAt": "2026-05-18T23:19:35.839Z"
+    },
+    {
+      "id": "874b8557-602e-4f4f-9cc8-fe86dff0b8be",
+      "name": "fmp-api-key-reminder",
+      "description": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 */3 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 */3 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-22T14:00:00.000Z",
+      "lastRunAt": "2026-05-19T14:02:14.476Z",
+      "lastStatus": "ok",
+      "lastDuration": "16s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Remind Alex every few days to add a Financial Modeling Prep API key until FMP_API_KEY is configured.",
+      "updatedAt": "2026-05-19T14:02:30.256Z"
+    },
+    {
+      "id": "c1c86ac9-e164-4423-bbac-9a9da5c99f6d",
+      "name": "finnhub-api-key-reminder",
+      "description": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 */3 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 */3 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-05-22T14:00:00.000Z",
+      "lastRunAt": "2026-05-19T14:01:58.101Z",
+      "lastStatus": "ok",
+      "lastDuration": "16s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "deleteAfterRun": false,
+      "summary": "Remind Alex every few days to add a Finnhub API key until FINNHUB_API_KEY is configured.",
+      "updatedAt": "2026-05-19T14:02:14.476Z"
     },
     {
       "id": "2f48270a-299a-4bd1-af22-a23e4764da63",
@@ -40747,7 +41213,7 @@
       "consecutiveSkipped": 0,
       "deleteAfterRun": false,
       "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "updatedAt": "2026-05-18T23:18:41.401Z"
+      "updatedAt": "2026-05-20T00:09:27.676Z"
     },
     {
       "id": "b81b68f1-dc71-4d65-a55d-1ccdfaefcbdd",
@@ -42781,10 +43247,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
-      "title": "Austin events: 9 family / 55 music latest",
-      "summary": "41 crawl artifacts indexed · 10h old · memory/events/latest-manifest.json",
+      "title": "Austin events: 8 family / 54 music latest",
+      "summary": "43 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42792,10 +43258,10 @@
     },
     {
       "id": "source-2",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 10h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 23h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42803,10 +43269,10 @@
     },
     {
       "id": "source-3",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
-      "title": "Investing watchlist: 63 tickers / 64 themes",
-      "summary": "33 high-priority research candidates · 9h old · memory/investing/latest-watchlist.json",
+      "title": "Investing watchlist: 21 tickers / 12 themes",
+      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42814,10 +43280,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
       "title": "Obsidian proposals: 9 proposed updates",
-      "summary": "proposal-only · 11h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 1h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42825,10 +43291,10 @@
     },
     {
       "id": "source-5",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
-      "title": "Automations: 30 enabled / 6 paused",
-      "summary": "36 cron jobs indexed · 10h old · memory/automations/latest-manifest.json",
+      "title": "Automations: 31 enabled / 6 paused",
+      "summary": "37 cron jobs indexed · 11h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42836,10 +43302,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
-      "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@df1c43f, 80 dirty · Alphalpha dashboard: main@cb1d9c7 · Obsidian vault: main@cc0f721 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
+      "summary": "Alphalpha workspace: master@4df1e20, 27 dirty · Alphalpha dashboard: main@72f10c7, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42847,10 +43313,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
       "title": "Thesis Baskets: 1217 new / 2112 scanned",
-      "summary": "last event 2026-05-18 23:42:13.702+00 · 22h old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-18 23:42:13.702+00 · 2d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -42858,10 +43324,10 @@
     },
     {
       "id": "source-8",
-      "date": "2026-05-19",
+      "date": "2026-05-20",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
-      "summary": "14 review items indexed · 10h old · memory/review-queue/latest-manifest.json",
+      "summary": "14 review items indexed · 23h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

@@ -61,6 +61,7 @@ interface Props {
   taxonomyDecisions?: InvestingTaxonomyDecisions | null;
   manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   holdingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
+  decisionPipeline?: InvestingManualDecisionWorkflow | null;
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
@@ -71,7 +72,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -110,7 +111,20 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         </section>
       )}
 
-      {(executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
+      {decisionPipeline && (
+        <ManualDecisionReview
+          title="Investment Decisions · unified cockpit"
+          eyebrow="Compression sprint"
+          headline="One queue: map → policy → action → receipt → learning"
+          ruleText="These are the few decisions worth attention now. Confirm writes a receipt and removes the card; Not now / Archive prevents low-value clutter from lingering. Trades still require explicit Alex confirmation."
+          manualDecisionWorkflow={decisionPipeline}
+          manualDecisions={manualDecisions}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
+      )}
+
+      {!decisionPipeline && (executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
         <InvestmentActionCommandCenter
           executionBoundaryPolicy={executionBoundaryPolicy}
           rankedActionQueue={rankedActionQueue}
@@ -120,7 +134,7 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         />
       )}
 
-      {(manualDecisionWorkflow || manualDecisions) && (
+      {!decisionPipeline && (manualDecisionWorkflow || manualDecisions) && (
         <ManualDecisionReview
           title="Manual decision queue · policy + valuation"
           eyebrow="Action authority gates"
@@ -132,7 +146,7 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         />
       )}
 
-      {(holdingRoleDecisionWorkflow || manualDecisions) && (
+      {!decisionPipeline && (holdingRoleDecisionWorkflow || manualDecisions) && (
         <ManualDecisionReview
           title="Holding role queue · mapping cleanup"
           eyebrow="Role resolution"
@@ -451,10 +465,11 @@ function InvestmentActionCommandCenter({ executionBoundaryPolicy, rankedActionQu
   );
 }
 
-function ManualDecisionReview({ title = "Manual decision queue · policy + valuation", eyebrow = "Action authority gates", headline = "Approve ranges before signals become decisions", manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
+function ManualDecisionReview({ title = "Manual decision queue · policy + valuation", eyebrow = "Action authority gates", headline = "Approve ranges before signals become decisions", ruleText = "These choices decide policy ranges, alert authority, and first valuation-review batches. Trade execution still requires explicit Alex confirmation.", manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
   title?: string;
   eyebrow?: string;
   headline?: string;
+  ruleText?: string;
   manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   manualDecisions?: InvestingManualDecisions | null;
   onDiscuss: (ctx: ThreadContext) => void;
@@ -534,7 +549,7 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
         </div>
         <div className="taxonomyPrinciples">
           <strong>Rule for this queue</strong>
-          <p>These choices decide policy ranges, alert authority, and first valuation-review batches. Trade execution still requires explicit Alex confirmation.</p>
+          <p>{ruleText}</p>
           <em>Same flow as taxonomy: first click stages, Confirm saves durably, Cancel backs out.</em>
         </div>
       </div>
