@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-05-20T12:54:55.272Z",
+    "generatedAt": "2026-05-20T13:06:47.930Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "c62a4b9",
+      "commit": "ca206db",
       "branch": "main",
-      "generatedAt": "2026-05-20T12:54:55.283Z",
+      "generatedAt": "2026-05-20T13:06:47.942Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 4
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "1h old",
+        "age": "2h old",
         "summary": "21 tickers / 12 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "1h old",
+        "age": "2h old",
         "summary": "9 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 3 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@ebd3317, 7 dirty · Alphalpha dashboard: main@c62a4b9, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@9ea75fa, 7 dirty · Alphalpha dashboard: main@ca206db, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@ebd3317 · 7 dirty · 0 ahead · 0 behind"
+            "value": "master@9ea75fa · 7 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@c62a4b9 · 4 dirty · 4 ahead · 0 behind"
+            "value": "main@ca206db · 4 dirty · 5 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -26953,6 +26953,137 @@
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/weekly-decision-review/latest.json"
     },
+    "investingLayerIntegrity": {
+      "generatedAt": "2026-05-20T13:03:38.423Z",
+      "schemaVersion": "2026-05-20.1",
+      "purpose": "Validate that portfolio map, decision policy, and action queue layers line up before treating ranked investment decisions as authoritative.",
+      "status": "provisional",
+      "summary": {
+        "issueCount": 7,
+        "blockingIssueCount": 2,
+        "openHoldingRoleDecisions": 1,
+        "openPolicyDecisions": 0,
+        "activeDecisionCards": 7,
+        "activeActionCards": 6,
+        "tradeConfirmationRequiredCards": 2,
+        "strictMappedPct": 96.7381,
+        "unmappedPct": 3.2619,
+        "actionableSourceFailures14d": 65
+      },
+      "layers": {
+        "portfolioMap": {
+          "status": "watch",
+          "openDecisionIds": [
+            "role-unmapped-small-positions"
+          ]
+        },
+        "decisionPolicy": {
+          "status": "pass",
+          "openDecisionIds": []
+        },
+        "actionQueue": {
+          "status": "provisional",
+          "activeActionIds": [
+            "action-accumulate-power-electricity-ai-grid",
+            "action-trim-justify-precious-metals-debasement-hedge",
+            "action-range-gate-energy-supply-infrastructure",
+            "action-range-gate-critical-materials-resource-security",
+            "action-valuation-review-DHR",
+            "action-valuation-review-BSX"
+          ]
+        }
+      },
+      "issues": [
+        {
+          "id": "portfolio-map-open-role-decisions",
+          "layer": "portfolio-map",
+          "severity": "warn",
+          "title": "1 portfolio role decision still open",
+          "detail": "A material mapping cleanup decision remains unresolved, so action scoring should stay provisional rather than authoritative.",
+          "recommendation": "Resolve, defer, or archive the remaining role card before treating ranked add/trim cards as final action authority.",
+          "affected": [
+            "role-unmapped-small-positions"
+          ],
+          "blocksActionAuthority": true
+        },
+        {
+          "id": "actions-visible-while-map-open",
+          "layer": "action-queue",
+          "severity": "warn",
+          "title": "6 action cards are visible while mapping cleanup remains",
+          "detail": "This is acceptable for review, but it should be labeled provisional. Do not let it become trade-like authority.",
+          "recommendation": "Keep action cards at review/confirmation-required level until the map layer is clean.",
+          "affected": [
+            "action-accumulate-power-electricity-ai-grid",
+            "action-trim-justify-precious-metals-debasement-hedge",
+            "action-range-gate-energy-supply-infrastructure",
+            "action-range-gate-critical-materials-resource-security",
+            "action-valuation-review-DHR",
+            "action-valuation-review-BSX"
+          ],
+          "blocksActionAuthority": true
+        },
+        {
+          "id": "source-health-penalty-required",
+          "layer": "evidence-quality",
+          "severity": "warn",
+          "title": "65 actionable source failures in 14d",
+          "detail": "Source reliability is still noisy enough that ranked action scores should retain a penalty.",
+          "recommendation": "Fix/demote recurring source failures before increasing confidence in evidence-driven action cards.",
+          "affected": [
+            "memory/investing/source-reliability/latest.json"
+          ],
+          "blocksActionAuthority": false
+        },
+        {
+          "id": "portfolio-map-unmapped-exposure",
+          "layer": "portfolio-map",
+          "severity": "watch",
+          "title": "3.26% strict unmapped exposure remains",
+          "detail": "This is below the original cleanup threshold but still enough to distort fine-grained action ranking if ignored.",
+          "recommendation": "Use Map material only unless Alex explicitly wants a full straggler cleanup pass.",
+          "affected": [
+            "role-unmapped-small-positions"
+          ],
+          "blocksActionAuthority": false
+        },
+        {
+          "id": "policy-layer-currently-complete",
+          "layer": "decision-policy",
+          "severity": "pass",
+          "title": "Policy/valuation gate queue is currently complete",
+          "detail": "13 policy/valuation receipts are recorded.",
+          "recommendation": "Keep policy complete; do not create new policy dimensions unless they change a real allocation decision.",
+          "affected": [],
+          "blocksActionAuthority": false
+        },
+        {
+          "id": "trade-confirmation-boundary-active",
+          "layer": "action-queue",
+          "severity": "pass",
+          "title": "2 cards correctly require explicit trade confirmation",
+          "detail": "The execution boundary is being preserved: these cards can prompt review but cannot execute trades.",
+          "recommendation": "Keep this boundary hard. If a card sounds like an instruction to trade, rewrite it as review/stage language.",
+          "affected": [
+            "action-accumulate-power-electricity-ai-grid",
+            "action-trim-justify-precious-metals-debasement-hedge"
+          ],
+          "blocksActionAuthority": false
+        },
+        {
+          "id": "cockpit-card-count-contained",
+          "layer": "dashboard-cockpit",
+          "severity": "pass",
+          "title": "Cockpit is capped at 7 active cards",
+          "detail": "The dashboard is currently honoring the compression rule for visible decisions.",
+          "recommendation": "Keep this cap unless a card replaces or removes another card.",
+          "affected": [],
+          "blocksActionAuthority": false
+        }
+      ],
+      "antiConvolutionRecommendation": "Keep action cards provisional and resolve/archive the blocking map/policy cards before adding new investing features.",
+      "path": "/home/node/.openclaw/workspace/memory/investing/layer-integrity/latest.json"
+    },
     "investingManualDecisions": {
       "generatedAt": "2026-05-19T22:51:15.086Z",
       "schemaVersion": "2026-05-19.1",
@@ -43625,7 +43756,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 12 themes",
-      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 2h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43636,7 +43767,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "Obsidian proposals: 9 proposed updates",
-      "summary": "proposal-only · 1h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 2h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43658,7 +43789,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@ebd3317, 7 dirty · Alphalpha dashboard: main@c62a4b9, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@9ea75fa, 7 dirty · Alphalpha dashboard: main@ca206db, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

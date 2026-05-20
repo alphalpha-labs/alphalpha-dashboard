@@ -26,6 +26,7 @@ import type {
   InvestingManualDecisionWorkflow,
   InvestingManualDecisions,
   InvestingWeeklyDecisionReview,
+  InvestingLayerIntegrity,
   InvestingExecutionBoundaryPolicy,
   InvestingRankedActionQueue,
   InvestingSourceReliabilityPlan,
@@ -64,6 +65,7 @@ interface Props {
   holdingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   decisionPipeline?: InvestingManualDecisionWorkflow | null;
   weeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
+  layerIntegrity?: InvestingLayerIntegrity | null;
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
@@ -74,7 +76,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -129,6 +131,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
       )}
+
+      {layerIntegrity && <LayerIntegrityPanel layerIntegrity={layerIntegrity} onDiscuss={onDiscuss} />}
 
       {!decisionPipeline && (executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
         <InvestmentActionCommandCenter
@@ -508,6 +512,32 @@ function InvestmentDecisionAudit({ weeklyDecisionReview, manualDecisions, onDisc
       <div className="taxonomyPanel">
         <div className="sectionTitleRow"><h2>Recent receipts</h2><span>{receipts.length}</span></div>
         {receipts.length ? receipts.slice(0, 12).map(receipt => <div key={`${receipt.decisionPointId}-${receipt.updatedAt || receipt.choiceId}`} className="investmentListRow"><strong>{receipt.decisionPointId} → {receipt.choiceId}</strong><p>{receipt.rationale || "Decision receipt recorded."}</p><em>{receipt.status || "staged"}{receipt.stage ? ` · ${receipt.stage}` : ""}{receipt.updatedAt ? ` · ${formatDate(receipt.updatedAt)}` : ""}</em></div>) : <p className="emptyText">No decision receipts yet.</p>}
+      </div>
+    </section>
+  );
+}
+
+function LayerIntegrityPanel({ layerIntegrity, onDiscuss }: { layerIntegrity: InvestingLayerIntegrity; onDiscuss: (ctx: ThreadContext) => void }) {
+  const issues = layerIntegrity.issues ?? [];
+  const blocking = issues.filter(issue => issue.blocksActionAuthority && issue.severity !== "pass");
+  return (
+    <section className="investmentSection investmentLayerIntegrity">
+      <div className="sectionTitleRow"><h2>Layer integrity guardrail</h2><span>{layerIntegrity.status || "unknown"} · {blocking.length} blocking</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Map → policy → action validation</span>
+          <h3>{blocking.length ? "Action cards are provisional" : "Layers are aligned enough for review"}</h3>
+          <p>{layerIntegrity.antiConvolutionRecommendation || "Keep the cockpit compressed and do not add surfaces unless they replace old ones."}</p>
+          <div className="taxonomyStats"><span><strong>{String(layerIntegrity.summary?.openHoldingRoleDecisions ?? "—")}</strong> open map</span><span><strong>{String(layerIntegrity.summary?.openPolicyDecisions ?? "—")}</strong> open policy</span><span><strong>{String(layerIntegrity.summary?.activeActionCards ?? "—")}</strong> action cards</span></div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Ruthless check</strong>
+          <p>If map or policy is unresolved, ranked actions are review prompts — not authoritative trade guidance.</p>
+          <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "investing-layer-integrity", type: "decision", title: "Investing layer integrity", category: "investing guardrail", summary: layerIntegrity.antiConvolutionRecommendation || "Review portfolio map, decision policy, and action queue alignment." })}>Discuss guardrail</button>
+        </div>
+      </div>
+      <div className="investmentCardGrid">
+        {issues.slice(0, 6).map(issue => <article key={issue.id} className="investmentDecision"><div className="decisionTop"><span>{issue.layer}</span><strong>{issue.severity}</strong></div><h3>{issue.title}</h3><p>{issue.detail}</p><p className="emptyText">{issue.recommendation}</p></article>)}
       </div>
     </section>
   );
