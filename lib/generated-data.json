@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-20T12:29:52.095Z",
+    "generatedAt": "2026-05-20T12:54:55.272Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "de92008",
+      "commit": "c62a4b9",
       "branch": "main",
-      "generatedAt": "2026-05-20T12:29:52.112Z",
+      "generatedAt": "2026-05-20T12:54:55.283Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 2
+      "dirtyFiles": 4
     },
     "contextHealth": {
       "generatedAt": "2026-05-19T22:37:19.535Z",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "8 family / 54 music latest",
         "detail": "43 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "23h old",
+        "age": "1d old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -212,7 +212,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "11h old",
+        "age": "12h old",
         "summary": "31 enabled / 6 paused",
         "detail": "37 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 3 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@a134ddb, 11 dirty · Alphalpha dashboard: main@de92008, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@ebd3317, 7 dirty · Alphalpha dashboard: main@c62a4b9, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@a134ddb · 11 dirty · 0 ahead · 0 behind"
+            "value": "master@ebd3317 · 7 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@de92008 · 2 dirty · 3 ahead · 0 behind"
+            "value": "main@c62a4b9 · 4 dirty · 4 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -311,7 +311,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "23h old",
+        "age": "1d old",
         "summary": "0 pending / 0 high",
         "detail": "14 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -26654,6 +26654,305 @@
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/decision-pipeline/latest.json"
     },
+    "investingWeeklyDecisionReview": {
+      "generatedAt": "2026-05-20T12:51:16.988Z",
+      "schemaVersion": "2026-05-20.1",
+      "period": {
+        "since": "2026-05-13T12:51:16.988Z",
+        "until": "2026-05-20T12:51:16.988Z"
+      },
+      "purpose": "Weekly learning artifact for the unified investing decision pipeline: receipts, unresolved cards, source health, and calibration prompts.",
+      "summary": {
+        "activeDecisionCount": 7,
+        "hiddenByLimitCount": 4,
+        "receiptCountTotal": 13,
+        "receiptCount7d": 13,
+        "receiptsByStatus": {
+          "staged": 13
+        },
+        "receiptsByStage": {
+          "map": 7,
+          "policy": 6
+        },
+        "activeByStage": {
+          "map": 1,
+          "act": 6
+        },
+        "sourceHealthStatus": "watch",
+        "actionableSourceFailures14d": 65,
+        "rankedActionsBlockedByManualGates": 0
+      },
+      "recentReceipts": [
+        {
+          "decisionPointId": "role-optical-networking-ai-bandwidth",
+          "choiceId": "sub-thesis",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:51:15.086Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-speculative-experiments",
+          "choiceId": "sandbox",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:44:45.086Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-healthcare-quality-compounders",
+          "choiceId": "watchlist-thesis",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:37:19.492Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-clean-energy-water-infrastructure-diversifiers",
+          "choiceId": "watchlist-thesis",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:30:30.455Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-portfolio-ballast-cash-bonds",
+          "choiceId": "sleeve",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:23:05.593Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-quality-income-ballast",
+          "choiceId": "sleeve",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:15:07.373Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "role-ai-platforms-compute-semiconductors",
+          "choiceId": "thesis",
+          "status": "staged",
+          "stage": "map",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T22:06:45.453Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "valuation-review-first-batch",
+          "choiceId": "power-healthcare-batch",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T21:58:45.294Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "valuation-authority-dynamic-ranges",
+          "choiceId": "authorize-small-starters",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T21:51:15.403Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "policy-range-ai-compute-power",
+          "choiceId": "separate-provisional-ranges",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T20:32:48.152Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "policy-range-critical-materials",
+          "choiceId": "range-10-18-review-subsleeves",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T20:24:17.649Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "policy-range-energy-supply",
+          "choiceId": "range-8-16-subtags",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T18:16:42.410Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        },
+        {
+          "decisionPointId": "policy-range-precious-metals",
+          "choiceId": "range-10-18",
+          "status": "staged",
+          "stage": "policy",
+          "decisionType": null,
+          "updatedAt": "2026-05-19T18:08:43.403Z",
+          "revisitAt": null,
+          "rationale": "Staged from Alphalpha dashboard manual investment decision workflow."
+        }
+      ],
+      "activeDecisions": [
+        {
+          "id": "role-unmapped-small-positions",
+          "rank": 1,
+          "stage": "map",
+          "title": "Resolve the remaining unmapped holdings",
+          "recommendation": "Choose “Map material only” unless you want a slower full cleanup. That maps meaningful names individually and lets tiny leftovers sit outside action scoring as explicit noise.",
+          "recommendedChoice": "map-large-ignore-small",
+          "priorityScore": 65.26,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        },
+        {
+          "id": "action-accumulate-power-electricity-ai-grid",
+          "rank": 2,
+          "stage": "act",
+          "title": "Review accumulation path · Power / electricity scarcity + AI grid bottleneck",
+          "recommendation": "High-conviction underallocated: prepare reviewed add-on-pullback plan, not automatic buys.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 72.8,
+          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": []
+        },
+        {
+          "id": "action-trim-justify-precious-metals-debasement-hedge",
+          "rank": 3,
+          "stage": "act",
+          "title": "Trim-or-justify review · Precious metals / currency debasement hedge",
+          "recommendation": "Large lower-conviction allocation: defend the policy range or queue gradual trim.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 72.5,
+          "allowedActionLevel": "trade-confirmation-required",
+          "blockers": []
+        },
+        {
+          "id": "action-range-gate-energy-supply-infrastructure",
+          "rank": 4,
+          "stage": "act",
+          "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        },
+        {
+          "id": "action-range-gate-critical-materials-resource-security",
+          "rank": 5,
+          "stage": "act",
+          "title": "Resolve range before adds/trims · Critical materials / resource security",
+          "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 69,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        },
+        {
+          "id": "action-valuation-review-DHR",
+          "rank": 6,
+          "stage": "act",
+          "title": "Valuation review · DHR",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        },
+        {
+          "id": "action-valuation-review-BSX",
+          "rank": 7,
+          "stage": "act",
+          "title": "Valuation review · BSX",
+          "recommendation": "Review fair-value range before treating pullback as actionable.",
+          "recommendedChoice": "review-now",
+          "priorityScore": 67,
+          "allowedActionLevel": "stage",
+          "blockers": []
+        }
+      ],
+      "sourceReliability": {
+        "status": "watch",
+        "actionableFailures": [
+          {
+            "id": "source-fix-1-substack",
+            "platform": "substack",
+            "runs": 56,
+            "latest": "2026-05-12 08:52:44.487+00",
+            "error": "Substack post upsert failed: there is no unique or exclusion constraint matching the ON CONFLICT specification",
+            "recommendedAction": "fix-upsert-constraint",
+            "priority": "high"
+          },
+          {
+            "id": "source-fix-2-podcast",
+            "platform": "podcast",
+            "runs": 14,
+            "latest": "2026-05-18 08:33:51.432+00",
+            "error": "(partial/empty error)",
+            "recommendedAction": "separate-partial-success-from-failure",
+            "priority": "medium"
+          },
+          {
+            "id": "source-fix-3-rss",
+            "platform": "rss",
+            "runs": 7,
+            "latest": "2026-05-18 09:02:09.516+00",
+            "error": "Feed request failed (403)",
+            "recommendedAction": "demote-or-add-user-agent/proxy",
+            "priority": "medium"
+          },
+          {
+            "id": "source-fix-4-rss",
+            "platform": "rss",
+            "runs": 7,
+            "latest": "2026-05-18 09:02:09.501+00",
+            "error": "fetch failed",
+            "recommendedAction": "retry-backoff-and-source-test",
+            "priority": "medium"
+          }
+        ],
+        "recommendations": [
+          "Fix Substack ON CONFLICT/upsert schema first because it creates high-volume deterministic loss.",
+          "Treat RSS 403/fetch failures as source-specific demote/fix tasks rather than global blockers.",
+          "Keep X 402 failures ignored for action scoring unless paid X access becomes available.",
+          "Apply source-health penalty to ranked action queue while actionable failures exceed 50 over 14 days."
+        ]
+      },
+      "learningSignals": [
+        "4 candidate decisions are hidden by priority limit; weekly review should check whether they are truly lower-value.",
+        "65 actionable investing input failures in 14d; keep source-health penalty active.",
+        "Mapping cleanup remains before full action authority; do not over-trust ranked add/trim cards yet."
+      ],
+      "recommendations": [
+        "Keep the cockpit capped at 7 active cards.",
+        "Resolve mapping cleanup before treating action cards as authoritative.",
+        "Use Not now / Archive evidence / Revisit later aggressively to keep the queue clean.",
+        "Do not add new investing UI surfaces until receipt outcomes and weekly calibration are working."
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/weekly-decision-review/latest.json"
+    },
     "investingManualDecisions": {
       "generatedAt": "2026-05-19T22:51:15.086Z",
       "schemaVersion": "2026-05-19.1",
@@ -43304,7 +43603,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "Austin events: 8 family / 54 music latest",
-      "summary": "43 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
+      "summary": "43 crawl artifacts indexed · 1h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43315,7 +43614,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 23h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 1d old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43348,7 +43647,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "Automations: 31 enabled / 6 paused",
-      "summary": "37 cron jobs indexed · 11h old · memory/automations/latest-manifest.json",
+      "summary": "37 cron jobs indexed · 12h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43359,7 +43658,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@a134ddb, 11 dirty · Alphalpha dashboard: main@de92008, 2 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@ebd3317, 7 dirty · Alphalpha dashboard: main@c62a4b9, 4 dirty · Obsidian vault: main@0207619, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -43381,7 +43680,7 @@
       "date": "2026-05-20",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
-      "summary": "14 review items indexed · 23h old · memory/review-queue/latest-manifest.json",
+      "summary": "14 review items indexed · 1d old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

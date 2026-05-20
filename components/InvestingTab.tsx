@@ -25,6 +25,7 @@ import type {
   InvestingTaxonomyDecisions,
   InvestingManualDecisionWorkflow,
   InvestingManualDecisions,
+  InvestingWeeklyDecisionReview,
   InvestingExecutionBoundaryPolicy,
   InvestingRankedActionQueue,
   InvestingSourceReliabilityPlan,
@@ -62,6 +63,7 @@ interface Props {
   manualDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   holdingRoleDecisionWorkflow?: InvestingManualDecisionWorkflow | null;
   decisionPipeline?: InvestingManualDecisionWorkflow | null;
+  weeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
@@ -72,7 +74,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -122,6 +124,10 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           onDiscuss={onDiscuss}
           onAction={onAction}
         />
+      )}
+
+      {(weeklyDecisionReview || manualDecisions) && (
+        <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
       )}
 
       {!decisionPipeline && (executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
@@ -461,6 +467,48 @@ function InvestmentActionCommandCenter({ executionBoundaryPolicy, rankedActionQu
           {failures.slice(0, 4).map(item => <div key={item.id} className="investmentListRow"><strong>{item.priority} · {item.platform} · {item.runs} runs</strong><p>{item.recommendedAction}</p><em>{item.error}</em></div>)}
         </div>
       )}
+    </section>
+  );
+}
+
+function InvestmentDecisionAudit({ weeklyDecisionReview, manualDecisions, onDiscuss }: {
+  weeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
+  manualDecisions?: InvestingManualDecisions | null;
+  onDiscuss: (ctx: ThreadContext) => void;
+}) {
+  const receipts = weeklyDecisionReview?.recentReceipts ?? (manualDecisions?.decisions ?? []).slice(0, 12).map(item => ({
+    decisionPointId: item.decisionPointId,
+    choiceId: item.choiceId,
+    status: item.status,
+    stage: undefined,
+    decisionType: undefined,
+    updatedAt: item.updatedAt,
+    revisitAt: undefined,
+    rationale: item.rationale,
+  }));
+  const signals = weeklyDecisionReview?.learningSignals ?? [];
+  const summary = weeklyDecisionReview?.summary ?? {};
+  return (
+    <section className="investmentSection investmentAuditTrail">
+      <div className="sectionTitleRow"><h2>Decision receipts + learning loop</h2><span>{String(summary.receiptCount7d ?? receipts.length)} receipts this week</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Audit trail · {weeklyDecisionReview?.generatedAt ? formatDate(weeklyDecisionReview.generatedAt) : "latest"}</span>
+          <h3>What the system learned from recent decisions</h3>
+          <p>Confirmed, deferred, and archived decisions leave receipts here so the active queue can stay small without losing context.</p>
+          <div className="taxonomyStats"><span><strong>{String(summary.activeDecisionCount ?? "—")}</strong> active</span><span><strong>{String(summary.hiddenByLimitCount ?? "—")}</strong> hidden by cap</span><span><strong>{String(summary.actionableSourceFailures14d ?? "—")}</strong> source failures</span></div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Compression rule</strong>
+          <p>Receipts are the memory. The cockpit only keeps decisions that still need attention.</p>
+          <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "investing-weekly-decision-review", type: "decision", title: "Weekly investing decision review", category: "investing learning loop", summary: signals.join(" ") || "Review recent receipts and calibration signals." })}>Discuss learning</button>
+        </div>
+      </div>
+      {signals.length > 0 && <div className="investmentCardGrid">{signals.slice(0, 4).map(signal => <article key={signal} className="investmentDecision"><div className="decisionTop"><span>learning signal</span><strong>review</strong></div><p>{signal}</p></article>)}</div>}
+      <div className="taxonomyPanel">
+        <div className="sectionTitleRow"><h2>Recent receipts</h2><span>{receipts.length}</span></div>
+        {receipts.length ? receipts.slice(0, 12).map(receipt => <div key={`${receipt.decisionPointId}-${receipt.updatedAt || receipt.choiceId}`} className="investmentListRow"><strong>{receipt.decisionPointId} → {receipt.choiceId}</strong><p>{receipt.rationale || "Decision receipt recorded."}</p><em>{receipt.status || "staged"}{receipt.stage ? ` · ${receipt.stage}` : ""}{receipt.updatedAt ? ` · ${formatDate(receipt.updatedAt)}` : ""}</em></div>) : <p className="emptyText">No decision receipts yet.</p>}
+      </div>
     </section>
   );
 }

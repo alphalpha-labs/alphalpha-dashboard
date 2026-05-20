@@ -329,6 +329,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               manualDecisionWorkflow={data.meta.investingManualDecisionWorkflow}
               holdingRoleDecisionWorkflow={data.meta.investingHoldingRoleDecisionWorkflow}
               decisionPipeline={data.meta.investingDecisionPipeline}
+              weeklyDecisionReview={data.meta.investingWeeklyDecisionReview}
               manualDecisions={data.meta.investingManualDecisions}
               executionBoundaryPolicy={data.meta.investingExecutionBoundaryPolicy}
               rankedActionQueue={data.meta.investingRankedActionQueue}
