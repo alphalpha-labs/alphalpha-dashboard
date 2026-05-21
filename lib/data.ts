@@ -278,8 +278,10 @@ export type InvestingTaxonomyDecisionWorkflow = {
     question: string;
     recommendation: string;
     why: string;
+    whyThisMatters?: string;
+    triagePrompt?: string;
     recommendedChoice: string;
-    options: Array<{ id: string; label: string; meaning: string }>;
+    options: Array<{ id: string; label: string; meaning: string; consequence?: string; behavior?: string; confirmLabel?: string; keepCardActive?: boolean }>;
     affectedItems?: string[];
     affectedAssets?: string[];
     affectedAllocationPct?: number | null;

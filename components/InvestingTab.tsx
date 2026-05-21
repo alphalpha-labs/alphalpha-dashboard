@@ -635,6 +635,8 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
   const savingAnyChoice = Object.keys(savingChoices).length > 0;
 
   function promptChoice(pointId: string, choiceId: string, label: string) {
+    const card = decisionCards.find(card => card.id === pointId);
+    const option = card?.options.find(option => option.id === choiceId);
     const existingChoice = effectiveSavedChoices[pointId] || stagedChoices[pointId];
     setPendingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setStagedChoices(prev => ({ ...prev, [pointId]: choiceId }));
@@ -642,9 +644,11 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
       ...prev,
       [pointId]: {
         tone: "success",
-        text: existingChoice && existingChoice !== choiceId
-          ? `Double-check: change from “${existingChoice}” to “${label}”?`
-          : `Double-check: confirm “${label}” before saving.`,
+        text: option?.behavior === "open-triage"
+          ? `Double-check: open triage for “${label}”. This will not clear the card or execute anything.`
+          : existingChoice && existingChoice !== choiceId
+            ? `Double-check: change from “${existingChoice}” to “${label}”?`
+            : `Double-check: confirm “${label}” before saving a receipt.`,
       },
     }));
   }
@@ -657,10 +661,17 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
 
   async function confirmChoice(pointId: string, choiceId: string, label: string) {
     const previousChoice = stagedChoices[pointId];
+    const card = decisionCards.find(card => card.id === pointId);
+    const option = card?.options.find(option => option.id === choiceId);
+    if (option?.behavior === "open-triage") {
+      setPendingChoices(prev => { const next = { ...prev }; delete next[pointId]; return next; });
+      setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Opened triage for “${label}”. No receipt saved; this card stays active until a real disposition is recorded.` } }));
+      onDiscuss({ id: `${pointId}-triage`, type: "decision", title: `${label} · ${card?.title || pointId}`, category: "investing triage", summary: `${card?.triagePrompt || card?.whyThisMatters || card?.recommendation || "Review the concrete follow-up questions before saving a decision receipt."}\n\nContext: ${card?.why || ""}\n\nAffected: ${(card?.affectedAssets || []).join(", ") || "n/a"}` });
+      return;
+    }
     setSavingChoices(prev => ({ ...prev, [pointId]: choiceId }));
     setChoiceReceipts(prev => ({ ...prev, [pointId]: { tone: "success", text: `Saving “${label}”…` } }));
     try {
-      const card = decisionCards.find(card => card.id === pointId);
       await onAction?.(pointId, "stage-manual-investing-decision", {
         decisionPointId: pointId,
         choiceId,
@@ -745,7 +756,9 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
                 {pendingChoices[card.id] && (() => {
                   const option = card.options.find(option => option.id === pendingChoices[card.id]);
                   if (!option) return null;
-                  return <div className="taxonomyConfirm" role="group" aria-label={`Confirm ${card.title}`}><span>{`Confirm “${option.label}”?`}</span><button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={savingAnyChoice}>Confirm</button><button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={savingAnyChoice}>Cancel</button></div>;
+                  const confirmLabel = option.confirmLabel || (option.behavior === "open-triage" ? "Open triage" : "Confirm");
+                  const confirmText = option.behavior === "open-triage" ? `Open triage for “${option.label}”?` : `Confirm “${option.label}”?`;
+                  return <div className="taxonomyConfirm" role="group" aria-label={`Confirm ${card.title}`}><span>{confirmText}</span><button className="taxonomyConfirmBtn taxonomyConfirmBtn--primary" onClick={() => void confirmChoice(card.id, option.id, option.label)} disabled={savingAnyChoice}>{confirmLabel}</button><button className="taxonomyConfirmBtn" onClick={() => cancelChoice(card.id)} disabled={savingAnyChoice}>Cancel</button></div>;
                 })()}
                 {choiceReceipts[card.id] && <div className={`taxonomyReceipt taxonomyReceipt--${choiceReceipts[card.id].tone}`} role="status">{choiceReceipts[card.id].text}</div>}
                 <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: card.id, type: "decision", title: card.question, category: "investing policy/valuation", summary: `${card.clusterId}: ${card.recommendation}` })}>Discuss decision</button>

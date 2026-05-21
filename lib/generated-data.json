@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-05-21T18:04:23.734Z",
+    "generatedAt": "2026-05-21T19:49:11.722Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "ef4e98e",
+      "commit": "72c4949",
       "branch": "main",
-      "generatedAt": "2026-05-21T18:04:23.747Z",
+      "generatedAt": "2026-05-21T19:49:11.733Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 4
+      "dirtyFiles": 2
     },
     "contextHealth": {
       "generatedAt": "2026-05-21T15:23:00.058Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "40 active files / 39086 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "8 family / 54 music latest",
         "detail": "43 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -130,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "308 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "21 tickers / 12 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "7h old",
+        "age": "8h old",
         "summary": "10 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -212,7 +212,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "31 enabled / 6 paused",
         "detail": "37 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -255,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 3 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@317625c, 52 dirty · Alphalpha dashboard: main@ef4e98e, 4 dirty · Obsidian vault: main@166c730, 1 dirty · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@7e67e61, 15 dirty · Alphalpha dashboard: main@72c4949, 2 dirty · Obsidian vault: main@166c730, 1 dirty · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@317625c · 52 dirty · 0 ahead · 0 behind"
+            "value": "master@7e67e61 · 15 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@ef4e98e · 4 dirty · 1 ahead · 0 behind"
+            "value": "main@72c4949 · 2 dirty · 2 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -311,7 +311,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "3h old",
+        "age": "4h old",
         "summary": "1 pending / 1 high",
         "detail": "15 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -26060,7 +26060,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/holding-role-decision-workflow/latest.json"
     },
     "investingDecisionPipeline": {
-      "generatedAt": "2026-05-21T18:04:22.834Z",
+      "generatedAt": "2026-05-21T19:49:10.872Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Unified investing decision pipeline: Evidence → thesis/role map → policy ranges → ranked actions → receipt → learning loop.",
       "antiConvolutionRule": "Show fewer, higher-quality decision cards. Archive evidence and debug scaffolding instead of creating new visible queues.",
@@ -26094,13 +26094,16 @@
           "why": "Energy supply constraint + infrastructure tollbooths has 16.48% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
           "whyNow": "Ranked #1 with score 73.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-range-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-range-triage",
+              "label": "Open range triage",
+              "meaning": "Start the policy-range review: target/min/max, included sleeves/tickers, concentration ceiling, invalidation rule.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until a real range disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26135,10 +26138,11 @@
             "KMI"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set target/min/max policy range, included sleeves/tickers, concentration ceiling, rebalance posture, and invalidation rule. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 73,
@@ -26163,13 +26167,16 @@
           "why": "Critical materials / resource security has 20.16% primary exposure. Target authority is pending, so the action is to resolve policy range and sub-sleeve boundaries first.",
           "whyNow": "Ranked #2 with score 73.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-range-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-range-triage",
+              "label": "Open range triage",
+              "meaning": "Start the policy-range review: target/min/max, included sleeves/tickers, concentration ceiling, invalidation rule.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until a real range disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26204,10 +26211,11 @@
             "CORN"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set target/min/max policy range, included sleeves/tickers, concentration ceiling, rebalance posture, and invalidation rule. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 73,
@@ -26232,13 +26240,16 @@
           "why": "DHR is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality..",
           "whyNow": "Ranked #3 with score 71.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-valuation-triage",
+              "label": "Open valuation triage",
+              "meaning": "Start the valuation review: fair value, buy zone, trim zone, source confidence, and next evidence needed.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until valuation disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26264,10 +26275,11 @@
             "DHR"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set fair value, buy zone, trim/avoid zone, evidence confidence, and next evidence needed. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 71,
@@ -26292,13 +26304,16 @@
           "why": "BSX is near the starter range for Medical tools and specialty device compounders. Verify data quality, thesis health, and portfolio room before adding. Pause if: BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, reimbursement weakens, or quote/data quality is not verified..",
           "whyNow": "Ranked #4 with score 71.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-valuation-triage",
+              "label": "Open valuation triage",
+              "meaning": "Start the valuation review: fair value, buy zone, trim zone, source confidence, and next evidence needed.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until valuation disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26324,10 +26339,11 @@
             "BSX"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set fair value, buy zone, trim/avoid zone, evidence confidence, and next evidence needed. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 71,
@@ -26352,13 +26368,16 @@
           "why": "OKLO is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
           "whyNow": "Ranked #5 with score 71.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-valuation-triage",
+              "label": "Open valuation triage",
+              "meaning": "Start the valuation review: fair value, buy zone, trim zone, source confidence, and next evidence needed.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until valuation disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26384,10 +26403,11 @@
             "OKLO"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set fair value, buy zone, trim/avoid zone, evidence confidence, and next evidence needed. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 71,
@@ -26412,13 +26432,16 @@
           "why": "CEG is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
           "whyNow": "Ranked #6 with score 70.4.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-valuation-triage",
+              "label": "Open valuation triage",
+              "meaning": "Start the valuation review: fair value, buy zone, trim zone, source confidence, and next evidence needed.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until valuation disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26444,10 +26467,11 @@
             "CEG"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set fair value, buy zone, trim/avoid zone, evidence confidence, and next evidence needed. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 70.4,
@@ -26472,13 +26496,16 @@
           "why": "CCJ is near the intelligent valuation range for AI power infrastructure bottleneck. Check thesis health, valuation source quality, portfolio room, and overlap before adding. Pause if: Valuation embeds unrealistic backlog/margin assumptions..",
           "whyNow": "Ranked #7 with score 68.07.",
           "whyThisMatters": "This may affect capital allocation, so the system can only stage/review it. Any trade still requires explicit Alex confirmation.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "options": [
             {
-              "id": "review-now",
-              "label": "Review now",
-              "meaning": "Open this as the next review item; no trade execution is implied.",
-              "consequence": "Writes a receipt and removes the card from the active queue until regeneration finds a new reason."
+              "id": "open-valuation-triage",
+              "label": "Open valuation triage",
+              "meaning": "Start the valuation review: fair value, buy zone, trim zone, source confidence, and next evidence needed.",
+              "consequence": "Opens a follow-up triage drawer. Does not clear this card until valuation disposition is recorded.",
+              "behavior": "open-triage",
+              "confirmLabel": "Open triage",
+              "keepCardActive": true
             },
             {
               "id": "not-now",
@@ -26504,10 +26531,11 @@
             "CCJ"
           ],
           "consequences": [
-            "Does not execute or automate trades.",
-            "Writes a durable decision receipt.",
+            "Opens a follow-up triage path without clearing this card.",
+            "A real disposition still needs a durable receipt.",
             "Feeds the weekly learning/calibration loop."
           ],
+          "triagePrompt": "Set fair value, buy zone, trim/avoid zone, evidence confidence, and next evidence needed. Do not execute trades.",
           "blockers": [],
           "blockingLevel": "medium",
           "priorityScore": 68.07,
@@ -26525,11 +26553,11 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/decision-pipeline/latest.json"
     },
     "investingWeeklyDecisionReview": {
-      "generatedAt": "2026-05-21T18:04:22.914Z",
+      "generatedAt": "2026-05-21T19:49:10.963Z",
       "schemaVersion": "2026-05-20.1",
       "period": {
-        "since": "2026-05-14T18:04:22.914Z",
-        "until": "2026-05-21T18:04:22.914Z"
+        "since": "2026-05-14T19:49:10.963Z",
+        "until": "2026-05-21T19:49:10.963Z"
       },
       "purpose": "Weekly learning artifact for the unified investing decision pipeline: receipts, unresolved cards, source health, and calibration prompts.",
       "summary": {
@@ -26703,7 +26731,7 @@
           "stage": "act",
           "title": "Resolve range before adds/trims · Energy supply constraint + infrastructure tollbooths",
           "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-range-triage",
           "priorityScore": 73,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26714,7 +26742,7 @@
           "stage": "act",
           "title": "Resolve range before adds/trims · Critical materials / resource security",
           "recommendation": "Do not rank as buy/sell until policy range is confirmed.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-range-triage",
           "priorityScore": 73,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26725,7 +26753,7 @@
           "stage": "act",
           "title": "Valuation review · DHR",
           "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "priorityScore": 71,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26736,7 +26764,7 @@
           "stage": "act",
           "title": "Valuation review · BSX",
           "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "priorityScore": 71,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26747,7 +26775,7 @@
           "stage": "act",
           "title": "Valuation review · OKLO",
           "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "priorityScore": 71,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26758,7 +26786,7 @@
           "stage": "act",
           "title": "Valuation review · CEG",
           "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "priorityScore": 70.4,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26769,7 +26797,7 @@
           "stage": "act",
           "title": "Valuation review · CCJ",
           "recommendation": "Review fair-value range before treating pullback as actionable.",
-          "recommendedChoice": "review-now",
+          "recommendedChoice": "open-valuation-triage",
           "priorityScore": 68.07,
           "allowedActionLevel": "stage",
           "blockers": []
@@ -26950,7 +26978,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/weekly-decision-review/latest.json"
     },
     "investingLayerIntegrity": {
-      "generatedAt": "2026-05-21T18:04:22.956Z",
+      "generatedAt": "2026-05-21T19:49:11.012Z",
       "schemaVersion": "2026-05-20.1",
       "purpose": "Validate that portfolio map, decision policy, and action queue layers line up before treating ranked investment decisions as authoritative.",
       "status": "pass",
@@ -27026,7 +27054,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/layer-integrity/latest.json"
     },
     "investingReceiptOutcomes": {
-      "generatedAt": "2026-05-21T18:04:22.872Z",
+      "generatedAt": "2026-05-21T19:49:10.918Z",
       "schemaVersion": "2026-05-21.1",
       "purpose": "Receipt outcome and revisit loop for the investing decision cockpit: schedule 30/90/180 day checks, revive due deferred cards, and keep learning separate from the active queue.",
       "summary": {
@@ -28236,7 +28264,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/execution-boundary-policy.json"
     },
     "investingRankedActionQueue": {
-      "generatedAt": "2026-05-21T18:04:22.788Z",
+      "generatedAt": "2026-05-21T19:49:10.825Z",
       "schemaVersion": "2026-05-19.1",
       "purpose": "Rank candidate investment decisions after conviction reset: valuation, policy ranges, source freshness, concentration, and opportunity cost; stale conviction gaps are disabled until re-earned.",
       "executionBoundary": {
@@ -44924,7 +44952,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "Austin events: 8 family / 54 music latest",
-      "summary": "43 crawl artifacts indexed · 3h old · memory/events/latest-manifest.json",
+      "summary": "43 crawl artifacts indexed · 4h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -44935,7 +44963,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "308 raw items · 3h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "308 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -44946,7 +44974,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 12 themes",
-      "summary": "4 high-priority research candidates · 3h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -44957,7 +44985,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "Obsidian proposals: 10 proposed updates",
-      "summary": "proposal-only · 7h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 8h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -44968,7 +44996,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "Automations: 31 enabled / 6 paused",
-      "summary": "37 cron jobs indexed · 3h old · memory/automations/latest-manifest.json",
+      "summary": "37 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -44979,7 +45007,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 3 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@317625c, 52 dirty · Alphalpha dashboard: main@ef4e98e, 4 dirty · Obsidian vault: main@166c730, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@7e67e61, 15 dirty · Alphalpha dashboard: main@72c4949, 2 dirty · Obsidian vault: main@166c730, 1 dirty · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -45001,7 +45029,7 @@
       "date": "2026-05-21",
       "category": "Source health",
       "title": "Review queue: 1 pending / 1 high",
-      "summary": "15 review items indexed · 3h old · memory/review-queue/latest-manifest.json",
+      "summary": "15 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
