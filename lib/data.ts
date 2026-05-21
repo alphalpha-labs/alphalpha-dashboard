@@ -303,6 +303,9 @@ export type InvestingTaxonomyDecisions = {
     rationale?: string;
     status?: string;
     updatedAt?: string;
+    revisitAt?: string | null;
+    stage?: string;
+    decisionType?: string;
     source?: string;
   }>;
   history?: Array<Record<string, unknown>>;
@@ -315,6 +318,7 @@ export type InvestingManualDecisionWorkflow = InvestingTaxonomyDecisionWorkflow 
 export type InvestingManualDecisions = InvestingTaxonomyDecisions;
 export type InvestingWeeklyDecisionReview = { generatedAt?: string; period?: { since?: string; until?: string }; summary?: Record<string, unknown>; recentReceipts?: Array<{ decisionPointId: string; choiceId: string; status?: string; stage?: string; decisionType?: string | null; updatedAt?: string; revisitAt?: string | null; rationale?: string | null }>; activeDecisions?: Array<{ id: string; rank?: number; stage?: string; title: string; recommendation?: string; recommendedChoice?: string; priorityScore?: number; allowedActionLevel?: string; blockers?: string[] }>; learningSignals?: string[]; recommendations?: string[] };
 export type InvestingLayerIntegrity = { generatedAt?: string; status?: string; summary?: Record<string, unknown>; layers?: Record<string, { status?: string; openDecisionIds?: string[]; activeActionIds?: string[] }>; issues?: Array<{ id: string; layer: string; severity: string; title: string; detail: string; recommendation: string; affected?: string[]; blocksActionAuthority?: boolean }>; antiConvolutionRecommendation?: string };
+export type InvestingReceiptOutcomes = { generatedAt?: string; summary?: Record<string, unknown>; policy?: Record<string, unknown>; dueRevisits?: Array<Record<string, unknown>>; dueOutcomeChecks?: Array<Record<string, unknown>>; nextScheduled?: Array<{ id?: string; decisionPointId?: string; window?: string; dueAt?: string; stage?: string }>; followups?: Array<{ decisionPointId: string; choiceId: string; status?: string; stage?: string; reviewKind?: string; updatedAt?: string; revisitAt?: string | null; nextCheckAt?: string | null; dueChecks?: Array<Record<string, unknown>>; outcomeChecks?: Array<Record<string, unknown>>; rationale?: string | null }> };
 export type InvestingExecutionBoundaryPolicy = { generatedAt?: string; status?: string; title?: string; purpose?: string; allowedWithoutAdditionalApproval?: string[]; requiresExplicitAlexConfirmation?: string[]; recommendationLevels?: Array<{ id: string; meaning: string }>; dashboardReceiptRule?: string; defaultTradePosture?: string };
 export type InvestingRankedActionQueue = { generatedAt?: string; purpose?: string; summary?: Record<string, number | string | null>; sourceHealth?: { status?: string; actionableFailedRuns14?: number | null; penalty?: number }; actions?: Array<{ rank: number; id: string; title: string; rankScore: number; recommendation: string; allowedActionLevel: string; explicitTradeConfirmationRequired?: boolean; rationale: string; tickers?: string[]; blockers?: string[]; scoreComponents?: Record<string, unknown> }> };
 export type InvestingSourceReliabilityPlan = { generatedAt?: string; status?: string; summary?: Record<string, number>; actionableFailures?: Array<{ id: string; platform: string; runs: number; error: string; recommendedAction: string; priority: string }>; recommendations?: string[] };
@@ -415,6 +419,7 @@ export type DashboardData = {
     investingDecisionPipeline?: InvestingManualDecisionWorkflow | null;
     investingWeeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
     investingLayerIntegrity?: InvestingLayerIntegrity | null;
+    investingReceiptOutcomes?: InvestingReceiptOutcomes | null;
     investingManualDecisions?: InvestingManualDecisions | null;
     investingExecutionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
     investingRankedActionQueue?: InvestingRankedActionQueue | null;

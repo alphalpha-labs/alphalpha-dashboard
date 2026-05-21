@@ -27,6 +27,7 @@ import type {
   InvestingManualDecisions,
   InvestingWeeklyDecisionReview,
   InvestingLayerIntegrity,
+  InvestingReceiptOutcomes,
   InvestingExecutionBoundaryPolicy,
   InvestingRankedActionQueue,
   InvestingSourceReliabilityPlan,
@@ -66,6 +67,7 @@ interface Props {
   decisionPipeline?: InvestingManualDecisionWorkflow | null;
   weeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
   layerIntegrity?: InvestingLayerIntegrity | null;
+  receiptOutcomes?: InvestingReceiptOutcomes | null;
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
@@ -76,7 +78,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -131,6 +133,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
       )}
+
+      {receiptOutcomes && <ReceiptOutcomeLoop receiptOutcomes={receiptOutcomes} onDiscuss={onDiscuss} />}
 
       {layerIntegrity && <LayerIntegrityPanel layerIntegrity={layerIntegrity} onDiscuss={onDiscuss} />}
 
@@ -543,6 +547,39 @@ function LayerIntegrityPanel({ layerIntegrity, onDiscuss }: { layerIntegrity: In
   );
 }
 
+function ReceiptOutcomeLoop({ receiptOutcomes, onDiscuss }: { receiptOutcomes: InvestingReceiptOutcomes; onDiscuss: (ctx: ThreadContext) => void }) {
+  const followups = receiptOutcomes.followups ?? [];
+  const dueRevisits = receiptOutcomes.dueRevisits ?? [];
+  const dueChecks = receiptOutcomes.dueOutcomeChecks ?? [];
+  const nextScheduled = receiptOutcomes.nextScheduled ?? [];
+  return (
+    <section className="investmentSection investmentReceiptOutcomes">
+      <div className="sectionTitleRow"><h2>Receipt outcomes + revisits</h2><span>{String(receiptOutcomes.summary?.dueOutcomeCheckCount ?? 0)} due checks · {String(receiptOutcomes.summary?.dueRevisitCount ?? 0)} revisits</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">30 / 90 / 180 day learning loop</span>
+          <h3>Receipts now have scheduled outcome checks</h3>
+          <p>Deferred cards can re-enter when due, while staged and archived receipts stay in the audit trail for calibration instead of cluttering the cockpit.</p>
+          <div className="taxonomyStats"><span><strong>{String(receiptOutcomes.summary?.receiptCount ?? followups.length)}</strong> receipts</span><span><strong>{String(receiptOutcomes.summary?.dueRevisitCount ?? dueRevisits.length)}</strong> revisits due</span><span><strong>{String(receiptOutcomes.summary?.dueOutcomeCheckCount ?? dueChecks.length)}</strong> outcomes due</span></div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Outcome rule</strong>
+          <p>Learning is receipt metadata, not another primary queue. Use it to improve rankings and kill weak decision patterns.</p>
+          <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "investing-receipt-outcome-loop", type: "decision", title: "Investing receipt outcome loop", category: "investing learning loop", summary: `Next scheduled check: ${String(receiptOutcomes.summary?.nextScheduledCheckAt || "none")}` })}>Discuss outcomes</button>
+        </div>
+      </div>
+      {(dueRevisits.length > 0 || dueChecks.length > 0) && <div className="investmentCardGrid">
+        {dueRevisits.slice(0, 3).map(item => <article key={String(item.decisionPointId)} className="investmentDecision"><div className="decisionTop"><span>revisit due</span><strong>{String(item.stage || "receipt")}</strong></div><h3>{String(item.decisionPointId)}</h3><p>{String(item.rationale || "Deferred receipt is due for review.")}</p></article>)}
+        {dueChecks.slice(0, 3).map(item => <article key={`${String(item.decisionPointId)}-${String(item.window)}`} className="investmentDecision"><div className="decisionTop"><span>outcome due</span><strong>{String(item.window || "check")}</strong></div><h3>{String(item.decisionPointId)}</h3><p>Outcome check due {String(item.dueAt || "now")}.</p></article>)}
+      </div>}
+      <div className="taxonomyPanel">
+        <div className="sectionTitleRow"><h2>Next scheduled checks</h2><span>{nextScheduled.length}</span></div>
+        {nextScheduled.length ? nextScheduled.slice(0, 8).map(item => <div key={`${item.decisionPointId}-${item.window}`} className="investmentListRow"><strong>{item.decisionPointId} · {item.window}</strong><p>Scheduled for {item.dueAt ? formatDate(item.dueAt) : "later"}</p><em>{item.stage || "receipt"}</em></div>) : <p className="emptyText">No scheduled receipt checks yet.</p>}
+      </div>
+    </section>
+  );
+}
+
 function ManualDecisionReview({ title = "Manual decision queue · policy + valuation", eyebrow = "Action authority gates", headline = "Approve ranges before signals become decisions", ruleText = "These choices decide policy ranges, alert authority, and first valuation-review batches. Trade execution still requires explicit Alex confirmation.", manualDecisionWorkflow, manualDecisions, onDiscuss, onAction }: {
   title?: string;
   eyebrow?: string;
@@ -554,7 +591,7 @@ function ManualDecisionReview({ title = "Manual decision queue · policy + valua
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }) {
   const decisionCards = manualDecisionWorkflow?.decisionPoints ?? [];
-  const savedChoices = useMemo(() => Object.fromEntries((manualDecisions?.decisions ?? []).map(decision => [decision.decisionPointId, decision.choiceId])), [manualDecisions]);
+  const savedChoices = useMemo(() => Object.fromEntries((manualDecisions?.decisions ?? []).filter(decision => decision.status !== "deferred" || !decision.revisitAt || new Date(decision.revisitAt).getTime() > Date.now()).map(decision => [decision.decisionPointId, decision.choiceId])), [manualDecisions]);
   const [localSavedChoices, setLocalSavedChoices] = useState<Record<string, string>>({});
   const effectiveSavedChoices = { ...savedChoices, ...localSavedChoices };
   const [stagedChoices, setStagedChoices] = useState<Record<string, string>>(savedChoices);
