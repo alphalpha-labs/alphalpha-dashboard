@@ -28,6 +28,7 @@ import type {
   InvestingWeeklyDecisionReview,
   InvestingLayerIntegrity,
   InvestingReceiptOutcomes,
+  InvestingConvictionResetPolicy,
   InvestingExecutionBoundaryPolicy,
   InvestingRankedActionQueue,
   InvestingSourceReliabilityPlan,
@@ -68,6 +69,7 @@ interface Props {
   weeklyDecisionReview?: InvestingWeeklyDecisionReview | null;
   layerIntegrity?: InvestingLayerIntegrity | null;
   receiptOutcomes?: InvestingReceiptOutcomes | null;
+  convictionResetPolicy?: InvestingConvictionResetPolicy | null;
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
@@ -78,7 +80,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -129,6 +131,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           onAction={onAction}
         />
       )}
+
+      {convictionResetPolicy?.status === "active" && <ConvictionResetPanel policy={convictionResetPolicy} onDiscuss={onDiscuss} />}
 
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
@@ -575,6 +579,34 @@ function ReceiptOutcomeLoop({ receiptOutcomes, onDiscuss }: { receiptOutcomes: I
       <div className="taxonomyPanel">
         <div className="sectionTitleRow"><h2>Next scheduled checks</h2><span>{nextScheduled.length}</span></div>
         {nextScheduled.length ? nextScheduled.slice(0, 8).map(item => <div key={`${item.decisionPointId}-${item.window}`} className="investmentListRow"><strong>{item.decisionPointId} · {item.window}</strong><p>Scheduled for {item.dueAt ? formatDate(item.dueAt) : "later"}</p><em>{item.stage || "receipt"}</em></div>) : <p className="emptyText">No scheduled receipt checks yet.</p>}
+      </div>
+    </section>
+  );
+}
+
+function ConvictionResetPanel({ policy, onDiscuss }: { policy: InvestingConvictionResetPolicy; onDiscuss: (ctx: ThreadContext) => void }) {
+  const evidenceTypes = policy.reEarnRule?.requiredEvidenceTypes ?? [];
+  const ignored = policy.reEarnRule?.ignoredForScoring ?? [];
+  return (
+    <section className="investmentSection convictionResetPanel">
+      <div className="sectionTitleRow"><h2>Conviction reset · neutral baseline</h2><span>{policy.neutralLabel || "neutral"} · score {policy.neutralScore ?? "—"}</span></div>
+      <div className="taxonomyHeroGrid">
+        <div>
+          <span className="digestEyebrow">Reset at {policy.resetAt ? formatDate(policy.resetAt) : "latest"}</span>
+          <h3>Theses must re-earn conviction from fresh evidence</h3>
+          <p>{policy.reason || "Existing conviction levels were reset because their back data was questionable."}</p>
+          <div className="taxonomyStats"><span><strong>{policy.scope?.thesisIds?.length ?? "—"}</strong> theses</span><span><strong>{policy.neutralScore ?? "—"}</strong> neutral score</span><span><strong>{policy.status || "unknown"}</strong> status</span></div>
+        </div>
+        <div className="taxonomyPrinciples">
+          <strong>Re-earn rule</strong>
+          <p>{policy.reEarnRule?.promotionPath || "Post-reset conviction updates require explicit fresh evidence."}</p>
+          <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "investing-conviction-reset", type: "decision", title: "Investing conviction reset", category: "investing conviction", summary: policy.reason || "Reset all conviction to neutral; re-earn from fresh evidence." })}>Discuss reset</button>
+        </div>
+      </div>
+      <div className="investmentCardGrid">
+        <article className="investmentDecision"><div className="decisionTop"><span>counts</span><strong>scope</strong></div><h3>Reset scope</h3><p>{policy.scope?.appliesTo?.join("; ") || "Thesis conviction and action scoring."}</p></article>
+        <article className="investmentDecision"><div className="decisionTop"><span>allowed</span><strong>evidence</strong></div><h3>Can rebuild conviction</h3><p>{evidenceTypes.join("; ") || "Fresh explicit evidence after reset."}</p></article>
+        <article className="investmentDecision"><div className="decisionTop"><span>ignored</span><strong>stale</strong></div><h3>No longer score-authoritative</h3><p>{ignored.join("; ") || "Pre-reset conviction scores."}</p></article>
       </div>
     </section>
   );
