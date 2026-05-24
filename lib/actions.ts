@@ -26,9 +26,10 @@ export function isStructured(p: ActionProposal): p is ActionProposal & { preview
   return p.variant === "structured";
 }
 
-// ACTION_FENCE matches a fenced ```action ... ``` block at the end of a response.
-// The leading whitespace/newlines before the fence are also consumed.
-const ACTION_FENCE_RE = /\n?\s*```action\n([\s\S]*?)```\s*$/;
+// ACTION_FENCE_RE matches the last ```action ... ``` block at the end of a response.
+// Group 1: the leading content before the fence (greedy — forces match of the LAST fence).
+// Group 2: the JSON content inside the fence.
+const ACTION_FENCE_RE = /^([\s\S]*)\n?\s*```action\n([\s\S]*?)```\s*$/;
 
 /**
  * Strips the action fence from `text` and parses the embedded JSON.
@@ -43,17 +44,18 @@ export function parseActionBlock(text: string): {
   if (!match) return { cleaned: text, proposal: null };
 
   try {
-    const raw = JSON.parse(match[1]) as Partial<ActionProposal>;
+    const raw = JSON.parse(match[2]) as Partial<ActionProposal>;
     if (
       (raw.variant !== "structured" && raw.variant !== "narrative") ||
       typeof raw.signal  !== "string" || !raw.signal  ||
       typeof raw.label   !== "string" || !raw.label   ||
-      !raw.payload || typeof raw.payload !== "object"  ||
-      !raw.preview || typeof raw.preview !== "object"
+      !raw.payload || typeof raw.payload !== "object" || Array.isArray(raw.payload) ||
+      !raw.preview || typeof raw.preview !== "object" || Array.isArray(raw.preview)
     ) {
       return { cleaned: text, proposal: null };
     }
-    const cleaned = text.replace(ACTION_FENCE_RE, "").trim();
+    // match[1] is the text preceding the last fence; trim to get cleaned display text.
+    const cleaned = match[1].trim();
     return { cleaned, proposal: raw as ActionProposal };
   } catch {
     return { cleaned: text, proposal: null };

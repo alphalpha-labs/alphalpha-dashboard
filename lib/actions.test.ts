@@ -67,6 +67,20 @@ describe("parseActionBlock", () => {
     const { proposal } = parseActionBlock(badVariant);
     expect(proposal).toBeNull();
   });
+
+  it("returns null proposal when payload is an array", () => {
+    const arrayPayload = `Text.\n\`\`\`action\n{"variant":"structured","signal":"s","label":"l","payload":[1,2,3],"preview":{"item":"i","field":"f","from":"a","to":"b"}}\n\`\`\``;
+    const { proposal } = parseActionBlock(arrayPayload);
+    expect(proposal).toBeNull();
+  });
+
+  it("parses the last action fence when multiple are present", () => {
+    const multi = `Text.\n\`\`\`action\n{"variant":"structured","signal":"done","label":"First","payload":{"a":1},"preview":{"item":"x","field":"f","from":"a","to":"b"}}\n\`\`\`\nMore text.\n\`\`\`action\n{"variant":"narrative","signal":"skip","label":"Second","payload":{"b":2},"preview":{"summary":"s","tags":["T"]}}\n\`\`\``;
+    const { cleaned, proposal } = parseActionBlock(multi);
+    expect(proposal).not.toBeNull();
+    expect(proposal!.label).toBe("Second");
+    expect(cleaned).toContain("Text.");
+  });
 });
 
 describe("stripPartialActionFence", () => {
