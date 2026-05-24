@@ -10,7 +10,8 @@
     "build": "npm run generate:data && next build",
     "start": "next start",
     "lint": "next lint",
-    "test:auth": "npx tsx scripts/auth.test.ts"
+    "test:auth": "npx tsx scripts/auth.test.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@simplewebauthn/browser": "^13.3.0",
@@ -27,6 +28,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "vitest": "^4.1.7"
   }
 }
