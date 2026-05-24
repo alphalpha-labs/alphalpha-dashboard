@@ -9,6 +9,8 @@ import {
   newThreadId,
   type StoredThread,
 } from "@/lib/threads";
+import { parseActionBlock, stripPartialActionFence, type ActionProposal } from "@/lib/actions";
+import ActionPanel from "./ActionPanel";
 
 type Message = { role: "assistant" | "user"; content: string };
 
@@ -122,6 +124,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
   const [view,        setView]        = useState<"chat" | "history">("chat");
   const [threadId,    setThreadId]    = useState<string | null>(null);
   const [itemThreads, setItemThreads] = useState<StoredThread[]>([]);
+  const [pendingAction, setPendingAction] = useState<ActionProposal | null>(null);
 
   const inputRef   = useRef<HTMLInputElement>(null);
   const scrollRef  = useRef<HTMLDivElement>(null);
@@ -147,6 +150,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
     if (!thread) return;
     if (thread.id === prevItemId.current) return;
     prevItemId.current = thread.id;
+    setPendingAction(null);   // clear stale action card when switching items
     setView("chat");
     setInput("");
     setMessages([]); // clear while fetching
@@ -174,6 +178,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
 
   const handleNewThread = async () => {
     if (!thread || loading) return;
+    setPendingAction(null);   // clear stale action card on new thread
     await startFresh(thread);
     setItemThreads(await getThreadsForItem(thread.id));
     setView("chat");
@@ -211,6 +216,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
 
   const send = async () => {
     if (!thread || !threadId || !input.trim() || loading) return;
+    setPendingAction(null);   // clear any stale card from prior response
     const userMsg: Message = { role: "user", content: input.trim() };
     const history = [...messages, userMsg];
     setMessages([...history, { role: "assistant", content: "· · ·" }]);
@@ -259,7 +265,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
               evt.choices?.[0]?.delta?.content    ?? "";
             if (delta) {
               accumulated += delta;
-              setMessages([...history, { role: "assistant", content: accumulated }]);
+              setMessages([...history, { role: "assistant", content: stripPartialActionFence(accumulated) }]);
             }
           } catch { /* ignore malformed SSE lines */ }
         }
@@ -267,8 +273,12 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
 
       if (!accumulated) throw new Error("Empty response");
 
-      // Persist the completed exchange to KV.
-      const finalMessages = [...history, { role: "assistant" as const, content: accumulated }];
+      // Parse and strip any action proposal from the completed response.
+      const { cleaned, proposal } = parseActionBlock(accumulated);
+      setPendingAction(proposal);
+
+      // Persist the completed exchange to KV (store cleaned text, not the raw fence).
+      const finalMessages = [...history, { role: "assistant" as const, content: cleaned }];
       setMessages(finalMessages);
       const now = Date.now();
       await upsertThread({
@@ -379,6 +389,13 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
                   </div>
                 </div>
               ))}
+              {pendingAction && (
+                <ActionPanel
+                  proposal={pendingAction}
+                  itemId={thread.id}
+                  onDismiss={() => setPendingAction(null)}
+                />
+              )}
             </div>
           )}
 
