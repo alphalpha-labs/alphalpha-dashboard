@@ -493,6 +493,142 @@ input { font-family: inherit; }
 }
 .threadSend:disabled, .threadInput:disabled { opacity: 0.45; cursor: default; }
 
+/* 19b. Thread action panel */
+.actionPanel {
+  margin-left: 29px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-side);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.actionPanel-head {
+  background: var(--border-faint);
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border-faint);
+}
+.actionPanel-headLabel {
+  font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted);
+}
+.actionPanel-body { padding: 9px 10px; }
+.actionPanel-foot {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border-faint);
+  display: flex; gap: 6px;
+}
+
+/* Structured variant */
+.actionFieldRow {
+  display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px;
+}
+.actionFieldRow:last-child { margin-bottom: 0; }
+.actionFieldLabel {
+  font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint);
+  width: 44px; flex-shrink: 0;
+}
+.actionFieldVal {
+  font-family: 'Lora', Georgia, serif; font-size: 11px; color: var(--ink-2);
+}
+.actionFieldArrow { font-size: 10px; color: var(--ink-faint); }
+.actionFieldVal--new { color: var(--accent-low); font-weight: 500; font-family: 'DM Sans', sans-serif; }
+
+/* Narrative variant */
+.actionNarrativeSummary {
+  font-family: 'Lora', Georgia, serif; font-size: 12px; color: var(--ink-2);
+  line-height: 1.5; margin-bottom: 8px; font-style: italic;
+}
+.actionTags { display: flex; flex-wrap: wrap; gap: 4px; }
+.actionTag {
+  background: var(--border-faint); border: 1px solid var(--border);
+  border-radius: 99px; padding: 2px 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted);
+}
+
+/* Buttons */
+.actionConfirmBtn {
+  background: var(--dark-fill); color: var(--dark-fill-text);
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500;
+  padding: 5px 11px; border-radius: 6px; cursor: pointer; border: none;
+  transition: transform 80ms ease; display: flex; align-items: center; gap: 4px;
+}
+.actionConfirmBtn:hover:not(:disabled) { transform: scale(0.97); }
+.actionConfirmBtn:disabled { opacity: 0.5; cursor: default; }
+.actionDismissBtn {
+  background: transparent; color: var(--ink-faint);
+  border: 1px solid var(--border-faint); border-radius: 6px;
+  padding: 5px 8px; font-family: 'DM Sans', sans-serif; font-size: 10px; cursor: pointer;
+}
+.actionDismissBtn:disabled { opacity: 0.4; cursor: default; }
+
+/* Loading state */
+.actionPanel--loading { animation: panelPulse 1s ease-in-out infinite; }
+@keyframes panelPulse {
+  0%, 100% { border-color: var(--border); }
+  50%       { border-color: var(--border-strong); }
+}
+
+/* Done / receipt state */
+.actionPanel--done {
+  background: #eef4eb;
+  border-color: #b8d4b0;
+  animation: panelPop 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes panelPop {
+  0%   { transform: scale(0.96); opacity: 0.7; }
+  60%  { transform: scale(1.015); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.actionReceipt { padding: 10px; display: flex; align-items: center; gap: 9px; }
+.actionReceiptCheck {
+  width: 26px; height: 26px; background: var(--accent-low); color: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+  animation: checkBounce 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.15s both;
+}
+@keyframes checkBounce {
+  0%   { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.actionReceiptMain {
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  font-weight: 600; color: #3a5a38;
+}
+.actionReceiptSub {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  color: var(--accent-low); opacity: 0.8; margin-top: 2px;
+}
+.actionReceiptShimmer {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  animation: shimmer 0.65s ease 0.05s both;
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+
+/* Error state */
+.actionPanel--error { border-color: #c8906a; background: #fdf0ea; }
+.actionErrorMsg {
+  font-family: 'DM Sans', sans-serif; font-size: 11px; color: #8a4030;
+  padding: 4px 0 6px;
+}
+
+/* Dismiss animation */
+.actionPanel--dismissed {
+  animation: panelDismiss 0.3s ease both;
+  pointer-events: none;
+}
+@keyframes panelDismiss {
+  0%   { opacity: 1; max-height: 200px; }
+  100% { opacity: 0; max-height: 0; padding: 0; margin: 0; border-width: 0; }
+}
+
 /* 20. Status bar */
 .statusBar {
   height: 36px; border-top: 1px solid var(--border); background: var(--bg-side);
