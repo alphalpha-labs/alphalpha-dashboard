@@ -3,10 +3,11 @@ import { Redis } from "@upstash/redis";
 import { requireDashboardSession } from "@/lib/auth";
 import type { StoredThread } from "@/lib/threads";
 
-// Reads UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN from env.
-// Add the Upstash Redis integration in the Vercel Marketplace, then
-// run `vercel env pull` locally to get the vars for dev.
-const redis = Redis.fromEnv();
+// Vercel's KV/Upstash integration injects KV_REST_API_URL + KV_REST_API_TOKEN.
+const redis = new Redis({
+  url:   process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});
 
 const itemKey = (itemId: string) => `alphalpha:threads:${itemId}`;
 
