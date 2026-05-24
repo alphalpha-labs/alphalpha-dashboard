@@ -1,6 +1,6 @@
 // components/ActionPanel.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { isStructured, type ActionProposal, type StructuredPreview, type NarrativePreview } from "@/lib/actions";
 
 type PanelState = "idle" | "loading" | "done" | "error";
@@ -17,7 +17,7 @@ function formatTime(): string {
 
 function receiptCopy(proposal: ActionProposal): { main: string; sub: string } {
   if (isStructured(proposal)) {
-    const p = proposal.preview as StructuredPreview;
+    const p = proposal.preview;  // already StructuredPreview — narrowed by isStructured
     return {
       main: `${p.field} updated to ${p.to}`,
       sub:  `${p.item} · logged ${formatTime()}`,
@@ -26,7 +26,7 @@ function receiptCopy(proposal: ActionProposal): { main: string; sub: string } {
   const p = proposal.preview as NarrativePreview;
   const count = p.tags?.length ?? 1;
   return {
-    main: count === 1 ? "Action queued" : `${count} actions queued`,
+    main: count === 1 ? "1 action queued" : `${count} actions queued`,
     sub:  `${p.tags?.join(" · ") ?? "Done"} · ${formatTime()}`,
   };
 }
@@ -35,6 +35,14 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
   const [state,       setState]       = useState<PanelState>("idle");
   const [dismissing,  setDismissing]  = useState(false);
   const [receipt,     setReceipt]     = useState<{ main: string; sub: string } | null>(null);
+  const dismissTimer                  = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear the dismiss timer on unmount to avoid calling into freed parent state.
+  useEffect(() => {
+    return () => {
+      if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    };
+  }, []);
 
   const handleConfirm = async () => {
     setState("loading");
@@ -60,7 +68,7 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
   const handleDismiss = () => {
     setDismissing(true);
     // Wait for the CSS dismiss animation to finish before removing from DOM.
-    setTimeout(() => onDismiss(), 300);
+    dismissTimer.current = setTimeout(() => onDismiss(), 300);
   };
 
   const handleRetry = () => setState("idle");
@@ -92,7 +100,7 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
 
   // ── Structured body ──
   const structuredBody = isStructured(proposal) && (() => {
-    const p = proposal.preview as StructuredPreview;
+    const p = proposal.preview;  // already StructuredPreview — narrowed by isStructured
     return (
       <div className="actionPanel-body">
         <div className="actionFieldRow">
@@ -119,7 +127,7 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
     return (
       <div className="actionPanel-body">
         <div className="actionNarrativeSummary">"{p.summary}"</div>
-        {p.tags?.length > 0 && (
+        {(p.tags?.length ?? 0) > 0 && (
           <div className="actionTags">
             {p.tags.map(tag => <span key={tag} className="actionTag">{tag}</span>)}
           </div>
