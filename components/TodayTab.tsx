@@ -13,7 +13,7 @@ interface Props {
   onSnooze:       (id: string, label: string) => void;
   onSkip:         () => void;
   onWake:          (id: string) => void;
-  onAdd:           (text: string) => void;
+  onAdd:           (input: import("./QuickAdd").CaptureInput) => void;
   onEventFeedback: (eventId: string, feedbackType: string, payload: object) => void;
   onDiscuss:       (ctx: ThreadContext) => void;
 }

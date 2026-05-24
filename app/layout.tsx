@@ -4,6 +4,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Alphalpha · Chief of Staff",
   description: "Focus-first command center for decisions, open loops, projects, investing, and digests.",
+  appleWebApp: {
+    capable: true,
+    title: "Alphalpha",
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

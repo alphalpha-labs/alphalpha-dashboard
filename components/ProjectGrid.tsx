@@ -1,5 +1,7 @@
+import Link from "next/link";
 import type { Project, Loop } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
+import { slugify } from "@/lib/slugs";
 
 interface Props {
   projects:  Project[];
@@ -60,6 +62,7 @@ export default function ProjectGrid({ projects, loops, onDiscuss }: Props) {
                 </div>
               )}
               <div className="projectDiscuss">
+                <Link className="btnAlphaDiscuss" href={`/projects/${slugify(project.name)}`}>Details</Link>
                 <button
                   className="btnAlphaDiscuss"
                   onClick={() => onDiscuss({ id: project.id, type: "project", title: project.name, summary: project.summary, ocOwned: project.ocOwned })}

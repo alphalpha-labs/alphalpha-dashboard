@@ -12,6 +12,38 @@ import {
 
 type Message = { role: "assistant" | "user"; content: string };
 
+function renderMessageContent(content: string) {
+  if (content === "· · ·") return content;
+  const normalized = content
+    .replace(/\r\n/g, "\n")
+    .replace(/(#{2,6}\s+)/g, "\n$1")
+    .replace(/\s+-\s+(?=\*\*?[A-Za-z0-9$])/g, "\n- ")
+    .trim();
+  const blocks = normalized.split(/\n{2,}/).map(block => block.trim()).filter(Boolean);
+  return blocks.map((block, blockIndex) => {
+    const lines = block.split("\n").map(line => line.trim()).filter(Boolean);
+    const heading = lines.length === 1 ? lines[0].match(/^#{1,6}\s+(.+)/) : null;
+    if (heading) return <strong key={blockIndex} className="threadMarkdownHeading">{stripMarkdown(heading[1])}</strong>;
+    if (lines.every(line => /^[-*]\s+/.test(line))) {
+      return (
+        <ul key={blockIndex} className="threadMarkdownList">
+          {lines.map((line, lineIndex) => <li key={lineIndex}>{stripMarkdown(line.replace(/^[-*]\s+/, ""))}</li>)}
+        </ul>
+      );
+    }
+    return <p key={blockIndex}>{stripMarkdown(lines.join(" "))}</p>;
+  });
+}
+
+function stripMarkdown(text: string) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^#{1,6}\s+/, "")
+    .trim();
+}
+
 function buildSystemPrompt(ctx: ThreadContext): string {
   // OPENCLAW: This system prompt is sent to /api/thread on every message.
   // Modify here to adjust Alphalpha's personality or context fields.
@@ -28,7 +60,7 @@ function buildSystemPrompt(ctx: ThreadContext): string {
     ctx.summary  && `Summary: ${ctx.summary}`,
     ctx.category && `Category: ${ctx.category}`,
     ctx.ocOwned  && `This item is actively managed by OpenClaw.`,
-    `Be concise (≤3 sentences), warm, and concrete. Help Alex decide, act, or think more clearly.`,
+    `Be concise, warm, and concrete. Use mobile-readable plain text: short paragraphs, at most 5 bullets, no markdown tables, no long ticker dumps unless asked. Help Alex decide, act, or think more clearly.`,
   ];
   return lines.filter(Boolean).join("\n");
 }
@@ -43,6 +75,9 @@ function openerFor(ctx: ThreadContext): string {
       : `This is a manually-tracked project. What aspect of "${t}" do you want to think through?`;
     case "ticker":   return `${t} — ${ctx.theme ?? ""}. Want to think through the thesis, timing, or what would change your mind?`;
     case "digest":   return `"${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" — want to dig into this, connect it to other threads, or decide what to do with it?`;
+    case "systemDoc": return `This is one of Alphalpha's source documents. Want to inspect the policy, revise it, or turn part of it into an action?`;
+    case "queueItem": return `Want to read/watch this soon, save it for later, or use it as a recommendation seed?`;
+    default:         return `Want to think through "${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" together?`;
   }
 }
 
@@ -236,7 +271,14 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
   const isOpen = !!thread;
 
   return (
-    <aside className={`threadDrawer${isOpen ? " threadDrawer--open" : ""}`} aria-hidden={!isOpen}>
+    <>
+    <button
+      className={`threadScrim${isOpen ? " threadScrim--open" : ""}`}
+      aria-label="Close discussion"
+      tabIndex={isOpen ? 0 : -1}
+      onClick={onClose}
+    />
+    <aside className={`threadDrawer${isOpen ? " threadDrawer--open" : ""}`} aria-hidden={!isOpen} role="dialog" aria-modal={isOpen}>
       {thread && (
         <>
           <div className="threadHeader">
@@ -316,7 +358,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
                 <div key={i} className={`threadMsgRow threadMsgRow--${msg.role}`}>
                   {msg.role === "assistant" && <div className="threadAvatarSm">α</div>}
                   <div className={`threadBubble${msg.content === "· · ·" ? " threadLoading" : ""}`}>
-                    {msg.content}
+                    {renderMessageContent(msg.content)}
                   </div>
                 </div>
               ))}
@@ -358,5 +400,6 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
         </>
       )}
     </aside>
+    </>
   );
 }

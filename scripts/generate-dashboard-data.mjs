@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const repoRoot = process.cwd();
 const outputPath = path.join(repoRoot, 'lib', 'generated-data.json');
@@ -31,6 +32,72 @@ function readWorkspaceManifest(rel) {
   }
   return null;
 }
+function readWorkspaceText(rel) {
+  const candidates = [
+    path.resolve(contextRoot, '..', rel),
+    path.resolve(repoRoot, '..', rel),
+  ];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return { text: fs.readFileSync(candidate, 'utf8'), path: candidate, mtime: fs.statSync(candidate).mtime.toISOString() };
+  }
+  return null;
+}
+function workspacePath(rel) {
+  const candidates = [
+    path.resolve(contextRoot, '..', rel),
+    path.resolve(repoRoot, '..', rel),
+  ];
+  return candidates.find(candidate => fs.existsSync(candidate)) || candidates[0];
+}
+function wordCount(text) {
+  return text.trim() ? text.trim().split(/\s+/).length : 0;
+}
+function excerptMarkdown(text, maxChars = 1400) {
+  const cleaned = text.replace(/<!--([\s\S]*?)-->/g, '').trim();
+  if (cleaned.length <= maxChars) return cleaned;
+  return `${cleaned.slice(0, maxChars).trim()}…`;
+}
+function summarizeMarkdown(text, fallback) {
+  const firstPara = text.split(/\n\s*\n/).map(part => part.trim()).find(part => part && !part.startsWith('#') && !part.startsWith('_Source:'));
+  return firstSentence(firstPara || text, fallback);
+}
+function buildSystemDocs() {
+  const docs = [
+    { id: 'soul', title: 'Soul / persona', path: 'SOUL.md', layer: 'core', sensitivity: 'internal', tags: ['#identity', '#persona'], full: true },
+    { id: 'agents', title: 'Workspace agent rules', path: 'AGENTS.md', layer: 'core', sensitivity: 'internal', tags: ['#rules', '#workspace'], full: true },
+    { id: 'identity', title: 'Alphalpha identity', path: 'IDENTITY.md', layer: 'core', sensitivity: 'internal', tags: ['#identity'], full: true },
+    { id: 'user', title: 'Alex profile scaffold', path: 'USER.md', layer: 'private', sensitivity: 'private', tags: ['#alex', '#profile'], full: false },
+    { id: 'memory', title: 'Curated long-term memory', path: 'MEMORY.md', layer: 'private', sensitivity: 'private', tags: ['#memory', '#private'], full: false },
+    { id: 'operating-model', title: 'Operating model', path: 'context/OPERATING_MODEL.md', layer: 'context', sensitivity: 'internal', tags: ['#operating-model', '#approval'], full: true },
+    { id: 'memory-protocol', title: 'Memory protocol', path: 'context/MEMORY_PROTOCOL.md', layer: 'context', sensitivity: 'internal', tags: ['#memory', '#protocol'], full: true },
+    { id: 'open-loops', title: 'Open loops', path: 'context/OPEN_LOOPS.md', layer: 'context', sensitivity: 'internal', tags: ['#open-loops'], full: true },
+    { id: 'commitments', title: 'Commitments', path: 'context/COMMITMENTS.md', layer: 'context', sensitivity: 'internal', tags: ['#commitments', '#follow-through'], full: true },
+    { id: 'projects', title: 'Project registry', path: 'context/PROJECTS.md', layer: 'context', sensitivity: 'internal', tags: ['#projects'], full: true },
+    { id: 'decisions', title: 'Decision log', path: 'context/DECISIONS.md', layer: 'context', sensitivity: 'internal', tags: ['#decisions'], full: true },
+    { id: 'preferences', title: 'Preferences', path: 'context/PREFERENCES.md', layer: 'context', sensitivity: 'internal', tags: ['#preferences'], full: true },
+    { id: 'uncertainties', title: 'Uncertainties', path: 'context/UNCERTAINTIES.md', layer: 'context', sensitivity: 'internal', tags: ['#uncertainties'], full: true },
+    { id: 'foundation', title: 'Agentic OS foundation', path: 'context/agentic-os-foundation.md', layer: 'context', sensitivity: 'internal', tags: ['#agentic-os', '#foundation'], full: true },
+    { id: 'next-system-changes', title: 'Next high-leverage system changes', path: 'context/agentic-os-next-system-changes.md', layer: 'plan', sensitivity: 'internal', tags: ['#agentic-os', '#roadmap'], full: true },
+  ];
+  return docs.map(doc => {
+    const file = readWorkspaceText(doc.path);
+    const text = file?.text || '';
+    const missingSummary = `Missing ${doc.path}; regenerate locally after creating this file.`;
+    return {
+      id: doc.id,
+      title: doc.title,
+      path: doc.path,
+      layer: doc.layer,
+      sensitivity: doc.sensitivity,
+      summary: text ? summarizeMarkdown(text, `${doc.title} workspace document.`) : missingSummary,
+      excerpt: text ? excerptMarkdown(text, doc.full ? 2400 : 1000) : missingSummary,
+      content: text && doc.full ? text : null,
+      mtime: file?.mtime || null,
+      words: wordCount(text),
+      tags: doc.tags,
+    };
+  });
+}
 function readContextIndex() {
   return readWorkspaceManifest(path.join('memory', 'context', 'index.json'));
 }
@@ -43,8 +110,142 @@ function readSourceManifests() {
     obsidian: readWorkspaceManifest(path.join('memory', 'obsidian', 'proposed-updates', 'latest-manifest.json')),
     automations: readWorkspaceManifest(path.join('memory', 'automations', 'latest-manifest.json')),
     reviewQueue: readWorkspaceManifest(path.join('memory', 'review-queue', 'latest-manifest.json')),
+    thesisBaskets: readWorkspaceManifest(path.join('memory', 'thesis-baskets-ingestion-state.json')),
+    investmentDecisionDigest: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest.json')),
+    investmentDecisionDigestChanges: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'latest-decision-digest-changes.json')),
+    investmentRuntimePreflight: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'runtime-preflight.json')),
+    investmentDecisionJournal: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'decision-journal.json')),
+    investmentResearchActions: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'research-actions.json')),
+    investmentCrawlPlan: readWorkspaceManifest(path.join('memory', 'thesis-baskets', 'crawl-plan.json')),
+    investingThesisRegistry: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-registry.json')),
+    investingConvictionLedger: readWorkspaceManifest(path.join('memory', 'investing', 'conviction-ledger.json')),
+    investingAccumulationPlan: readWorkspaceManifest(path.join('memory', 'investing', 'accumulation-plan.json')),
+    investingTrustedSources: readWorkspaceManifest(path.join('memory', 'investing', 'trusted-sources.json')),
+    investingPriceAlerts: readWorkspaceManifest(path.join('memory', 'investing', 'price-thesis-alerts.json')),
+    investingAccumulationOpportunities: readWorkspaceManifest(path.join('memory', 'investing', 'accumulation-opportunities.json')),
+    investingProposedTheses: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-theses.json')),
+    investingProposedThesisConfig: readWorkspaceManifest(path.join('memory', 'investing', 'proposed-thesis-config.json')),
+    investingWeeklyTrades: readWorkspaceManifest(path.join('memory', 'investing', 'weekly-trades', 'latest.json')),
+    investingTradeReview: readWorkspaceManifest(path.join('memory', 'investing', 'trade-review', 'latest.json')),
+    investingTradeJournal: readWorkspaceManifest(path.join('memory', 'investing', 'trade-journal.json')),
+    investingFeedbackCalibration: readWorkspaceManifest(path.join('memory', 'investing', 'feedback-calibration.json')),
+    investingInputHealth: readWorkspaceManifest(path.join('memory', 'investing', 'input-health.json')),
+    investingPortfolioContextMap: readWorkspaceManifest(path.join('memory', 'investing', 'portfolio-context-map.json')),
+    investingTaxonomyDecisionSheet: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-sheet', 'latest.json')),
+    investingTaxonomyDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'taxonomy-decision-workflow', 'latest.json')),
+    investingTaxonomyDecisions: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-taxonomy-decisions.json')),
+    investingManualDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'manual-decision-workflow', 'latest.json')),
+    investingHoldingRoleDecisionWorkflow: readWorkspaceManifest(path.join('memory', 'investing', 'holding-role-decision-workflow', 'latest.json')),
+    investingDecisionPipeline: readWorkspaceManifest(path.join('memory', 'investing', 'decision-pipeline', 'latest.json')),
+    investingWeeklyDecisionReview: readWorkspaceManifest(path.join('memory', 'investing', 'weekly-decision-review', 'latest.json')),
+    investingLayerIntegrity: readWorkspaceManifest(path.join('memory', 'investing', 'layer-integrity', 'latest.json')),
+    investingReceiptOutcomes: readWorkspaceManifest(path.join('memory', 'investing', 'receipt-outcomes', 'latest.json')),
+    investingConvictionResetPolicy: readWorkspaceManifest(path.join('memory', 'investing', 'conviction-reset-policy.json')),
+    investingManualDecisions: readWorkspaceManifest(path.join('memory', 'investing', 'investment-manual-decisions.json')),
+    investingExecutionBoundaryPolicy: readWorkspaceManifest(path.join('memory', 'investing', 'execution-boundary-policy.json')),
+    investingRankedActionQueue: readWorkspaceManifest(path.join('memory', 'investing', 'ranked-action-queue', 'latest.json')),
+    investingSourceReliabilityPlan: readWorkspaceManifest(path.join('memory', 'investing', 'source-reliability', 'latest.json')),
+    investingBasketGovernanceAudit: readWorkspaceManifest(path.join('memory', 'investing', 'basket-governance-audit', 'latest.json')),
+    investingThesisUniverse: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-universe', 'latest.json')),
   };
 }
+function runGit(repoPath, args) {
+  try {
+    return execFileSync('git', args, { cwd: repoPath, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000 }).trim();
+  } catch {
+    return null;
+  }
+}
+function gitRepoStatus(repoPath, label) {
+  if (!fs.existsSync(path.join(repoPath, '.git'))) return null;
+  const branch = runGit(repoPath, ['rev-parse', '--abbrev-ref', 'HEAD']) || 'unknown';
+  const commit = runGit(repoPath, ['rev-parse', '--short', 'HEAD']) || 'unknown';
+  const lastCommitIso = runGit(repoPath, ['log', '-1', '--format=%cI']) || null;
+  const statusArgs = repoPath === repoRoot
+    ? ['status', '--porcelain', '--untracked-files=no', '--', ':!lib/generated-data.json', ':!.next']
+    : ['status', '--porcelain', '--untracked-files=no'];
+  const status = runGit(repoPath, statusArgs) || '';
+  const upstream = runGit(repoPath, ['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']);
+  const divergence = upstream ? runGit(repoPath, ['rev-list', '--left-right', '--count', `HEAD...${upstream}`]) : null;
+  const [ahead = 0, behind = 0] = (divergence || '').split(/\s+/).map(Number);
+  return {
+    label,
+    path: path.relative(repoRoot, repoPath),
+    branch,
+    commit,
+    lastCommitIso,
+    dirtyFiles: status ? status.split('\n').filter(Boolean).length : 0,
+    upstream: upstream || null,
+    ahead: Number.isFinite(ahead) ? ahead : 0,
+    behind: Number.isFinite(behind) ? behind : 0,
+  };
+}
+function githubStatus() {
+  const workspaceRoot = path.resolve(repoRoot, '..');
+  const repos = [
+    [workspaceRoot, 'Alphalpha workspace'],
+    [repoRoot, 'Alphalpha dashboard'],
+    [path.join(workspaceRoot, 'obsidian-vault'), 'Obsidian vault'],
+    [path.join(workspaceRoot, 'openclaw-workspace'), 'OpenClaw workspace'],
+  ].map(([repoPath, label]) => gitRepoStatus(repoPath, label)).filter(Boolean);
+  if (!repos.length) return null;
+  const lastCommitIso = repos.map(r => r.lastCommitIso).filter(Boolean).sort().at(-1) || null;
+  return {
+    generatedAt: new Date().toISOString(),
+    lastCommitIso,
+    totals: {
+      repos: repos.length,
+      dirtyRepos: repos.filter(r => r.dirtyFiles > 0).length,
+      dirtyFiles: repos.reduce((sum, r) => sum + r.dirtyFiles, 0),
+      ahead: repos.reduce((sum, r) => sum + r.ahead, 0),
+      behind: repos.reduce((sum, r) => sum + r.behind, 0),
+    },
+    repos,
+  };
+}
+
+
+function readActivity() {
+  const workspaceRoot = path.resolve(repoRoot, '..');
+  const sources = [
+    ['dashboard', path.join(workspaceRoot, 'memory', 'dashboard', 'action-state.json')],
+    ['review', path.join(workspaceRoot, 'memory', 'review-queue', 'action-state.json')],
+    ['automation', path.join(workspaceRoot, 'memory', 'dashboard', 'automation-actions.json')],
+    ['event-feedback', path.join(workspaceRoot, 'memory', 'events', 'feedback-manifest.json')],
+  ];
+  const rows = [];
+  for (const [source, file] of sources) {
+    const data = readJsonAbsolute(file, null);
+    if (!data) continue;
+    const actions = Array.isArray(data.actions) ? data.actions : Array.isArray(data.feedback) ? data.feedback : [];
+    actions.slice(0, 80).forEach((action, idx) => {
+      const failed = Boolean(action.error || action.result?.error || action.status === 'failed');
+      rows.push({
+        id: `${source}-${action.at || action.timestamp || idx}-${action.itemId || action.jobId || action.eventKey || idx}`,
+        at: action.at || action.timestamp || data.updatedAt || data.generatedAt || new Date().toISOString(),
+        kind: source,
+        title: action.title || action.action || action.type || action.feedbackType || action.jobId || action.eventKey || source,
+        status: failed ? 'failed' : 'applied',
+        summary: action.mutation || action.result?.mutation || action.action || action.type || action.feedbackType || 'recorded',
+        source,
+      });
+    });
+  }
+  return rows.sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, 40);
+}
+
+function deploymentMeta() {
+  const local = gitRepoStatus(repoRoot, 'Alphalpha dashboard');
+  return {
+    commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || local?.commit || 'unknown',
+    branch: process.env.VERCEL_GIT_COMMIT_REF || local?.branch || 'unknown',
+    generatedAt: new Date().toISOString(),
+    deployUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    productionUrl: 'https://alphalpha-dashboard.vercel.app',
+    dirtyFiles: local?.dirtyFiles ?? 0,
+  };
+}
+
 function readOcConfig() {
   const p = path.join(repoRoot, 'openclaw.config.json');
   if (!fs.existsSync(p)) return { managedProjects: [] };
@@ -76,6 +277,125 @@ function extractBullets(md, { checkedOnly = false } = {}) {
     .map(l => stripMarkdown(l.replace(/^- \[ \]\s+/, '- ')))
     .filter(Boolean);
 }
+function parseFrontmatter(md) {
+  const match = md.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const result = {};
+  const rows = match[1].split(/\r?\n/);
+  let current = null;
+  for (const row of rows) {
+    const keyValue = row.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (keyValue) {
+      current = keyValue[1];
+      result[current] = keyValue[2] || '';
+      continue;
+    }
+    const listItem = row.match(/^\s+-\s+(.*)$/);
+    if (listItem && current) {
+      if (!Array.isArray(result[current])) result[current] = result[current] ? [result[current]] : [];
+      result[current].push(listItem[1]);
+    }
+  }
+  return result;
+}
+function parseField(block, label) {
+  const re = new RegExp(`^-\\s*${label}:\\s*(.+)$`, 'im');
+  const match = block.match(re);
+  return match ? stripMarkdown(match[1]).replace(/^_+|_+$/g, '').trim() : null;
+}
+function parseMarkdownLink(text) {
+  const link = text?.match(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
+  if (link) return link[2];
+  const bare = text?.match(/https?:\/\/\S+/);
+  return bare ? bare[0] : null;
+}
+function queueItemFromBlock(queueId, title, block, index, section) {
+  const rawLink = parseField(block, 'Link') || parseField(block, 'Trailer/official') || parseField(block, 'Purchase') || parseField(block, 'URL');
+  return {
+    id: `${queueId}-${index + 1}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48)}`,
+    title: stripMarkdown(title),
+    status: parseField(block, 'Status') || (section?.toLowerCase().includes('clarification') ? 'Needs clarification' : 'Queued'),
+    priority: parseField(block, 'Priority'),
+    creator: title.includes('—') ? stripMarkdown(title.split('—').slice(1).join('—')) : null,
+    source: parseField(block, 'Source'),
+    link: parseMarkdownLink(rawLink || block),
+    why: parseField(block, 'Why it is here') || parseField(block, 'Why it might fit'),
+    added: parseField(block, 'Added'),
+    notes: parseField(block, 'Notes'),
+    themes: [],
+  };
+}
+function parseHeadingQueue({ id, label, kind, rel }) {
+  const file = readWorkspaceText(rel);
+  const text = file?.text || '';
+  const queue = { id, label, kind, path: rel, updatedAt: file?.mtime || null, summary: 'No queue file found yet.', items: [], needsClarification: [] };
+  if (!text) return queue;
+  let section = '';
+  const rows = lines(text);
+  const entries = [];
+  for (let i = 0; i < rows.length; i += 1) {
+    const line = rows[i].trim();
+    if (/^##\s+/.test(line)) section = stripMarkdown(line);
+    if (!/^###\s+/.test(line)) continue;
+    const title = stripMarkdown(line);
+    if (/^(Title|Movie Title|Show Title)\b/i.test(title)) continue;
+    const body = [];
+    for (let j = i + 1; j < rows.length && !/^###\s+/.test(rows[j]) && !/^##\s+/.test(rows[j]); j += 1) body.push(rows[j]);
+    entries.push({ title, block: body.join('\n'), section });
+  }
+  const parsed = entries.map((entry, idx) => queueItemFromBlock(id, entry.title, entry.block, idx, entry.section));
+  queue.needsClarification = parsed.filter(item => /needs clarification/i.test(item.status || '') || /needs clarification/i.test(item.title));
+  queue.items = parsed.filter(item => !queue.needsClarification.includes(item));
+  queue.summary = `${queue.items.length} confirmed · ${queue.needsClarification.length} need clarification`;
+  return queue;
+}
+function parseArticleCandidates() {
+  const candidatesDir = workspacePath(path.join('obsidian-vault', 'Alphalpha', 'Syntheses', 'Reading', 'Candidates'));
+  if (!fs.existsSync(candidatesDir)) return [];
+  return fs.readdirSync(candidatesDir)
+    .filter(name => name.endsWith('.md') && !name.startsWith('.'))
+    .sort()
+    .map((name, idx) => {
+      const full = path.join(candidatesDir, name);
+      const text = fs.readFileSync(full, 'utf8');
+      const fm = parseFrontmatter(text);
+      const title = stripMarkdown((text.match(/^#\s+(.+)$/m)?.[1] || name.replace(/\.md$/, '')).trim());
+      const why = extractSection(text, '## Why it might fit Alex') || firstSentence(text, 'Article candidate.');
+      return {
+        id: `articles-${idx + 1}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48)}`,
+        title,
+        status: fm.status || 'Queued',
+        priority: fm.priority ? String(fm.priority) : null,
+        creator: fm.author || fm.source || null,
+        source: fm.source || null,
+        link: fm.url || parseMarkdownLink(text),
+        why: firstSentence(why, 'Article candidate.'),
+        added: fm.added || null,
+        notes: null,
+        themes: Array.isArray(fm.themes) ? fm.themes : [],
+      };
+    });
+}
+function buildQueues() {
+  const articlesFile = readWorkspaceText(path.join('obsidian-vault', 'Alphalpha', 'Syntheses', 'Reading', 'Article Queue.md'));
+  const articles = {
+    id: 'articles',
+    label: 'Article queue',
+    kind: 'articles',
+    path: 'obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md',
+    updatedAt: articlesFile?.mtime || null,
+    items: parseArticleCandidates(),
+    needsClarification: [],
+    summary: 'Article candidates for weekly reading picks and read-later delivery.',
+  };
+  articles.summary = `${articles.items.length} candidates · weekly pick source`;
+  return [
+    parseHeadingQueue({ id: 'books', label: 'Books to read next', kind: 'books', rel: path.join('obsidian-vault', 'Books to Read Next.md') }),
+    articles,
+    parseHeadingQueue({ id: 'shows', label: 'Shows to watch', kind: 'shows', rel: path.join('obsidian-vault', 'Shows to Watch.md') }),
+    parseHeadingQueue({ id: 'movies', label: 'Movies to watch', kind: 'movies', rel: path.join('obsidian-vault', 'Movies to Watch.md') }),
+  ];
+}
 function priorityFor(text) {
   const lower = text.toLowerCase();
   if (/(urgent|fix|blocked|credential|source-of-truth|approval policy)/.test(lower)) return 'HIGH';
@@ -95,8 +415,8 @@ function nextActionFor(item) {
 }
 function parsePosture(postureMd) {
   if (!postureMd) return {
-    posture: 'Build the dashboard, then connect live sources.',
-    postureDetail: 'Phase 1 is intentionally file-backed and readable. Phase 2 can pull Obsidian, GitHub, cron, and Thesis Baskets data directly.',
+    posture: 'Keep the dashboard live, source-backed, and reviewable.',
+    postureDetail: 'Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.',
   };
   const all = lines(postureMd).filter(l => l.trim());
   const posture = stripMarkdown(all[0] || '');
@@ -236,46 +556,75 @@ function eventCandidatesFromManifest(events) {
 }
 function sourceHealthFromManifests(manifests, contextHealth) {
   const rows = [];
+  const git = githubStatus();
   rows.push({
     id: 'context', label: 'Context index', status: statusFor(contextHealth?.generatedAt, { staleHours: 48, failingHours: 168, empty: !contextHealth }), age: ageLabel(contextHealth?.generatedAt),
     summary: contextHealth ? `${contextHealth.activeFiles} active files / ${contextHealth.activeWords} words` : 'manifest missing',
     detail: contextHealth ? `${contextHealth.archiveWords} words archived` : 'Run node scripts/index-context.mjs', path: 'memory/context/index.json',
+    details: contextHealth?.largestActive?.map(item => ({ label: item.path, value: `${item.words} words · ${item.readPolicy}` })) || [],
     staleAfterHours: 48, failingAfterHours: 168,
   });
   rows.push({
     id: 'events', label: 'Austin events', status: statusFor(manifests.events?.generatedAt, { staleHours: 36, failingHours: 72, empty: !manifests.events }), age: ageLabel(manifests.events?.generatedAt),
     summary: manifests.events ? `${manifests.events.totals?.latestFamilyEvents ?? 0} family / ${manifests.events.totals?.latestMusicEvents ?? 0} music latest` : 'manifest missing',
     detail: manifests.events ? `${manifests.events.totals?.files ?? 0} crawl artifacts indexed` : 'Run node scripts/index-events.mjs', path: 'memory/events/latest-manifest.json',
+    details: eventCandidatesFromManifest(manifests.events).slice(0, 6).map(event => ({ label: event.title, value: `${event.kind} · ${event.source || 'source unknown'}${event.distanceMiles != null ? ` · ${event.distanceMiles} mi` : ''}` })),
     staleAfterHours: 36, failingAfterHours: 72,
   });
   rows.push({
     id: 'ai-tooling', label: 'AI tooling', status: statusFor(manifests.aiTooling?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.aiTooling }), age: ageLabel(manifests.aiTooling?.generatedAt),
     summary: manifests.aiTooling ? `${manifests.aiTooling.totals?.selectedItems ?? 0} selected / ${manifests.aiTooling.totals?.recentDedupedItems ?? 0} recent deduped` : 'manifest missing',
     detail: manifests.aiTooling ? `${manifests.aiTooling.totals?.totalItems ?? 0} raw items` : 'Run node scripts/index-ai-tooling.mjs', path: 'memory/ai-tooling/latest-manifest.json',
+    details: Object.entries(manifests.aiTooling?.totals || {}).slice(0, 8).map(([label, value]) => ({ label, value: String(value) })),
     staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'investing', label: 'Investing watchlist', status: statusFor(manifests.investing?.generatedAt, { staleHours: 72, failingHours: 168, empty: !manifests.investing }), age: ageLabel(manifests.investing?.generatedAt),
     summary: manifests.investing ? `${manifests.investing.totals?.tickers ?? 0} tickers / ${manifests.investing.totals?.themes ?? 0} themes` : 'manifest missing',
     detail: manifests.investing ? `${manifests.investing.totals?.highPriority ?? 0} high-priority research candidates` : 'Run node scripts/index-investing-watchlist.mjs', path: 'memory/investing/latest-watchlist.json',
+    details: (manifests.investing?.tickers || []).slice(0, 8).map(t => ({ label: t.ticker, value: `${t.theme || 'research'} · ${t.stance || 'n/a'}` })),
     staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'obsidian', label: 'Obsidian proposals', status: statusFor(manifests.obsidian?.generatedAt, { staleHours: 48, failingHours: 96, empty: !manifests.obsidian, proposal: manifests.obsidian?.mode === 'proposal-only' }), age: ageLabel(manifests.obsidian?.generatedAt),
     summary: manifests.obsidian ? `${manifests.obsidian.proposalCount ?? 0} proposed updates` : 'manifest missing',
     detail: manifests.obsidian?.mode || 'Run Obsidian synthesis review', path: 'memory/obsidian/proposed-updates/latest-manifest.json',
+    details: (manifests.obsidian?.proposals || manifests.obsidian?.items || []).slice(0, 6).map(item => ({ label: item.targetVaultPath || item.target || item.type || 'proposal', value: item.proposalPath || item.summary || manifests.obsidian.mode || 'proposal' })),
     staleAfterHours: 48, failingAfterHours: 96,
   });
   rows.push({
     id: 'automations', label: 'Automations', status: statusFor(manifests.automations?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.automations }), age: ageLabel(manifests.automations?.generatedAt),
     summary: manifests.automations ? `${manifests.automations.totals?.enabled ?? 0} enabled / ${manifests.automations.totals?.disabled ?? 0} paused` : 'manifest missing',
     detail: manifests.automations ? `${manifests.automations.totals?.jobs ?? 0} cron jobs indexed` : 'Run node scripts/index-automations.mjs', path: 'memory/automations/latest-manifest.json',
+    details: (manifests.automations?.jobs || []).filter(j => !j.enabled || (j.lastStatus && j.lastStatus !== 'ok')).slice(0, 8).map(job => ({ label: job.name, value: `${job.enabled ? 'enabled' : 'paused'} · ${job.lastStatus || 'no last status'} · next ${job.nextRunAt || 'n/a'}` })),
     staleAfterHours: 24, failingAfterHours: 72,
+  });
+  rows.push({
+    id: 'github', label: 'GitHub repos', status: statusFor(git?.generatedAt, { staleHours: 24, failingHours: 72, empty: !git || git.totals.behind > 0 }), age: ageLabel(git?.generatedAt),
+    summary: git ? `${git.totals.repos} repos / ${git.totals.dirtyRepos} dirty / ${git.totals.behind} behind` : 'git status unavailable',
+    detail: git ? git.repos.map(r => `${r.label}: ${r.branch}@${r.commit}${r.dirtyFiles ? `, ${r.dirtyFiles} dirty` : ''}${r.behind ? `, ${r.behind} behind` : ''}`).join(' · ') : 'Check local GitHub-backed repos', path: 'local git repositories',
+    details: git?.repos.map(r => ({ label: r.label, value: `${r.branch}@${r.commit} · ${r.dirtyFiles} dirty · ${r.ahead} ahead · ${r.behind} behind` })) || [],
+    staleAfterHours: 24, failingAfterHours: 72,
+  });
+  const thesis = manifests.thesisBaskets;
+  const thesisStream = thesis?.streams?.['thesis_baskets.ingestion_events'];
+  rows.push({
+    id: 'thesis-baskets', label: 'Thesis Baskets', status: statusFor(thesis?.updated_at, { staleHours: 72, failingHours: 168, empty: !thesis }), age: ageLabel(thesis?.updated_at),
+    summary: thesisStream ? `${thesisStream.last_new_events ?? 0} new / ${thesisStream.last_events_scanned ?? 0} scanned` : 'ingestion state missing',
+    detail: thesisStream ? `last event ${thesisStream.last_event_time || 'n/a'}` : 'Run node scripts/ingest-thesis-baskets.mjs --lookback-days=7 --limit=5000', path: 'memory/thesis-baskets-ingestion-state.json',
+    details: thesisStream ? [
+      { label: 'Last run', value: thesisStream.last_run_at || thesis.updated_at || 'n/a' },
+      { label: 'Last event', value: thesisStream.last_event_time || 'n/a' },
+      { label: 'New events', value: String(thesisStream.last_new_events ?? 0) },
+      { label: 'Scanned events', value: String(thesisStream.last_events_scanned ?? 0) },
+    ] : [],
+    staleAfterHours: 72, failingAfterHours: 168,
   });
   rows.push({
     id: 'review-queue', label: 'Review queue', status: statusFor(manifests.reviewQueue?.generatedAt, { staleHours: 24, failingHours: 72, empty: !manifests.reviewQueue }), age: ageLabel(manifests.reviewQueue?.generatedAt),
     summary: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.pending ?? 0} pending / ${manifests.reviewQueue.totals?.high ?? 0} high` : 'manifest missing',
     detail: manifests.reviewQueue ? `${manifests.reviewQueue.totals?.items ?? 0} review items indexed` : 'Run node scripts/index-review-queue.mjs', path: 'memory/review-queue/latest-manifest.json',
+    details: (manifests.reviewQueue?.items || []).slice(0, 8).map(item => ({ label: item.title, value: `${item.priority} · ${item.status} · ${item.actionHint || item.kind}` })),
     staleAfterHours: 24, failingAfterHours: 72,
   });
   return rows;
@@ -294,6 +643,13 @@ function buildData() {
 
   if (!projectsMd || !openLoopsMd) {
     if (fs.existsSync(outputPath)) {
+      const existing = readJsonAbsolute(outputPath, null);
+      if (existing?.meta) {
+        existing.meta.deployment = deploymentMeta();
+        fs.writeFileSync(outputPath, `${JSON.stringify(existing, null, 2)}\n`);
+        console.log(`Context not found at ${contextRoot}; refreshed deployment metadata in generated-data.json.`);
+        return null;
+      }
       console.log(`Context not found at ${contextRoot}; keeping existing generated-data.json.`);
       return null;
     }
@@ -325,16 +681,56 @@ function buildData() {
       generatedAt: new Date().toISOString(),
       posture,
       postureDetail,
+      deployment: deploymentMeta(),
       contextHealth,
       sourceHealth,
       eventCandidates: eventCandidatesFromManifest(sourceManifests.events),
+      activity: readActivity(),
+      investmentDecisionDigest: sourceManifests.investmentDecisionDigest || null,
+      investmentDecisionDigestChanges: sourceManifests.investmentDecisionDigestChanges || null,
+      investmentRuntimePreflight: sourceManifests.investmentRuntimePreflight || null,
+      investmentDecisionJournal: sourceManifests.investmentDecisionJournal || null,
+      investmentResearchActions: sourceManifests.investmentResearchActions || null,
+      investmentCrawlPlan: sourceManifests.investmentCrawlPlan || null,
+      investingThesisRegistry: sourceManifests.investingThesisRegistry || null,
+      investingConvictionLedger: sourceManifests.investingConvictionLedger || null,
+      investingAccumulationPlan: sourceManifests.investingAccumulationPlan || null,
+      investingTrustedSources: sourceManifests.investingTrustedSources || null,
+      investingPriceAlerts: sourceManifests.investingPriceAlerts || null,
+      investingAccumulationOpportunities: sourceManifests.investingAccumulationOpportunities || null,
+      investingProposedTheses: sourceManifests.investingProposedTheses || null,
+      investingProposedThesisConfig: sourceManifests.investingProposedThesisConfig || null,
+      investingWeeklyTrades: sourceManifests.investingWeeklyTrades || null,
+      investingTradeReview: sourceManifests.investingTradeReview || null,
+      investingTradeJournal: sourceManifests.investingTradeJournal || null,
+      investingFeedbackCalibration: sourceManifests.investingFeedbackCalibration || null,
+      investingInputHealth: sourceManifests.investingInputHealth || null,
+      investingPortfolioContextMap: sourceManifests.investingPortfolioContextMap || null,
+      investingTaxonomyDecisionSheet: sourceManifests.investingTaxonomyDecisionSheet || null,
+      investingTaxonomyDecisionWorkflow: sourceManifests.investingTaxonomyDecisionWorkflow || null,
+      investingTaxonomyDecisions: sourceManifests.investingTaxonomyDecisions || null,
+      investingManualDecisionWorkflow: sourceManifests.investingManualDecisionWorkflow || null,
+      investingHoldingRoleDecisionWorkflow: sourceManifests.investingHoldingRoleDecisionWorkflow || null,
+      investingDecisionPipeline: sourceManifests.investingDecisionPipeline || null,
+      investingWeeklyDecisionReview: sourceManifests.investingWeeklyDecisionReview || null,
+      investingLayerIntegrity: sourceManifests.investingLayerIntegrity || null,
+      investingReceiptOutcomes: sourceManifests.investingReceiptOutcomes || null,
+      investingConvictionResetPolicy: sourceManifests.investingConvictionResetPolicy || null,
+      investingManualDecisions: sourceManifests.investingManualDecisions || null,
+      investingExecutionBoundaryPolicy: sourceManifests.investingExecutionBoundaryPolicy || null,
+      investingRankedActionQueue: sourceManifests.investingRankedActionQueue || null,
+      investingSourceReliabilityPlan: sourceManifests.investingSourceReliabilityPlan || null,
+      investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
+      investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
+      systemDocs: buildSystemDocs(),
+      queues: buildQueues(),
     },
     stats: {
       openLoops:        checked.length,
       activeProjects:   projects.length,
       highPriority:     highPri.length,
       uncertainties:    uncertain,
-      investingSignals: parseInvesting(openLoopsMd).length,
+      investingSignals: Math.max(parseInvesting(openLoopsMd).length, (sourceManifests.investmentDecisionDigest?.top_decisions || []).length),
       contextActiveFiles: contextHealth?.activeFiles ?? null,
       contextActiveWords: contextHealth?.activeWords ?? null,
       contextArchiveWords: contextHealth?.archiveWords ?? null,
