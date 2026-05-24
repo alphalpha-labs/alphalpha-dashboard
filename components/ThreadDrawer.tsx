@@ -251,7 +251,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
       if (!accumulated) throw new Error("Empty response");
 
       // Persist the completed exchange to KV.
-      const finalMessages = [...history, { role: "assistant", content: accumulated }];
+      const finalMessages = [...history, { role: "assistant" as const, content: accumulated }];
       setMessages(finalMessages);
       const now = Date.now();
       await upsertThread({
