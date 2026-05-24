@@ -169,12 +169,12 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
     })();
   }, [thread?.id, startFresh]);
 
-  // Auto-scroll chat on new messages.
+  // Auto-scroll chat on new messages or when an action card appears.
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, pendingAction]);
 
   const handleNewThread = async () => {
     if (!thread || loading) return;
@@ -187,6 +187,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
   };
 
   const handleLoadThread = (stored: StoredThread) => {
+    setPendingAction(null);   // clear stale action card when loading a historical thread
     setThreadId(stored.id);
     setMessages(stored.messages);
     setView("chat");
@@ -199,6 +200,7 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
     const remaining = await getThreadsForItem(thread!.id);
     setItemThreads(remaining);
     if (id !== threadId) return;
+    setPendingAction(null);   // clear stale action card when active thread is deleted
     if (remaining.length > 0) {
       setThreadId(remaining[0].id);
       setMessages(remaining[0].messages);
