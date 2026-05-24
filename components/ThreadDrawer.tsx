@@ -282,10 +282,13 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
       // Persist the completed exchange to KV (store cleaned text, not the raw fence).
       const finalMessages = [...history, { role: "assistant" as const, content: cleaned }];
       setMessages(finalMessages);
-      const now = Date.now();
+      const now      = Date.now();
+      const existing = itemThreads.find(t => t.id === threadId);
       await upsertThread({
         id: threadId, itemId: thread.id, itemTitle: thread.title, itemType: thread.type,
-        messages: finalMessages, startedAt: now, updatedAt: now,
+        messages: finalMessages,
+        startedAt: existing?.startedAt ?? now,
+        updatedAt: now,
       });
       setItemThreads(await getThreadsForItem(thread.id));
 

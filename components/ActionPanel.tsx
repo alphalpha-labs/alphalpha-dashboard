@@ -36,6 +36,7 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
   const [dismissing,  setDismissing]  = useState(false);
   const [receipt,     setReceipt]     = useState<{ main: string; sub: string } | null>(null);
   const dismissTimer                  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inFlight                      = useRef(false);
 
   // Clear the dismiss timer on unmount to avoid calling into freed parent state.
   useEffect(() => {
@@ -45,6 +46,8 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
   }, []);
 
   const handleConfirm = async () => {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setState("loading");
     try {
       const res = await fetch("/api/signal", {
@@ -62,6 +65,8 @@ export default function ActionPanel({ proposal, itemId, onDismiss }: Props) {
     } catch (err) {
       console.error("[ActionPanel] signal failed:", err);
       setState("error");
+    } finally {
+      inFlight.current = false;
     }
   };
 
