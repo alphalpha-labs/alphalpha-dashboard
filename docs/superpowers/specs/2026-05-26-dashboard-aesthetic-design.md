@@ -101,6 +101,20 @@ No new components needed. No API or data changes.
 
 ---
 
+### 4. Text Contrast — Focus Stage Overrides
+
+With a 35% opacity photo behind the focus stage, the lighter ink colors can lose contrast against bright parts of the image. A small set of color overrides scoped to `.focus-stage` ensures legibility without touching global tokens:
+
+| Element | Current | Overridden to |
+|---------|---------|---------------|
+| Next-step italic (`.fnext`) | `#8a7060` | `#5e4535` |
+| Remaining count (`.fremain`) | `#c0b49a` | `#7a6a50` |
+| Muted labels (`.pri`, `.pdots`) | `--ink-muted: #7a6f62` | `#4a4038` |
+
+Scoped via `.focus-stage .fnext { color: #5e4535; }` etc. — no global token changes.
+
+---
+
 ## What's Explicitly Out of Scope
 
 - Other tabs (Open loops, Projects, Investing, Digests) — unchanged
