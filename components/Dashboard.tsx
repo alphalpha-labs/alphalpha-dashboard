@@ -107,8 +107,9 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
       setReceipt({ id: key, tone: "success", message: result.receipt || `${label || "Action"} accepted.` });
       return result;
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Signal failed";
-      setReceipt({ id: key, tone: "error", message });
+      const rawMessage = error instanceof Error ? error.message : "Signal failed";
+      const errorDetail = categorizeSignalError(rawMessage, type, itemId);
+      setReceipt({ id: key, tone: "error", message: "Signal failed", errorDetail });
       throw error;
     } finally {
       setPendingSignals(prev => {
@@ -265,7 +266,30 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           >
             {signalBusy ? "Working…" : "Refresh"}
           </button>
-          {receipt && <div className={`signalReceipt signalReceipt--${receipt.tone}`} role="status" aria-live="polite">{receipt.message}</div>}
+          {receipt && (
+            receipt.errorDetail ? (
+              <button
+                type="button"
+                className="signalReceipt signalReceipt--error signalReceipt--clickable"
+                aria-label={`Signal failed — ${receipt.errorDetail.humanLabel}. Click to discuss with alphalpha.`}
+                data-tooltip={`${receipt.errorDetail.humanLabel}\n${receipt.errorDetail.rawMessage}\n\nClick to discuss →`}
+                onClick={() => {
+                  const d = receipt.errorDetail!;
+                  openThread({
+                    id: `signal-failure-${receipt.id}`,
+                    type: "signalFailure",
+                    title: `Signal failed · ${d.humanLabel}`,
+                    summary: d.rawMessage,
+                    category: d.signalType,
+                  });
+                }}
+              >
+                Signal failed ↗
+              </button>
+            ) : (
+              <div className={`signalReceipt signalReceipt--${receipt.tone}`} role="status" aria-live="polite">{receipt.message}</div>
+            )
+          )}
           <div className="mastheadDate" aria-hidden="true">
             {dateStr}
           </div>
