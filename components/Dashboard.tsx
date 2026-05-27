@@ -268,24 +268,27 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           </button>
           {receipt && (
             receipt.errorDetail ? (
-              <button
-                type="button"
-                className="signalReceipt signalReceipt--error signalReceipt--clickable"
-                aria-label={`Signal failed — ${receipt.errorDetail.humanLabel}. Click to discuss with alphalpha.`}
-                data-tooltip={`${receipt.errorDetail.humanLabel}\n${receipt.errorDetail.rawMessage}\n\nClick to discuss →`}
-                onClick={() => {
-                  const d = receipt.errorDetail!;
-                  openThread({
-                    id: `signal-failure-${receipt.id}`,
-                    type: "signalFailure",
-                    title: `Signal failed · ${d.humanLabel}`,
-                    summary: d.rawMessage,
-                    category: d.signalType,
-                  });
-                }}
-              >
-                Signal failed ↗
-              </button>
+              <div role="status" aria-live="polite">
+                <button
+                  type="button"
+                  className="signalReceipt signalReceipt--error signalReceipt--clickable"
+                  aria-label={`Signal failed — ${receipt.errorDetail.humanLabel}. Click to discuss with alphalpha.`}
+                  data-tooltip={`${receipt.errorDetail.humanLabel}\n${receipt.errorDetail.rawMessage}\n\nClick to discuss →`}
+                  onClick={() => {
+                    if (!receipt.errorDetail) return;
+                    const d = receipt.errorDetail;
+                    openThread({
+                      id: `signal-failure-${receipt.id}`,
+                      type: "signalFailure",
+                      title: `Signal failed · ${d.humanLabel}`,
+                      summary: d.rawMessage,
+                      category: d.signalType,
+                    });
+                  }}
+                >
+                  Signal failed ↗
+                </button>
+              </div>
             ) : (
               <div className={`signalReceipt signalReceipt--${receipt.tone}`} role="status" aria-live="polite">{receipt.message}</div>
             )

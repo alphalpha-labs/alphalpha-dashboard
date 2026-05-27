@@ -29,7 +29,7 @@ export function categorizeSignalError(
   ) {
     category = "connection";
     humanLabel = "server unreachable";
-  } else if (/\(5\d\d\)/.test(m) || m.includes("500")) {
+  } else if (/\(5\d\d\)/.test(m) || /\b500\b/.test(m)) {
     category = "server";
     humanLabel = "server error";
   }
