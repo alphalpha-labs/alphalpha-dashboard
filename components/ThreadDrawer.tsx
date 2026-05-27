@@ -96,6 +96,7 @@ function openerFor(ctx: ThreadContext): string {
     case "digest":   return `"${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" — want to dig into this, connect it to other threads, or decide what to do with it?`;
     case "systemDoc": return `This is one of Alphalpha's source documents. Want to inspect the policy, revise it, or turn part of it into an action?`;
     case "queueItem": return `Want to read/watch this soon, save it for later, or use it as a recommendation seed?`;
+    case "signalFailure": return `It looks like a signal just failed — ${ctx.summary ? `"${ctx.summary}"` : "I can see the error details above"}. Let me help you figure out what went wrong and how to fix it.`;
     default:         return `Want to think through "${t.slice(0, 60)}${t.length > 60 ? "…" : ""}" together?`;
   }
 }
@@ -344,6 +345,13 @@ export default function ThreadDrawer({ thread, onClose }: Props) {
             </div>
             <button className="threadClose" onClick={onClose} aria-label="Close thread">✕</button>
           </div>
+
+          {thread.type === "signalFailure" && thread.summary && (
+            <div className="threadErrorBanner">
+              <span className="threadErrorBannerLabel">Error context</span>
+              <p className="threadErrorBannerMsg">{thread.summary}</p>
+            </div>
+          )}
 
           {view === "history" ? (
             <div className="threadHistoryList" ref={scrollRef}>
