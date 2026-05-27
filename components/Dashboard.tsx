@@ -14,6 +14,7 @@ import SystemTab from "./SystemTab";
 import QueuesTab from "./QueuesTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
+import { categorizeSignalError, type ErrorDetail } from "@/lib/signal-error";
 
 type SignalResult = {
   ok?: boolean;
@@ -29,11 +30,12 @@ type SignalReceipt = {
   id: string;
   tone: "success" | "error" | "info";
   message: string;
+  errorDetail?: ErrorDetail;
 };
 
 export type ThreadContext = {
   id:        string;
-  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc" | "queueItem";
+  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc" | "queueItem" | "signalFailure";
   title:     string;
   project?:  string;
   priority?: string;
