@@ -35,6 +35,7 @@ import type {
   InvestingBasketGovernanceAudit,
   InvestingThesisUniverse,
   InvestingThesisInvalidationReview,
+  InvestingThesisInvalidationEvidence,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -78,11 +79,12 @@ interface Props {
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
   thesisInvalidationReview?: InvestingThesisInvalidationReview | null;
+  thesisInvalidationEvidence?: InvestingThesisInvalidationEvidence | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -143,7 +145,7 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         />
       )}
 
-      {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} onDiscuss={onDiscuss} onAction={onAction} />}
+      {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} evidence={thesisInvalidationEvidence} onDiscuss={onDiscuss} onAction={onAction} />}
 
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
@@ -497,8 +499,9 @@ function formatExposurePct(value?: number | null) {
   return typeof value === "number" && value > 0 ? `${value.toFixed(2)}% exposure` : "no current exposure";
 }
 
-function ThesisInvalidationReviewPanel({ review, onDiscuss, onAction }: {
+function ThesisInvalidationReviewPanel({ review, evidence, onDiscuss, onAction }: {
   review: InvestingThesisInvalidationReview;
+  evidence?: InvestingThesisInvalidationEvidence | null;
   onDiscuss: Props["onDiscuss"];
   onAction?: Props["onAction"];
 }) {
@@ -543,6 +546,7 @@ function ThesisInvalidationReviewPanel({ review, onDiscuss, onAction }: {
           <span className="digestEyebrow">Discord surfacing</span>
           <h3>{notificationCandidates.length ? `${notificationCandidates.length} candidate${notificationCandidates.length === 1 ? "" : "s"} for #investing` : "No new or escalated Discord alert"}</h3>
           <p>{notificationPolicy?.repeatSuppression || "Repeat posts are suppressed unless severity or evidence changes."}</p>
+          {evidence?.summary && <p className="evidencePacketStats">{evidence.summary.packets ?? 0} packets checked · {evidence.summary.confirmedMaterialRisks ?? 0} confirmed risks · {evidence.summary.needsCurrentSourceCheck ?? 0} need current sources</p>}
         </div>
         {notificationCandidates.slice(0, 2).map(candidate => (
           <article key={candidate.id}>

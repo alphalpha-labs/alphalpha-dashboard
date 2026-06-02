@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-06-02T11:49:49.640Z",
+    "generatedAt": "2026-06-02T12:56:51.382Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "1e8e092",
+      "commit": "bd6fdb0",
       "branch": "main",
-      "generatedAt": "2026-06-02T11:49:49.655Z",
+      "generatedAt": "2026-06-02T12:56:51.395Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 3
+      "dirtyFiles": 5
     },
     "contextHealth": {
       "generatedAt": "2026-06-01T14:00:29.643Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "22h old",
+        "age": "23h old",
         "summary": "42 active files / 43743 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,11 +93,36 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "23h old",
-        "summary": "0 family / 0 music latest",
-        "detail": "0 crawl artifacts indexed",
+        "age": "0h old",
+        "summary": "18 family / 46 music latest",
+        "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
-        "details": [],
+        "details": [
+          {
+            "label": "Austin Ikebana Group June Meeting",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "Home Grown Austin Show & Sale – Day 1",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "First Annual Garden Book and Puzzle Sale – Day 1",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "JAZZ IS DEAD w/ MARCOS VALLE",
+            "value": "music · Mohawk"
+          },
+          {
+            "label": "Electric Feels",
+            "value": "music · Mohawk"
+          },
+          {
+            "label": "Sleepytime Gorilla Museum",
+            "value": "music · Mohawk"
+          }
+        ],
         "staleAfterHours": 36,
         "failingAfterHours": 72
       },
@@ -105,7 +130,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "21h old",
+        "age": "22h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "0 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -138,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "21 tickers / 10 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -150,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "5 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -183,7 +208,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "14h old",
+        "age": "15h old",
         "summary": "34 enabled / 6 paused",
         "detail": "40 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -230,16 +255,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@c5fc3f0, 38 dirty · Alphalpha dashboard: main@1e8e092, 3 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@3f45ae0, 23 dirty · Alphalpha dashboard: main@bd6fdb0, 5 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@c5fc3f0 · 38 dirty · 0 ahead · 0 behind"
+            "value": "master@3f45ae0 · 23 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@1e8e092 · 3 dirty · 0 ahead · 0 behind"
+            "value": "main@bd6fdb0 · 5 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -286,7 +311,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "23h old",
+        "age": "1d old",
         "summary": "6 pending / 5 high",
         "detail": "15 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -328,7 +353,86 @@
         "failingAfterHours": 72
       }
     ],
-    "eventCandidates": [],
+    "eventCandidates": [
+      {
+        "title": "Austin Ikebana Group June Meeting",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-06-05T10:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/austin-ikebana-group-june-meeting/",
+        "summary": "Ikebana Demonstration - Japanese Flower Arranging Elegant Japanese tea room featuring a tokonoma with scroll and ikebana vase. Photo courtesy of Andy Wilson. Old and new Ikebana friends, Austin Ikebana Group is inviting ",
+        "score": 6.7,
+        "id": "family-1",
+        "kind": "family"
+      },
+      {
+        "title": "Home Grown Austin Show & Sale – Day 1",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-06-06T09:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/home-grown-austin-show-sale-5/",
+        "summary": "Come experience The Garden Club of Austin's 67th Annual Plant & Flower Show and Sale. You'll find lots of plants and flowers perfect for Austin, and the extra added feature of the Austin Area Begonia […]",
+        "score": 6.7,
+        "id": "family-2",
+        "kind": "family"
+      },
+      {
+        "title": "First Annual Garden Book and Puzzle Sale – Day 1",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-06-06T09:30:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/first-annual-garden-book-and-puzzle-sale-day-1/",
+        "summary": "Come to our sale and help support the garden we celebrate this week, Zilker Botanical Garden, and the organizations that support the garden, Austin Area Garden Council and Zilker Botanical Garden Conservancy. We will hav",
+        "score": 6.7,
+        "id": "family-3",
+        "kind": "family"
+      },
+      {
+        "title": "JAZZ IS DEAD w/ MARCOS VALLE",
+        "source": "Mohawk",
+        "sourceId": "mohawk",
+        "date": "Jul 20, 2026 - 7:30 PM",
+        "venue": "Mohawk Outdoor",
+        "distanceMiles": null,
+        "link": "https://www.etix.com/ticket/p/44306975/artdontsleep-presents-jazz-is-dead-wmarcos-valle-austin-resound-presents",
+        "summary": "Resound + ArtDontSleep presents • All Ages",
+        "score": 3,
+        "id": "music-1",
+        "kind": "music"
+      },
+      {
+        "title": "Electric Feels",
+        "source": "Mohawk",
+        "sourceId": "mohawk",
+        "date": "Jul 24, 2026 - 9:30 PM",
+        "venue": "Mohawk Outdoor",
+        "distanceMiles": null,
+        "link": "https://www.etix.com/ticket/p/33495007/electric-feelsindie-rock-electronic-dance-party-austin-mohawk-austintxoutdoor",
+        "summary": "Mohawk Presents • Indie Rock + Electronic Dance Party • All Ages",
+        "score": 3,
+        "id": "music-2",
+        "kind": "music"
+      },
+      {
+        "title": "Sleepytime Gorilla Museum",
+        "source": "Mohawk",
+        "sourceId": "mohawk",
+        "date": "Aug 1, 2026 - 9:00 PM",
+        "venue": "Mohawk Outdoor",
+        "distanceMiles": null,
+        "link": "https://www.etix.com/ticket/p/82651766/sleepytime-gorilla-museum-austin-resound-presents",
+        "summary": "Resound Presents • Wendy Eisenberg, Stop Motion Orchestra, We Are the Asteroid, Wet Dip • All Ages",
+        "score": 2,
+        "id": "music-3",
+        "kind": "music"
+      }
+    ],
     "activity": [
       {
         "id": "dashboard-2026-05-19T22:37:19.503Z-role-healthcare-quality-compounders",
@@ -66877,6 +66981,150 @@
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/thesis-invalidation-review/latest.json"
     },
+    "investingThesisInvalidationEvidence": {
+      "generatedAt": "2026-06-02T12:56:44.627Z",
+      "schemaVersion": "2026-06-02.1",
+      "purpose": "Attach bounded current-data/source evidence packets to thesis invalidation reviews before any Discord escalation or portfolio-action recommendation.",
+      "policy": {
+        "defaultMode": "notification-candidates-first-plus-active-sweep",
+        "evidenceInbox": "memory/investing/thesis-invalidation-evidence/inbox.json",
+        "discordRule": "Only confirmed-material-risk packets are Discord eligible. Missing or unconfirmed evidence remains dashboard-only.",
+        "actionBoundary": "No trade execution. No pause/trim/exit recommendation without fresh attributable evidence and explicit review."
+      },
+      "summary": {
+        "requestedReviews": 6,
+        "packets": 6,
+        "confirmedMaterialRisks": 0,
+        "monitorUnconfirmedRisks": 0,
+        "needsCurrentSourceCheck": 6,
+        "discordCandidates": 0,
+        "inputHealth": "watch"
+      },
+      "packets": [
+        {
+          "id": "strategic-commodity-stockpiling-critical-minerals",
+          "title": "Strategic commodity stockpiling and critical minerals",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "MEDIUM",
+          "challengeScore": 73.86,
+          "exposurePct": 19.89,
+          "symbols": [
+            "REMX",
+            "GUNR",
+            "PICK",
+            "GNR",
+            "GLTR",
+            "COMB",
+            "XLB",
+            "COPX"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        },
+        {
+          "id": "energy-demand-infrastructure-tollbooths",
+          "title": "Energy demand growth and infrastructure toll booths",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "MEDIUM",
+          "challengeScore": 68.88,
+          "exposurePct": 16.06,
+          "symbols": [
+            "XLE",
+            "MLPX",
+            "IXC",
+            "FCG",
+            "XOP",
+            "VDE",
+            "SLB",
+            "MPLX"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        },
+        {
+          "id": "rearmament-aerospace-defense",
+          "title": "Rearmament and aerospace/defense capacity",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "LOW",
+          "challengeScore": 61.87,
+          "exposurePct": 10.67,
+          "symbols": [
+            "XAR",
+            "RTX",
+            "GD",
+            "SHLD",
+            "EUAD",
+            "HII",
+            "ITA",
+            "NOC"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        },
+        {
+          "id": "optical-networking-ai-bandwidth",
+          "title": "Optical networking and AI bandwidth bottleneck",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "LOW",
+          "challengeScore": 52.09,
+          "exposurePct": 0.07,
+          "symbols": [
+            "CIEN",
+            "GLW"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        },
+        {
+          "id": "japanese-financial-reflation",
+          "title": "Japanese financial reflation",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "LOW",
+          "challengeScore": 52,
+          "exposurePct": 0,
+          "symbols": [
+            "MUFG",
+            "SMFG"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        },
+        {
+          "id": "nuclear-power",
+          "title": "Nuclear Power",
+          "status": "needs-current-source-check",
+          "discordEligible": false,
+          "priority": "LOW",
+          "challengeScore": 51.02,
+          "exposurePct": 23.86,
+          "symbols": [
+            "BWXT",
+            "CCJ"
+          ],
+          "missingChecks": [
+            "fresh attributable invalidator evidence",
+            "source health is watch"
+          ]
+        }
+      ],
+      "discordCandidates": [],
+      "path": "/home/node/.openclaw/workspace/memory/investing/thesis-invalidation-evidence/dashboard-latest.json"
+    },
     "systemDocs": [
       {
         "id": "soul",
@@ -69731,8 +69979,8 @@
       "id": "source-1",
       "date": "2026-06-02",
       "category": "Source health",
-      "title": "Austin events: 0 family / 0 music latest",
-      "summary": "0 crawl artifacts indexed · 23h old · memory/events/latest-manifest.json",
+      "title": "Austin events: 18 family / 46 music latest",
+      "summary": "2 crawl artifacts indexed · 0h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69743,7 +69991,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "0 raw items · 21h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "0 raw items · 22h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69754,7 +70002,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 10 themes",
-      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69765,7 +70013,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Obsidian proposals: 5 proposed updates",
-      "summary": "proposal-only · 0h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 1h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69776,7 +70024,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Automations: 34 enabled / 6 paused",
-      "summary": "40 cron jobs indexed · 14h old · memory/automations/latest-manifest.json",
+      "summary": "40 cron jobs indexed · 15h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69787,7 +70035,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@c5fc3f0, 38 dirty · Alphalpha dashboard: main@1e8e092, 3 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@3f45ae0, 23 dirty · Alphalpha dashboard: main@bd6fdb0, 5 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69809,7 +70057,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Review queue: 6 pending / 5 high",
-      "summary": "15 review items indexed · 23h old · memory/review-queue/latest-manifest.json",
+      "summary": "15 review items indexed · 1d old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

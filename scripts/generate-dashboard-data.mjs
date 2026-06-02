@@ -148,6 +148,7 @@ function readSourceManifests() {
     investingBasketGovernanceAudit: readWorkspaceManifest(path.join('memory', 'investing', 'basket-governance-audit', 'latest.json')),
     investingThesisUniverse: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-universe', 'latest.json')),
     investingThesisInvalidationReview: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-invalidation-review', 'latest.json')),
+    investingThesisInvalidationEvidence: readWorkspaceManifest(path.join('memory', 'investing', 'thesis-invalidation-evidence', 'dashboard-latest.json')),
   };
 }
 function runGit(repoPath, args) {
@@ -724,6 +725,7 @@ function buildData() {
       investingBasketGovernanceAudit: sourceManifests.investingBasketGovernanceAudit || null,
       investingThesisUniverse: sourceManifests.investingThesisUniverse || null,
       investingThesisInvalidationReview: sourceManifests.investingThesisInvalidationReview || null,
+      investingThesisInvalidationEvidence: sourceManifests.investingThesisInvalidationEvidence || null,
       systemDocs: buildSystemDocs(),
       queues: buildQueues(),
     },

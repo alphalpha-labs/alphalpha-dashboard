@@ -1097,6 +1097,7 @@ input { font-family: inherit; }
 .invalidationNotificationPanel { display: grid; grid-template-columns: minmax(220px, 1.2fr) repeat(auto-fit, minmax(190px, .8fr)); gap: 12px; margin-top: 14px; padding: 13px; border: 1px solid rgba(142, 55, 44, .2); border-radius: 18px; background: rgba(255,255,255,.54); }
 .invalidationNotificationPanel h3 { margin: 3px 0 5px; font-size: 17px; }
 .invalidationNotificationPanel p { margin: 0; color: var(--ink-muted); font-size: 12px; line-height: 1.45; }
+.invalidationNotificationPanel .evidencePacketStats { margin-top: 7px; color: var(--accent-high); font-weight: 700; }
 .invalidationNotificationPanel article { display: flex; flex-direction: column; gap: 4px; padding: 10px; border: 1px solid rgba(142, 55, 44, .16); border-radius: 14px; background: rgba(255, 252, 248, .82); }
 .invalidationNotificationPanel article strong { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-high); }
 .invalidationNotificationPanel article span { font-size: 13px; font-weight: 700; color: var(--ink); }

@@ -328,6 +328,7 @@ export type InvestingSourceReliabilityPlan = { generatedAt?: string; status?: st
 export type InvestingThesisInvalidationReviewItem = { id: string; title: string; stage?: string; priority: string; challengeScore: number; recommendedAction: string; exposurePct: number; symbols?: string[]; coreClaim?: string | null; currentAction?: string | null; conviction?: string | number | null; daysSinceUpdate?: number | null; invalidators?: string[]; mustBeTrue?: string[]; probes?: string[]; killCriteria?: string[]; missingEvidence?: string[]; whyNow?: string; sourceArtifacts?: string[] };
 export type InvestingThesisInvalidationNotification = { id: string; thesisId: string; title: string; priority: string; cadence: string; channel?: string; channelId?: string; changeReasons?: string[]; previous?: { priority?: string; challengeScore?: number; exposurePct?: number; generatedAt?: string | null } | null; review: InvestingThesisInvalidationReviewItem; guardrails?: string[]; discordDraft?: string };
 export type InvestingThesisInvalidationReview = { generatedAt?: string; purpose?: string; policy?: Record<string, unknown>; summary?: Record<string, number | string | boolean | null>; notifications?: { policy?: { channel?: string; channelId?: string; sendRule?: string; repeatSuppression?: string; actionBoundary?: string }; candidates?: InvestingThesisInvalidationNotification[] }; activeReviews?: InvestingThesisInvalidationReviewItem[]; reviews?: Array<Record<string, unknown>>; systemRisks?: Array<{ id: string; title: string; severity?: string; detail?: string; recommendation?: string }> };
+export type InvestingThesisInvalidationEvidence = { generatedAt?: string; purpose?: string; policy?: Record<string, unknown>; summary?: { requestedReviews?: number; packets?: number; confirmedMaterialRisks?: number; monitorUnconfirmedRisks?: number; needsCurrentSourceCheck?: number; discordCandidates?: number; inputHealth?: string }; packets?: Array<{ id: string; title: string; status: string; discordEligible?: boolean; priority?: string; challengeScore?: number; exposurePct?: number; symbols?: string[]; whyNow?: string; probes?: string[]; killCriteria?: string[]; evidence?: { invalidators?: Array<Record<string, unknown>>; validators?: Array<Record<string, unknown>>; context?: Array<Record<string, unknown>> }; currentChecks?: { quoteSnapshotGeneratedAt?: string | null; quotes?: Array<Record<string, unknown>>; inputHealth?: string; trustedSourceCount?: number }; missingChecks?: string[]; discordDraft?: string | null }>; discordCandidates?: Array<Record<string, unknown>> };
 
 export type InvestingBasketGovernanceAudit = {
   generatedAt?: string;
@@ -434,6 +435,7 @@ export type DashboardData = {
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
     investingThesisInvalidationReview?: InvestingThesisInvalidationReview | null;
+    investingThesisInvalidationEvidence?: InvestingThesisInvalidationEvidence | null;
     systemDocs?: SystemDoc[];
     queues?: QueueGroup[];
   };
