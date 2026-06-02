@@ -639,54 +639,82 @@ function EditionNav({ offset, setOffset, isMobile }: { offset: number; setOffset
   );
 }
 
+// ── useIsMobile ───────────────────────────────────────────────────────────────
+function useIsMobile(breakpoint = 640) {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return mobile;
+}
+
 // ── Almanac main component ────────────────────────────────────────────────────
 interface AlmanacProps {
   daily: DailyData;
-  isMobile: boolean;
   openThread?: (ctx: ThreadContext) => void;
 }
 
-export default function Almanac({ daily, isMobile, openThread }: AlmanacProps) {
+export default function Almanac({ daily, openThread }: AlmanacProps) {
+  const isMobile = useIsMobile();
   const [venture, setVenture] = useState<DailyVenture | null>(null);
   const [offset, setOffset] = useState(0);
+  const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
+  const [archiveLoading, setArchiveLoading] = useState(false);
+
+  // Fetch stored immutable snapshot when navigating to a past date
+  useEffect(() => {
+    if (offset >= 0) {
+      setArchiveEdition(null);
+      return;
+    }
+    const d = fmtIso(dateForOffset(offset));
+    setArchiveLoading(true);
+    fetch(`/api/almanac/editions?date=${d}`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => { if (data?.edition) setArchiveEdition(data.edition); })
+      .catch(() => {})
+      .finally(() => setArchiveLoading(false));
+  }, [offset]);
 
   const dayIdx = TODAY_DAY + offset;
   const isToday = offset === 0;
   const date = fmtIso(dateForOffset(offset));
   const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
 
+  // Use the archived snapshot for past dates when available, fall back to fixture
+  const base = (offset < 0 && archiveEdition) ? archiveEdition : daily;
+
   const lead = LEAD_ORDER[((dayIdx % LEAD_ORDER.length) + LEAD_ORDER.length) % LEAD_ORDER.length];
   const rest = LEAD_ORDER.filter(t => t !== lead);
 
   // Build resolved daily with the right picks for this dayIdx
   const resolved: DailyData = {
-    ...daily,
-    article: daily.article,
-    image: daily.image,
-    ventures: [daily.ventures[((Math.floor(dayIdx / 3) % daily.ventures.length) + daily.ventures.length) % daily.ventures.length]],
-    charts: [pick(daily.charts, dayIdx)],
-    surprises: [pick(daily.surprises, dayIdx)],
-    quotes: daily.quotes,
-    parentingQuotes: daily.parentingQuotes,
+    ...base,
+    ventures: [base.ventures[((Math.floor(dayIdx / 3) % base.ventures.length) + base.ventures.length) % base.ventures.length]],
+    charts: [pick(base.charts, dayIdx)],
+    surprises: [pick(base.surprises, dayIdx)],
   };
 
-  const quote = pick(daily.quotes, dayIdx);
-  const parentQuote = pick(daily.parentingQuotes, dayIdx);
-  const surprise = pick(daily.surprises, dayIdx);
+  const quote = pick(base.quotes, dayIdx);
+  const parentQuote = pick(base.parentingQuotes, dayIdx);
+  const surprise = pick(base.surprises, dayIdx);
   const editionNo = `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
   // Snapshot today's edition to the archive on first render
   useEffect(() => {
-    if (!isToday) return;
     fetch("/api/almanac/editions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date: fmtIso(dateForOffset(0)), edition: daily }),
     }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderBlock = useCallback((type: Genre, size: "lead" | "dept") => {
+  const renderBlock = (type: Genre, size: "lead" | "dept") => {
     const props: BlockProps = { d: resolved, size, visibility: vis, date, openThread, openVenture: setVenture };
     switch (type) {
       case "article": return <ArticleBlock {...props} />;
@@ -695,7 +723,17 @@ export default function Almanac({ daily, isMobile, openThread }: AlmanacProps) {
       case "image":   return <ImageBlock {...props} />;
       default:        return null;
     }
-  }, [resolved, vis, date, openThread]);
+  };
+
+  if (archiveLoading) {
+    return (
+      <div className="almanac">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 240, fontFamily: "'Lora',serif", fontStyle: "italic", color: "#9a8f7a", fontSize: 15 }}>
+          Loading edition…
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="almanac">

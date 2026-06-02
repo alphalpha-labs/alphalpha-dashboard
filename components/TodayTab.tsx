@@ -64,7 +64,7 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
       {view === "edition" && (
         <div style={{ flex: 1, overflowY: "auto", width: "100%" }}>
           {data.daily
-            ? <Almanac daily={data.daily} isMobile={false} openThread={onDiscuss} />
+            ? <Almanac daily={data.daily} openThread={onDiscuss} />
             : (
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontFamily: "'Lora',serif", fontStyle: "italic", color: "#9a8f7a", fontSize: 15 }}>
                 No edition data — run <code style={{ fontStyle: "normal", fontSize: 13, background: "#ede8de", padding: "2px 6px", borderRadius: 4 }}>npm run generate:data</code> to populate.
