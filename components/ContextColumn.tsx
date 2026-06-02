@@ -5,6 +5,16 @@ import type { ThreadContext } from "./Dashboard";
 import QuickAdd from "./QuickAdd";
 import ActivityPanel from "./ActivityPanel";
 
+const SIDEBAR_IMAGES = [
+  '/aesthetics/austin-river.png',
+  '/aesthetics/austin-golden.png',
+  '/aesthetics/austin-tree.png',
+  '/aesthetics/waves-castle.png',
+  '/aesthetics/zendo-circle.png',
+  '/aesthetics/meditation-ripple.png',
+  '/aesthetics/meditation-city.png',
+] as const;
+
 interface Props {
   meta:      DashboardData["meta"];
   loops:     Loop[];
@@ -16,6 +26,10 @@ interface Props {
 }
 
 export default function ContextColumn({ meta, loops, investing, digests, onAdd, onEventFeedback, onDiscuss }: Props) {
+  const [sidebarImage] = useState(
+    () => SIDEBAR_IMAGES[Math.floor(Math.random() * SIDEBAR_IMAGES.length)]
+  );
+  const [heroLoaded, setHeroLoaded] = useState(false);
   const [loopsOpen,   setLoopsOpen]   = useState(true);
   const [investOpen,  setInvestOpen]  = useState(false);
   const [sourcesOpen, setSourcesOpen] = useState(true);
@@ -29,6 +43,14 @@ export default function ContextColumn({ meta, loops, investing, digests, onAdd, 
 
   return (
     <aside className="contextColumn">
+      <div className="sidebarHero">
+        <img
+          className={`sidebarHeroImg${heroLoaded ? ' sidebarHeroImg--loaded' : ''}`}
+          src={sidebarImage}
+          alt=""
+          onLoad={() => setHeroLoaded(true)}
+        />
+      </div>
       <div className="postureBlock">
         <p className="postureLabel">Today&apos;s Posture</p>
         <p className="postureQuote">&ldquo;{meta.posture}&rdquo;</p>

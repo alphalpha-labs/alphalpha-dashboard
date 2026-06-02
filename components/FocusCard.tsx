@@ -58,6 +58,10 @@ export default function FocusCard({ current, activeActions, focusIdx, snoozedAct
   if (!current) {
     return (
       <div className="focusStage">
+        <div className="layerTexture" aria-hidden="true" />
+        <div className="layerLandscape" aria-hidden="true">
+          <img src="/aesthetics/austin-river.png" alt="" />
+        </div>
         <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", color: "var(--ink-muted)" }}>
           All done for now. Add a loop to continue.
         </p>
@@ -72,6 +76,10 @@ export default function FocusCard({ current, activeActions, focusIdx, snoozedAct
 
   return (
     <div className="focusStage">
+      <div className="layerTexture" aria-hidden="true" />
+      <div className="layerLandscape" aria-hidden="true">
+        <img src="/aesthetics/austin-river.png" alt="" />
+      </div>
       {/* Progress dots */}
       <div className="progressDots">
         {activeActions.map((_, i) => (
