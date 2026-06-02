@@ -59,7 +59,9 @@ function ToastHost() {
       (fn as ToastFn & { _t?: ReturnType<typeof setTimeout> })._t = setTimeout(() => setMsg(null), 2100);
     };
     toastSubs.add(fn);
-    return () => toastSubs.delete(fn);
+    return () => {
+      toastSubs.delete(fn);
+    };
   }, []);
   return (
     <div className={`almanacToast${msg ? " almanacToast--visible" : ""}`}>
@@ -73,8 +75,8 @@ type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; 
 type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; at: number; date: string };
 type FeedbackState = { keeps: Record<string, KeepRecord>; tunes: Record<string, TuneRecord> };
 
-const feedbackCache: Record<string, FeedbackState> = {};
-const feedbackInflight: Record<string, Promise<FeedbackState>> = {};
+const feedbackCache: Partial<Record<string, FeedbackState>> = {};
+const feedbackInflight: Partial<Record<string, Promise<FeedbackState>>> = {};
 const feedbackSubs = new Set<() => void>();
 
 async function loadFeedback(date: string): Promise<FeedbackState> {
@@ -98,7 +100,7 @@ async function loadFeedback(date: string): Promise<FeedbackState> {
 
 async function persistKeep(date: string, keep: KeepRecord | null, itemId: string) {
   const body = keep
-    ? { date, type: "keep", itemId, ...keep }
+    ? { ...keep, date, type: "keep", itemId }
     : { date, type: "keep", itemId, remove: true };
   await fetch("/api/almanac/feedback", {
     method: "POST",
@@ -111,7 +113,7 @@ async function persistTune(date: string, tune: TuneRecord) {
   await fetch("/api/almanac/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ date, type: "tune", ...tune }),
+    body: JSON.stringify({ ...tune, date, type: "tune" }),
   }).catch(() => {});
 }
 
@@ -121,7 +123,9 @@ function useFeedback(date: string) {
     const fn = () => force(x => x + 1);
     feedbackSubs.add(fn);
     loadFeedback(date).then(() => force(x => x + 1));
-    return () => feedbackSubs.delete(fn);
+    return () => {
+      feedbackSubs.delete(fn);
+    };
   }, [date]);
   return feedbackCache[date] ?? { keeps: {}, tunes: {} };
 }
