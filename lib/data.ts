@@ -388,6 +388,49 @@ export type InvestingThesisUniverse = {
   theses?: Array<{ id: string; title: string; state?: string; classification?: string; source?: string; convictionScore?: number | null; targetWeight?: number | null; portfolio?: { primaryPct?: number; secondaryPct?: number; totalReferencedPct?: number; topHoldings?: Array<{ symbol?: string; portfolioPct?: number }> }; flags?: string[]; recommendation?: string | null }>;
 };
 
+// ── Daily Almanac types ──────────────────────────────────────────────────────
+
+export type DailyVentureResearch = {
+  tam:          string;
+  tamLabel:     string;
+  growth:       string;
+  growthLabel:  string;
+  model:        string;
+  whyNow:       string;
+  wedge:        string;
+  competitors:  { name: string; note: string }[];
+  signals:      string[];
+};
+
+export type DailyVenture = {
+  name:     string;
+  effort:   string;
+  title:    string;
+  pitch:    string;
+  why:      string;
+  research: DailyVentureResearch;
+};
+
+export type DailyChart = {
+  topic:  string;
+  title:  string;
+  unit:   string;
+  note:   string;
+  why:    string;
+  series: { label: string; value: number }[];
+};
+
+export type DailyData = {
+  edition:         string;
+  image:           { kicker: string; title: string; caption: string; credit: string; curator: string };
+  article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string };
+  ventures:        DailyVenture[];
+  charts:          DailyChart[];
+  quotes:          { text: string; source: string }[];
+  parentingQuotes: { text: string; source: string }[];
+  surprises:       { form: string; title: string; body: string; note: string }[];
+};
+
 export type DashboardData = {
   meta: {
     generatedAt:   string;
@@ -456,6 +499,7 @@ export type DashboardData = {
   automations?: AutomationJob[];
   reviewQueue?: ReviewItem[];
   digests:     Digest[];
+  daily?:      DailyData;
 };
 
 import generated from "./generated-data.json";
