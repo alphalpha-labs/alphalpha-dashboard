@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { DailyData, DailyVenture } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
@@ -74,20 +74,26 @@ type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: st
 type FeedbackState = { keeps: Record<string, KeepRecord>; tunes: Record<string, TuneRecord> };
 
 const feedbackCache: Record<string, FeedbackState> = {};
+const feedbackInflight: Record<string, Promise<FeedbackState>> = {};
 const feedbackSubs = new Set<() => void>();
 
 async function loadFeedback(date: string): Promise<FeedbackState> {
   if (feedbackCache[date]) return feedbackCache[date];
-  try {
-    const res = await fetch(`/api/almanac/feedback?date=${date}`);
-    if (res.ok) {
-      const data = await res.json();
-      feedbackCache[date] = data;
-      return data;
-    }
-  } catch {}
-  feedbackCache[date] = { keeps: {}, tunes: {} };
-  return feedbackCache[date];
+  if (feedbackInflight[date]) return feedbackInflight[date];
+  const p = (async () => {
+    try {
+      const res = await fetch(`/api/almanac/feedback?date=${date}`);
+      if (res.ok) {
+        const data = await res.json();
+        feedbackCache[date] = data;
+        return data;
+      }
+    } catch {}
+    feedbackCache[date] = { keeps: {}, tunes: {} };
+    return feedbackCache[date];
+  })();
+  feedbackInflight[date] = p;
+  try { return await p; } finally { delete feedbackInflight[date]; }
 }
 
 async function persistKeep(date: string, keep: KeepRecord | null, itemId: string) {
@@ -465,11 +471,12 @@ function SurpriseBand({ s, visibility, date, isMobile, openThread }: SurprisePro
 interface VentureModalProps {
   venture: DailyVenture | null;
   date: string;
+  readonly?: boolean;
   onClose: () => void;
   openThread?: (ctx: ThreadContext) => void;
 }
 
-function VentureModal({ venture, date, onClose, openThread }: VentureModalProps) {
+function VentureModal({ venture, date, readonly, onClose, openThread }: VentureModalProps) {
   const feedback = useFeedback(date);
   const item = venture ? { id: "venture:" + venture.name, genre: "venture" as Genre, title: venture.name, sub: venture.effort } : null;
   const kept = item ? !!feedback.keeps[item.id] : false;
@@ -546,7 +553,7 @@ function VentureModal({ venture, date, onClose, openThread }: VentureModalProps)
           <WhyLine label="Why I surfaced this:" text={venture.why} />
 
           <div className="almanacModal__footer">
-            <KeepBtn kept={kept} onClick={() => item && toggleKeep(date, item)} />
+            {!readonly && <KeepBtn kept={kept} onClick={() => item && toggleKeep(date, item)} />}
             <button
               onClick={() => {
                 openThread?.({ type: "digest", id: "venture-" + venture.name, title: venture.title, summary: venture.pitch, category: "Venture brief" });
@@ -788,7 +795,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
         </div>
       </div>
 
-      <VentureModal venture={venture} date={date} onClose={() => setVenture(null)} openThread={openThread} />
+      <VentureModal venture={venture} date={date} readonly={!isToday} onClose={() => setVenture(null)} openThread={openThread} />
       <ToastHost />
     </div>
   );
