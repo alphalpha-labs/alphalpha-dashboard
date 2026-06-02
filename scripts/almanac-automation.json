@@ -1,0 +1,19 @@
+{
+  "_comment": "OpenClaw cron descriptor for the daily Almanac generator. Register this job by adding it to the workspace automations registry (memory/automations/latest-manifest.json) or by running the automation indexer after placing a copy of this file in memory/automations/almanac-generator.json.",
+  "id": "almanac-generator",
+  "name": "Daily Almanac Generator",
+  "description": "Generates the next day's Almanac edition — sources quotes and the 'You' chart from workspace manifests, validates against the DailyData schema, and writes the immutable snapshot to alphalpha:almanac:edition:{date} in KV.",
+  "category": "almanac",
+  "enabled": true,
+  "scheduleLabel": "Daily at 5:00 am (America/Chicago)",
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 11 * * *",
+    "tz": "America/Chicago"
+  },
+  "sessionTarget": "scripts/generate-almanac.mjs --date=$(date -d 'tomorrow' +%Y-%m-%d)",
+  "lightContext": true,
+  "toolsAllow": ["Bash"],
+  "delivery": "kv-write",
+  "summary": "Phase 1: writes quotes + 'You' chart from workspace; all other tiles fall back to fixture. Phase 2+ tiles (article, look, venture, surprise) ship in later phases."
+}

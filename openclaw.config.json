@@ -3,5 +3,8 @@
     "Alphalpha",
     "OpenClaw migration and orchestration",
     "Obsidian / GitHub-backed personal knowledge system"
+  ],
+  "automationDescriptors": [
+    "scripts/almanac-automation.json"
   ]
 }
