@@ -12,6 +12,7 @@ import AutomationsTab from "./AutomationsTab";
 import ReviewTab from "./ReviewTab";
 import SystemTab from "./SystemTab";
 import QueuesTab from "./QueuesTab";
+import OutingOracleTab from "./OutingOracleTab";
 import ThreadDrawer from "./ThreadDrawer";
 import StatusBar from "./StatusBar";
 import { categorizeSignalError, type ErrorDetail } from "@/lib/signal-error";
@@ -53,6 +54,7 @@ const TABS = [
   { id: "projects",  label: "Projects", href: "/projects" },
   { id: "investing", label: "Investing", href: "/investing" },
   { id: "digests",   label: "Digests", href: "/digests" },
+  { id: "outing-oracle", label: "Outing Oracle", href: "/outing-oracle" },
   { id: "queues",    label: "Queues", href: "/queues" },
   { id: "review",    label: "Review", href: "/review" },
   { id: "automations", label: "Automations", href: "/automations" },
@@ -376,6 +378,9 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           )}
           {activeTab === "digests" && (
             <DigestsTab digests={data.digests} onDiscuss={openThread} />
+          )}
+          {activeTab === "outing-oracle" && (
+            <OutingOracleTab />
           )}
           {activeTab === "queues" && (
             <QueuesTab queues={data.meta.queues || []} onDiscuss={openThread} />
