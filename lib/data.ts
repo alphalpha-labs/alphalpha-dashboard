@@ -325,6 +325,7 @@ export type InvestingConvictionResetPolicy = { generatedAt?: string; status?: st
 export type InvestingExecutionBoundaryPolicy = { generatedAt?: string; status?: string; title?: string; purpose?: string; allowedWithoutAdditionalApproval?: string[]; requiresExplicitAlexConfirmation?: string[]; recommendationLevels?: Array<{ id: string; meaning: string }>; dashboardReceiptRule?: string; defaultTradePosture?: string };
 export type InvestingRankedActionQueue = { generatedAt?: string; purpose?: string; summary?: Record<string, number | string | null>; sourceHealth?: { status?: string; actionableFailedRuns14?: number | null; penalty?: number }; actions?: Array<{ rank: number; id: string; title: string; rankScore: number; recommendation: string; allowedActionLevel: string; explicitTradeConfirmationRequired?: boolean; rationale: string; tickers?: string[]; blockers?: string[]; scoreComponents?: Record<string, unknown> }> };
 export type InvestingSourceReliabilityPlan = { generatedAt?: string; status?: string; summary?: Record<string, number>; actionableFailures?: Array<{ id: string; platform: string; runs: number; error: string; recommendedAction: string; priority: string }>; recommendations?: string[] };
+export type InvestingThesisInvalidationReview = { generatedAt?: string; purpose?: string; policy?: Record<string, unknown>; summary?: Record<string, number | string | boolean | null>; activeReviews?: Array<{ id: string; title: string; stage?: string; priority: string; challengeScore: number; recommendedAction: string; exposurePct: number; symbols?: string[]; coreClaim?: string | null; currentAction?: string | null; conviction?: string | number | null; daysSinceUpdate?: number | null; invalidators?: string[]; mustBeTrue?: string[]; probes?: string[]; killCriteria?: string[]; missingEvidence?: string[]; whyNow?: string; sourceArtifacts?: string[] }>; reviews?: Array<Record<string, unknown>>; systemRisks?: Array<{ id: string; title: string; severity?: string; detail?: string; recommendation?: string }> };
 
 export type InvestingBasketGovernanceAudit = {
   generatedAt?: string;
@@ -430,6 +431,7 @@ export type DashboardData = {
     investingSourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;
+    investingThesisInvalidationReview?: InvestingThesisInvalidationReview | null;
     systemDocs?: SystemDoc[];
     queues?: QueueGroup[];
   };

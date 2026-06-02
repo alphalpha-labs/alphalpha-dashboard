@@ -34,6 +34,7 @@ import type {
   InvestingSourceReliabilityPlan,
   InvestingBasketGovernanceAudit,
   InvestingThesisUniverse,
+  InvestingThesisInvalidationReview,
   Ticker,
 } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
@@ -76,11 +77,12 @@ interface Props {
   sourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
+  thesisInvalidationReview?: InvestingThesisInvalidationReview | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -140,6 +142,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           onAction={onAction}
         />
       )}
+
+      {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} onDiscuss={onDiscuss} onAction={onAction} />}
 
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
@@ -487,6 +491,57 @@ function formatPullback(value?: number | null) {
 
 function formatPortfolioPct(value?: number | null) {
   return typeof value === "number" && value > 0 ? `${value.toFixed(2)}% held` : "not held";
+}
+
+function formatExposurePct(value?: number | null) {
+  return typeof value === "number" && value > 0 ? `${value.toFixed(2)}% exposure` : "no current exposure";
+}
+
+function ThesisInvalidationReviewPanel({ review, onDiscuss, onAction }: {
+  review: InvestingThesisInvalidationReview;
+  onDiscuss: Props["onDiscuss"];
+  onAction?: Props["onAction"];
+}) {
+  const active = review.activeReviews ?? [];
+  const risks = review.systemRisks ?? [];
+  return (
+    <section className="investmentSection invalidationPanel">
+      <div className="sectionTitleRow"><h2>Thesis invalidation review</h2><span>{review.summary?.activeReviewCount ?? active.length} active · {review.summary?.highPriorityCount ?? 0} high</span></div>
+      <div className="pullbackWatchIntro">
+        <div>
+          <span className="digestEyebrow">Bear-case first · no trade execution</span>
+          <h3>Prove it still deserves capital</h3>
+          <p>Active and portfolio-relevant theses are interrogated against explicit invalidators, broken assumptions, stale conviction, exposure size, and source-health risk.</p>
+          <strong>Current-data checks are required before any trim, pause, or exit recommendation.</strong>
+        </div>
+        <div className="inputHealthStats">
+          <span><strong>{review.summary?.thesisCount ?? review.reviews?.length ?? 0}</strong> theses</span>
+          <span><strong>{review.summary?.exposedReviewCount ?? 0}</strong> exposed</span>
+          <span><strong>{String(review.summary?.sourceHealthStatus ?? "unknown")}</strong> sources</span>
+        </div>
+      </div>
+      <div className="investmentCardGrid invalidationCardGrid">
+        {active.slice(0, 6).map(item => (
+          <article key={item.id} className="investmentDecision invalidationCard">
+            <div className="decisionTop"><span>{item.priority} · {item.recommendedAction.replace(/-/g, " ")}</span><strong>{Math.round(item.challengeScore)}</strong></div>
+            <h3>{item.title}</h3>
+            <p>{item.whyNow || item.coreClaim || "Review explicit invalidators before adding or maintaining capital."}</p>
+            <div className="decisionMeta">{formatExposurePct(item.exposurePct)} · {(item.symbols || []).slice(0, 6).join(", ") || "theme"}</div>
+            {(item.probes || []).slice(0, 2).map(probe => <em key={probe}>{probe}</em>)}
+            <div className="investmentButtonRow">
+              <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "decision", title: `${item.title} invalidation review`, category: "investing invalidation", summary: (item.probes || []).slice(0, 3).join(" ") || item.whyNow })}><span className="alphaGlyph">α</span> Interrogate</button>
+              <button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.title} invalidation review`, decision: item.recommendedAction, rationale: item.whyNow, symbols: item.symbols })}>Journal review</button>
+            </div>
+          </article>
+        ))}
+      </div>
+      {risks.length > 0 && (
+        <div className="invalidationRiskStrip">
+          {risks.slice(0, 3).map(risk => <span key={risk.id}><strong>{risk.severity || "risk"}</strong>{risk.title}</span>)}
+        </div>
+      )}
+    </section>
+  );
 }
 
 function InvestmentActionCommandCenter({ executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, onDiscuss, onAction }: {

@@ -368,6 +368,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               sourceReliabilityPlan={data.meta.investingSourceReliabilityPlan}
               basketGovernanceAudit={data.meta.investingBasketGovernanceAudit}
               thesisUniverse={data.meta.investingThesisUniverse}
+              thesisInvalidationReview={data.meta.investingThesisInvalidationReview}
               onDiscuss={openThread}
               onAction={handleInvestmentAction}
             />
