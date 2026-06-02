@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-06-02T12:56:51.382Z",
+    "generatedAt": "2026-06-02T13:01:33.785Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "bd6fdb0",
+      "commit": "74f5417",
       "branch": "main",
-      "generatedAt": "2026-06-02T12:56:51.395Z",
+      "generatedAt": "2026-06-02T13:01:33.800Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 5
+      "dirtyFiles": 0
     },
     "contextHealth": {
       "generatedAt": "2026-06-01T14:00:29.643Z",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "1h old",
+        "age": "2h old",
         "summary": "21 tickers / 10 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "1h old",
+        "age": "2h old",
         "summary": "5 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -254,17 +254,17 @@
         "label": "GitHub repos",
         "status": "OK",
         "age": "0h old",
-        "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@3f45ae0, 23 dirty · Alphalpha dashboard: main@bd6fdb0, 5 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown",
+        "summary": "4 repos / 1 dirty / 0 behind",
+        "detail": "Alphalpha workspace: master@dfa8265, 28 dirty · Alphalpha dashboard: main@74f5417 · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@3f45ae0 · 23 dirty · 0 ahead · 0 behind"
+            "value": "master@dfa8265 · 28 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@bd6fdb0 · 5 dirty · 0 ahead · 0 behind"
+            "value": "main@74f5417 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -66982,7 +66982,7 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/thesis-invalidation-review/latest.json"
     },
     "investingThesisInvalidationEvidence": {
-      "generatedAt": "2026-06-02T12:56:44.627Z",
+      "generatedAt": "2026-06-02T13:01:23.026Z",
       "schemaVersion": "2026-06-02.1",
       "purpose": "Attach bounded current-data/source evidence packets to thesis invalidation reviews before any Discord escalation or portfolio-action recommendation.",
       "policy": {
@@ -70002,7 +70002,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 10 themes",
-      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 2h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -70013,7 +70013,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Obsidian proposals: 5 proposed updates",
-      "summary": "proposal-only · 1h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 2h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -70034,8 +70034,8 @@
       "id": "source-6",
       "date": "2026-06-02",
       "category": "Source health",
-      "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@3f45ae0, 23 dirty · Alphalpha dashboard: main@bd6fdb0, 5 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
+      "summary": "Alphalpha workspace: master@dfa8265, 28 dirty · Alphalpha dashboard: main@74f5417 · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
