@@ -89,8 +89,6 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
   const convictionEntries = convictionLedger?.entries ?? [];
   const plans = accumulationPlan?.plans ?? [];
   const sources = trustedSources?.sources ?? [];
-  const opportunities = accumulationOpportunities?.opportunities ?? [];
-  const quotes = accumulationOpportunities?.quotes ?? [];
   const proposals = proposedTheses?.proposals ?? [];
   const tradePrompts = tradeReview?.prompts ?? [];
   const reviewedTrades = tradeReview?.trades ?? [];
@@ -133,6 +131,15 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       )}
 
       {convictionResetPolicy?.status === "active" && <ConvictionResetPanel policy={convictionResetPolicy} onDiscuss={onDiscuss} />}
+
+      {accumulationOpportunities && (
+        <PullbackAccumulationWatch
+          accumulationOpportunities={accumulationOpportunities}
+          convictionResetActive={convictionResetPolicy?.status === "active"}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
+      )}
 
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
@@ -292,18 +299,11 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         </section>
       )}
 
-      <div className="investmentTwoCol">
-        <section className="investmentSection">
-          <div className="sectionTitleRow"><h2>Accumulation opportunities</h2><span>{opportunities.length}</span></div>
-          {opportunities.length ? opportunities.map(item => <div key={item.id} className="investmentListRow"><strong>{item.symbol} · {item.trigger}</strong><p>{item.message}</p><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol} accumulation opportunity`, decision: item.action, rationale: item.message, symbols: [item.symbol], thesisId: item.thesisId })}>Journal reminder</button></div>) : <p className="emptyText">No thesis-aware pullback opportunities currently triggered.</p>}
-          {quotes.slice(0, 6).map(q => <div key={q.symbol} className="investmentListRow"><strong>{q.symbol} · {typeof q.close === "number" ? `$${q.close.toFixed(2)}` : "quote unavailable"}</strong><p>{typeof q.pullbackPct === "number" ? `${q.pullbackPct.toFixed(1)}% from six-month high` : q.error || "No quote data"}</p></div>)}
-        </section>
-        <section className="investmentSection">
-          <div className="sectionTitleRow"><h2>Proposed theses</h2><span>{proposals.length}</span></div>
-          {proposedThesisConfig?.thresholds && <p className="emptyText">Thresholds: evidence ≥ {proposedThesisConfig.thresholds.minimumEvidenceScore}, differentiation ≥ {proposedThesisConfig.thresholds.minimumDifferentiationScore}</p>}
-          {proposals.slice(0, 6).map(item => <div key={item.id} className="investmentListRow"><strong>{item.recommendation} · {item.title}</strong><p>{item.thesisDraft}</p><em>{(item.symbols || []).join(", ")} · evidence {item.evidenceScore} · differentiated {item.differentiationScore}</em><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: "proposed thesis", stance: item.recommendation })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "promote-thesis", { thesisId: item.id, stage: "candidate", title: item.title, symbols: item.symbols, rationale: item.thesisDraft })}>Approve candidate</button></div></div>)}
-        </section>
-      </div>
+      <section className="investmentSection">
+        <div className="sectionTitleRow"><h2>Proposed theses</h2><span>{proposals.length}</span></div>
+        {proposedThesisConfig?.thresholds && <p className="emptyText">Thresholds: evidence ≥ {proposedThesisConfig.thresholds.minimumEvidenceScore}, differentiation ≥ {proposedThesisConfig.thresholds.minimumDifferentiationScore}</p>}
+        {proposals.slice(0, 6).map(item => <div key={item.id} className="investmentListRow"><strong>{item.recommendation} · {item.title}</strong><p>{item.thesisDraft}</p><em>{(item.symbols || []).join(", ")} · evidence {item.evidenceScore} · differentiated {item.differentiationScore}</em><div className="investmentButtonRow"><button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: item.title, theme: "proposed thesis", stance: item.recommendation })}>Discuss</button><button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "promote-thesis", { thesisId: item.id, stage: "candidate", title: item.title, symbols: item.symbols, rationale: item.thesisDraft })}>Approve candidate</button></div></div>)}
+      </section>
 
       {feedbackCalibration && (
         <section className="investmentSection">
@@ -430,6 +430,63 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       </section>
     </div>
   );
+}
+
+function PullbackAccumulationWatch({ accumulationOpportunities, convictionResetActive, onDiscuss, onAction }: {
+  accumulationOpportunities: InvestingAccumulationOpportunities;
+  convictionResetActive: boolean;
+  onDiscuss: Props["onDiscuss"];
+  onAction?: Props["onAction"];
+}) {
+  const opportunities = [...(accumulationOpportunities.opportunities ?? [])]
+    .sort((a, b) => Number(b.materialReview || false) - Number(a.materialReview || false) || (a.pullbackPct ?? 0) - (b.pullbackPct ?? 0));
+  const quotes = accumulationOpportunities.quotes ?? [];
+  const displayed = opportunities.slice(0, 8);
+  const materialReviews = opportunities.filter(item => item.materialReview).length;
+
+  return (
+    <section className="investmentSection pullbackWatchPanel">
+      <div className="sectionTitleRow"><h2>Pullback accumulation watch</h2><span>{opportunities.length} triggered · {quotes.length} tracked</span></div>
+      <div className="pullbackWatchIntro">
+        <div>
+          <span className="digestEyebrow">High-conviction candidates · review first</span>
+          <h3>Good thesis, better entry</h3>
+          <p>Names surface when a thesis-aware value range or pullback trigger fires. This is an accumulation review queue, not a buy alert.</p>
+          {convictionResetActive && <strong>Conviction is still neutral until fresh evidence is recorded.</strong>}
+        </div>
+        <div className="inputHealthStats">
+          <span><strong>{opportunities.length}</strong> triggered</span>
+          <span><strong>{materialReviews}</strong> material reviews</span>
+          <span><strong>{quotes.length}</strong> tracked quotes</span>
+        </div>
+      </div>
+      {displayed.length > 0 ? (
+        <div className="pullbackWatchGrid">
+          {displayed.map(item => (
+            <article key={item.id} className="pullbackWatchCard">
+              <div className="decisionTop"><span>{item.reviewState?.replace(/-/g, " ") || "pullback review"}</span><strong>{formatPullback(item.pullbackPct)}</strong></div>
+              <h3>{item.symbol}</h3>
+              <p>{item.thesisTitle}</p>
+              <em>{item.trigger} · {formatMoney(item.close)} · {formatPortfolioPct(item.position?.portfolioPct)}</em>
+              <small>{item.thesisStatus || item.checks?.planStatus || "review candidate"}</small>
+              <div className="investmentButtonRow">
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "ticker", title: `${item.symbol} pullback review`, theme: item.thesisTitle, stance: item.action })}><span className="alphaGlyph">α</span> Discuss</button>
+                <button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.symbol} pullback review`, decision: item.action, rationale: item.message, symbols: [item.symbol], thesisId: item.thesisId })}>Journal review</button>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : <p className="emptyText">No thesis-aware pullback opportunities currently triggered.</p>}
+    </section>
+  );
+}
+
+function formatPullback(value?: number | null) {
+  return typeof value === "number" ? `${Math.abs(value).toFixed(1)}% off high` : "range trigger";
+}
+
+function formatPortfolioPct(value?: number | null) {
+  return typeof value === "number" && value > 0 ? `${value.toFixed(2)}% held` : "not held";
 }
 
 function InvestmentActionCommandCenter({ executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, onDiscuss, onAction }: {

@@ -786,9 +786,20 @@ input { font-family: inherit; }
 .investmentListRow:first-of-type { border-top: 0; }
 .investmentListRow strong { display: block; margin-bottom: 3px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); }
 .investmentListRow em { display: block; margin-top: 4px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-faint); font-style: normal; }
+.pullbackWatchPanel { border-color: rgba(126, 88, 36, .3); background: rgba(250, 244, 230, .72); }
+.pullbackWatchIntro { display: flex; justify-content: space-between; align-items: flex-end; gap: 18px; margin-bottom: 12px; }
+.pullbackWatchIntro h3 { margin: 5px 0 4px; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; color: var(--ink); }
+.pullbackWatchIntro p { max-width: 720px; margin: 0; font-family: 'Lora', Georgia, serif; font-size: 12px; line-height: 1.5; color: var(--ink-muted); }
+.pullbackWatchIntro strong { display: block; margin-top: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--accent-high); }
+.pullbackWatchGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 9px; }
+.pullbackWatchCard { min-width: 0; border: 1px solid var(--border-faint); border-radius: var(--radius-card); padding: 11px; background: rgba(255, 253, 248, .72); }
+.pullbackWatchCard h3 { margin: 8px 0 3px; font-family: 'DM Sans', sans-serif; font-size: 18px; color: var(--ink); }
+.pullbackWatchCard p { min-height: 36px; margin: 0; font-family: 'Lora', Georgia, serif; font-size: 12px; line-height: 1.45; color: var(--ink-muted); }
+.pullbackWatchCard em, .pullbackWatchCard small { display: block; margin-top: 7px; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.35; color: var(--ink-faint); font-style: normal; overflow-wrap: anywhere; }
+.pullbackWatchCard small { color: var(--accent-high); }
 .investmentHealth ul { margin: 8px 0 0 18px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.5; }
 .emptyText { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-faint); }
-@media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol { grid-template-columns: 1fr; flex-direction: column; } }
+@media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol, .pullbackWatchIntro { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; } }
 .investmentPreflight { border-color: rgba(177, 80, 45, .35); background: rgba(255, 244, 235, .72); }
 .investmentButtonRow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
