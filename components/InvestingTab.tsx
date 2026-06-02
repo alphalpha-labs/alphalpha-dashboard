@@ -504,15 +504,18 @@ function ThesisInvalidationReviewPanel({ review, onDiscuss, onAction }: {
 }) {
   const active = review.activeReviews ?? [];
   const risks = review.systemRisks ?? [];
+  const notificationCandidates = review.notifications?.candidates ?? [];
+  const notificationPolicy = review.notifications?.policy;
   return (
     <section className="investmentSection invalidationPanel">
-      <div className="sectionTitleRow"><h2>Thesis invalidation review</h2><span>{review.summary?.activeReviewCount ?? active.length} active · {review.summary?.highPriorityCount ?? 0} high</span></div>
+      <div className="sectionTitleRow"><h2>Thesis invalidation review</h2><span>{review.summary?.activeReviewCount ?? active.length} active · {review.summary?.highPriorityCount ?? 0} high · {review.summary?.notificationCandidateCount ?? notificationCandidates.length} notify</span></div>
       <div className="pullbackWatchIntro">
         <div>
           <span className="digestEyebrow">Bear-case first · no trade execution</span>
           <h3>Prove it still deserves capital</h3>
           <p>Active and portfolio-relevant theses are interrogated against explicit invalidators, broken assumptions, stale conviction, exposure size, and source-health risk.</p>
           <strong>Current-data checks are required before any trim, pause, or exit recommendation.</strong>
+          {notificationPolicy?.sendRule && <em className="invalidationNotificationRule">{notificationPolicy.sendRule}</em>}
         </div>
         <div className="inputHealthStats">
           <span><strong>{review.summary?.thesisCount ?? review.reviews?.length ?? 0}</strong> theses</span>
@@ -532,6 +535,20 @@ function ThesisInvalidationReviewPanel({ review, onDiscuss, onAction }: {
               <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: item.id, type: "decision", title: `${item.title} invalidation review`, category: "investing invalidation", summary: (item.probes || []).slice(0, 3).join(" ") || item.whyNow })}><span className="alphaGlyph">α</span> Interrogate</button>
               <button className="btnAlphaDiscuss" onClick={() => onAction?.(item.id, "record-decision", { title: `${item.title} invalidation review`, decision: item.recommendedAction, rationale: item.whyNow, symbols: item.symbols })}>Journal review</button>
             </div>
+          </article>
+        ))}
+      </div>
+      <div className="invalidationNotificationPanel">
+        <div>
+          <span className="digestEyebrow">Discord surfacing</span>
+          <h3>{notificationCandidates.length ? `${notificationCandidates.length} candidate${notificationCandidates.length === 1 ? "" : "s"} for #investing` : "No new or escalated Discord alert"}</h3>
+          <p>{notificationPolicy?.repeatSuppression || "Repeat posts are suppressed unless severity or evidence changes."}</p>
+        </div>
+        {notificationCandidates.slice(0, 2).map(candidate => (
+          <article key={candidate.id}>
+            <strong>{candidate.priority} · {candidate.cadence.replace(/-/g, " ")}</strong>
+            <span>{candidate.title}</span>
+            <p>{(candidate.changeReasons || []).slice(0, 2).join(" · ") || "New review candidate"}</p>
           </article>
         ))}
       </div>

@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-06-02T02:31:25.425Z",
+    "generatedAt": "2026-06-02T11:49:49.640Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "abaa935",
+      "commit": "1e8e092",
       "branch": "main",
-      "generatedAt": "2026-06-02T02:31:25.440Z",
+      "generatedAt": "2026-06-02T11:49:49.655Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 5
+      "dirtyFiles": 3
     },
     "contextHealth": {
       "generatedAt": "2026-06-01T14:00:29.643Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "13h old",
+        "age": "22h old",
         "summary": "42 active files / 43743 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "13h old",
+        "age": "23h old",
         "summary": "0 family / 0 music latest",
         "detail": "0 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -105,7 +105,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "12h old",
+        "age": "21h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "0 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -138,7 +138,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "13h old",
+        "age": "0h old",
         "summary": "21 tickers / 10 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -150,30 +150,30 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "15h old",
+        "age": "0h old",
         "summary": "5 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
         "details": [
           {
             "label": "Alphalpha/Syntheses/Investing/AI Power Infrastructure.md",
-            "value": "memory/obsidian/proposed-updates/2026-06-01/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
+            "value": "memory/obsidian/proposed-updates/2026-06-02/proposed-vault-files/Alphalpha/Syntheses/Investing/AI Power Infrastructure.md"
           },
           {
             "label": "Alphalpha/Syntheses/Investing/Macro Volatility.md",
-            "value": "memory/obsidian/proposed-updates/2026-06-01/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md"
+            "value": "memory/obsidian/proposed-updates/2026-06-02/proposed-vault-files/Alphalpha/Syntheses/Investing/Macro Volatility.md"
           },
           {
             "label": "Alphalpha/Syntheses/Life/Media Tracking.md",
-            "value": "memory/obsidian/proposed-updates/2026-06-01/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md"
+            "value": "memory/obsidian/proposed-updates/2026-06-02/proposed-vault-files/Alphalpha/Syntheses/Life/Media Tracking.md"
           },
           {
             "label": "Alphalpha/Open Loops.md",
-            "value": "memory/obsidian/proposed-updates/2026-06-01/proposed-open-loops.md"
+            "value": "memory/obsidian/proposed-updates/2026-06-02/proposed-open-loops.md"
           },
           {
             "label": "Alphalpha/Dashboard.md",
-            "value": "memory/obsidian/proposed-updates/2026-06-01/proposed-dashboard-block.md"
+            "value": "memory/obsidian/proposed-updates/2026-06-02/proposed-dashboard-block.md"
           }
         ],
         "staleAfterHours": 48,
@@ -183,7 +183,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "5h old",
+        "age": "14h old",
         "summary": "34 enabled / 6 paused",
         "detail": "40 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -230,20 +230,20 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@9911fc4, 17 dirty · Alphalpha dashboard: main@abaa935, 5 dirty · Obsidian vault: main@896fbaf · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@c5fc3f0, 38 dirty · Alphalpha dashboard: main@1e8e092, 3 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@9911fc4 · 17 dirty · 0 ahead · 0 behind"
+            "value": "master@c5fc3f0 · 38 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@abaa935 · 5 dirty · 0 ahead · 0 behind"
+            "value": "main@1e8e092 · 3 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@896fbaf · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@f4d3fc9 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -286,7 +286,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "13h old",
+        "age": "23h old",
         "summary": "6 pending / 5 high",
         "detail": "15 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -65062,8 +65062,8 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/thesis-universe/latest.json"
     },
     "investingThesisInvalidationReview": {
-      "generatedAt": "2026-06-02T02:31:24.967Z",
-      "schemaVersion": "2026-06-02.1",
+      "generatedAt": "2026-06-02T11:48:09.682Z",
+      "schemaVersion": "2026-06-02.2",
       "purpose": "Proactively interrogate active and portfolio-relevant investing theses for invalidators, broken assumptions, stale conviction, and reasons they may no longer deserve capital.",
       "policy": {
         "posture": "bear-case-first, review-first, no trade execution",
@@ -65078,7 +65078,19 @@
         "exposedReviewCount": 21,
         "convictionResetActive": true,
         "sourceHealthStatus": "watch",
-        "actionableSourceFailures14d": 0
+        "actionableSourceFailures14d": 0,
+        "notificationCandidateCount": 0,
+        "immediateNotificationCandidateCount": 0
+      },
+      "notifications": {
+        "policy": {
+          "channel": "#investing",
+          "channelId": "1493060407697604728",
+          "sendRule": "Send only new/escalated thesis invalidation cards. Medium unchanged cards stay in the dashboard or weekly digest.",
+          "repeatSuppression": "A card should not be reposted unless priority rises, challenge score materially rises, or fresh evidence changes the review.",
+          "actionBoundary": "Discord notifications are review prompts only and must not recommend pause/trim/exit without current data/news/source checks."
+        },
+        "candidates": []
       },
       "activeReviews": [
         {
@@ -65110,7 +65122,7 @@
           "coreClaim": "Sovereign stockpiling, resource nationalism, supply-chain security, and critical-mineral scarcity create durable demand for rare earths, strategic metals, and upstream natural-resource exposure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Stockpiling proves temporary or politically overstated.",
             "New supply, substitution, or demand weakness overwhelms scarcity thesis.",
@@ -65178,7 +65190,7 @@
           "coreClaim": "Energy demand growth, energy security, and infrastructure constraints support owning both upstream/sector energy exposure and midstream/toll-booth infrastructure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Energy demand structurally weakens or supply overwhelms demand for a prolonged period.",
             "Regulatory/tax/political changes impair midstream economics or distributions.",
@@ -65246,7 +65258,7 @@
           "coreClaim": "Western/allied rearmament, geopolitical fragmentation, drone/missile demand, and defense-industrial capacity constraints create a durable long-horizon tailwind for aerospace and defense exposure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Defense budget growth stalls or political support fades.",
             "Valuations fully price in rearmament without enough earnings conversion.",
@@ -65300,7 +65312,7 @@
           "coreClaim": "AI infrastructure demand shifts bottlenecks from compute alone to high-bandwidth optical transport, data-center interconnect, fiber, photonics, and physical connectivity between GPUs, racks, campuses, and regions.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Hyperscaler AI capex slows materially or shifts away from external optical intensity.",
             "Orders prove to be inventory/channel pull-forward rather than durable demand.",
@@ -65356,7 +65368,7 @@
           "coreClaim": "Japan rate normalization, wage/inflation reflation, governance reform, buybacks, and improved shareholder returns can lift megabank ROE and narrow the Japan bank discount.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "BOJ returns to effective zero-rate posture or rate hikes reverse quickly.",
             "Credit losses or JGB/market losses overwhelm NIM benefits.",
@@ -65447,7 +65459,7 @@
           "coreClaim": "AI data-center growth is creating durable demand for grid, electrical, power-services, and behind-the-meter infrastructure providers.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "AI infrastructure demand slows materially or power intensity falls faster than expected.",
             "Valuations price in most of the bottleneck upside.",
@@ -65502,7 +65514,7 @@
           "coreClaim": "Supply-chain resilience, rearmament, nuclear fuel, drones, aerospace components, and critical materials may support durable investment themes.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Spending normalizes or political support fades.",
             "Theme is too broad to create investable edge.",
@@ -65620,7 +65632,7 @@
           "coreClaim": "High-quality healthcare tools and specialty medtech franchises can compound outside the dominant macro/AI/security sleeves, adding a durable quality-growth ballast if valuation and execution remain disciplined.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality.",
             "BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, or guidance cuts persist.",
@@ -65688,7 +65700,7 @@
           "coreClaim": "Sovereign stockpiling, resource nationalism, supply-chain security, and critical-mineral scarcity create durable demand for rare earths, strategic metals, and upstream natural-resource exposure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Stockpiling proves temporary or politically overstated.",
             "New supply, substitution, or demand weakness overwhelms scarcity thesis.",
@@ -65756,7 +65768,7 @@
           "coreClaim": "Energy demand growth, energy security, and infrastructure constraints support owning both upstream/sector energy exposure and midstream/toll-booth infrastructure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Energy demand structurally weakens or supply overwhelms demand for a prolonged period.",
             "Regulatory/tax/political changes impair midstream economics or distributions.",
@@ -65824,7 +65836,7 @@
           "coreClaim": "Western/allied rearmament, geopolitical fragmentation, drone/missile demand, and defense-industrial capacity constraints create a durable long-horizon tailwind for aerospace and defense exposure.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Defense budget growth stalls or political support fades.",
             "Valuations fully price in rearmament without enough earnings conversion.",
@@ -65878,7 +65890,7 @@
           "coreClaim": "AI infrastructure demand shifts bottlenecks from compute alone to high-bandwidth optical transport, data-center interconnect, fiber, photonics, and physical connectivity between GPUs, racks, campuses, and regions.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Hyperscaler AI capex slows materially or shifts away from external optical intensity.",
             "Orders prove to be inventory/channel pull-forward rather than durable demand.",
@@ -65934,7 +65946,7 @@
           "coreClaim": "Japan rate normalization, wage/inflation reflation, governance reform, buybacks, and improved shareholder returns can lift megabank ROE and narrow the Japan bank discount.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "BOJ returns to effective zero-rate posture or rate hikes reverse quickly.",
             "Credit losses or JGB/market losses overwhelm NIM benefits.",
@@ -66025,7 +66037,7 @@
           "coreClaim": "AI data-center growth is creating durable demand for grid, electrical, power-services, and behind-the-meter infrastructure providers.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "AI infrastructure demand slows materially or power intensity falls faster than expected.",
             "Valuations price in most of the bottleneck upside.",
@@ -66080,7 +66092,7 @@
           "coreClaim": "Supply-chain resilience, rearmament, nuclear fuel, drones, aerospace components, and critical materials may support durable investment themes.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "Spending normalizes or political support fades.",
             "Theme is too broad to create investable edge.",
@@ -66198,7 +66210,7 @@
           "coreClaim": "High-quality healthcare tools and specialty medtech franchises can compound outside the dominant macro/AI/security sleeves, adding a durable quality-growth ballast if valuation and execution remain disciplined.",
           "currentAction": "re-earn-conviction",
           "conviction": "neutral",
-          "daysSinceUpdate": 11,
+          "daysSinceUpdate": 12,
           "invalidators": [
             "DHR bioprocessing recovery stalls, lab budgets weaken, or M&A dilutes quality.",
             "BSX FARAPULSE/Watchman growth disappoints, share losses accelerate, or guidance cuts persist.",
@@ -69720,7 +69732,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Austin events: 0 family / 0 music latest",
-      "summary": "0 crawl artifacts indexed · 13h old · memory/events/latest-manifest.json",
+      "summary": "0 crawl artifacts indexed · 23h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69731,7 +69743,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "0 raw items · 12h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "0 raw items · 21h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69742,7 +69754,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 10 themes",
-      "summary": "4 high-priority research candidates · 13h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69753,7 +69765,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Obsidian proposals: 5 proposed updates",
-      "summary": "proposal-only · 15h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 0h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69764,7 +69776,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Automations: 34 enabled / 6 paused",
-      "summary": "40 cron jobs indexed · 5h old · memory/automations/latest-manifest.json",
+      "summary": "40 cron jobs indexed · 14h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69775,7 +69787,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@9911fc4, 17 dirty · Alphalpha dashboard: main@abaa935, 5 dirty · Obsidian vault: main@896fbaf · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@c5fc3f0, 38 dirty · Alphalpha dashboard: main@1e8e092, 3 dirty · Obsidian vault: main@f4d3fc9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -69797,7 +69809,7 @@
       "date": "2026-06-02",
       "category": "Source health",
       "title": "Review queue: 6 pending / 5 high",
-      "summary": "15 review items indexed · 13h old · memory/review-queue/latest-manifest.json",
+      "summary": "15 review items indexed · 23h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

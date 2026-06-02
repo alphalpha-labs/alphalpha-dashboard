@@ -1093,6 +1093,13 @@ input { font-family: inherit; }
 .invalidationCardGrid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .invalidationCard { border-color: rgba(142, 55, 44, .22); background: rgba(255, 252, 248, .78); }
 .invalidationCard em { display: block; margin-top: 7px; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.4; color: var(--ink-muted); font-style: normal; overflow-wrap: anywhere; }
+.invalidationNotificationRule { display: block; margin-top: 10px; font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.5; color: var(--ink-muted); font-style: normal; }
+.invalidationNotificationPanel { display: grid; grid-template-columns: minmax(220px, 1.2fr) repeat(auto-fit, minmax(190px, .8fr)); gap: 12px; margin-top: 14px; padding: 13px; border: 1px solid rgba(142, 55, 44, .2); border-radius: 18px; background: rgba(255,255,255,.54); }
+.invalidationNotificationPanel h3 { margin: 3px 0 5px; font-size: 17px; }
+.invalidationNotificationPanel p { margin: 0; color: var(--ink-muted); font-size: 12px; line-height: 1.45; }
+.invalidationNotificationPanel article { display: flex; flex-direction: column; gap: 4px; padding: 10px; border: 1px solid rgba(142, 55, 44, .16); border-radius: 14px; background: rgba(255, 252, 248, .82); }
+.invalidationNotificationPanel article strong { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-high); }
+.invalidationNotificationPanel article span { font-size: 13px; font-weight: 700; color: var(--ink); }
 .invalidationRiskStrip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .invalidationRiskStrip span { border: 1px solid rgba(142, 55, 44, .2); border-radius: 999px; padding: 6px 9px; background: rgba(255,255,255,.55); font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); }
 .invalidationRiskStrip strong { margin-right: 5px; color: var(--accent-high); text-transform: uppercase; }
