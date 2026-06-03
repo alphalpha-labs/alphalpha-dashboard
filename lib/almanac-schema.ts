@@ -57,6 +57,9 @@ export const DailyImageSchema = z.object({
   caption: z.string(),
   credit:  z.string(),
   curator: z.string(),
+  url:     z.string().url().optional(),
+  srcLink: z.string().url().optional(),
+  tags:    z.array(z.string()).optional(),
 });
 
 export const DailyArticleSchema = z.object({

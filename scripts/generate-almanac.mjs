@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Daily Almanac generator — Phase 0 + Phase 1 + Phase 2
+ * Daily Almanac generator — Phase 0 + Phase 1 + Phase 2 + Phase 3
  *
  * Usage:
  *   node scripts/generate-almanac.mjs [--date=YYYY-MM-DD] [--dry-run] [--force]
@@ -20,6 +20,10 @@
  * Phase 2 tiles (workspace data + LLM via OpenClaw):
  *   - Article: sourced from Obsidian article-candidates dir; LLM writes dek + why
  *     (falls back gracefully when OpenClaw env vars are absent)
+ *
+ * Phase 3 tiles (public-domain APIs + optional LLM captions):
+ *   - Image / Look: sourced from Met Museum + Art Institute of Chicago zero-key APIs;
+ *     LLM writes caption + curator note (falls back to candidate metadata)
  *
  * All other tiles fall back to fixture.
  *
@@ -586,6 +590,217 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
   return { article, sourceId };
 }
 
+// ── Phase 3 Tile: Look (image) ────────────────────────────────────────────────
+
+const IMAGE_QUERIES = [
+  'landscape painting oil',
+  'impressionist light trees',
+  'Hudson River School panorama',
+  'serene lake mountains watercolor',
+  'golden hour pastoral field',
+  'coastal seascape calm',
+  'garden flowers soft light',
+  'autumn foliage trees path',
+  'winter snow quiet village',
+  'dawn mist river reflection',
+];
+
+const MET_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
+const AIC_BASE = 'https://api.artic.edu/api/v1';
+
+async function sourceMetMuseum(targetDate) {
+  const seed  = dateHash(targetDate + '-met');
+  const query = IMAGE_QUERIES[seed % IMAGE_QUERIES.length];
+
+  const searchUrl =
+    `${MET_BASE}/search?q=${encodeURIComponent(query)}&hasImages=true&isPublicDomain=true&medium=Paintings`;
+  const searchRes = await fetch(searchUrl, { signal: AbortSignal.timeout(8_000) });
+  if (!searchRes.ok) throw new Error(`Met Museum search ${searchRes.status}`);
+  const searchData = await searchRes.json();
+
+  const ids = (searchData.objectIDs ?? []).slice(0, 40);
+  if (ids.length === 0) return [];
+
+  // Sample deterministically so the same date always yields the same picks.
+  const picks = [];
+  for (let i = 0; i < Math.min(8, ids.length); i++) {
+    picks.push(ids[(seed * (i + 1)) % ids.length]);
+  }
+  const uniquePicks = [...new Set(picks)].slice(0, 5);
+
+  const results = await Promise.allSettled(
+    uniquePicks.map(id =>
+      fetch(`${MET_BASE}/objects/${id}`, { signal: AbortSignal.timeout(6_000) })
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null)
+    )
+  );
+
+  const candidates = [];
+  for (const r of results) {
+    const obj = r.status === 'fulfilled' ? r.value : null;
+    if (!obj || !obj.primaryImageSmall || !obj.isPublicDomain) continue;
+    candidates.push({
+      source:  'met',
+      id:      `met-${obj.objectID}`,
+      title:   obj.title || 'Untitled',
+      artist:  obj.artistDisplayName || obj.artistDisplayBio || 'Unknown artist',
+      date:    obj.objectDate || '',
+      medium:  obj.medium || '',
+      url:     obj.primaryImageSmall,
+      srcLink: obj.objectURL || `https://www.metmuseum.org/art/collection/search/${obj.objectID}`,
+      tags:    [obj.department, obj.culture, obj.period].filter(Boolean),
+    });
+  }
+  return candidates;
+}
+
+async function sourceAIC(targetDate) {
+  const seed  = dateHash(targetDate + '-aic');
+  const query = IMAGE_QUERIES[(seed + 3) % IMAGE_QUERIES.length]; // offset so AIC picks differ
+
+  const searchUrl =
+    `${AIC_BASE}/artworks/search?q=${encodeURIComponent(query)}&fields=id,title,image_id,artist_display,medium_display,date_display,subject_titles,style_title,is_public_domain&limit=20`;
+  const searchRes = await fetch(searchUrl, { signal: AbortSignal.timeout(8_000) });
+  if (!searchRes.ok) throw new Error(`AIC search ${searchRes.status}`);
+  const searchData = await searchRes.json();
+
+  const works = (searchData.data ?? []).filter(w => w.is_public_domain && w.image_id);
+  return works.map(w => ({
+    source:  'aic',
+    id:      `aic-${w.id}`,
+    title:   w.title || 'Untitled',
+    artist:  w.artist_display || 'Unknown artist',
+    date:    w.date_display || '',
+    medium:  w.medium_display || '',
+    url:     `https://www.artic.edu/iiif/2/${w.image_id}/full/843,/0/default.jpg`,
+    srcLink: `https://www.artic.edu/artworks/${w.id}`,
+    tags:    [w.style_title, ...(w.subject_titles ?? [])].filter(Boolean).slice(0, 5),
+  }));
+}
+
+function rankImage(candidates, feedbackWeights, recentIds) {
+  if (candidates.length === 0) return null;
+
+  const iw = feedbackWeights.image ?? {};
+
+  const TASTE_KEYWORDS = [
+    'landscape', 'light', 'hudson river', 'pastoral', 'impressi',
+    'serene', 'quiet', 'nature', 'watercolor', 'plein air', 'golden',
+    'mist', 'autumn', 'coast', 'garden', 'reflection', 'dawn', 'dusk',
+  ];
+
+  const scored = candidates.map(c => {
+    let score = 1.0;
+
+    if (recentIds.includes(c.id)) score -= 10;
+
+    score += (iw.sourceAffinity?.[c.source] ?? 0) * 0.3;
+
+    const blob = `${c.title} ${c.medium} ${c.tags.join(' ')}`.toLowerCase();
+    score += TASTE_KEYWORDS.filter(kw => blob.includes(kw)).length * 0.4;
+
+    // Era preference: 1800–1940 sweet spot.
+    const yearMatch = c.date.match(/\b(1[0-9]{3})\b/);
+    if (yearMatch) {
+      const year = parseInt(yearMatch[1], 10);
+      if (year >= 1800 && year <= 1940) score += 1.0;
+      else if (year < 1800)             score += 0.3;
+    }
+
+    if ((iw.chipTallies?.['love the vibe'] ?? 0) > 0) score += 0.3;
+    if ((iw.chipTallies?.['not my taste']  ?? 0) > 0) score -= 0.3;
+
+    return { ...c, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  const best = scored[0];
+  return best.score < -5 ? null : best;
+}
+
+async function composeImage(candidate) {
+  const systemPrompt =
+`You are the visual editor of Alphalpha, a personal AI daily brief with a refined aesthetic sensibility.
+Write two short copy fields for the Look tile: a caption and a one-sentence curator note.
+Be specific and evocative — notice light, mood, or craft. No generic filler.`;
+
+  const userPrompt =
+`Artwork: "${candidate.title}"
+Artist: ${candidate.artist}
+Date: ${candidate.date}
+Medium: ${candidate.medium}
+Tags: ${candidate.tags.join(', ') || 'none'}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{"caption":"<1-2 sentences, what draws the eye, ≤200 chars>","curator":"<1 sentence why it's today's pick, ≤120 chars>"}`;
+
+  let composed = null;
+  try {
+    const raw = await callOpenClaw(systemPrompt, userPrompt);
+    if (raw) {
+      const jsonMatch = raw.match(/\{[\s\S]*?\}/);
+      if (jsonMatch) composed = JSON.parse(jsonMatch[0]);
+    }
+    if (composed) log('  image composer: LLM OK');
+    else           log('  image composer: no LLM output — using candidate text');
+  } catch (e) {
+    warn(`image composer LLM failed: ${e.message} — using candidate text`);
+  }
+
+  const museumLabel = candidate.source === 'met'
+    ? 'The Metropolitan Museum of Art'
+    : 'Art Institute of Chicago';
+  const credit = candidate.artist
+    ? `${candidate.artist}${candidate.date ? `, ${candidate.date}` : ''} · ${museumLabel}`
+    : museumLabel;
+
+  return {
+    kicker:  'Look',
+    title:   candidate.title,
+    caption: composed?.caption
+      ?? `${candidate.title} — ${candidate.medium || candidate.artist || 'a quiet study in light and form'}.`,
+    credit,
+    curator: composed?.curator
+      ?? 'Selected from public-domain works matching your aesthetic taste.',
+    url:     candidate.url,
+    srcLink: candidate.srcLink,
+    tags:    candidate.tags,
+  };
+}
+
+async function tileImage(feedbackWeights, recentIds) {
+  // Editors can pin a specific image by setting this KV key.
+  const override = await kvGet('alphalpha:almanac:image-override');
+  if (override && override.url) {
+    log('  image: using KV override');
+    return { image: override, sourceId: override.id ?? 'override' };
+  }
+
+  // Source from both APIs concurrently.
+  const [metResult, aicResult] = await Promise.allSettled([
+    sourceMetMuseum(targetDate),
+    sourceAIC(targetDate),
+  ]);
+
+  if (metResult.status === 'rejected')
+    warn(`Met Museum sourcer failed: ${metResult.reason?.message}`);
+  if (aicResult.status === 'rejected')
+    warn(`AIC sourcer failed: ${aicResult.reason?.message}`);
+
+  const all = [
+    ...(metResult.status === 'fulfilled' ? metResult.value : []),
+    ...(aicResult.status === 'fulfilled' ? aicResult.value : []),
+  ];
+  if (all.length === 0) return null;
+
+  const best = rankImage(all, feedbackWeights, recentIds);
+  if (!best) return null;
+
+  const image = await composeImage(best);
+  return { image, sourceId: best.id };
+}
+
 // ── Tile pipeline runner ─────────────────────────────────────────────────────
 
 async function runTile(name, fn, fallbackValue) {
@@ -634,16 +849,17 @@ async function main() {
 
   const contextFiles = readContextFiles();
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
     getRecentIds('article'),
+    getRecentIds('image'),
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -678,8 +894,22 @@ async function main() {
     warn(`  article: ${e.message} — using fixture fallback`);
   }
 
+  // Phase 3 — Image / Look (public-domain APIs + optional LLM caption)
+  let image       = fixture.image;
+  let usedImageId = null;
+  try {
+    const result = await tileImage(feedbackWeights, recentImageIds);
+    if (result) {
+      ({ image, sourceId: usedImageId } = result);
+      log(`  image: OK — "${image.title.slice(0, 60)}"`);
+    } else {
+      log('  image: no candidates — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  image: ${e.message} — using fixture fallback`);
+  }
+
   // Phase 1–fallback tiles (pass-through from fixture)
-  const image     = fixture.image;
   const ventures  = fixture.ventures  ?? [];
   const surprises = fixture.surprises ?? [];
 
@@ -714,6 +944,7 @@ async function main() {
   }
 
   log(`Edition assembled: ${edition.edition}`);
+  log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
   log(`  article: ${article.source}${usedArticleId ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
   log(`  charts: ${edition.charts.length} (You chart: ${youChart ? 'live' : 'fixture'})`);
@@ -746,6 +977,7 @@ async function main() {
     recordUsed('quote-parenting', usedParentingIds, targetDate),
     recordUsed('chart',           usedChartIds,     targetDate),
     usedArticleId ? recordUsed('article', [usedArticleId], targetDate) : Promise.resolve(),
+    usedImageId   ? recordUsed('image',   [usedImageId],   targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');

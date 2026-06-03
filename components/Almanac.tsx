@@ -409,15 +409,32 @@ function ChartBlock({ d, size, visibility, date, openThread }: BlockProps) {
 
 function ImageBlock({ d, size, visibility, date }: BlockProps) {
   const lead = size === "lead";
-  const item = { id: "image:daily", genre: "image" as Genre, title: "Today's image", sub: "Curated for your taste" };
+  const title = d.image.title || "Today's image";
+  const item = { id: "image:daily", genre: "image" as Genre, title, sub: "Curated for your taste" };
+  const hasImage = !!d.image.url;
   return (
     <div className="card-hoverable">
       <Kicker genre="image" extra={lead ? "Curated for your taste" : "for your taste"} />
       <div className={`almanacImageSlot almanacImageSlot--${size}`}>
-        {/* placeholder — production wires a curated image source here */}
-        <div className="almanacImagePlaceholder">
-          <span className="almanacImagePlaceholder__text">α chose this for your eye</span>
-        </div>
+        {hasImage ? (
+          d.image.srcLink ? (
+            <a
+              className="almanacImageLink"
+              href={d.image.srcLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={title}
+            >
+              <img className="almanacImageReal" src={d.image.url} alt={title} />
+            </a>
+          ) : (
+            <img className="almanacImageReal" src={d.image.url} alt={title} />
+          )
+        ) : (
+          <div className="almanacImagePlaceholder">
+            <span className="almanacImagePlaceholder__text">α chose this for your eye</span>
+          </div>
+        )}
       </div>
       {lead ? (
         <>
@@ -428,7 +445,7 @@ function ImageBlock({ d, size, visibility, date }: BlockProps) {
           <WhyLine text={d.image.curator} />
         </>
       ) : (
-        <div className="almanacImageDeptNote">α chose this for your eye — drop your own to retune.</div>
+        <div className="almanacImageDeptNote">{hasImage ? d.image.caption : "α chose this for your eye — drop your own to retune."}</div>
       )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} />
     </div>

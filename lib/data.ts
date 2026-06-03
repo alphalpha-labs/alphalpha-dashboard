@@ -422,7 +422,7 @@ export type DailyChart = {
 
 export type DailyData = {
   edition:         string;
-  image:           { kicker: string; title: string; caption: string; credit: string; curator: string };
+  image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
   article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string };
   ventures:        DailyVenture[];
   charts:          DailyChart[];
