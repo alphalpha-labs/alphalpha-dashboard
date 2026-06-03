@@ -87,7 +87,7 @@ const EPOCH = new Date('2025-10-31T00:00:00Z');
 function editionNumber(dateStr) {
   const d = new Date(`${dateStr}T00:00:00Z`);
   const daysDiff = Math.round((d - EPOCH) / 86_400_000);
-  return `No. ${daysDiff}`;
+  return `No. ${daysDiff + 1}`; // 1-indexed: epoch day = No. 1
 }
 
 // ── KV client (optional — fails gracefully when env vars absent) ─────────────
@@ -195,7 +195,9 @@ async function loadFeedbackWeights() {
         if (keep.sub) weights[genre].sourceAffinity[keep.sub] = (weights[genre].sourceAffinity[keep.sub] ?? 0) + 1;
       }
       for (const tune of Object.values(rec.tunes ?? {})) {
-        const genre = tune.itemId?.split('-')[0] ?? 'article';
+        // itemId from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
+        // Split on colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
+        const genre = tune.itemId?.split(/[:-]/)[0] ?? 'article';
         if (!weights[genre]) weights[genre] = { keepScore: 0, moreScore: 0, lessScore: 0, chipTallies: {}, notes: [], sourceAffinity: {} };
         if (tune.reaction === 'more') weights[genre].moreScore += 1;
         if (tune.reaction === 'less') weights[genre].lessScore += 1;
@@ -312,12 +314,13 @@ async function callOpenClaw(systemPrompt, userPrompt) {
   const res = await fetch(`${baseUrl}/v1/responses`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    signal:  AbortSignal.timeout(30_000),
     body: JSON.stringify({
       model,
       instructions: systemPrompt,
       input:  [{ type: 'message', role: 'user', content: userPrompt }],
       stream: false,
-      user:   'dashboard:almanac-generator:article',
+      user:   'dashboard:almanac-generator',
     }),
   });
 
@@ -1183,7 +1186,18 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     warn(`surprise composer LLM failed: ${e.message}`);
   }
 
-  if (!composed?.title?.trim() || !composed?.body?.trim()) return null;
+  if (!composed?.title?.trim() || !composed?.body?.trim()) {
+    // Non-LLM fallback for Artifact: use curated metadata directly.
+    if (form === 'Artifact' && artifact) {
+      return {
+        form:  'Artifact',
+        title: artifact.name,
+        body:  artifact.context.slice(0, 250),
+        note:  '',
+      };
+    }
+    return null; // Word / Provocation have no non-LLM fallback → fixture
+  }
 
   return {
     form,
@@ -1309,8 +1323,11 @@ function parseRSSItems(xml) {
     const title = (
       block.match(/<title[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? ''
     ).trim();
+    // Atom feeds emit multiple <link> elements; prefer rel="alternate" (the article URL).
     const link = (
-      block.match(/<link[^>]*\shref="([^"]+)"/)?.[1] ??
+      block.match(/<link[^>]*\brel="alternate"[^>]*\bhref="([^"]+)"/)?.[1] ??
+      block.match(/<link[^>]*\bhref="([^"]+)"[^>]*\brel="alternate"/)?.[1] ??
+      block.match(/<link[^>]*\bhref="([^"]+)"/)?.[1] ??
       block.match(/<link[^>]*>([^<\s]+)<\/link>/)?.[1] ??
       ''
     ).trim();

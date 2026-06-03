@@ -98,8 +98,9 @@ export async function loadFeedbackWeights(): Promise<FeedbackWeights> {
     }
 
     for (const tune of Object.values(record.tunes ?? {})) {
-      // Genre is inferred from the itemId prefix, e.g. "quote-mind-3" → "quote"
-      const genre = tune.itemId.split("-")[0] ?? "article";
+      // itemId format from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
+      // Split on either colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
+      const genre = tune.itemId.split(/[:-]/)[0] ?? "article";
       if (!weights[genre]) weights[genre] = empty();
       if (tune.reaction === "more") weights[genre].moreScore += 1;
       if (tune.reaction === "less") weights[genre].lessScore += 1;
