@@ -21,6 +21,10 @@ function readJsonAbsolute(p, fallback = null) {
   if (!fs.existsSync(p)) return fallback;
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return fallback; }
 }
+function readExistingDaily() {
+  const existing = readJsonAbsolute(outputPath, null);
+  return existing?.daily ?? null;
+}
 function readWorkspaceManifest(rel) {
   const candidates = [
     path.resolve(contextRoot, '..', rel),
@@ -632,6 +636,7 @@ function sourceHealthFromManifests(manifests, contextHealth) {
   return rows;
 }
 function buildData() {
+  const existingDaily = readExistingDaily();
   const postureMd   = read('POSTURE.md');
   const projectsMd  = read('PROJECTS.md');
   const openLoopsMd = read('OPEN_LOOPS.md');
@@ -745,6 +750,7 @@ function buildData() {
     investing: parseInvesting(openLoopsMd),
     automations: sourceManifests.automations?.jobs || [],
     reviewQueue: sourceManifests.reviewQueue?.items || [],
+    daily: existingDaily,
     digests: [
       fileDigest('d1', 'ChatGPT brain dump converted to canonical context', 'Context import', 'imports/2026-05-01-chatgpt-braindump.md', 'Raw import preserved and split into durable Alphalpha files.', ['#memory', '#context', '#import']),
       fileDigest('d2', 'About + preference context available', 'About/Preferences', 'ABOUT.md', firstSentence(extractSection(about, '## Stable context')) || 'Stable personal context and preferences available.', ['#about', '#preferences']),
