@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Daily Almanac generator — Phase 0 + Phase 1 + Phase 2 + Phase 3 + Phase 4
+ * Daily Almanac generator — Phase 0–6
  *
  * Usage:
  *   node scripts/generate-almanac.mjs [--date=YYYY-MM-DD] [--dry-run] [--force]
@@ -29,6 +29,16 @@
  *   - Ventures: sourced from workspace VENTURES.md / Obsidian vault / memory manifests;
  *     LLM generates full DailyVenture struct with TAM/growth labeled as estimates;
  *     competitor names must be real companies; falls back to fixture array
+ *
+ * Phase 5 tiles (LLM + curated artifact list; 7-day form rotation):
+ *   - Surprise: rotating forms (Word / Provocation / Artifact); Artifact picks from
+ *     lib/almanac-datasets/artifacts.json; LLM writes body + note; Recipe deferred
+ *
+ * Phase 6 tiles (curated dataset + RSS; no external paid API keys):
+ *   - Investing / AI charts: series data committed to lib/almanac-datasets/charts.json;
+ *     LLM writes note + why grounded in real data; falls back to fixture chart per topic
+ *   - Article RSS: supplementary sourcer fetches public RSS feeds for known publications;
+ *     merged with workspace candidates before ranking; FRED/EIA wiring deferred
  *
  * All other tiles fall back to fixture.
  *
@@ -577,7 +587,15 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
 }
 
 async function tileArticle(feedbackWeights, recentIds, contextFiles) {
-  const candidates = sourceArticleCandidates();
+  // Merge workspace candidates (primary) with RSS candidates (supplementary).
+  const [wsResult, rssResult] = await Promise.allSettled([
+    Promise.resolve(sourceArticleCandidates()),
+    sourceRSSCandidates(feedbackWeights),
+  ]);
+  const candidates = [
+    ...(wsResult.status  === 'fulfilled' ? wsResult.value  : []),
+    ...(rssResult.status === 'fulfilled' ? rssResult.value : []),
+  ];
   if (candidates.length === 0) return null;
 
   const best = rankArticle(
@@ -1055,6 +1073,315 @@ async function tileVentures(feedbackWeights, recentIds, contextFiles) {
   return ventures.length > 0 ? { ventures, usedIds } : null;
 }
 
+// ── Phase 5 Tile: Surprise ────────────────────────────────────────────────────
+
+const SURPRISE_FORMS = ['Word', 'Provocation', 'Artifact'];
+
+function loadArtifactsDataset() {
+  const p = path.join(repoRoot, 'lib', 'almanac-datasets', 'artifacts.json');
+  if (!fs.existsSync(p)) return [];
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+function sourceSurpriseForm(targetDate, recentIds) {
+  // Determine which forms appeared in recent history.
+  const recentForms = new Set(
+    recentIds
+      .map(id => id.match(/^form-(word|provocation|artifact)/i)?.[1])
+      .filter(Boolean)
+      .map(f => f.charAt(0).toUpperCase() + f.slice(1).toLowerCase())
+  );
+  const recentArtifactIds = new Set(
+    recentIds.filter(id => id.startsWith('artifact-'))
+  );
+
+  const hash = dateHash(targetDate);
+
+  // Rank forms: prefer ones not used recently; tiebreak by dateHash.
+  const ranked = SURPRISE_FORMS.map((form, i) => ({
+    form,
+    fresh:    !recentForms.has(form),
+    tieBreak: (hash + i) % SURPRISE_FORMS.length,
+  }));
+  ranked.sort((a, b) => (b.fresh ? 1 : 0) - (a.fresh ? 1 : 0) || a.tieBreak - b.tieBreak);
+
+  const chosen = ranked[0].form;
+
+  if (chosen === 'Artifact') {
+    const artifacts = loadArtifactsDataset();
+    const fresh = artifacts.filter(a => !recentArtifactIds.has(`artifact-${a.id}`));
+    const pool  = fresh.length > 0 ? fresh : artifacts;
+    if (pool.length > 0) {
+      const artifact = pool[hash % pool.length];
+      return { form: 'Artifact', artifact, formId: 'form-artifact', artifactId: `artifact-${artifact.id}` };
+    }
+    // No artifacts available; fall back to Provocation.
+    return { form: 'Provocation', artifact: null, formId: 'form-provocation', artifactId: null };
+  }
+
+  return { form: chosen, artifact: null, formId: `form-${chosen.toLowerCase()}`, artifactId: null };
+}
+
+async function composeSurprise(form, artifact, contextFiles) {
+  const { openLoopsText, postureText } = contextFiles;
+
+  const loops   = extractBullets(openLoopsText).slice(0, 5).join('\n') || '(none)';
+  const posture = firstSentence(postureText, '');
+
+  let systemPrompt = '';
+  let userPrompt   = '';
+
+  if (form === 'Word') {
+    systemPrompt =
+`You are a lexicographer and essayist writing for a personal daily brief.
+Pick one unusual or underused English word that resonates with the reader's current focus. Write a brief gloss: etymology, core meaning, and why it's interesting. Keep it tight — this is a moment of quiet pleasure, not a lecture.`;
+    userPrompt =
+`Alex's current open loops:
+${loops}
+${posture ? `\nCurrent posture: ${posture}` : ''}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{"title":"<the word, capitalized>","body":"<etymology + meaning + why it's interesting, ≤220 chars>","note":"<1 sentence tying the word to one of Alex's loops or posture, ≤100 chars>"}`;
+
+  } else if (form === 'Provocation') {
+    systemPrompt =
+`You are an editor writing for a personal daily brief. Write one sharp provocation — a question or observation the reader should sit with today, rooted in their actual focus. Avoid generic wisdom. Cut to something specific.`;
+    userPrompt =
+`Alex's current open loops:
+${loops}
+${posture ? `\nCurrent posture: ${posture}` : ''}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{"title":"<the provocation, ≤90 chars>","body":"<2-3 sentences expanding the thought, ≤240 chars>","note":""}`;
+
+  } else {
+    // Artifact
+    systemPrompt =
+`You are a curator writing for a personal daily brief. Write a brief, evocative piece about the given artifact — what it is, why it's remarkable, what it teaches. Be specific; don't over-explain. Then tie it to the reader's current focus.`;
+    userPrompt =
+`Artifact: "${artifact.name}"
+Context: ${artifact.context}
+Themes: ${artifact.themes.join(', ')}
+
+Alex's current open loops:
+${loops}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{"title":"<artifact name, ≤70 chars>","body":"<what it is + why remarkable + what it teaches, ≤250 chars>","note":"<1 sentence tying it to one of Alex's loops, ≤100 chars>"}`;
+  }
+
+  let composed = null;
+  try {
+    const raw = await callOpenClaw(systemPrompt, userPrompt);
+    if (raw) {
+      const jsonMatch = raw.match(/\{[\s\S]*?\}/);
+      if (jsonMatch) composed = JSON.parse(jsonMatch[0]);
+    }
+    if (composed) log(`  surprise composer: LLM OK (${form})`);
+    else          log(`  surprise composer: no LLM output`);
+  } catch (e) {
+    warn(`surprise composer LLM failed: ${e.message}`);
+  }
+
+  if (!composed?.title?.trim() || !composed?.body?.trim()) return null;
+
+  return {
+    form,
+    title: composed.title,
+    body:  composed.body,
+    note:  composed.note ?? '',
+  };
+}
+
+async function tileSurprise(feedbackWeights, recentIds, contextFiles) {
+  const { form, artifact, formId, artifactId } = sourceSurpriseForm(targetDate, recentIds);
+  const surprise = await composeSurprise(form, artifact, contextFiles);
+  if (!surprise) return null;
+
+  // Collect IDs to record: the form + the specific artifact if applicable.
+  const usedIds = [formId, artifactId].filter(Boolean);
+  return { surprise, usedIds };
+}
+
+// ── Phase 6 Tile: Curated Investing / AI charts ───────────────────────────────
+
+function loadChartsDataset() {
+  const p = path.join(repoRoot, 'lib', 'almanac-datasets', 'charts.json');
+  if (!fs.existsSync(p)) return [];
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+async function composeChartNote(chart, contextFiles) {
+  const { openLoopsText, projectsText } = contextFiles;
+
+  const loops    = extractBullets(openLoopsText).slice(0, 4).join('\n') || '(none)';
+  const projects = (projectsText.match(/^##\s+\d+\.\s+(.+)$/gm) ?? [])
+    .map(l => stripMarkdown(l).replace(/^\d+\.\s+/, '')).slice(0, 4).join(', ') || '(none)';
+
+  const seriesSummary = chart.series
+    .map(p => `${p.label}: ${p.value}`)
+    .join(', ');
+
+  const systemPrompt =
+`You are a data analyst writing for a personal daily brief. Interpret the chart and write two short prose fields. Be specific and direct — reference the actual numbers. No generic filler.`;
+
+  const userPrompt =
+`Chart: "${chart.title}"
+Data: ${seriesSummary}
+Unit: ${chart.unit}
+
+Alex's open loops: ${loops}
+Active projects: ${projects}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{"note":"<1-2 sentences interpreting the trend, referencing specific numbers, ≤200 chars>","why":"<1 sentence tying the chart to one of Alex's loops or projects, ≤120 chars>"}`;
+
+  try {
+    const raw = await callOpenClaw(systemPrompt, userPrompt);
+    if (raw) {
+      const m = raw.match(/\{[\s\S]*?\}/);
+      if (m) {
+        const composed = JSON.parse(m[0]);
+        if (composed.note?.trim() && composed.why?.trim()) return composed;
+      }
+    }
+  } catch (e) {
+    warn(`chart note composer failed (${chart.id}): ${e.message}`);
+  }
+  return null;
+}
+
+async function tileCuratedCharts(recentIds, contextFiles) {
+  const dataset = loadChartsDataset();
+  if (dataset.length === 0) return null;
+
+  function pickChart(topic) {
+    const pool  = dataset.filter(c => c.topic === topic);
+    const fresh = pool.filter(c => !recentIds.includes(c.id));
+    return fresh.length > 0 ? fresh[0] : (pool.length > 0 ? pool[0] : null);
+  }
+
+  const investingRaw = pickChart('Investing');
+  const aiRaw        = pickChart('AI');
+
+  if (!investingRaw && !aiRaw) return null;
+
+  const [investingNoteResult, aiNoteResult] = await Promise.allSettled([
+    investingRaw ? composeChartNote(investingRaw, contextFiles) : Promise.resolve(null),
+    aiRaw        ? composeChartNote(aiRaw,        contextFiles) : Promise.resolve(null),
+  ]);
+
+  function applyNote(raw, noteResult) {
+    if (!raw) return null;
+    const composed = noteResult.status === 'fulfilled' ? noteResult.value : null;
+    return {
+      ...raw,
+      note: composed?.note ?? raw.note ?? '',
+      why:  composed?.why  ?? raw.why  ?? '',
+    };
+  }
+
+  return {
+    investing:    applyNote(investingRaw, investingNoteResult),
+    investingId:  investingRaw?.id ?? null,
+    ai:           applyNote(aiRaw, aiNoteResult),
+    aiId:         aiRaw?.id ?? null,
+  };
+}
+
+// ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
+
+const KNOWN_FEEDS = {
+  'works in progress':   'https://worksinprogress.co/feed',
+  'stratechery':         'https://stratechery.com/feed/',
+  'astral codex ten':    'https://astralcodexten.substack.com/feed',
+  'the diff':            'https://diff.substack.com/feed',
+  'marginal revolution': 'https://marginalrevolution.com/feed',
+  'aeon':                'https://aeon.co/feed.rss',
+};
+
+function parseRSSItems(xml) {
+  const items = [];
+  const re = /<(?:item|entry)(?: [^>]*)?>( [\s\S]*?)<\/(?:item|entry)>/g;
+  let m;
+  while ((m = re.exec(xml)) !== null) {
+    const block = m[1];
+    const title = (
+      block.match(/<title[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? ''
+    ).trim();
+    const link = (
+      block.match(/<link[^>]*\shref="([^"]+)"/)?.[1] ??
+      block.match(/<link[^>]*>([^<\s]+)<\/link>/)?.[1] ??
+      ''
+    ).trim();
+    const desc = (
+      block.match(/<(?:description|summary|content:encoded)[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/(?:description|summary|content:encoded)>/)?.[1] ?? ''
+    ).replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, ' ').slice(0, 300).trim();
+
+    if (title && link) {
+      items.push({
+        title: title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<[^>]+>/g, '').trim(),
+        link,
+        desc,
+      });
+    }
+  }
+  return items;
+}
+
+async function sourceRSSCandidates(feedbackWeights) {
+  const aw = feedbackWeights.article ?? {};
+
+  // Build prioritised feed list: kept sources first, then always-on.
+  const tryFeeds = [];
+  const seen = new Set();
+  for (const [src, affinity] of Object.entries(aw.sourceAffinity ?? {})) {
+    const key = src.toLowerCase();
+    const url = KNOWN_FEEDS[key];
+    if (url && !seen.has(key)) { seen.add(key); tryFeeds.push({ url, source: src, priority: affinity }); }
+  }
+  for (const [src, url] of Object.entries(KNOWN_FEEDS)) {
+    if (!seen.has(src)) { seen.add(src); tryFeeds.push({ url, source: src, priority: 0 }); }
+  }
+  tryFeeds.sort((a, b) => b.priority - a.priority);
+
+  const results = await Promise.allSettled(
+    tryFeeds.slice(0, 3).map(async ({ url, source }) => {
+      const res = await fetch(url, {
+        signal:  AbortSignal.timeout(5_000),
+        headers: { 'User-Agent': 'AlphalphaDashboard/1.0 almanac-generator' },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const xml = await res.text();
+      return { source, items: parseRSSItems(xml).slice(0, 5) };
+    })
+  );
+
+  const candidates = [];
+  let idx = 0;
+  for (const r of results) {
+    if (r.status === 'rejected') {
+      warn(`RSS fetch failed: ${r.reason?.message}`);
+      continue;
+    }
+    const { source, items } = r.value;
+    for (const item of items) {
+      const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 48);
+      candidates.push({
+        id:     `rss-${idx++}-${slug}`,
+        title:  item.title,
+        status: 'Queued',
+        source,
+        link:   item.link,
+        why:    item.desc || `Recent piece from ${source}.`,
+        themes: [],
+      });
+    }
+  }
+
+  return candidates;
+}
+
 // ── Tile pipeline runner ─────────────────────────────────────────────────────
 
 async function runTile(name, fn, fallbackValue) {
@@ -1103,18 +1430,19 @@ async function main() {
 
   const contextFiles = readContextFiles();
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
     getRecentIds('article'),
     getRecentIds('image'),
-    getRecentIds('venture', 21), // ventures cycle slowly; 21-day dedup window
+    getRecentIds('venture', 21),  // ventures cycle slowly; 21-day window
+    getRecentIds('surprise', 7),  // 7-day window — 3 forms cycle in ~3 days each
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -1179,17 +1507,49 @@ async function main() {
     warn(`  ventures: ${e.message} — using fixture fallback`);
   }
 
-  // Phase 1–fallback tiles (pass-through from fixture)
-  const surprises = fixture.surprises ?? [];
-
-  // Charts: inject live "You" chart if available; keep fixture otherwise.
-  let charts;
-  if (youChart) {
-    const others = (fixture.charts ?? []).filter(c => c.topic !== 'You');
-    charts = [...others, youChart];
-  } else {
-    charts = fixture.charts ?? [];
+  // Phase 5 — Surprise (form rotation: Word / Provocation / Artifact; 7-day dedup)
+  let surprises       = fixture.surprises ?? [];
+  let usedSurpriseIds = [];
+  try {
+    const result = await tileSurprise(feedbackWeights, recentSurpriseIds, contextFiles);
+    if (result) {
+      ({ usedIds: usedSurpriseIds } = result);
+      surprises = [result.surprise];
+      log(`  surprise: OK — form=${result.surprise.form} title="${result.surprise.title.slice(0, 50)}"`);
+    } else {
+      log('  surprise: no output — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  surprise: ${e.message} — using fixture fallback`);
   }
+
+  // Phase 6 — Curated Investing / AI charts (dataset + LLM note/why)
+  let liveInvestingChart = null;
+  let liveAIChart        = null;
+  const chartUsedIds     = youChart ? [`you-chart-${targetDate}`] : [];
+  try {
+    const result = await tileCuratedCharts(recentChartIds, contextFiles);
+    if (result) {
+      liveInvestingChart = result.investing ?? null;
+      liveAIChart        = result.ai        ?? null;
+      if (result.investingId) chartUsedIds.push(result.investingId);
+      if (result.aiId)        chartUsedIds.push(result.aiId);
+      log(`  curated charts: OK — investing:${!!liveInvestingChart} ai:${!!liveAIChart}`);
+    }
+  } catch (e) {
+    warn(`  curated charts: ${e.message} — using fixture fallback`);
+  }
+
+  // Assemble charts: prefer live per topic, fall back to fixture.
+  const fixtureInvesting = (fixture.charts ?? []).find(c => c.topic === 'Investing') ?? null;
+  const fixtureAI        = (fixture.charts ?? []).find(c => c.topic === 'AI')        ?? null;
+
+  let charts = [
+    liveInvestingChart ?? fixtureInvesting,
+    liveAIChart        ?? fixtureAI,
+    youChart,
+  ].filter(Boolean);
+  if (charts.length === 0) charts = fixture.charts ?? [];
 
   // ── Assemble & validate ───────────────────────────────────────────────────
 
@@ -1216,8 +1576,9 @@ async function main() {
   log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
   log(`  article: ${article.source}${usedArticleId ? ' (live)' : ' (fixture)'}`);
   log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
+  log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
-  log(`  charts: ${edition.charts.length} (You chart: ${youChart ? 'live' : 'fixture'})`);
+  log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${liveAIChart ? 'live' : 'fix'})`);
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
@@ -1240,15 +1601,15 @@ async function main() {
   const usedParentingIds = edition.parentingQuotes
     .map(q => allQuotes.find(aq => aq.text === q.text && aq.genre === 'parenting')?.id)
     .filter(Boolean);
-  const usedChartIds = youChart ? [`you-chart-${targetDate}`] : [];
 
   await Promise.all([
     recordUsed('quote-mind',      usedMindIds,      targetDate),
     recordUsed('quote-parenting', usedParentingIds, targetDate),
-    recordUsed('chart',           usedChartIds,     targetDate),
-    usedArticleId              ? recordUsed('article', [usedArticleId],  targetDate) : Promise.resolve(),
-    usedImageId                ? recordUsed('image',   [usedImageId],    targetDate) : Promise.resolve(),
-    usedVentureIds.length > 0  ? recordUsed('venture', usedVentureIds,   targetDate) : Promise.resolve(),
+    chartUsedIds.length > 0        ? recordUsed('chart',    chartUsedIds,    targetDate) : Promise.resolve(),
+    usedArticleId                  ? recordUsed('article',  [usedArticleId], targetDate) : Promise.resolve(),
+    usedImageId                    ? recordUsed('image',    [usedImageId],   targetDate) : Promise.resolve(),
+    usedVentureIds.length > 0      ? recordUsed('venture',  usedVentureIds,  targetDate) : Promise.resolve(),
+    usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');
