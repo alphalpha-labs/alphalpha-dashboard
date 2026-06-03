@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Daily Almanac generator — Phase 0 + Phase 1 + Phase 2 + Phase 3
+ * Daily Almanac generator — Phase 0 + Phase 1 + Phase 2 + Phase 3 + Phase 4
  *
  * Usage:
  *   node scripts/generate-almanac.mjs [--date=YYYY-MM-DD] [--dry-run] [--force]
@@ -24,6 +24,11 @@
  * Phase 3 tiles (public-domain APIs + optional LLM captions):
  *   - Image / Look: sourced from Met Museum + Art Institute of Chicago zero-key APIs;
  *     LLM writes caption + curator note (falls back to candidate metadata)
+ *
+ * Phase 4 tiles (workspace candidates + LLM; 21-day dedup window):
+ *   - Ventures: sourced from workspace VENTURES.md / Obsidian vault / memory manifests;
+ *     LLM generates full DailyVenture struct with TAM/growth labeled as estimates;
+ *     competitor names must be real companies; falls back to fixture array
  *
  * All other tiles fall back to fixture.
  *
@@ -801,6 +806,255 @@ async function tileImage(feedbackWeights, recentIds) {
   return { image, sourceId: best.id };
 }
 
+// ── Phase 4 Tile: Venture ────────────────────────────────────────────────────
+
+function validateVenture(v) {
+  if (!v.name?.trim())  throw new Error('venture missing name');
+  if (!v.title?.trim()) throw new Error('venture missing title');
+  if (!v.pitch?.trim()) throw new Error('venture missing pitch');
+  if (!v.why?.trim())   throw new Error('venture missing why');
+  if (!v.research || typeof v.research !== 'object') throw new Error('venture missing research');
+  if (!v.research.tam?.trim())   throw new Error('venture research missing tam');
+  if (!v.research.model?.trim()) throw new Error('venture research missing model');
+  if (!Array.isArray(v.research.competitors)) throw new Error('venture research.competitors must be array');
+  if (!Array.isArray(v.research.signals))     throw new Error('venture research.signals must be array');
+}
+
+function sourceVentureCandidates(contextFiles) {
+  const contextRoot = process.env.ALPHALPHA_CONTEXT_DIR
+    ? path.resolve(process.env.ALPHALPHA_CONTEXT_DIR)
+    : path.join(workspaceRoot, 'context');
+
+  const candidates = [];
+  const seen = new Set();
+
+  function add(c) { if (!seen.has(c.id)) { seen.add(c.id); candidates.push(c); } }
+
+  // 1. Dedicated context file — first match wins.
+  for (const fname of ['VENTURES.md', 'VENTURE_IDEAS.md', 'INVESTING.md']) {
+    const p = path.join(contextRoot, fname);
+    if (!fs.existsSync(p)) continue;
+    const text = fs.readFileSync(p, 'utf8');
+    const lines = mdLines(text);
+    let i = 0;
+    while (i < lines.length) {
+      const m = lines[i].match(/^##\s+(.+)$/);
+      if (m) {
+        const name = stripMarkdown(m[1]);
+        const bodyLines = [];
+        i++;
+        while (i < lines.length && !/^##\s/.test(lines[i])) { bodyLines.push(lines[i]); i++; }
+        const body = bodyLines.join('\n').trim();
+        if (name && body) {
+          const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+          add({ id: `ctx-venture-${slug}`, name, description: body.slice(0, 1200), themes: [], effort: '' });
+        }
+      } else { i++; }
+    }
+    if (candidates.length > 0) break;
+  }
+
+  // 2. Obsidian-vault venture directories.
+  for (const rel of [
+    'obsidian-vault/Alphalpha/Ventures',
+    'obsidian-vault/Alphalpha/Ideas',
+    'obsidian-vault/Alphalpha/Startups',
+  ]) {
+    const dir = path.join(workspaceRoot, rel);
+    if (!fs.existsSync(dir)) continue;
+    for (const fname of fs.readdirSync(dir).filter(f => f.endsWith('.md') && !f.startsWith('.')).sort()) {
+      const text  = fs.readFileSync(path.join(dir, fname), 'utf8');
+      const fm    = parseFrontmatter(text);
+      const title = stripMarkdown((text.match(/^#\s+(.+)$/m)?.[1] || fname.replace(/\.md$/, '')));
+      const body  = text.replace(/^---\n[\s\S]*?\n---\n?/, '').trim();
+      const slug  = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+      add({
+        id:          `vault-venture-${slug}`,
+        name:        title,
+        description: body.slice(0, 1200),
+        themes:      Array.isArray(fm.themes) ? fm.themes : [],
+        effort:      fm.effort || '',
+      });
+    }
+  }
+
+  // 3. Memory ventures manifest.
+  const manifestPath = path.join(workspaceRoot, 'memory', 'ventures', 'latest-manifest.json');
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      for (const v of (manifest.ventures ?? [])) {
+        if (!v.name) continue;
+        const slug = v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+        add({
+          id:          `manifest-venture-${slug}`,
+          name:        v.name,
+          description: [v.pitch, v.description, v.notes].filter(Boolean).join('\n'),
+          themes:      v.themes ?? [],
+          effort:      v.effort ?? '',
+        });
+      }
+    } catch {}
+  }
+
+  // 4. Derive from build/product-flavored open loops as last resort.
+  if (candidates.length < 2) {
+    extractBullets(contextFiles.openLoopsText)
+      .filter(l => /build|launch|ship|product|market|revenue|startup|automate|tool|solve|scale/i.test(l))
+      .slice(0, 4)
+      .forEach(loop => {
+        const slug = `loop-${(dateHash(loop) >>> 0).toString(16).slice(0, 8)}`;
+        add({ id: `derived-venture-${slug}`, name: loop.slice(0, 60), description: loop, themes: [], effort: '' });
+      });
+  }
+
+  return candidates;
+}
+
+function rankVentures(candidates, feedbackWeights, recentIds, contextFiles) {
+  if (candidates.length === 0) return [];
+
+  const vw = feedbackWeights.venture ?? {};
+  const loopKeywords = extractBullets(contextFiles.openLoopsText)
+    .flatMap(l => l.toLowerCase().split(/\W+/))
+    .filter(w => w.length > 4);
+
+  const scored = candidates.map(c => {
+    let score = 1.0;
+
+    if (recentIds.includes(c.id)) score -= 10;
+
+    score += (vw.keepScore  ?? 0) * 0.15;
+    score += (vw.moreScore  ?? 0) * 0.10;
+    score -= (vw.lessScore  ?? 0) * 0.10;
+    if ((vw.chipTallies?.['love this idea']   ?? 0) > 0) score += 0.4;
+    if ((vw.chipTallies?.['too speculative']  ?? 0) > 0) score -= 0.3;
+    if ((vw.chipTallies?.['already building'] ?? 0) > 0) score += 0.5;
+
+    const blob = `${c.name} ${c.description} ${c.themes.join(' ')}`.toLowerCase();
+    score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
+
+    return { ...c, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.filter(c => c.score >= -5);
+}
+
+async function composeVenture(candidate, contextFiles) {
+  const { openLoopsText, projectsText, postureText } = contextFiles;
+
+  const loops    = extractBullets(openLoopsText).slice(0, 6).join('\n') || '(none)';
+  const projects = (projectsText.match(/^##\s+\d+\.\s+(.+)$/gm) ?? [])
+    .map(l => stripMarkdown(l).replace(/^\d+\.\s+/, '')).slice(0, 5).join(', ') || '(none)';
+  const posture  = firstSentence(postureText, '');
+
+  const systemPrompt =
+`You are the venture-intelligence editor of Alphalpha, a personal AI chief-of-staff daily brief.
+Generate a complete venture brief. Write concisely and specifically; no filler.
+CRITICAL RULES:
+- All market-size figures (TAM, CAGR) must be labeled as estimates using "est." in the label field. Never state them as confirmed facts.
+- Competitor names must be real, publicly known companies or credibly plausible; do not invent fictional firms.
+- Ground the pitch and "why" in the user's specific open loops and projects.`;
+
+  const userPrompt =
+`Venture idea: "${candidate.name}"
+${candidate.description ? `\nBackground:\n${candidate.description.slice(0, 700)}` : ''}
+${candidate.effort ? `\nEffort framing: ${candidate.effort}` : ''}
+
+Alex's open loops (top 6):
+${loops}
+
+Active projects: ${projects}
+${posture ? `\nCurrent posture: ${posture}` : ''}
+
+Respond with ONLY valid JSON — no markdown fences, no extra keys:
+{
+  "name": "<short company name, ≤20 chars>",
+  "effort": "<one of: Fundable wedge | Side project | Weekend prototype | Worth studying>",
+  "title": "<name — tagline, ≤90 chars>",
+  "pitch": "<2-3 sentences, core insight and market, ≤280 chars>",
+  "why": "<1 sentence tying to one of Alex's open loops or projects, ≤120 chars>",
+  "research": {
+    "tam": "<dollar figure, e.g. $8B>",
+    "tamLabel": "<market description + ' est.', e.g. 'US wealth-tech TAM est.'>",
+    "growth": "<percentage, e.g. 22%>",
+    "growthLabel": "<e.g. 'CAGR est. 2024–29'>",
+    "model": "<business model, ≤80 chars>",
+    "whyNow": "<market timing, ≤120 chars>",
+    "wedge": "<beachhead, ≤120 chars>",
+    "competitors": [{"name":"<real company>","note":"<what they miss, ≤60 chars>"}, ...],
+    "signals": ["<market signal, ≤80 chars>", ...]
+  }
+}
+
+Include 2–3 competitors and 3–4 signals.`;
+
+  let composed = null;
+  try {
+    const raw = await callOpenClaw(systemPrompt, userPrompt);
+    if (raw) {
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if (jsonMatch) composed = JSON.parse(jsonMatch[0]);
+    }
+    if (composed) log(`  venture composer: LLM OK — "${composed.name}"`);
+    else          log('  venture composer: no LLM output — skipping candidate');
+  } catch (e) {
+    warn(`venture composer LLM failed: ${e.message}`);
+  }
+
+  if (!composed) return null;
+
+  // Normalise arrays and fill defaults so the schema validator passes.
+  composed.effort = composed.effort || 'Worth studying';
+  composed.research = composed.research ?? {};
+  composed.research.tam         = composed.research.tam         ?? '';
+  composed.research.tamLabel    = composed.research.tamLabel    ?? '';
+  composed.research.growth      = composed.research.growth      ?? '';
+  composed.research.growthLabel = composed.research.growthLabel ?? '';
+  composed.research.model       = composed.research.model       ?? '';
+  composed.research.whyNow      = composed.research.whyNow      ?? '';
+  composed.research.wedge       = composed.research.wedge       ?? '';
+  composed.research.competitors = Array.isArray(composed.research.competitors)
+    ? composed.research.competitors.filter(c => c?.name && c?.note)
+    : [];
+  composed.research.signals = Array.isArray(composed.research.signals)
+    ? composed.research.signals.filter(Boolean)
+    : [];
+
+  try { validateVenture(composed); } catch (e) {
+    warn(`venture validation failed: ${e.message}`);
+    return null;
+  }
+
+  return composed;
+}
+
+async function tileVentures(feedbackWeights, recentIds, contextFiles) {
+  const candidates = sourceVentureCandidates(contextFiles);
+  if (candidates.length === 0) return null;
+
+  const ranked = rankVentures(candidates, feedbackWeights, recentIds, contextFiles);
+  const picks  = ranked.slice(0, 2); // max 2 live ventures per edition
+  if (picks.length === 0) return null;
+
+  const results = await Promise.allSettled(picks.map(c => composeVenture(c, contextFiles)));
+
+  const ventures = [];
+  const usedIds  = [];
+  for (let i = 0; i < results.length; i++) {
+    const r = results[i];
+    if (r.status === 'fulfilled' && r.value) {
+      ventures.push(r.value);
+      usedIds.push(picks[i].id);
+    } else if (r.status === 'rejected') {
+      warn(`venture compose[${i}] threw: ${r.reason?.message}`);
+    }
+  }
+
+  return ventures.length > 0 ? { ventures, usedIds } : null;
+}
+
 // ── Tile pipeline runner ─────────────────────────────────────────────────────
 
 async function runTile(name, fn, fallbackValue) {
@@ -849,17 +1103,18 @@ async function main() {
 
   const contextFiles = readContextFiles();
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
     getRecentIds('article'),
     getRecentIds('image'),
+    getRecentIds('venture', 21), // ventures cycle slowly; 21-day dedup window
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -909,8 +1164,22 @@ async function main() {
     warn(`  image: ${e.message} — using fixture fallback`);
   }
 
+  // Phase 4 — Ventures (workspace candidates + LLM; 21-day dedup window)
+  let ventures       = fixture.ventures ?? [];
+  let usedVentureIds = [];
+  try {
+    const result = await tileVentures(feedbackWeights, recentVentureIds, contextFiles);
+    if (result) {
+      ({ ventures, usedIds: usedVentureIds } = result);
+      log(`  ventures: OK — ${ventures.length} live (${ventures.map(v => v.name).join(', ')})`);
+    } else {
+      log('  ventures: no candidates — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  ventures: ${e.message} — using fixture fallback`);
+  }
+
   // Phase 1–fallback tiles (pass-through from fixture)
-  const ventures  = fixture.ventures  ?? [];
   const surprises = fixture.surprises ?? [];
 
   // Charts: inject live "You" chart if available; keep fixture otherwise.
@@ -946,6 +1215,7 @@ async function main() {
   log(`Edition assembled: ${edition.edition}`);
   log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
   log(`  article: ${article.source}${usedArticleId ? ' (live)' : ' (fixture)'}`);
+  log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
   log(`  charts: ${edition.charts.length} (You chart: ${youChart ? 'live' : 'fixture'})`);
 
@@ -976,8 +1246,9 @@ async function main() {
     recordUsed('quote-mind',      usedMindIds,      targetDate),
     recordUsed('quote-parenting', usedParentingIds, targetDate),
     recordUsed('chart',           usedChartIds,     targetDate),
-    usedArticleId ? recordUsed('article', [usedArticleId], targetDate) : Promise.resolve(),
-    usedImageId   ? recordUsed('image',   [usedImageId],   targetDate) : Promise.resolve(),
+    usedArticleId              ? recordUsed('article', [usedArticleId],  targetDate) : Promise.resolve(),
+    usedImageId                ? recordUsed('image',   [usedImageId],    targetDate) : Promise.resolve(),
+    usedVentureIds.length > 0  ? recordUsed('venture', usedVentureIds,   targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');
