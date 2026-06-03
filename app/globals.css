@@ -2248,4 +2248,8 @@ input { font-family: inherit; }
   .todayToggle__btn { padding: 7px 16px; }
   .almanacTuneRow { opacity: 1; }
   .todayLayout { height: auto; }
+  /* Lead image: 340px is ~87% of a 390px viewport; reduce to leave room for caption */
+  .almanacImageSlot--lead { height: 200px; }
+  /* Calendar dropdown: right-anchor so it never clips off the right edge on narrow screens */
+  .almanacCal { left: auto; right: 0; }
 }

@@ -729,7 +729,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const quote = pick(base.quotes, dayIdx);
   const parentQuote = pick(base.parentingQuotes, dayIdx);
   const surprise = pick(base.surprises, dayIdx);
-  const editionNo = `No. ${214 + offset}`;
+  const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
   // Snapshot today's edition to the archive on first render
