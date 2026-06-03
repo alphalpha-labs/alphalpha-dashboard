@@ -691,6 +691,17 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const [offset, setOffset] = useState(0);
   const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
+  const [liveEdition, setLiveEdition] = useState<DailyData | null>(null);
+
+  // Fetch live KV edition for today — supersedes the static fixture when the generator has run
+  useEffect(() => {
+    const today = fmtIso(dateForOffset(0));
+    fetch(`/api/almanac/editions?date=${today}`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => { if (data?.edition) setLiveEdition(data.edition); })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Fetch stored immutable snapshot when navigating to a past date
   useEffect(() => {
@@ -712,8 +723,10 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const date = fmtIso(dateForOffset(offset));
   const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
 
-  // Use the archived snapshot for past dates when available, fall back to fixture
-  const base = (offset < 0 && archiveEdition) ? archiveEdition : daily;
+  // Priority: archive snapshot (past) > live KV edition (today) > static fixture (fallback)
+  const base = offset < 0 && archiveEdition ? archiveEdition
+    : offset === 0 && liveEdition ? liveEdition
+    : daily;
 
   const lead = LEAD_ORDER[((dayIdx % LEAD_ORDER.length) + LEAD_ORDER.length) % LEAD_ORDER.length];
   const rest = LEAD_ORDER.filter(t => t !== lead);

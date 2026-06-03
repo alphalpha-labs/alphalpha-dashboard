@@ -15,5 +15,5 @@
   "lightContext": true,
   "toolsAllow": ["Bash"],
   "delivery": "kv-write",
-  "summary": "Phase 1: writes quotes + 'You' chart from workspace; all other tiles fall back to fixture. Phase 2+ tiles (article, look, venture, surprise) ship in later phases."
+  "summary": "Full pipeline (Phases 1–6): quotes, You chart, article (RSS + LLM composer), look/image (Met Museum + AIC), venture, surprise (artifact rotation), curated investing/AI charts. All tiles dedup via KV history and fall back to fixtures when LLM is unavailable."
 }
