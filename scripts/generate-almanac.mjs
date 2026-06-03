@@ -174,6 +174,8 @@ function validateDailyData(data) {
   if (!Array.isArray(data.ventures))  throw new Error('ventures must be array');
   if (!Array.isArray(data.charts))    throw new Error('charts must be array');
   if (!Array.isArray(data.surprises)) throw new Error('surprises must be array');
+  if (data.riffs && !Array.isArray(data.riffs)) throw new Error('riffs must be array');
+  if (data.productionClips && !Array.isArray(data.productionClips)) throw new Error('productionClips must be array');
   validateQuotes(data.quotes);
   validateQuotes(data.parentingQuotes);
   for (const c of data.charts) validateChart(c);
@@ -579,7 +581,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     warn(`article composer LLM failed: ${e.message} — using candidate text`);
   }
 
-  return {
+  const article = {
     kicker:   'Reading',
     source:   candidate.source ?? 'Unknown',
     readTime: composed?.readTime ?? fallbackReadTime,
@@ -587,6 +589,9 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
   };
+  // Link out to the source so the Reading tile is clickable (RSS/workspace candidates carry a URL).
+  if (candidate.link && /^https?:\/\//.test(candidate.link)) article.url = candidate.link;
+  return article;
 }
 
 async function tileArticle(feedbackWeights, recentIds, contextFiles) {
@@ -1186,6 +1191,11 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     warn(`surprise composer LLM failed: ${e.message}`);
   }
 
+  // Source link for the Artifact form so the Surprise tile can point at its source.
+  const artifactSource = (form === 'Artifact' && artifact?.sourceUrl)
+    ? { sourceUrl: artifact.sourceUrl, sourceLabel: artifact.sourceLabel ?? 'Read more' }
+    : {};
+
   if (!composed?.title?.trim() || !composed?.body?.trim()) {
     // Non-LLM fallback for Artifact: use curated metadata directly.
     if (form === 'Artifact' && artifact) {
@@ -1194,6 +1204,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
         title: artifact.name,
         body:  artifact.context.slice(0, 250),
         note:  '',
+        ...artifactSource,
       };
     }
     return null; // Word / Provocation have no non-LLM fallback → fixture
@@ -1204,6 +1215,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     title: composed.title,
     body:  composed.body,
     note:  composed.note ?? '',
+    ...artifactSource,
   };
 }
 
@@ -1301,6 +1313,94 @@ async function tileCuratedCharts(recentIds, contextFiles) {
     ai:           applyNote(aiRaw, aiNoteResult),
     aiId:         aiRaw?.id ?? null,
   };
+}
+
+// ── Phase 7/8 Tiles: Workshop (guitar riff + production clip of the day) ───────
+
+const DIFFICULTY_RANK = { beginner: 0, intermediate: 1, advanced: 2 };
+
+function loadWorkshopDataset(file) {
+  const p = path.join(repoRoot, 'lib', 'almanac-datasets', file);
+  if (!fs.existsSync(p)) return [];
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+// Feedback-weighted ranker shared by both workshop tiles. Learns toward genres /
+// techniques the reader reacts well to ("more blues", kept items) and away from
+// recently-shown clips. `matchKeys` are the candidate fields prefs are matched against.
+function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) {
+  if (candidates.length === 0) return null;
+  const w = genreWeights ?? {};
+  const chipTallies = w.chipTallies ?? {};
+
+  // "more <thing>" chips + kept-item affinity build a preference vector.
+  const pref = {};
+  for (const [k, v] of Object.entries(chipTallies)) {
+    const m = k.match(/^more (.+)$/i);
+    if (m) pref[m[1].toLowerCase()] = (pref[m[1].toLowerCase()] ?? 0) + v;
+  }
+  for (const [src, v] of Object.entries(w.sourceAffinity ?? {})) {
+    pref[src.toLowerCase()] = (pref[src.toLowerCase()] ?? 0) + v;
+  }
+
+  // Difficulty drift from too-easy / too-hard / too-advanced signals.
+  const levelDrift = (chipTallies['too easy'] ?? 0)
+    - (chipTallies['too hard'] ?? 0) - (chipTallies['too advanced'] ?? 0);
+
+  const hash = dateHash(targetDate);
+  const scored = candidates.map((c, i) => {
+    let score = 1.0;
+
+    // Dedup: penalise anything shown in the recent window (by id or videoId).
+    if (recentIds.includes(`${idPrefix}-${c.id}`) || (c.videoId && recentIds.includes(c.videoId)))
+      score -= 10;
+
+    // Preference overlap across the candidate's descriptive fields.
+    const blob = matchKeys.map(k => c[k] ?? '').join(' ').toLowerCase();
+    for (const [p, v] of Object.entries(pref)) {
+      if (p && blob.includes(p)) score += v * 0.4;
+    }
+
+    // Nudge difficulty toward the drift when the candidate declares one.
+    if (c.difficulty) {
+      const dr = DIFFICULTY_RANK[String(c.difficulty).toLowerCase()] ?? 1;
+      const target = levelDrift > 0 ? 2 : levelDrift < 0 ? 0 : 1;
+      score += (2 - Math.abs(dr - target)) * 0.1;
+    }
+
+    // Deterministic daily rotation as the tiebreak.
+    score += ((hash + i) % candidates.length) * 0.001;
+    return { ...c, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].score < -5 ? null : scored[0];
+}
+
+function toEditionItem(candidate) {
+  // Strip generator-only fields (id, tags, score) — the edition stores the schema shape.
+  const { id, tags, score, ...item } = candidate;
+  return item;
+}
+
+async function tileRiff(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('riffs.json');
+  if (dataset.length === 0) return null;
+  const best = rankWorkshop(dataset, feedbackWeights.riff, recentIds, 'riff', ['genre', 'difficulty']);
+  if (!best) return null;
+  const riff = toEditionItem(best);
+  if (!riff.videoId || !riff.title) throw new Error('riff missing videoId/title after rank');
+  return { riff, usedId: `riff-${best.id}` };
+}
+
+async function tileProduction(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('production.json');
+  if (dataset.length === 0) return null;
+  const best = rankWorkshop(dataset, feedbackWeights.production, recentIds, 'production', ['daw', 'technique']);
+  if (!best) return null;
+  const clip = toEditionItem(best);
+  if (!clip.videoId || !clip.title) throw new Error('production clip missing videoId/title after rank');
+  return { clip, usedId: `production-${best.id}` };
 }
 
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
@@ -1447,7 +1547,7 @@ async function main() {
 
   const contextFiles = readContextFiles();
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
@@ -1455,11 +1555,13 @@ async function main() {
     getRecentIds('image'),
     getRecentIds('venture', 21),  // ventures cycle slowly; 21-day window
     getRecentIds('surprise', 7),  // 7-day window — 3 forms cycle in ~3 days each
+    getRecentIds('riff', 7),      // riff pool rotates daily; 7-day no-repeat window
+    getRecentIds('production', 4),// smaller pool; 4-day no-repeat window
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length} riff:${recentRiffIds.length} production:${recentProductionIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -1568,6 +1670,38 @@ async function main() {
   ].filter(Boolean);
   if (charts.length === 0) charts = fixture.charts ?? [];
 
+  // Phase 7 — Guitar riff of the day (curated dataset + feedback-weighted rank)
+  let riffs       = fixture.riffs ?? [];
+  let usedRiffIds = [];
+  try {
+    const result = await tileRiff(feedbackWeights, recentRiffIds);
+    if (result) {
+      riffs = [result.riff];
+      usedRiffIds = [result.usedId];
+      log(`  riff: OK — "${result.riff.title.slice(0, 50)}" (${result.riff.genre})`);
+    } else {
+      log('  riff: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  riff: ${e.message} — using fixture fallback`);
+  }
+
+  // Phase 8 — Production technique / inspiration clip of the day
+  let productionClips       = fixture.productionClips ?? [];
+  let usedProductionIds     = [];
+  try {
+    const result = await tileProduction(feedbackWeights, recentProductionIds);
+    if (result) {
+      productionClips = [result.clip];
+      usedProductionIds = [result.usedId];
+      log(`  production: OK — "${result.clip.title.slice(0, 50)}" (${result.clip.daw})`);
+    } else {
+      log('  production: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  production: ${e.message} — using fixture fallback`);
+  }
+
   // ── Assemble & validate ───────────────────────────────────────────────────
 
   const edition = {
@@ -1579,6 +1713,8 @@ async function main() {
     quotes,
     parentingQuotes,
     surprises,
+    riffs,
+    productionClips,
   };
 
   try {
@@ -1596,6 +1732,8 @@ async function main() {
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
   log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${liveAIChart ? 'live' : 'fix'})`);
+  log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
@@ -1627,6 +1765,8 @@ async function main() {
     usedImageId                    ? recordUsed('image',    [usedImageId],   targetDate) : Promise.resolve(),
     usedVentureIds.length > 0      ? recordUsed('venture',  usedVentureIds,  targetDate) : Promise.resolve(),
     usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),
+    usedRiffIds.length > 0         ? recordUsed('riff',     usedRiffIds,     targetDate) : Promise.resolve(),
+    usedProductionIds.length > 0   ? recordUsed('production', usedProductionIds, targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');

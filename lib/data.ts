@@ -412,23 +412,53 @@ export type DailyVenture = {
 };
 
 export type DailyChart = {
-  topic:  string;
-  title:  string;
-  unit:   string;
-  note:   string;
-  why:    string;
-  series: { label: string; value: number }[];
+  topic:      string;
+  title:      string;
+  unit:       string;
+  note:       string;
+  why:        string;
+  series:     { label: string; value: number }[];
+  sourceUrl?: string;
+  sourceLabel?: string;
+};
+
+// A guitar riff to learn and save for later — sourced from YouTube, embedded inline.
+export type DailyRiff = {
+  title:      string;   // video / riff title
+  artist:     string;   // channel or featured player
+  genre:      string;   // "Blues", "Funk", "Fingerstyle", "Blues-rock", …
+  difficulty: string;   // "Beginner" | "Intermediate" | "Advanced"
+  videoId:    string;   // YouTube video id
+  start?:     number;   // optional start offset, seconds
+  why:        string;   // one line — why this one for you today
+  note?:      string;   // optional learning focus / tip
+  sourceUrl?: string;   // canonical youtube watch url
+};
+
+// An electronic-music production technique or inspiration clip — Ableton-leaning.
+export type DailyProductionClip = {
+  title:      string;
+  creator:    string;   // channel
+  daw:        string;   // "Ableton Live" | "DAW-agnostic"
+  technique:  string;   // "Sound design" | "Arrangement" | "Sidechain" | …
+  videoId:    string;
+  start?:     number;
+  why:        string;
+  note?:      string;
+  sourceUrl?: string;
 };
 
 export type DailyData = {
   edition:         string;
   image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
-  article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string };
+  article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string; url?: string };
   ventures:        DailyVenture[];
   charts:          DailyChart[];
   quotes:          { text: string; source: string }[];
   parentingQuotes: { text: string; source: string }[];
-  surprises:       { form: string; title: string; body: string; note: string }[];
+  surprises:       { form: string; title: string; body: string; note: string; sourceUrl?: string; sourceLabel?: string }[];
+  riffs?:          DailyRiff[];
+  productionClips?: DailyProductionClip[];
 };
 
 export type DashboardData = {

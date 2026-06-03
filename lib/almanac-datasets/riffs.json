@@ -1,0 +1,110 @@
+[
+  {
+    "id": "riff-hendrix-forever",
+    "title": "The Hendrix riff you can play forever and not get bored",
+    "artist": "RJ Ronquillo",
+    "genre": "Blues-rock",
+    "difficulty": "Intermediate",
+    "videoId": "rj-YurbfhRE",
+    "why": "A thumb-over chord-melody move in the Hendrix tradition — endlessly loopable once it's in the hands.",
+    "note": "Focus on the thumb fretting the low E so the top voices ring while you embellish underneath.",
+    "sourceUrl": "https://youtu.be/rj-YurbfhRE",
+    "tags": ["blues-rock", "hendrix", "chord-melody"]
+  },
+  {
+    "id": "riff-fingerstyle-blues-trick",
+    "title": "An easy trick for cool fingerstyle blues riffs",
+    "artist": "Fingerstyle blues lesson",
+    "genre": "Fingerstyle",
+    "difficulty": "Beginner",
+    "videoId": "ovNbB2i-jG0",
+    "why": "A repeatable shape that turns a plain blues into a thumb-and-fingers groove you can improvise over.",
+    "note": "Keep a steady alternating thumb bass while the top moves — that contrast is the whole sound.",
+    "sourceUrl": "https://youtu.be/ovNbB2i-jG0",
+    "tags": ["fingerstyle", "blues"]
+  },
+  {
+    "id": "riff-funk-blues-groove-e",
+    "title": "Funky blues-style rhythm groove",
+    "artist": "Funk guitar lesson",
+    "genre": "Funk",
+    "difficulty": "Intermediate",
+    "videoId": "7i6KcQqvl28",
+    "why": "Dominant-7 stabs answered by single low notes — a tight call-and-response groove in E.",
+    "note": "Mute hard with the fretting hand between stabs; the silence is what makes it funky.",
+    "sourceUrl": "https://youtu.be/7i6KcQqvl28",
+    "tags": ["funk", "rhythm"]
+  },
+  {
+    "id": "riff-funk-blues-e-groove",
+    "title": "A funk-blues groove riff in E",
+    "artist": "Funk guitar lesson",
+    "genre": "Funk",
+    "difficulty": "Beginner",
+    "videoId": "R7SJQ5eBdxM",
+    "why": "Mixes dom-7 chords with single low-string notes — an approachable on-ramp into funk rhythm.",
+    "note": "Lock the strum hand to a steady 16th-note motion and let the fretting hand pick what sounds.",
+    "sourceUrl": "https://youtu.be/R7SJQ5eBdxM",
+    "tags": ["funk", "blues"]
+  },
+  {
+    "id": "riff-10-bluesy-beginner",
+    "title": "Ten easy bluesy riffs for beginners",
+    "artist": "Blues guitar lesson",
+    "genre": "Blues",
+    "difficulty": "Beginner",
+    "videoId": "wZevnsXReuY",
+    "why": "A pocket grab-bag of classic blues moves — learn one a sitting and bank the rest.",
+    "note": "Pick the one that sounds most like a song you love and drill it slow with a metronome.",
+    "sourceUrl": "https://youtu.be/wZevnsXReuY",
+    "tags": ["blues", "beginner"]
+  },
+  {
+    "id": "riff-blues-any-key",
+    "title": "Play blues in any key with this one riff",
+    "artist": "Blues guitar lesson",
+    "genre": "Blues",
+    "difficulty": "Beginner",
+    "videoId": "okU5U4or928",
+    "why": "A movable shape that transposes anywhere — one pattern, twelve keys.",
+    "note": "Memorise the root on the low E so you can slide the whole shape to any key on the fly.",
+    "sourceUrl": "https://youtu.be/okU5U4or928",
+    "tags": ["blues", "movable"]
+  },
+  {
+    "id": "riff-3-blues-everyone",
+    "title": "Three blues riffs every guitarist should know",
+    "artist": "Blues guitar lesson",
+    "genre": "Blues",
+    "difficulty": "Beginner",
+    "videoId": "EojOW1rFcvw",
+    "why": "Three vocabulary staples that show up across the whole blues canon.",
+    "note": "Chain them into a 12-bar — riff one over the I, the others over the IV and V.",
+    "sourceUrl": "https://youtu.be/EojOW1rFcvw",
+    "tags": ["blues", "vocabulary"]
+  },
+  {
+    "id": "riff-fingerstyle-funk-blues",
+    "title": "A fingerstyle acoustic funk-blues groove",
+    "artist": "Fingerstyle guitar lesson",
+    "genre": "Fingerstyle",
+    "difficulty": "Intermediate",
+    "videoId": "_LRzg89NL3k",
+    "why": "An E7-centred groove that puts funk feel under fingerstyle — percussive and melodic at once.",
+    "note": "Add a light palm slap on the backbeat to fake a drummer while you play.",
+    "sourceUrl": "https://youtu.be/_LRzg89NL3k",
+    "tags": ["fingerstyle", "funk", "acoustic"]
+  },
+  {
+    "id": "riff-3-levels-funk-groove",
+    "title": "Three levels of a one-chord funk groove",
+    "artist": "Funk guitar lesson",
+    "genre": "Funk",
+    "difficulty": "Intermediate",
+    "videoId": "m8JTBw5_0tg",
+    "why": "Same vamp, three depths — a clean ladder from simple comp to full funk workout.",
+    "note": "Start at level one and only move up once the 16th-note strum stays metronome-tight.",
+    "sourceUrl": "https://youtu.be/m8JTBw5_0tg",
+    "tags": ["funk", "rhythm"]
+  }
+]
