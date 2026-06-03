@@ -1,0 +1,373 @@
+[
+  {
+    "id": "mind-001",
+    "genre": "mind",
+    "themes": ["presence", "mind"],
+    "text": "The present moment is the only moment available to us, and it is the door to all moments.",
+    "source": "Thich Nhat Hanh"
+  },
+  {
+    "id": "mind-002",
+    "genre": "mind",
+    "themes": ["thought", "character"],
+    "text": "The soul becomes dyed with the color of its thoughts.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-003",
+    "genre": "mind",
+    "themes": ["action", "virtue"],
+    "text": "Waste no more time arguing what a good man should be. Be one.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-004",
+    "genre": "mind",
+    "themes": ["impermanence", "acceptance"],
+    "text": "You have no power over outcomes, only over your own reasoned choice.",
+    "source": "Epictetus, Enchiridion"
+  },
+  {
+    "id": "mind-005",
+    "genre": "mind",
+    "themes": ["progress", "effort"],
+    "text": "First say to yourself what you would be; and then do what you have to do.",
+    "source": "Epictetus, Discourses"
+  },
+  {
+    "id": "mind-006",
+    "genre": "mind",
+    "themes": ["clarity", "values"],
+    "text": "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+    "source": "Epictetus, Fragments"
+  },
+  {
+    "id": "mind-007",
+    "genre": "mind",
+    "themes": ["equanimity", "stoic"],
+    "text": "If it is not right, do not do it; if it is not true, do not say it.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-008",
+    "genre": "mind",
+    "themes": ["meaning", "suffering"],
+    "text": "Everything can be taken from a man but one thing: the last of the human freedoms — to choose one's attitude in any given set of circumstances.",
+    "source": "Viktor Frankl, Man's Search for Meaning"
+  },
+  {
+    "id": "mind-009",
+    "genre": "mind",
+    "themes": ["meaning", "purpose"],
+    "text": "Those who have a 'why' to live can bear almost any 'how.'",
+    "source": "Viktor Frankl, Man's Search for Meaning"
+  },
+  {
+    "id": "mind-010",
+    "genre": "mind",
+    "themes": ["beginner", "openness"],
+    "text": "In the beginner's mind there are many possibilities; in the expert's mind there are few.",
+    "source": "Shunryu Suzuki, Zen Mind, Beginner's Mind"
+  },
+  {
+    "id": "mind-011",
+    "genre": "mind",
+    "themes": ["causation", "thought"],
+    "text": "All that we are is the result of what we have thought. The mind is everything.",
+    "source": "The Dhammapada"
+  },
+  {
+    "id": "mind-012",
+    "genre": "mind",
+    "themes": ["patience", "accumulation"],
+    "text": "Drop by drop is the water pot filled. Likewise, the wise one, gathering it little by little, fills oneself with good.",
+    "source": "The Dhammapada"
+  },
+  {
+    "id": "mind-013",
+    "genre": "mind",
+    "themes": ["self-knowledge", "strength"],
+    "text": "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power.",
+    "source": "Lao Tzu, Tao Te Ching"
+  },
+  {
+    "id": "mind-014",
+    "genre": "mind",
+    "themes": ["beginning", "journey"],
+    "text": "A journey of a thousand miles begins with a single step.",
+    "source": "Lao Tzu, Tao Te Ching"
+  },
+  {
+    "id": "mind-015",
+    "genre": "mind",
+    "themes": ["attention", "life"],
+    "text": "How we spend our days is, of course, how we spend our lives.",
+    "source": "Annie Dillard, The Writing Life"
+  },
+  {
+    "id": "mind-016",
+    "genre": "mind",
+    "themes": ["solitude", "nature"],
+    "text": "I went to the woods because I wished to live deliberately, to front only the essential facts of life.",
+    "source": "Henry David Thoreau, Walden"
+  },
+  {
+    "id": "mind-017",
+    "genre": "mind",
+    "themes": ["habits", "character"],
+    "text": "Sow a thought, reap an action; sow an action, reap a habit; sow a habit, reap a character; sow a character, reap a destiny.",
+    "source": "Attributed, various sources"
+  },
+  {
+    "id": "mind-018",
+    "genre": "mind",
+    "themes": ["self-reliance", "trust"],
+    "text": "Trust thyself: every heart vibrates to that iron string.",
+    "source": "Ralph Waldo Emerson, Self-Reliance"
+  },
+  {
+    "id": "mind-019",
+    "genre": "mind",
+    "themes": ["imitation", "originality"],
+    "text": "Envy is ignorance; imitation is suicide.",
+    "source": "Ralph Waldo Emerson, Self-Reliance"
+  },
+  {
+    "id": "mind-020",
+    "genre": "mind",
+    "themes": ["attention", "wonder"],
+    "text": "The invariable mark of wisdom is to see the miraculous in the common.",
+    "source": "Ralph Waldo Emerson, Nature"
+  },
+  {
+    "id": "mind-021",
+    "genre": "mind",
+    "themes": ["inquiry", "openness"],
+    "text": "The cure for boredom is curiosity. There is no cure for curiosity.",
+    "source": "Attributed, Dorothy Parker"
+  },
+  {
+    "id": "mind-022",
+    "genre": "mind",
+    "themes": ["time", "urgency"],
+    "text": "You could leave life right now. Let that determine what you do and say and think.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-023",
+    "genre": "mind",
+    "themes": ["focus", "obstacles"],
+    "text": "The impediment to action advances action. What stands in the way becomes the way.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-024",
+    "genre": "mind",
+    "themes": ["interconnection", "perspective"],
+    "text": "We are all leaves of one tree. We are all waves of one sea.",
+    "source": "Attributed, Thich Nhat Hanh"
+  },
+  {
+    "id": "mind-025",
+    "genre": "mind",
+    "themes": ["simplicity", "enough"],
+    "text": "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
+    "source": "Marcus Aurelius, Meditations"
+  },
+  {
+    "id": "mind-026",
+    "genre": "mind",
+    "themes": ["work", "craft"],
+    "text": "The way to do is to be.",
+    "source": "Lao Tzu, Tao Te Ching"
+  },
+  {
+    "id": "mind-027",
+    "genre": "mind",
+    "themes": ["change", "self"],
+    "text": "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+    "source": "Attributed, Rumi"
+  },
+  {
+    "id": "mind-028",
+    "genre": "mind",
+    "themes": ["equanimity", "acceptance"],
+    "text": "Do not seek to have events happen as you wish, but wish them to happen as they do happen, and your life will go smoothly.",
+    "source": "Epictetus, Enchiridion"
+  },
+  {
+    "id": "parenting-001",
+    "genre": "parenting",
+    "themes": ["presence", "family"],
+    "text": "Your children need your presence more than your presents.",
+    "source": "Jesse Jackson"
+  },
+  {
+    "id": "parenting-002",
+    "genre": "parenting",
+    "themes": ["authenticity"],
+    "text": "There is no such thing as a perfect parent. So just be a real one.",
+    "source": "Sue Atkins"
+  },
+  {
+    "id": "parenting-003",
+    "genre": "parenting",
+    "themes": ["priority", "meaning"],
+    "text": "Children are not a distraction from more important work. They are the most important work.",
+    "source": "C.S. Lewis (attributed)"
+  },
+  {
+    "id": "parenting-004",
+    "genre": "parenting",
+    "themes": ["inner voice", "language"],
+    "text": "The way we talk to our children becomes their inner voice.",
+    "source": "Peggy O'Mara"
+  },
+  {
+    "id": "parenting-005",
+    "genre": "parenting",
+    "themes": ["modeling", "example"],
+    "text": "Children have never been very good at listening to their elders, but they have never failed to imitate them.",
+    "source": "James Baldwin"
+  },
+  {
+    "id": "parenting-006",
+    "genre": "parenting",
+    "themes": ["love", "discipline"],
+    "text": "Children need love, especially when they do not deserve it.",
+    "source": "Attributed, Harold Hubert"
+  },
+  {
+    "id": "parenting-007",
+    "genre": "parenting",
+    "themes": ["curiosity", "wonder"],
+    "text": "The greatest gift you can give children is the roots of responsibility and the wings of independence.",
+    "source": "Attributed, Denis Waitley"
+  },
+  {
+    "id": "parenting-008",
+    "genre": "parenting",
+    "themes": ["dignity", "person"],
+    "text": "A person's a person, no matter how small.",
+    "source": "Dr. Seuss, Horton Hears a Who!"
+  },
+  {
+    "id": "parenting-009",
+    "genre": "parenting",
+    "themes": ["feelings", "communication"],
+    "text": "When children feel understood, their loneliness and hurt diminish. When they feel understood, they feel free to give up their defenses and show their better selves.",
+    "source": "Haim G. Ginott, Between Parent and Child"
+  },
+  {
+    "id": "parenting-010",
+    "genre": "parenting",
+    "themes": ["encouragement", "effort"],
+    "text": "Children thrive when they know their parents delight in who they are and believe in their capacity to grow.",
+    "source": "Attributed, Dan Siegel"
+  },
+  {
+    "id": "parenting-011",
+    "genre": "parenting",
+    "themes": ["security", "attachment"],
+    "text": "You don't have to be perfect to be a perfect parent.",
+    "source": "Attributed, foster care tradition"
+  },
+  {
+    "id": "parenting-012",
+    "genre": "parenting",
+    "themes": ["time", "attention"],
+    "text": "One of the greatest things a father can do for his children is to love their mother.",
+    "source": "Attributed, Howard W. Hunter"
+  },
+  {
+    "id": "parenting-013",
+    "genre": "parenting",
+    "themes": ["childhood", "memory"],
+    "text": "Children will not remember you for the material things you provided but for the feeling that you cherished them.",
+    "source": "Richard L. Evans"
+  },
+  {
+    "id": "parenting-014",
+    "genre": "parenting",
+    "themes": ["safety", "home"],
+    "text": "Home is the place where, when you have to go there, they have to take you in.",
+    "source": "Robert Frost, The Death of the Hired Man"
+  },
+  {
+    "id": "parenting-015",
+    "genre": "parenting",
+    "themes": ["kindness", "world"],
+    "text": "It's not our job to toughen our children up to face a cruel and heartless world. It's our job to raise children who will make the world a little less cruel and heartless.",
+    "source": "L.R. Knost"
+  },
+  {
+    "id": "parenting-016",
+    "genre": "parenting",
+    "themes": ["character", "foundation"],
+    "text": "What you leave in your children matters more than what you leave for them.",
+    "source": "Attributed, traditional"
+  },
+  {
+    "id": "parenting-017",
+    "genre": "parenting",
+    "themes": ["neighborhood", "community"],
+    "text": "Look for the helpers. You will always find people who are helping.",
+    "source": "Fred Rogers"
+  },
+  {
+    "id": "parenting-018",
+    "genre": "parenting",
+    "themes": ["dignity", "acceptance"],
+    "text": "You've made this day a special day, by just your being you. There's no person in the whole world like you; and I like you just the way you are.",
+    "source": "Fred Rogers"
+  },
+  {
+    "id": "parenting-019",
+    "genre": "parenting",
+    "themes": ["play", "imagination"],
+    "text": "Play is the work of childhood.",
+    "source": "Jean Piaget (attributed)"
+  },
+  {
+    "id": "parenting-020",
+    "genre": "parenting",
+    "themes": ["presence", "moments"],
+    "text": "The days are long but the years are short.",
+    "source": "Attributed, Gretchen Rubin"
+  },
+  {
+    "id": "parenting-021",
+    "genre": "parenting",
+    "themes": ["safety", "trust"],
+    "text": "Children need at least one adult in their life who is irrationally enthusiastic about them.",
+    "source": "Attributed, Howard Thurman (paraphrase)"
+  },
+  {
+    "id": "parenting-022",
+    "genre": "parenting",
+    "themes": ["listening", "respect"],
+    "text": "Children are apt to live up to what you believe of them.",
+    "source": "Lady Bird Johnson (attributed)"
+  },
+  {
+    "id": "parenting-023",
+    "genre": "parenting",
+    "themes": ["growth", "roots"],
+    "text": "The most important thing a parent can teach a child is how to get along without them.",
+    "source": "Frank A. Clark (attributed)"
+  },
+  {
+    "id": "parenting-024",
+    "genre": "parenting",
+    "themes": ["awareness", "modeling"],
+    "text": "Every word, facial expression, gesture, or action on the part of a parent gives the child some message about self-worth.",
+    "source": "Virginia Satir, Peoplemaking"
+  },
+  {
+    "id": "parenting-025",
+    "genre": "parenting",
+    "themes": ["joy", "attention"],
+    "text": "The secret of parenting is not in what you do but in who you are when you are with your child.",
+    "source": "Attributed, Gabor Maté"
+  }
+]

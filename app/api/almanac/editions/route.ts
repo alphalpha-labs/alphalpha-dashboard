@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { requireDashboardSession } from "@/lib/auth";
 import type { DailyData } from "@/lib/data";
+import { DailyDataSchema } from "@/lib/almanac-schema";
 
 const redis = new Redis({
   url:   process.env.KV_REST_API_URL!,
@@ -34,10 +35,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "date and edition required" }, { status: 400 });
   }
 
+  const parsed = DailyDataSchema.safeParse(body.edition);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "edition schema validation failed", issues: parsed.error.issues },
+      { status: 422 },
+    );
+  }
+
   const key = editionKey(body.date);
   const existing = await redis.get(key);
   if (!existing) {
-    await redis.set(key, body.edition);
+    await redis.set(key, parsed.data);
   }
   return NextResponse.json({ ok: true });
 }

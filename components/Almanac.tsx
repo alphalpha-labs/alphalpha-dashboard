@@ -409,15 +409,32 @@ function ChartBlock({ d, size, visibility, date, openThread }: BlockProps) {
 
 function ImageBlock({ d, size, visibility, date }: BlockProps) {
   const lead = size === "lead";
-  const item = { id: "image:daily", genre: "image" as Genre, title: "Today's image", sub: "Curated for your taste" };
+  const title = d.image.title || "Today's image";
+  const item = { id: "image:daily", genre: "image" as Genre, title, sub: "Curated for your taste" };
+  const hasImage = !!d.image.url;
   return (
     <div className="card-hoverable">
       <Kicker genre="image" extra={lead ? "Curated for your taste" : "for your taste"} />
       <div className={`almanacImageSlot almanacImageSlot--${size}`}>
-        {/* placeholder — production wires a curated image source here */}
-        <div className="almanacImagePlaceholder">
-          <span className="almanacImagePlaceholder__text">α chose this for your eye</span>
-        </div>
+        {hasImage ? (
+          d.image.srcLink ? (
+            <a
+              className="almanacImageLink"
+              href={d.image.srcLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={title}
+            >
+              <img className="almanacImageReal" src={d.image.url} alt={title} />
+            </a>
+          ) : (
+            <img className="almanacImageReal" src={d.image.url} alt={title} />
+          )
+        ) : (
+          <div className="almanacImagePlaceholder">
+            <span className="almanacImagePlaceholder__text">α chose this for your eye</span>
+          </div>
+        )}
       </div>
       {lead ? (
         <>
@@ -428,7 +445,7 @@ function ImageBlock({ d, size, visibility, date }: BlockProps) {
           <WhyLine text={d.image.curator} />
         </>
       ) : (
-        <div className="almanacImageDeptNote">α chose this for your eye — drop your own to retune.</div>
+        <div className="almanacImageDeptNote">{hasImage ? d.image.caption : "α chose this for your eye — drop your own to retune."}</div>
       )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} />
     </div>
@@ -674,6 +691,17 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const [offset, setOffset] = useState(0);
   const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
+  const [liveEdition, setLiveEdition] = useState<DailyData | null>(null);
+
+  // Fetch live KV edition for today — supersedes the static fixture when the generator has run
+  useEffect(() => {
+    const today = fmtIso(dateForOffset(0));
+    fetch(`/api/almanac/editions?date=${today}`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => { if (data?.edition) setLiveEdition(data.edition); })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Fetch stored immutable snapshot when navigating to a past date
   useEffect(() => {
@@ -695,8 +723,10 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const date = fmtIso(dateForOffset(offset));
   const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
 
-  // Use the archived snapshot for past dates when available, fall back to fixture
-  const base = (offset < 0 && archiveEdition) ? archiveEdition : daily;
+  // Priority: archive snapshot (past) > live KV edition (today) > static fixture (fallback)
+  const base = offset < 0 && archiveEdition ? archiveEdition
+    : offset === 0 && liveEdition ? liveEdition
+    : daily;
 
   const lead = LEAD_ORDER[((dayIdx % LEAD_ORDER.length) + LEAD_ORDER.length) % LEAD_ORDER.length];
   const rest = LEAD_ORDER.filter(t => t !== lead);
@@ -712,7 +742,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const quote = pick(base.quotes, dayIdx);
   const parentQuote = pick(base.parentingQuotes, dayIdx);
   const surprise = pick(base.surprises, dayIdx);
-  const editionNo = `No. ${214 + offset}`;
+  const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
   // Snapshot today's edition to the archive on first render
