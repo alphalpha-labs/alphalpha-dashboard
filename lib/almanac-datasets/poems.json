@@ -1,0 +1,38 @@
+[
+  {
+    "id": "poem-stevens-sunday-morning",
+    "title": "Sunday Morning",
+    "poet": "Wallace Stevens",
+    "era": "1915 / modernist",
+    "excerpt": "Complacencies of the peignoir, and late coffee and oranges",
+    "note": "A Sunday poem about replacing inherited heaven with the difficult, sensuous world in front of you.",
+    "why": "It sits exactly between religious-cultural analysis and lived appetite: belief, doubt, breakfast, mortality.",
+    "sourceUrl": "https://www.poetryfoundation.org/poetrymagazine/poems/13261/sunday-morning",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["religion", "modernism", "mortality"]
+  },
+  {
+    "id": "poem-yeats-second-coming",
+    "title": "The Second Coming",
+    "poet": "W. B. Yeats",
+    "era": "1919 / postwar modernism",
+    "excerpt": "Things fall apart; the centre cannot hold",
+    "note": "A compressed model of political and spiritual order breaking under historical strain.",
+    "why": "It is overquoted because it keeps working: regime anxiety, religious imagination, and social fracture in one page.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/43290/the-second-coming",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["politics", "religion", "order"]
+  },
+  {
+    "id": "poem-eliot-prufrock",
+    "title": "The Love Song of J. Alfred Prufrock",
+    "poet": "T. S. Eliot",
+    "era": "1915 / modernist",
+    "excerpt": "Let us go then, you and I",
+    "note": "A poem of social paralysis, self-consciousness, and the interior cost of modern urban life.",
+    "why": "Useful when the day needs a reminder that hesitation can become its own architecture.",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1459",
+    "sourceLabel": "Project Gutenberg",
+    "tags": ["modernism", "urban-life", "self-consciousness"]
+  }
+]

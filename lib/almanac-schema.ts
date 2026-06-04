@@ -60,6 +60,28 @@ export const DailyProductionClipSchema = z.object({
   sourceUrl:  z.string().url().optional(),
 });
 
+export const DailyPoemSchema = z.object({
+  title:       z.string().min(1),
+  poet:        z.string().min(1),
+  era:         z.string().optional(),
+  excerpt:     z.string().min(1),
+  note:        z.string().min(1),
+  why:         z.string().min(1),
+  sourceUrl:   z.string().url().optional(),
+  sourceLabel: z.string().optional(),
+});
+
+export const DailyLongReadSchema = z.object({
+  title:       z.string().min(1),
+  source:      z.string().min(1),
+  readTime:    z.string().min(1),
+  frame:       z.string().min(1),
+  thesis:      z.string().min(1),
+  why:         z.string().min(1),
+  url:         z.string().url().optional(),
+  sourceLabel: z.string().optional(),
+});
+
 export const DailyVentureResearchSchema = z.object({
   tam:         z.string(),
   tamLabel:    z.string(),
@@ -115,6 +137,8 @@ export const DailyDataSchema = z.object({
   surprises:       z.array(SurpriseSchema),
   riffs:           z.array(DailyRiffSchema).optional(),
   productionClips: z.array(DailyProductionClipSchema).optional(),
+  poems:           z.array(DailyPoemSchema).optional(),
+  longReads:       z.array(DailyLongReadSchema).optional(),
 });
 
 export type ValidatedDailyData = z.infer<typeof DailyDataSchema>;

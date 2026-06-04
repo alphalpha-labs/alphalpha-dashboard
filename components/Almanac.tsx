@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
@@ -12,6 +12,8 @@ const GENRE = {
   surprise:  { label: "Surprise", color: "oklch(0.62 0.10 70)" },
   riff:      { label: "Riff",     color: "oklch(0.55 0.12 25)" },
   production:{ label: "Studio",   color: "oklch(0.52 0.11 305)" },
+  poem:      { label: "Poem",     color: "oklch(0.50 0.08 325)" },
+  longread:  { label: "Long read", color: "oklch(0.48 0.09 215)" },
 } as const;
 type Genre = keyof typeof GENRE;
 
@@ -234,6 +236,34 @@ const NUANCE_CHIPS = ["too long","wrong vibe","seen it","love the source","go de
 // Genre-specific tuning vocab — these steer tomorrow's pick via almanac-feedback-weights.
 const RIFF_CHIPS = ["more blues","more funk","more fingerstyle","too hard","too easy","love this riff"];
 const PRODUCTION_CHIPS = ["more Ableton","more sound design","more arrangement","too advanced","inspiring","not for me"];
+const POEM_CHIPS = ["more modernist","more religious","more political","too familiar","more beautiful"];
+const LONG_READ_CHIPS = ["more macro","more investing","more source-backed","too long","go deeper"];
+
+const FALLBACK_POEMS: DailyPoem[] = [
+  {
+    title: "Sunday Morning",
+    poet: "Wallace Stevens",
+    era: "1915 / modernist",
+    excerpt: "Complacencies of the peignoir, and late coffee and oranges",
+    note: "A Sunday poem about replacing inherited heaven with the difficult, sensuous world in front of you.",
+    why: "It sits between religious-cultural analysis and lived appetite: belief, doubt, breakfast, mortality.",
+    sourceUrl: "https://www.poetryfoundation.org/poetrymagazine/poems/13261/sunday-morning",
+    sourceLabel: "Poetry Foundation",
+  },
+];
+
+const FALLBACK_LONG_READS: DailyLongRead[] = [
+  {
+    title: "Financial Stability Report, May 2026",
+    source: "Federal Reserve Board",
+    readTime: "70-90 min",
+    frame: "Macro risk map",
+    thesis: "Valuation pressure, leverage, funding risk, and term-premium volatility are the live fault lines to watch before they become market prices.",
+    why: "A current source-backed checklist for where portfolio fragility may hide.",
+    url: "https://www.federalreserve.gov/publications/files/financial-stability-report-20260508.pdf",
+    sourceLabel: "Federal Reserve PDF",
+  },
+];
 
 interface TuneStripProps {
   visibility: "hover" | "always" | "readonly" | "none";
@@ -602,6 +632,47 @@ function ProductionBlock({ clip, visibility, date, openThread }: { clip: DailyPr
   );
 }
 
+function PoemBlock({ poem, visibility, date, openThread }: { poem: DailyPoem; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const item = { id: "poem:" + poem.title, genre: "poem" as Genre, title: poem.title, sub: poem.poet };
+  const disc = () => openThread?.({ type: "digest", id: "daily-poem", title: poem.title, summary: poem.note, category: "Poem" });
+  return (
+    <div className="card-hoverable almanacShelfCard almanacShelfCard--poem">
+      <Kicker genre="poem" extra={poem.era || poem.poet} />
+      <div className="almanacShelfTitle">{poem.title}</div>
+      <div className="almanacShelfByline">{poem.poet}</div>
+      <blockquote className="almanacPoemExcerpt">&ldquo;{poem.excerpt}&rdquo;</blockquote>
+      <p className="almanacShelfNote">{poem.note}</p>
+      <WhyLine text={poem.why} />
+      {poem.sourceUrl && (
+        <a href={poem.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacReadLink">
+          {poem.sourceLabel ? `Read at ${poem.sourceLabel} →` : "Read the poem →"}
+        </a>
+      )}
+      <TuneStrip visibility={visibility} compact item={item} date={date} chips={POEM_CHIPS} onDiscuss={disc} />
+    </div>
+  );
+}
+
+function LongReadBlock({ read, visibility, date, openThread }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const item = { id: "longread:" + read.title, genre: "longread" as Genre, title: read.title, sub: read.source };
+  const disc = () => openThread?.({ type: "digest", id: "daily-longread", title: read.title, summary: read.thesis, category: "Macro / investment thesis" });
+  return (
+    <div className="card-hoverable almanacShelfCard">
+      <Kicker genre="longread" extra={`${read.source} · ${read.readTime}`} />
+      <div className="almanacShelfTitle">{read.title}</div>
+      <div className="almanacShelfByline">{read.frame}</div>
+      <p className="almanacShelfThesis">{read.thesis}</p>
+      <WhyLine text={read.why} />
+      {read.url && (
+        <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">
+          {read.sourceLabel ? `Open ${read.sourceLabel} →` : "Open the long read →"}
+        </a>
+      )}
+      <TuneStrip visibility={visibility} compact item={item} date={date} chips={LONG_READ_CHIPS} onDiscuss={disc} />
+    </div>
+  );
+}
+
 // ── Venture modal ─────────────────────────────────────────────────────────────
 interface VentureModalProps {
   venture: DailyVenture | null;
@@ -866,8 +937,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   // Workshop row — fall back to the fixture pools when an archived edition predates the feature.
   const riffPool = base.riffs?.length ? base.riffs : (daily.riffs ?? []);
   const clipPool = base.productionClips?.length ? base.productionClips : (daily.productionClips ?? []);
+  const poemPool = base.poems?.length ? base.poems : (daily.poems?.length ? daily.poems : FALLBACK_POEMS);
+  const longReadPool = base.longReads?.length ? base.longReads : (daily.longReads?.length ? daily.longReads : FALLBACK_LONG_READS);
   const riff = riffPool.length ? pick(riffPool, dayIdx) : null;
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
+  const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
+  const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
@@ -1024,6 +1099,20 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
         <div className="almanac__surpriseWrap">
           <SurpriseBand s={surprise} visibility={vis} date={date} isMobile={isMobile} openThread={openThread} />
         </div>
+
+        {/* Reading shelf — poem + macro/investment thesis */}
+        {(poem || longRead) && (
+          <div className="almanac__shelfWrap">
+            <div className="almanac__workshopHead">
+              <span className="almanac__workshopKicker">The Reading Shelf</span>
+              <span className="almanac__workshopSub">· one poem, one longer thesis</span>
+            </div>
+            <div className={`almanac__shelf${isMobile ? " almanac__shelf--mobile" : ""}`}>
+              {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
+              {longRead && <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} />}
+            </div>
+          </div>
+        )}
 
         {/* Workshop — guitar riff + production clip of the day */}
         {(riff || clip) && (

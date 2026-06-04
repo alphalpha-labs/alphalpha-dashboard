@@ -448,6 +448,28 @@ export type DailyProductionClip = {
   sourceUrl?: string;
 };
 
+export type DailyPoem = {
+  title: string;
+  poet: string;
+  era?: string;
+  excerpt: string;
+  note: string;
+  why: string;
+  sourceUrl?: string;
+  sourceLabel?: string;
+};
+
+export type DailyLongRead = {
+  title: string;
+  source: string;
+  readTime: string;
+  frame: string;
+  thesis: string;
+  why: string;
+  url?: string;
+  sourceLabel?: string;
+};
+
 export type DailyData = {
   edition:         string;
   image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
@@ -459,6 +481,8 @@ export type DailyData = {
   surprises:       { form: string; title: string; body: string; note: string; sourceUrl?: string; sourceLabel?: string }[];
   riffs?:          DailyRiff[];
   productionClips?: DailyProductionClip[];
+  poems?:          DailyPoem[];
+  longReads?:      DailyLongRead[];
 };
 
 export type DashboardData = {
@@ -511,6 +535,7 @@ export type DashboardData = {
     investingThesisInvalidationEvidence?: InvestingThesisInvalidationEvidence | null;
     systemDocs?: SystemDoc[];
     queues?: QueueGroup[];
+    almanacBakeoffs?: AlmanacBakeoff[];
   };
   stats: {
     openLoops:             number;
@@ -530,6 +555,33 @@ export type DashboardData = {
   reviewQueue?: ReviewItem[];
   digests:     Digest[];
   daily?:      DailyData;
+};
+
+export type AlmanacBakeoff = {
+  date: string;
+  generatedAt?: string;
+  path: string;
+  markdownPath?: string | null;
+  tavily?: {
+    ok?: boolean;
+    searches?: number;
+    usableSearches?: number;
+    usableResults?: number;
+    liveTiles?: Record<string, string>;
+    burn?: number;
+  };
+  openclaw?: {
+    ok?: boolean;
+    searches?: number;
+    usableSearches?: number;
+    usableResults?: number;
+    liveTiles?: Record<string, string>;
+  };
+  runway?: {
+    estCreditsRemaining?: number;
+    estDaysLeft?: number;
+    projectedExhaustionDateAt12PerDay?: string;
+  } | null;
 };
 
 import generated from "./generated-data.json";

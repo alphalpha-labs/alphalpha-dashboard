@@ -1460,6 +1460,26 @@ async function tileProduction(feedbackWeights, recentIds) {
   return { clip, usedId: `production-${best.id}` };
 }
 
+async function tilePoem(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('poems.json');
+  if (dataset.length === 0) return null;
+  const best = rankWorkshop(dataset, feedbackWeights.poem, recentIds, 'poem', ['poet', 'era', 'note', 'why']);
+  if (!best) return null;
+  const poem = toEditionItem(best);
+  if (!poem.title || !poem.poet || !poem.excerpt) throw new Error('poem missing title/poet/excerpt after rank');
+  return { poem, usedId: `poem-${best.id}` };
+}
+
+async function tileLongRead(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('long-reads.json');
+  if (dataset.length === 0) return null;
+  const best = rankWorkshop(dataset, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why']);
+  if (!best) return null;
+  const longRead = toEditionItem(best);
+  if (!longRead.title || !longRead.source || !longRead.thesis) throw new Error('long read missing title/source/thesis after rank');
+  return { longRead, usedId: `longread-${best.id}` };
+}
+
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
 
 const KNOWN_FEEDS = {
@@ -1837,7 +1857,7 @@ async function main() {
   log(`Web discovery: ${webDiscovery.provider}${webDiscovery.available ? ' (active)' : ' (fallback — curated sources)'}`);
   await setRunStatus('running', `Discovery via ${webDiscovery.provider}`);
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds, recentPoemIds, recentLongReadIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
@@ -1847,6 +1867,8 @@ async function main() {
     getRecentIds('surprise', 7),  // 7-day window — 3 forms cycle in ~3 days each
     getRecentIds('riff', 7),      // riff pool rotates daily; 7-day no-repeat window
     getRecentIds('production', 4),// smaller pool; 4-day no-repeat window
+    getRecentIds('poem', 14),
+    getRecentIds('longread', 14),
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
@@ -1993,6 +2015,38 @@ async function main() {
     warn(`  production: ${e.message} — using fixture fallback`);
   }
 
+  // Phase 9 — Poem of the day (curated source-backed dataset)
+  let poems       = fixture.poems ?? [];
+  let usedPoemIds = [];
+  try {
+    const result = await tilePoem(feedbackWeights, recentPoemIds);
+    if (result) {
+      poems = [result.poem];
+      usedPoemIds = [result.usedId];
+      log(`  poem: OK — "${result.poem.title.slice(0, 50)}" (${result.poem.poet})`);
+    } else {
+      log('  poem: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  poem: ${e.message} — using fixture fallback`);
+  }
+
+  // Phase 10 — Macro / investment long read (curated source-backed dataset)
+  let longReads       = fixture.longReads ?? [];
+  let usedLongReadIds = [];
+  try {
+    const result = await tileLongRead(feedbackWeights, recentLongReadIds);
+    if (result) {
+      longReads = [result.longRead];
+      usedLongReadIds = [result.usedId];
+      log(`  long read: OK — "${result.longRead.title.slice(0, 50)}" (${result.longRead.source})`);
+    } else {
+      log('  long read: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  long read: ${e.message} — using fixture fallback`);
+  }
+
   // ── Assemble & validate ───────────────────────────────────────────────────
 
   const edition = {
@@ -2006,6 +2060,8 @@ async function main() {
     surprises,
     riffs,
     productionClips,
+    poems,
+    longReads,
   };
 
   try {
@@ -2025,6 +2081,8 @@ async function main() {
   log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${liveAIChart ? 'live' : 'fix'})`);
   log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  poem: ${edition.poems?.[0]?.title?.slice(0, 40) ?? 'none'}${usedPoemIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  long read: ${edition.longReads?.[0]?.title?.slice(0, 40) ?? 'none'}${usedLongReadIds.length ? ' (live)' : ' (fixture)'}`);
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
@@ -2062,6 +2120,8 @@ async function main() {
     usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),
     usedRiffIds.length > 0         ? recordUsed('riff',     usedRiffIds,     targetDate) : Promise.resolve(),
     usedProductionIds.length > 0   ? recordUsed('production', usedProductionIds, targetDate) : Promise.resolve(),
+    usedPoemIds.length > 0         ? recordUsed('poem', usedPoemIds, targetDate) : Promise.resolve(),
+    usedLongReadIds.length > 0     ? recordUsed('longread', usedLongReadIds, targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');

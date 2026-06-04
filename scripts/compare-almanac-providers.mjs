@@ -94,6 +94,8 @@ function liveFixtureMap(run) {
     Venture: /\[almanac\]\s+ventures:.*live/.test(out) ? 'live' : 'fixture',
     Signal: charts ? `You:${charts[1]} Investing:${charts[2]} AI:${charts[3]}` : 'unknown',
     Surprise: /\[almanac\]\s+surprise:.*\(live\)/.test(out) ? 'live' : 'fixture',
+    Poem: /\[almanac\]\s+poem:.*\(live\)/.test(out) ? 'live' : 'fixture',
+    'Long Read': /\[almanac\]\s+long read:.*\(live\)/.test(out) ? 'live' : 'fixture',
     Riff: /\[almanac\]\s+riff:.*\(live\)/.test(out) ? 'live' : 'fixture',
     Studio: /\[almanac\]\s+production:.*\(live\)/.test(out) ? 'live' : 'fixture',
   };
@@ -115,6 +117,8 @@ function titleFor(providerRun, tile) {
   if (tile === 'Surprise') return { title: e.surprises?.[0]?.title, source: e.surprises?.[0]?.sourceLabel, url: e.surprises?.[0]?.sourceUrl };
   if (tile === 'Riff') return { title: e.riffs?.[0]?.title, source: e.riffs?.[0]?.artist, url: e.riffs?.[0]?.sourceUrl };
   if (tile === 'Studio') return { title: e.productionClips?.[0]?.title, source: e.productionClips?.[0]?.creator, url: e.productionClips?.[0]?.sourceUrl };
+  if (tile === 'Poem') return { title: e.poems?.[0]?.title, source: e.poems?.[0]?.poet, url: e.poems?.[0]?.sourceUrl };
+  if (tile === 'Long Read') return { title: e.longReads?.[0]?.title, source: e.longReads?.[0]?.source, url: e.longReads?.[0]?.url };
   return { title: '', source: '', url: '' };
 }
 
@@ -127,7 +131,7 @@ function summaryLines(run) {
 
 const runs = [runProvider('tavily'), runProvider('openclaw')];
 const [tavily, openclaw] = runs;
-const tiles = ['Read', 'Look', 'Venture', 'Signal', 'Surprise', 'Riff', 'Studio'];
+const tiles = ['Read', 'Look', 'Venture', 'Signal', 'Surprise', 'Poem', 'Long Read', 'Riff', 'Studio'];
 const usage = readJsonMaybe(tavilyUsagePath);
 const runDiagnostics = Object.fromEntries(runs.map(r => [r.provider, {
   searches: searchStats(r),
@@ -145,6 +149,8 @@ fs.writeFileSync(jsonPath, JSON.stringify({
       Signal: 'Real source-backed chart/data source vs curated/fixture fallback.',
       'Riff / Studio': 'Real, embeddable, relevant YouTube URLs.',
       Surprise: 'Fresh with a working source URL.',
+      Poem: 'Curated poem has a real source URL and fits the day rather than feeling decorative.',
+      'Long Read': 'Macro/investment thesis is substantial, source-backed, and worth the time cost.',
       Overall: 'Live-source quality improvement worth Tavily credit burn.',
     },
     runs: runDiagnostics,
@@ -217,6 +223,7 @@ Use 1-5 scores:
 - Signal: did it find a real source-backed chart/data source, or fall back to curated/fixture data?
 - Riff / Studio: are YouTube URLs real, embeddable, and relevant?
 - Surprise: is it genuinely fresh with a working source URL?
+- Poem / Long Read: are the source URLs real, relevant, and worth the attention cost?
 - Overall: did one provider materially improve live-source quality enough to justify credit burn?
 
 | Tile | Tavily | OpenClaw web_search | Relevance | Freshness | Source quality | Winner |

@@ -102,6 +102,52 @@ function buildSystemDocs() {
     };
   });
 }
+function buildAlmanacBakeoffs() {
+  const dir = path.join(repoRoot, 'artifacts', 'almanac-bakeoff');
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter(name => /^\d{4}-\d{2}-\d{2}\.json$/.test(name))
+    .sort()
+    .reverse()
+    .slice(0, 8)
+    .map(name => {
+      const full = path.join(dir, name);
+      const data = readJsonAbsolute(full, null);
+      if (!data) return null;
+      const byProvider = Object.fromEntries((data.runs || []).map(run => [run.provider, run]));
+      const diagnostics = data.diagnostics?.runs || {};
+      const credit = data.diagnostics?.tavilyCreditBurn || {};
+      const ledger = credit.usageLedger || null;
+      const md = full.replace(/\.json$/, '.md');
+      return {
+        date: data.date || name.replace(/\.json$/, ''),
+        generatedAt: data.generatedAt || null,
+        path: path.relative(repoRoot, full),
+        markdownPath: fs.existsSync(md) ? path.relative(repoRoot, md) : null,
+        tavily: {
+          ok: !!byProvider.tavily?.ok,
+          searches: diagnostics.tavily?.searches?.searches ?? 0,
+          usableSearches: diagnostics.tavily?.searches?.usableSearches ?? 0,
+          usableResults: diagnostics.tavily?.searches?.usableResults ?? 0,
+          liveTiles: diagnostics.tavily?.liveFixture || {},
+          burn: credit.estimatedCreditsThisBakeoff ?? diagnostics.tavily?.searches?.searches ?? 0,
+        },
+        openclaw: {
+          ok: !!byProvider.openclaw?.ok,
+          searches: diagnostics.openclaw?.searches?.searches ?? 0,
+          usableSearches: diagnostics.openclaw?.searches?.usableSearches ?? 0,
+          usableResults: diagnostics.openclaw?.searches?.usableResults ?? 0,
+          liveTiles: diagnostics.openclaw?.liveFixture || {},
+        },
+        runway: ledger ? {
+          estCreditsRemaining: ledger.estCreditsRemaining,
+          estDaysLeft: ledger.estDaysLeft,
+          projectedExhaustionDateAt12PerDay: ledger.projectedExhaustionDateAt12PerDay,
+        } : null,
+      };
+    })
+    .filter(Boolean);
+}
 function readContextIndex() {
   return readWorkspaceManifest(path.join('memory', 'context', 'index.json'));
 }
@@ -733,6 +779,7 @@ function buildData() {
       investingThesisInvalidationEvidence: sourceManifests.investingThesisInvalidationEvidence || null,
       systemDocs: buildSystemDocs(),
       queues: buildQueues(),
+      almanacBakeoffs: buildAlmanacBakeoffs(),
     },
     stats: {
       openLoops:        checked.length,

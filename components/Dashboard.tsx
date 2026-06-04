@@ -62,6 +62,10 @@ const TABS = [
 ] as const;
 
 export type DashboardTab = typeof TABS[number]["id"];
+const PRIMARY_TAB_IDS = new Set<DashboardTab>(["today", "loops", "projects", "investing", "system"]);
+const SYSTEM_TAB_IDS = new Set<DashboardTab>(["system", "digests", "outing-oracle", "queues", "review", "automations"]);
+const primaryTabs = TABS.filter(tab => PRIMARY_TAB_IDS.has(tab.id));
+const systemTabs = TABS.filter(tab => SYSTEM_TAB_IDS.has(tab.id));
 
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
 // When OpenClaw wires up the real endpoint, no changes needed here —
@@ -248,16 +252,31 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           <span className="mastheadSub">Chief of Staff</span>
         </div>
         <nav className="tabNav" aria-label="Dashboard sections">
-          {TABS.map(tab => (
+          {primaryTabs.map(tab => (
             <button
               key={tab.id}
-              className={`tabBtn${activeTab === tab.id ? " tabBtn--active" : ""}`}
+              className={`tabBtn${activeTab === tab.id || (tab.id === "system" && SYSTEM_TAB_IDS.has(activeTab as DashboardTab)) ? " tabBtn--active" : ""}`}
               onClick={() => navigateTab(tab)}
               title={tab.href}
             >
               {tab.label}
             </button>
           ))}
+          <label className="systemNavSelectWrap">
+            <span className="srOnly">More system sections</span>
+            <select
+              className="systemNavSelect"
+              value={SYSTEM_TAB_IDS.has(activeTab as DashboardTab) ? activeTab : ""}
+              onChange={event => {
+                const tab = TABS.find(t => t.id === event.target.value);
+                if (tab) navigateTab(tab);
+              }}
+              aria-label="More system sections"
+            >
+              <option value="" disabled>More</option>
+              {systemTabs.map(tab => <option key={tab.id} value={tab.id}>{tab.label}</option>)}
+            </select>
+          </label>
         </nav>
         <div className="mastheadTools">
           <button
@@ -389,7 +408,22 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
             <ReviewTab items={reviewItems} onAction={handleReviewAction} />
           )}
           {activeTab === "system" && (
-            <SystemTab docs={data.meta.systemDocs || []} onDiscuss={openThread} />
+            <SystemTab
+              docs={data.meta.systemDocs || []}
+              bakeoffs={data.meta.almanacBakeoffs || []}
+              operations={{
+                digests: data.digests.length,
+                queues: data.meta.queues?.length || 0,
+                review: reviewItems.filter(item => item.status === "pending").length,
+                automations: automations.length,
+                outingOracle: 1,
+              }}
+              onNavigate={(tabId) => {
+                const tab = TABS.find(t => t.id === tabId);
+                if (tab) navigateTab(tab);
+              }}
+              onDiscuss={openThread}
+            />
           )}
           {activeTab === "automations" && (
             <AutomationsTab automations={automations} onAction={handleAutomationAction} />
