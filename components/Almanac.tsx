@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
@@ -157,6 +157,26 @@ function saveTune(date: string, tune: TuneRecord) {
   feedbackCache[date] = { ...state, tunes: { ...state.tunes, [tune.itemId]: tune } };
   persistTune(date, tune);
   feedbackSubs.forEach(fn => fn());
+}
+
+async function postAlmanacRegenerate(date: string) {
+  const res = await fetch("/api/signal", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "almanac-regenerate",
+      itemId: `almanac:${date}`,
+      payload: {
+        date,
+        provider: "tavily",
+        force: true,
+        requestedAction: "recrawl-and-regenerate-todays-almanac",
+      },
+    }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(json?.error || `Signal failed (${res.status})`);
+  return json;
 }
 
 // ── Kicker ───────────────────────────────────────────────────────────────────
@@ -770,16 +790,21 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
   const [liveEdition, setLiveEdition] = useState<DailyData | null>(null);
+  const [recrawlStatus, setRecrawlStatus] = useState<"idle" | "working" | "done" | "error">("idle");
+
+  const loadTodayEdition = useCallback(async () => {
+    const today = fmtIso(dateForOffset(0));
+    const res = await fetch(`/api/almanac/editions?date=${today}&t=${Date.now()}`);
+    if (!res.ok) throw new Error(`Edition fetch failed (${res.status})`);
+    const data = await res.json();
+    if (data?.edition) setLiveEdition(data.edition);
+  }, []);
 
   // Fetch live KV edition for today — supersedes the static fixture when the generator has run
   useEffect(() => {
-    const today = fmtIso(dateForOffset(0));
-    fetch(`/api/almanac/editions?date=${today}`)
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(data => { if (data?.edition) setLiveEdition(data.edition); })
+    loadTodayEdition()
       .catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loadTodayEdition]);
 
   // Fetch stored immutable snapshot when navigating to a past date
   useEffect(() => {
@@ -829,6 +854,22 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
+  const recrawlToday = async () => {
+    if (recrawlStatus === "working") return;
+    const today = fmtIso(dateForOffset(0));
+    setRecrawlStatus("working");
+    try {
+      await postAlmanacRegenerate(today);
+      await loadTodayEdition().catch(() => {});
+      setRecrawlStatus("done");
+      showToast("Today’s Almanac recrawl is running");
+      window.setTimeout(() => setRecrawlStatus("idle"), 2600);
+    } catch {
+      setRecrawlStatus("error");
+      showToast("Could not start the Almanac recrawl");
+    }
+  };
+
   // Snapshot today's edition to the archive on first render
   useEffect(() => {
     fetch("/api/almanac/editions", {
@@ -868,6 +909,17 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <div className="almanac__titleGroup">
             <span className={`almanac__title${isMobile ? " almanac__title--mobile" : ""}`}>The Almanac</span>
             <span className="almanac__eyebrow">{isToday ? "Curated for you · today's edition" : "From the archive"}</span>
+            {isToday && (
+              <button
+                type="button"
+                className={`almanacRecrawlBtn almanacRecrawlBtn--${recrawlStatus}`}
+                onClick={recrawlToday}
+                disabled={recrawlStatus === "working"}
+                title="Ask OpenClaw to recrawl and regenerate today's Almanac"
+              >
+                {recrawlStatus === "working" ? "Recrawling..." : recrawlStatus === "done" ? "Recrawl queued" : recrawlStatus === "error" ? "Retry recrawl" : "Recrawl today"}
+              </button>
+            )}
           </div>
           <EditionNav offset={offset} setOffset={setOffset} isMobile={isMobile} />
         </div>

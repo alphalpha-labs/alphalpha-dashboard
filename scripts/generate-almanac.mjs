@@ -482,6 +482,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
   if (candidates.length === 0) return null;
 
   const aw = feedbackWeights.article ?? {};
+  const feedbackProfile = articleFeedbackProfile(aw);
 
   // Keywords from open loops and project names for overlap scoring.
   const loopKeywords = extractBullets(openLoopsText)
@@ -499,6 +500,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
+    if (c.link && feedbackProfile.avoidHosts.some(h => hostOf(c.link).endsWith(h))) score -= 3;
 
     // Nuance-chip signals from feedback.
     if ((aw.chipTallies?.['love the source']  ?? 0) > 0) score += 0.3;
@@ -508,6 +510,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Open-loop keyword overlap.
     const blob = `${c.title} ${c.why} ${c.themes.join(' ')}`.toLowerCase();
+    score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.25;
     score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
 
     // Project-name overlap.
@@ -518,6 +521,27 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
   scored.sort((a, b) => b.score - a.score);
   return scored[0].score < -5 ? null : scored[0]; // all deduped → null → fixture
+}
+
+function articleFeedbackProfile(weights = {}) {
+  const notes = (weights.notes ?? []).join(' ').toLowerCase();
+  const avoidHosts = [];
+  if (/\bx\.com\b|twitter\.com|twitter as a source/.test(notes)) {
+    avoidHosts.push('x.com', 'twitter.com');
+  }
+
+  const preferTerms = [];
+  if (/socio[-\s]?political|politics|political/.test(notes)) preferTerms.push('political', 'socio-political');
+  if (/economic|economics/.test(notes)) preferTerms.push('economic', 'economics');
+  if (/religious|religion/.test(notes)) preferTerms.push('religious', 'religion');
+  if (/cultural|culture/.test(notes)) preferTerms.push('cultural', 'culture');
+  if (/analysis|essay|long[-\s]?form/.test(notes)) preferTerms.push('analysis', 'essay');
+
+  return {
+    avoidHosts: [...new Set(avoidHosts)],
+    preferTerms: [...new Set(preferTerms)],
+    preferredQuery: preferTerms.length ? [...new Set(preferTerms)].join(' ') : '',
+  };
 }
 
 async function composeArticle(candidate, contextFiles) {
@@ -1549,14 +1573,17 @@ function topicKeywords(contextFiles, max = 3) {
 async function webSourceArticles(feedbackWeights, contextFiles) {
   if (!webDiscovery?.available) return [];
   const hints  = feedbackHints(feedbackWeights.article ?? {});
+  const profile = articleFeedbackProfile(feedbackWeights.article ?? {});
   const topics = topicKeywords(contextFiles, 3);
   const prefer = hints.prefer.slice(0, 2);
   const queries = [
     `best long-form essay 2026 ${[...prefer, topics[0]].filter(Boolean).join(' ')}`.trim(),
+    profile.preferredQuery ? `fresh long-form ${profile.preferredQuery} analysis essay 2026` : null,
     topics[1] ? `in-depth article ${topics.slice(0, 2).join(' ')} ${prefer[0] ?? ''}`.trim() : null,
   ].filter(Boolean);
   const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
   return results
+    .filter(r => !profile.avoidHosts.some(h => hostOf(r.url).endsWith(h)))
     .map((r, i) => ({
       id:     `web-article-${hostOf(r.url)}-${i}`,
       title:  r.title,
