@@ -131,6 +131,11 @@ async function kvSet(key, value) {
   await redis.set(key, value);
 }
 
+async function kvSetBestEffort(key, value) {
+  if (!redis) return;
+  try { await redis.set(key, value); } catch {}
+}
+
 async function kvScan(pattern) {
   if (!redis) return [];
   const keys = [];
@@ -141,6 +146,23 @@ async function kvScan(pattern) {
     keys.push(...batch);
   } while (cursor !== 0);
   return keys;
+}
+
+const runStatusKey = `alphalpha:almanac:run:${targetDate}`;
+const runStartedAt = new Date().toISOString();
+
+async function setRunStatus(status, phase, extra = {}) {
+  await kvSetBestEffort(runStatusKey, {
+    date: targetDate,
+    status,
+    phase,
+    provider: process.env.ALMANAC_SEARCH_PROVIDER || 'auto',
+    dryRun,
+    force,
+    startedAt: runStartedAt,
+    updatedAt: new Date().toISOString(),
+    ...extra,
+  });
 }
 
 // ── Fixture fallback ─────────────────────────────────────────────────────────
@@ -1783,6 +1805,7 @@ async function main() {
   log(`Generating edition for ${targetDate}${dryRun ? ' (dry-run)' : ''}${force ? ' (force)' : ''}`);
 
   await initKV();
+  await setRunStatus('running', 'Starting');
 
   const editionKey = `alphalpha:almanac:edition:${targetDate}`;
 
@@ -1790,6 +1813,7 @@ async function main() {
     const existing = await kvGet(editionKey);
     if (existing) {
       log(`Edition ${targetDate} already exists. Use --force to overwrite.`);
+      await setRunStatus('done', 'Existing edition kept', { completedAt: new Date().toISOString() });
       return;
     }
   }
@@ -1811,6 +1835,7 @@ async function main() {
   // Feedback-honed web discovery layer (pluggable provider; budgeted per run).
   webDiscovery = createWebDiscovery({ log, warn });
   log(`Web discovery: ${webDiscovery.provider}${webDiscovery.available ? ' (active)' : ' (fallback — curated sources)'}`);
+  await setRunStatus('running', `Discovery via ${webDiscovery.provider}`);
 
   const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds] = await Promise.all([
     getRecentIds('quote-mind'),
@@ -1831,6 +1856,7 @@ async function main() {
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
   log('Running tile pipeline…');
+  await setRunStatus('running', 'Running tile pipeline');
 
   // Phase 1 — Quotes (deterministic, no LLM)
   const { quotes, parentingQuotes } = await runTile(
@@ -2002,6 +2028,7 @@ async function main() {
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
+    await setRunStatus('done', 'Dry-run complete', { completedAt: new Date().toISOString() });
     console.log(JSON.stringify(edition, null, 2));
     return;
   }
@@ -2011,6 +2038,9 @@ async function main() {
     process.exit(1);
   }
 
+  await setRunStatus('running', 'Writing edition');
+  // Force regenerates only replace the edition and history records. Feedback lives
+  // under alphalpha:almanac:feedback:* and is read for tuning, never overwritten here.
   await kvSet(editionKey, edition);
   log(`Written to KV: ${editionKey}`);
 
@@ -2035,9 +2065,14 @@ async function main() {
   ]);
 
   log('History updated. Done.');
+  await setRunStatus('done', 'Complete', { completedAt: new Date().toISOString() });
 }
 
-main().catch(e => {
+main().catch(async e => {
+  await setRunStatus('error', 'Failed', {
+    error: e?.message ?? String(e),
+    completedAt: new Date().toISOString(),
+  });
   console.error('[almanac] Unhandled error:', e);
   process.exit(1);
 });

@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:auth": "npx tsx scripts/auth.test.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "almanac:bakeoff": "node scripts/compare-almanac-providers.mjs"
   },
   "dependencies": {
     "@simplewebauthn/browser": "^13.3.0",

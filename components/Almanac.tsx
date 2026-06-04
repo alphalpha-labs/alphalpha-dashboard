@@ -76,6 +76,16 @@ function ToastHost() {
 type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; keptAt: number; date: string };
 type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; at: number; date: string };
 type FeedbackState = { keeps: Record<string, KeepRecord>; tunes: Record<string, TuneRecord> };
+type RecrawlStatus = "idle" | "working" | "done" | "error";
+type AlmanacRunStatus = {
+  status?: "idle" | "running" | "done" | "error";
+  phase?: string;
+  provider?: string;
+  startedAt?: string;
+  updatedAt?: string;
+  completedAt?: string;
+  error?: string;
+};
 
 const feedbackCache: Partial<Record<string, FeedbackState>> = {};
 const feedbackInflight: Partial<Record<string, Promise<FeedbackState>>> = {};
@@ -177,6 +187,12 @@ async function postAlmanacRegenerate(date: string) {
   const json = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(json?.error || `Signal failed (${res.status})`);
   return json;
+}
+
+async function fetchAlmanacRunStatus(date: string): Promise<AlmanacRunStatus> {
+  const res = await fetch(`/api/almanac/status?date=${date}&t=${Date.now()}`);
+  if (!res.ok) throw new Error(`Status fetch failed (${res.status})`);
+  return res.json();
 }
 
 // ── Kicker ───────────────────────────────────────────────────────────────────
@@ -790,7 +806,8 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
   const [liveEdition, setLiveEdition] = useState<DailyData | null>(null);
-  const [recrawlStatus, setRecrawlStatus] = useState<"idle" | "working" | "done" | "error">("idle");
+  const [recrawlStatus, setRecrawlStatus] = useState<RecrawlStatus>("idle");
+  const [recrawlPhase, setRecrawlPhase] = useState<string>("");
 
   const loadTodayEdition = useCallback(async () => {
     const today = fmtIso(dateForOffset(0));
@@ -858,17 +875,52 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     if (recrawlStatus === "working") return;
     const today = fmtIso(dateForOffset(0));
     setRecrawlStatus("working");
+    setRecrawlPhase("Queued");
     try {
       await postAlmanacRegenerate(today);
-      await loadTodayEdition().catch(() => {});
-      setRecrawlStatus("done");
-      showToast("Today’s Almanac recrawl is running");
-      window.setTimeout(() => setRecrawlStatus("idle"), 2600);
+      showToast("Today's Almanac recrawl is running");
     } catch {
       setRecrawlStatus("error");
+      setRecrawlPhase("");
       showToast("Could not start the Almanac recrawl");
     }
   };
+
+  useEffect(() => {
+    if (!isToday || recrawlStatus !== "working") return;
+    let cancelled = false;
+    const today = fmtIso(dateForOffset(0));
+    const poll = async () => {
+      try {
+        const run = await fetchAlmanacRunStatus(today);
+        if (cancelled) return;
+        setRecrawlPhase(run.phase || (run.status === "running" ? "Running" : ""));
+        if (run.status === "done") {
+          await loadTodayEdition().catch(() => {});
+          if (!cancelled) {
+            setRecrawlStatus("done");
+            setRecrawlPhase("Updated");
+            showToast("Today's Almanac has been regenerated");
+            window.setTimeout(() => {
+              setRecrawlStatus("idle");
+              setRecrawlPhase("");
+            }, 3200);
+          }
+        } else if (run.status === "error") {
+          setRecrawlStatus("error");
+          setRecrawlPhase(run.error || "Failed");
+        }
+      } catch {
+        if (!cancelled) setRecrawlPhase("Waiting for status");
+      }
+    };
+    void poll();
+    const id = window.setInterval(() => void poll(), 4000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+    };
+  }, [isToday, loadTodayEdition, recrawlStatus]);
 
   // Snapshot today's edition to the archive on first render
   useEffect(() => {
@@ -917,7 +969,10 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
                 disabled={recrawlStatus === "working"}
                 title="Ask OpenClaw to recrawl and regenerate today's Almanac"
               >
-                {recrawlStatus === "working" ? "Recrawling..." : recrawlStatus === "done" ? "Recrawl queued" : recrawlStatus === "error" ? "Retry recrawl" : "Recrawl today"}
+                {recrawlStatus === "working" && <span className="almanacRecrawlBtn__spinner" aria-hidden="true" />}
+                <span>
+                  {recrawlStatus === "working" ? (recrawlPhase || "Recrawling...") : recrawlStatus === "done" ? "Recrawl updated" : recrawlStatus === "error" ? "Retry recrawl" : "Recrawl today"}
+                </span>
               </button>
             )}
           </div>

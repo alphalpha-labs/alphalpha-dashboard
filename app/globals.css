@@ -1476,6 +1476,11 @@ input { font-family: inherit; }
   letter-spacing: 0;
   padding: 6px 9px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 104px;
+  justify-content: center;
   transition: background .16s ease, border-color .16s ease, color .16s ease;
 }
 .almanacRecrawlBtn:hover:not(:disabled) {
@@ -1496,6 +1501,17 @@ input { font-family: inherit; }
   border-color: #b66f5b;
   color: #8a3b2d;
   background: #f8e8e2;
+}
+.almanacRecrawlBtn__spinner {
+  width: 11px;
+  height: 11px;
+  border: 2px solid rgba(111, 96, 73, 0.28);
+  border-top-color: #7b6118;
+  border-radius: 50%;
+  animation: almanacSpin .75s linear infinite;
+}
+@keyframes almanacSpin {
+  to { transform: rotate(360deg); }
 }
 .almanac__rule {
   display: flex;
