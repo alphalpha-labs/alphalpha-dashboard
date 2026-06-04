@@ -24,7 +24,7 @@ export async function callOpenClaw(systemPrompt, userPrompt, opts = {}) {
   const token   = process.env.OPENCLAW_GATEWAY_TOKEN;
   if (!baseUrl || !token) return null; // silently skip — caller decides fallback
 
-  const model = opts.model ?? process.env.ALMANAC_COMPOSER_MODEL ?? 'claude-haiku-4-5-20251001';
+  const model = opts.model ?? process.env.ALMANAC_COMPOSER_MODEL ?? 'openclaw';
   const body = {
     model,
     instructions: systemPrompt,
@@ -144,16 +144,18 @@ function serper(key) {
   };
 }
 
-// OpenClaw model web_search tool — no extra key, best-effort. Asks the model to
-// search and return strict JSON. If the gateway doesn't forward tool use the
-// model simply returns no usable results and the caller falls back.
+// OpenClaw model-native search — no extra key, best-effort. The gateway's
+// /v1/responses endpoint routes `model: openclaw` through the agent runtime; do
+// not pass OpenAI-style `{ type: "web_search" }` tools here because this gateway
+// currently accepts function tools only.
 function openclawSearch() {
   return async (query, count) => {
     const sys = 'You are a web search tool. Use web search to answer. Return ONLY a JSON array of ' +
       `up to ${count} results, each {"title","url","snippet"}. No prose, no code fences. ` +
       'Only include real URLs you actually found via search.';
     const raw = await callOpenClaw(sys, `Search query: ${query}`, {
-      tools: [{ type: 'web_search' }], timeoutMs: 45_000,
+      model: process.env.ALMANAC_OPENCLAW_SEARCH_MODEL ?? 'openclaw',
+      timeoutMs: 45_000,
     });
     const arr = parseJsonLoose(raw);
     if (!Array.isArray(arr)) return [];

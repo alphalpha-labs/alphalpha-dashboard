@@ -2,10 +2,10 @@
   "_comment": "OpenClaw cron descriptor for the daily Almanac generator. Register this job by adding it to the workspace automations registry (memory/automations/latest-manifest.json) or by running the automation indexer after placing a copy of this file in memory/automations/almanac-generator.json.",
   "id": "almanac-generator",
   "name": "Daily Almanac Generator",
-  "description": "Generates the next day's Almanac edition — sources quotes and the 'You' chart from workspace manifests, validates against the DailyData schema, and writes the immutable snapshot to alphalpha:almanac:edition:{date} in KV.",
+  "description": "Generates the next day's Almanac edition with Tavily-backed web discovery, validates against the DailyData schema, and writes the immutable snapshot to alphalpha:almanac:edition:{date} in KV.",
   "category": "almanac",
   "enabled": true,
-  "scheduleLabel": "Daily at 5:00 am (America/Chicago)",
+  "scheduleLabel": "Daily at 11:00 am (America/Chicago)",
   "schedule": {
     "kind": "cron",
     "expr": "0 11 * * *",
@@ -15,5 +15,5 @@
   "lightContext": true,
   "toolsAllow": ["Bash"],
   "delivery": "kv-write",
-  "summary": "Full pipeline (Phases 1–6): quotes, You chart, article (RSS + LLM composer), look/image (Met Museum + AIC), venture, surprise (artifact rotation), curated investing/AI charts. All tiles dedup via KV history and fall back to fixtures when LLM is unavailable."
+  "summary": "Full pipeline (Phases 1–8): quotes, You chart, article (RSS + web discovery + LLM composer), look/image (Met Museum + AIC), venture, surprise/artifact rotation, investing/AI signal charts, riff videos, and production clips. During the evaluation window discovery is Tavily-backed with ALMANAC_SEARCH_MAX=12 and ALMANAC_FETCH_MAX=8; tiles dedup via KV history and fall back to curated/fixture sources when discovery or LLM curation is unavailable."
 }

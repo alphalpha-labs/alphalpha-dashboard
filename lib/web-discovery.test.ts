@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import {
   feedbackHints,
   extractYouTubeId,
@@ -13,11 +13,15 @@ const SEARCH_KEYS = [
   "TAVILY_API_KEY", "EXA_API_KEY", "BRAVE_SEARCH_API_KEY", "SERPER_API_KEY",
   "OPENCLAW_BASE_URL", "OPENCLAW_GATEWAY_TOKEN", "ALMANAC_SEARCH_PROVIDER",
   "ALMANAC_DISABLE_WEB", "ALMANAC_SEARCH_MAX", "ALMANAC_FETCH_MAX",
+  "ALMANAC_OPENCLAW_SEARCH_MODEL", "ALMANAC_COMPOSER_MODEL",
 ];
 function clearSearchEnv() {
   for (const k of SEARCH_KEYS) delete process.env[k];
 }
-afterEach(clearSearchEnv);
+afterEach(() => {
+  clearSearchEnv();
+  vi.unstubAllGlobals();
+});
 
 describe("feedbackHints", () => {
   it("maps 'more X' chips and kept sources into prefer terms", () => {
@@ -107,10 +111,42 @@ describe("createWebDiscovery provider resolution", () => {
     expect(createWebDiscovery().available).toBe(false);
   });
 
-  it("falls back to the OpenClaw web_search tool when only the gateway is set", () => {
+  it("falls back to the OpenClaw gateway when only gateway env is set", () => {
     clearSearchEnv();
     process.env.OPENCLAW_BASE_URL = "http://x";
     process.env.OPENCLAW_GATEWAY_TOKEN = "t";
     expect(createWebDiscovery().provider).toBe("openclaw");
+  });
+
+  it("uses the OpenClaw gateway-native model path without unsupported web_search tools", async () => {
+    clearSearchEnv();
+    process.env.OPENCLAW_BASE_URL = "http://x";
+    process.env.OPENCLAW_GATEWAY_TOKEN = "t";
+
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      expect(body.model).toBe("openclaw");
+      expect(body.tools).toBeUndefined();
+      return new Response(JSON.stringify({
+        output: [{
+          content: [{
+            text: JSON.stringify([{ title: "Result", url: "https://example.com/a", snippet: "Snippet" }]),
+          }],
+        }],
+      }), { status: 200, headers: { "content-type": "application/json" } });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const discovery = createWebDiscovery({ budget: makeBudget({ maxSearches: 1, maxFetches: 0 }) });
+    const results = await discovery.search("test query", { count: 1 });
+
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(results).toEqual([{
+      title: "Result",
+      url: "https://example.com/a",
+      snippet: "Snippet",
+      source: "example.com",
+      date: null,
+    }]);
   });
 });
