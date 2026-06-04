@@ -6,6 +6,7 @@
   "description": "Alphalpha chief-of-staff dashboard for open loops, projects, digests, and investing research.",
   "scripts": {
     "generate:data": "node scripts/generate-dashboard-data.mjs",
+    "generate:data:snapshot": "node scripts/generate-dashboard-data.mjs --snapshot",
     "dev": "npm run generate:data && next dev",
     "build": "npm run generate:data && next build",
     "start": "next start",

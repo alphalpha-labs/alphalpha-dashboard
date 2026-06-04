@@ -168,12 +168,15 @@ async function setRunStatus(status, phase, extra = {}) {
 // ── Fixture fallback ─────────────────────────────────────────────────────────
 
 function loadFixture() {
-  const p = path.join(repoRoot, 'lib', 'generated-data.json');
-  if (!fs.existsSync(p)) return null;
-  try {
-    const data = JSON.parse(fs.readFileSync(p, 'utf8'));
-    return data?.daily ?? null;
-  } catch { return null; }
+  for (const file of ['generated-data.local.json', 'generated-data.snapshot.json']) {
+    const p = path.join(repoRoot, 'lib', file);
+    if (!fs.existsSync(p)) continue;
+    try {
+      const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+      if (data?.daily) return data.daily;
+    } catch {}
+  }
+  return null;
 }
 
 // ── Validation (plain-JS gate matching lib/almanac-schema.ts shapes) ─────────
@@ -1846,7 +1849,7 @@ async function main() {
   ]);
 
   if (!fixture) {
-    console.error('[almanac] ERROR: fixture fallback unavailable — lib/generated-data.json missing or has no daily block');
+    console.error('[almanac] ERROR: fixture fallback unavailable — generated-data.local.json / generated-data.snapshot.json missing or has no daily block');
     process.exit(1);
   }
 

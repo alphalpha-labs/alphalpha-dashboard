@@ -21,7 +21,8 @@ hand-written fixture into a personalized, source-backed daily edition.
   personalization signal: `✦ Keep`, `↑ More`/`↓ Less`, nuance chips, free-text notes.
 - **Build-time generator** — `scripts/generate-dashboard-data.mjs` already reads
   workspace markdown + `memory/**/latest-manifest.json` snapshots and emits
-  `lib/generated-data.json` (including the `daily` fixture block).
+  `lib/generated-data.local.json` when present, otherwise the committed
+  `lib/generated-data.snapshot.json` (including the `daily` fixture block).
 - **OpenClaw LLM proxy** — `lib/openclaw.ts` (`streamThread`, `sendSignal`) routes
   all model calls through OpenClaw; no direct Anthropic/OpenAI key in the repo.
 - **Manifest pattern** — upstream OpenClaw automations write

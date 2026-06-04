@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 
 execSync('node scripts/generate-dashboard-data.mjs', { stdio: 'inherit' });
-const data = JSON.parse(readFileSync('lib/generated-data.json', 'utf8'));
+const data = JSON.parse(readFileSync('lib/generated-data.local.json', 'utf8'));
 
 assert.ok(typeof data.meta?.generatedAt === 'string',        'meta.generatedAt missing');
 assert.ok(typeof data.meta?.posture === 'string',             'meta.posture missing');

@@ -584,5 +584,20 @@ export type AlmanacBakeoff = {
   } | null;
 };
 
-import generated from "./generated-data.json";
-export const dashboardData = generated as unknown as DashboardData;
+import fs from "node:fs";
+import path from "node:path";
+import snapshot from "./generated-data.snapshot.json";
+
+function loadDashboardData(): DashboardData {
+  const localPath = path.join(process.cwd(), "lib", "generated-data.local.json");
+  if (fs.existsSync(localPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(localPath, "utf8")) as DashboardData;
+    } catch {
+      // Fall through to the committed production snapshot.
+    }
+  }
+  return snapshot as unknown as DashboardData;
+}
+
+export const dashboardData = loadDashboardData();

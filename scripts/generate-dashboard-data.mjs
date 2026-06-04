@@ -4,7 +4,10 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const repoRoot = process.cwd();
-const outputPath = path.join(repoRoot, 'lib', 'generated-data.json');
+const args = process.argv.slice(2);
+const snapshotPath = path.join(repoRoot, 'lib', 'generated-data.snapshot.json');
+const localOutputPath = path.join(repoRoot, 'lib', 'generated-data.local.json');
+const outputPath = args.includes('--snapshot') ? snapshotPath : localOutputPath;
 const contextRoot = process.env.ALPHALPHA_CONTEXT_DIR
   ? path.resolve(process.env.ALPHALPHA_CONTEXT_DIR)
   : path.resolve(repoRoot, '..', 'context');
@@ -22,7 +25,7 @@ function readJsonAbsolute(p, fallback = null) {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return fallback; }
 }
 function readExistingDaily() {
-  const existing = readJsonAbsolute(outputPath, null);
+  const existing = readJsonAbsolute(outputPath, null) || readJsonAbsolute(localOutputPath, null) || readJsonAbsolute(snapshotPath, null);
   return existing?.daily ?? null;
 }
 function readWorkspaceManifest(rel) {
@@ -214,7 +217,7 @@ function gitRepoStatus(repoPath, label) {
   const commit = runGit(repoPath, ['rev-parse', '--short', 'HEAD']) || 'unknown';
   const lastCommitIso = runGit(repoPath, ['log', '-1', '--format=%cI']) || null;
   const statusArgs = repoPath === repoRoot
-    ? ['status', '--porcelain', '--untracked-files=no', '--', ':!lib/generated-data.json', ':!.next']
+    ? ['status', '--porcelain', '--untracked-files=no', '--', ':!lib/generated-data.local.json', ':!lib/generated-data.snapshot.json', ':!lib/generated-data.json', ':!.next']
     : ['status', '--porcelain', '--untracked-files=no'];
   const status = runGit(repoPath, statusArgs) || '';
   const upstream = runGit(repoPath, ['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']);
@@ -695,15 +698,16 @@ function buildData() {
   const sourceHealth = sourceHealthFromManifests(sourceManifests, contextHealth);
 
   if (!projectsMd || !openLoopsMd) {
-    if (fs.existsSync(outputPath)) {
-      const existing = readJsonAbsolute(outputPath, null);
+    const fallbackPath = fs.existsSync(outputPath) ? outputPath : snapshotPath;
+    if (fs.existsSync(fallbackPath)) {
+      const existing = readJsonAbsolute(fallbackPath, null);
       if (existing?.meta) {
         existing.meta.deployment = deploymentMeta();
         fs.writeFileSync(outputPath, `${JSON.stringify(existing, null, 2)}\n`);
-        console.log(`Context not found at ${contextRoot}; refreshed deployment metadata in generated-data.json.`);
+        console.log(`Context not found at ${contextRoot}; refreshed deployment metadata in ${path.relative(repoRoot, outputPath)}.`);
         return null;
       }
-      console.log(`Context not found at ${contextRoot}; keeping existing generated-data.json.`);
+      console.log(`Context not found at ${contextRoot}; keeping existing generated data.`);
       return null;
     }
     throw new Error(`Missing context files at ${contextRoot} and no generated data exists.`);
