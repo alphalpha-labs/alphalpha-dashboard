@@ -744,6 +744,60 @@ async function sourceAIC(targetDate) {
   }));
 }
 
+async function sourceGenerativeArtCommons(targetDate, feedbackWeights) {
+  if (process.env.ALMANAC_DISABLE_WEB === '1') return [];
+  const hints = feedbackHints(feedbackWeights.image ?? {});
+  const seed  = dateHash(targetDate + '-ai-art');
+  const base  = [
+    'AI generated art',
+    'generative art',
+    'algorithmic art',
+    'computer generated art',
+    'neural network art',
+    'fractal art',
+    'digital generative artwork',
+  ];
+  const prefer = hints.prefer.find(h => /ai|generative|algorithm|digital|fractal|abstract/i.test(h));
+  const term = prefer ?? base[seed % base.length];
+  const api = `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search` +
+    `&gsrnamespace=6&gsrlimit=16&gsrsearch=${encodeURIComponent(term)}` +
+    `&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1200&origin=*`;
+  try {
+    const res = await fetch(api, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(8_000) });
+    if (!res.ok) return [];
+    const d = await res.json();
+    const out = [];
+    for (const p of Object.values(d.query?.pages ?? {})) {
+      const info = p.imageinfo?.[0];
+      if (!info?.thumburl) continue;
+      const meta    = info.extmetadata ?? {};
+      const license = (meta.LicenseShortName?.value ?? '').toLowerCase();
+      if (!/public domain|cc0|cc by|pd-|pd /.test(license)) continue;
+      const title = (p.title || '').replace(/^File:/, '').replace(/\.[a-z0-9]+$/i, '').trim() || 'Untitled';
+      const description = htmlToText(meta.ImageDescription?.value ?? '', 160);
+      const blob = `${title} ${description} ${term}`.toLowerCase();
+      if (!/(ai|artificial intelligence|generative|algorithm|computer.generated|neural|fractal|digital)/.test(blob)) continue;
+      const artist = htmlToText(meta.Artist?.value ?? '', 80) || 'Unknown artist';
+      out.push({
+        source:      'ai-art',
+        id:          `ai-art-${p.pageid}`,
+        title,
+        artist,
+        date:        htmlToText(meta.DateTimeOriginal?.value ?? '', 20),
+        medium:      'AI / generative art',
+        url:         info.thumburl,
+        srcLink:     info.descriptionurl || `https://commons.wikimedia.org/?curid=${p.pageid}`,
+        creditLabel: `${artist} · Wikimedia Commons (${meta.LicenseShortName?.value ?? 'open license'})`,
+        tags:        [term, 'generative art', 'AI art'],
+      });
+    }
+    return out;
+  } catch (e) {
+    warn(`AI art commons sourcer failed: ${e.message}`);
+    return [];
+  }
+}
+
 function rankImage(candidates, feedbackWeights, recentIds) {
   if (candidates.length === 0) return null;
 
@@ -753,6 +807,8 @@ function rankImage(candidates, feedbackWeights, recentIds) {
     'landscape', 'light', 'hudson river', 'pastoral', 'impressi',
     'serene', 'quiet', 'nature', 'watercolor', 'plein air', 'golden',
     'mist', 'autumn', 'coast', 'garden', 'reflection', 'dawn', 'dusk',
+    'generative', 'algorithmic', 'ai', 'neural', 'digital', 'fractal',
+    'abstract', 'soft', 'minimal', 'luminous',
   ];
 
   const scored = candidates.map(c => {
@@ -760,6 +816,7 @@ function rankImage(candidates, feedbackWeights, recentIds) {
 
     if (recentIds.includes(c.id)) score -= 10;
 
+    if (c.source === 'ai-art') score += 2.0;
     score += (iw.sourceAffinity?.[c.source] ?? 0) * 0.3;
 
     const blob = `${c.title} ${c.medium} ${c.tags.join(' ')}`.toLowerCase();
@@ -816,6 +873,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   const museumLabel = candidate.source === 'met'
     ? 'The Metropolitan Museum of Art'
     : candidate.source === 'aic' ? 'Art Institute of Chicago'
+    : candidate.source === 'ai-art' ? 'Wikimedia Commons'
     : 'Wikimedia Commons';
   const credit = candidate.creditLabel
     ?? (candidate.artist
@@ -829,7 +887,9 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
       ?? `${candidate.title} — ${candidate.medium || candidate.artist || 'a quiet study in light and form'}.`,
     credit,
     curator: composed?.curator
-      ?? 'Selected from public-domain works matching your aesthetic taste.',
+      ?? (candidate.source === 'ai-art'
+        ? 'Selected from openly licensed generative art matching your aesthetic taste.'
+        : 'Selected from public-domain works matching your aesthetic taste.'),
     url:     candidate.url,
     srcLink: candidate.srcLink,
     tags:    candidate.tags,
@@ -844,23 +904,28 @@ async function tileImage(feedbackWeights, recentIds) {
     return { image: override, sourceId: override.id ?? 'override' };
   }
 
-  // Source from the museum APIs plus Wikimedia Commons web discovery, concurrently.
-  const [metResult, aicResult, wikiResult] = await Promise.allSettled([
+  // Prefer openly licensed AI / generative art. Museum APIs remain graceful fallbacks.
+  const [aiArtResult, metResult, aicResult, wikiResult] = await Promise.allSettled([
+    sourceGenerativeArtCommons(targetDate, feedbackWeights),
     sourceMetMuseum(targetDate),
     sourceAIC(targetDate),
     sourceWikimediaCommons(targetDate, feedbackWeights),
   ]);
 
+  if (aiArtResult.status === 'rejected')
+    warn(`AI art sourcer failed: ${aiArtResult.reason?.message}`);
   if (metResult.status === 'rejected')
     warn(`Met Museum sourcer failed: ${metResult.reason?.message}`);
   if (aicResult.status === 'rejected')
     warn(`AIC sourcer failed: ${aicResult.reason?.message}`);
 
-  const all = [
+  const aiArt = aiArtResult.status === 'fulfilled' ? aiArtResult.value : [];
+  const fallback = [
     ...(metResult.status  === 'fulfilled' ? metResult.value  : []),
     ...(aicResult.status  === 'fulfilled' ? aicResult.value  : []),
     ...(wikiResult.status === 'fulfilled' ? wikiResult.value : []),
   ];
+  const all = aiArt.length ? aiArt : fallback;
   if (all.length === 0) return null;
 
   const best = rankImage(all, feedbackWeights, recentIds);

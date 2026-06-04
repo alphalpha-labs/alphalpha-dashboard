@@ -1583,6 +1583,26 @@ input { font-family: inherit; }
 }
 .almanac__content--mobile { padding: 0 20px; }
 
+.almanacOpeningStack {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .95fr) minmax(0, .95fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.almanacOpeningStack--mobile {
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.almanacOpeningStack .almanacShelfCard { padding-left: 18px; }
+.almanacQuoteCard {
+  min-width: 0;
+  text-align: center;
+  padding: 0 12px;
+}
+
 .almanac__lead {
   padding-bottom: 30px;
   border-bottom: 1px solid var(--border);
@@ -1752,6 +1772,7 @@ input { font-family: inherit; }
   align-items: start;
 }
 .almanac__shelf--mobile { grid-template-columns: 1fr; gap: 28px; }
+.almanac__shelf:not(.almanac__shelf--mobile) { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
 .almanacShelfCard { border-left: 1px solid #e3d9c6; padding-left: 22px; min-width: 0; }
 .almanacShelfCard--poem { border-left-color: color-mix(in oklch, var(--genre-surprise) 42%, #e3d9c6); }
 .almanacShelfTitle {

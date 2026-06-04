@@ -653,6 +653,16 @@ function PoemBlock({ poem, visibility, date, openThread }: { poem: DailyPoem; vi
   );
 }
 
+function QuoteCard({ quote, label }: { quote: { text: string; source: string }; label: string }) {
+  return (
+    <div className="almanacQuoteCard">
+      <div className="almanac__colophonLabel">{label}</div>
+      <div className="almanac__colophonText">&ldquo;{quote.text}&rdquo;</div>
+      <div className="almanac__colophonSource">{quote.source}</div>
+    </div>
+  );
+}
+
 function LongReadBlock({ read, visibility, date, openThread }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
   const item = { id: "longread:" + read.title, genre: "longread" as Genre, title: read.title, sub: read.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-longread", title: read.title, summary: read.thesis, category: "Macro / investment thesis" });
@@ -919,7 +929,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     : offset === 0 && liveEdition ? liveEdition
     : daily;
 
-  const lead = LEAD_ORDER[((dayIdx % LEAD_ORDER.length) + LEAD_ORDER.length) % LEAD_ORDER.length];
+  const lead = "image" as const;
   const rest = LEAD_ORDER.filter(t => t !== lead);
 
   // Build resolved daily with the right picks for this dayIdx
@@ -1082,6 +1092,14 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
 
       {/* Lead */}
       <div className={`almanac__content${isMobile ? " almanac__content--mobile" : ""}`}>
+        {(poem || quote || parentQuote) && (
+          <div className={`almanacOpeningStack${isMobile ? " almanacOpeningStack--mobile" : ""}`}>
+            {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
+            <QuoteCard quote={quote} label="On the mind" />
+            <QuoteCard quote={parentQuote} label="On raising them" />
+          </div>
+        )}
+
         <div className="almanac__lead">
           {renderBlock(lead, "lead")}
         </div>
@@ -1100,16 +1118,15 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <SurpriseBand s={surprise} visibility={vis} date={date} isMobile={isMobile} openThread={openThread} />
         </div>
 
-        {/* Reading shelf — poem + macro/investment thesis */}
-        {(poem || longRead) && (
+        {/* Reading shelf — macro/investment thesis */}
+        {longRead && (
           <div className="almanac__shelfWrap">
             <div className="almanac__workshopHead">
               <span className="almanac__workshopKicker">The Reading Shelf</span>
-              <span className="almanac__workshopSub">· one poem, one longer thesis</span>
+              <span className="almanac__workshopSub">· one longer thesis</span>
             </div>
             <div className={`almanac__shelf${isMobile ? " almanac__shelf--mobile" : ""}`}>
-              {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
-              {longRead && <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} />}
+              <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} />
             </div>
           </div>
         )}
@@ -1128,20 +1145,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           </div>
         )}
 
-        {/* Colophon */}
-        <div className={`almanac__colophon${isMobile ? " almanac__colophon--mobile" : ""}`}>
-          {[{ q: quote, label: "On the mind" }, { q: parentQuote, label: "On raising them" }].map(({ q, label }, i) => (
-            <div key={label} className="almanac__colophonGroup" style={{ display: "contents" }}>
-              {i === 1 && !isMobile && <div className="almanac__colophonRule" />}
-              {i === 1 && isMobile && <div className="almanac__colophonRuleMobile" />}
-              <div className="almanac__colophonQuote">
-                <div className="almanac__colophonLabel">{label}</div>
-                <div className="almanac__colophonText">&ldquo;{q.text}&rdquo;</div>
-                <div className="almanac__colophonSource">{q.source}</div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       <VentureModal venture={venture} date={date} readonly={!isToday} onClose={() => setVenture(null)} openThread={openThread} />
