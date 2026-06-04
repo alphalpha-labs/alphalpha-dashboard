@@ -78,7 +78,7 @@ type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: st
 type FeedbackState = { keeps: Record<string, KeepRecord>; tunes: Record<string, TuneRecord> };
 type RecrawlStatus = "idle" | "working" | "done" | "error";
 type AlmanacRunStatus = {
-  status?: "idle" | "running" | "done" | "error";
+  status?: "idle" | "queued" | "running" | "done" | "error";
   phase?: string;
   provider?: string;
   startedAt?: string;
@@ -871,6 +871,31 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
+  const applyRunStatus = useCallback(async (run: AlmanacRunStatus, announceDone = false) => {
+    const providerSuffix = run.provider ? ` · ${run.provider}` : "";
+    if (run.status === "queued" || run.status === "running") {
+      setRecrawlStatus("working");
+      setRecrawlPhase(`${run.phase || "Running"}${providerSuffix}`);
+      return;
+    }
+    if (run.status === "done") {
+      await loadTodayEdition().catch(() => {});
+      if (!announceDone) return;
+      setRecrawlStatus("done");
+      setRecrawlPhase(`${run.phase || "Updated"}${providerSuffix}`);
+      showToast("Today's Almanac has been regenerated");
+      window.setTimeout(() => {
+        setRecrawlStatus("idle");
+        setRecrawlPhase("");
+      }, 3200);
+      return;
+    }
+    if (run.status === "error") {
+      setRecrawlStatus("error");
+      setRecrawlPhase(run.error || run.phase || "Failed");
+    }
+  }, [loadTodayEdition]);
+
   const recrawlToday = async () => {
     if (recrawlStatus === "working") return;
     const today = fmtIso(dateForOffset(0));
@@ -886,6 +911,16 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     }
   };
 
+  // Pick up recrawls queued by another session so the dashboard still shows
+  // progress when it is opened after the job has started.
+  useEffect(() => {
+    if (!isToday) return;
+    const today = fmtIso(dateForOffset(0));
+    fetchAlmanacRunStatus(today)
+      .then(run => applyRunStatus(run, false))
+      .catch(() => {});
+  }, [applyRunStatus, isToday]);
+
   useEffect(() => {
     if (!isToday || recrawlStatus !== "working") return;
     let cancelled = false;
@@ -894,22 +929,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
       try {
         const run = await fetchAlmanacRunStatus(today);
         if (cancelled) return;
-        setRecrawlPhase(run.phase || (run.status === "running" ? "Running" : ""));
-        if (run.status === "done") {
-          await loadTodayEdition().catch(() => {});
-          if (!cancelled) {
-            setRecrawlStatus("done");
-            setRecrawlPhase("Updated");
-            showToast("Today's Almanac has been regenerated");
-            window.setTimeout(() => {
-              setRecrawlStatus("idle");
-              setRecrawlPhase("");
-            }, 3200);
-          }
-        } else if (run.status === "error") {
-          setRecrawlStatus("error");
-          setRecrawlPhase(run.error || "Failed");
-        }
+        await applyRunStatus(run, true);
       } catch {
         if (!cancelled) setRecrawlPhase("Waiting for status");
       }
@@ -920,7 +940,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
       cancelled = true;
       window.clearInterval(id);
     };
-  }, [isToday, loadTodayEdition, recrawlStatus]);
+  }, [applyRunStatus, isToday, recrawlStatus]);
 
   // Snapshot today's edition to the archive on first render
   useEffect(() => {
@@ -968,6 +988,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
                 onClick={recrawlToday}
                 disabled={recrawlStatus === "working"}
                 title="Ask OpenClaw to recrawl and regenerate today's Almanac"
+                aria-live="polite"
               >
                 {recrawlStatus === "working" && <span className="almanacRecrawlBtn__spinner" aria-hidden="true" />}
                 <span>

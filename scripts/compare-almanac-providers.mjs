@@ -26,6 +26,7 @@ if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
 
 const outDir = path.join(repoRoot, 'artifacts', 'almanac-bakeoff');
 fs.mkdirSync(outDir, { recursive: true });
+const tavilyUsagePath = path.resolve(repoRoot, '..', 'memory', 'almanac', 'tavily-usage.json');
 
 function extractJson(stdout) {
   const start = stdout.indexOf('{');
@@ -64,6 +65,46 @@ function host(url) {
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
 }
 
+function readJsonMaybe(file) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return null; }
+}
+
+function searchStats(run) {
+  const lines = run.stdout.split('\n');
+  const matches = lines
+    .map(line => line.match(/\[almanac\]\s+web:\s+".*?"\s+→\s+(\d+)\s+via\s+(\w+)/))
+    .filter(Boolean);
+  const searches = matches.length;
+  const usableResults = matches.reduce((sum, m) => sum + Number(m[1] || 0), 0);
+  const usableSearches = matches.filter(m => Number(m[1] || 0) > 0).length;
+  return {
+    searches,
+    usableSearches,
+    usableResults,
+    providerHits: [...new Set(matches.map(m => m[2]))],
+  };
+}
+
+function liveFixtureMap(run) {
+  const out = run.stdout;
+  const charts = out.match(/\[almanac\]\s+charts:.*\(You:(live|fix) Investing:(live|fix) AI:(live|fix)\)/);
+  return {
+    Read: /\[almanac\]\s+article:/.test(out) ? (/\[almanac\]\s+article:.*\(live\)/.test(out) ? 'live' : 'fixture') : 'unknown',
+    Look: /\[almanac\]\s+image:.*\(live\)/.test(out) ? 'live' : 'fixture',
+    Venture: /\[almanac\]\s+ventures:.*live/.test(out) ? 'live' : 'fixture',
+    Signal: charts ? `You:${charts[1]} Investing:${charts[2]} AI:${charts[3]}` : 'unknown',
+    Surprise: /\[almanac\]\s+surprise:.*\(live\)/.test(out) ? 'live' : 'fixture',
+    Riff: /\[almanac\]\s+riff:.*\(live\)/.test(out) ? 'live' : 'fixture',
+    Studio: /\[almanac\]\s+production:.*\(live\)/.test(out) ? 'live' : 'fixture',
+  };
+}
+
+function youtubeStatus(url) {
+  const id = (url || '').match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/)?.[1];
+  if (!id) return 'not YouTube';
+  return `embeddable candidate: https://www.youtube.com/embed/${id}`;
+}
+
 function titleFor(providerRun, tile) {
   const e = providerRun.edition;
   if (!e) return { title: 'generation failed', source: providerRun.stderr.split('\n').find(Boolean) ?? 'no JSON output', url: '' };
@@ -87,11 +128,38 @@ function summaryLines(run) {
 const runs = [runProvider('tavily'), runProvider('openclaw')];
 const [tavily, openclaw] = runs;
 const tiles = ['Read', 'Look', 'Venture', 'Signal', 'Surprise', 'Riff', 'Studio'];
+const usage = readJsonMaybe(tavilyUsagePath);
+const runDiagnostics = Object.fromEntries(runs.map(r => [r.provider, {
+  searches: searchStats(r),
+  liveFixture: liveFixtureMap(r),
+}]));
+const tavilyBurn = searchStats(tavily).searches;
 
 const jsonPath = path.join(outDir, `${date}.json`);
 fs.writeFileSync(jsonPath, JSON.stringify({
   date,
   generatedAt: new Date().toISOString(),
+  diagnostics: {
+    criteria: {
+      Read: 'Honors feedback: avoid x.com; prefer socio-political, economic, religious-cultural analysis.',
+      Signal: 'Real source-backed chart/data source vs curated/fixture fallback.',
+      'Riff / Studio': 'Real, embeddable, relevant YouTube URLs.',
+      Surprise: 'Fresh with a working source URL.',
+      Overall: 'Live-source quality improvement worth Tavily credit burn.',
+    },
+    runs: runDiagnostics,
+    tavilyCreditBurn: {
+      estimatedCreditsThisBakeoff: tavilyBurn,
+      usageLedger: usage ? {
+        updatedAt: usage.updatedAt,
+        startingCredits: usage.startingCredits,
+        cumulativeSearches: usage.cumulativeSearches,
+        estCreditsRemaining: usage.estCreditsRemaining,
+        estDaysLeft: usage.estDaysLeft,
+        projectedExhaustionDateAt12PerDay: usage.projectedExhaustionDateAt12PerDay,
+      } : null,
+    },
+  },
   runs: runs.map(r => ({
     provider: r.provider,
     ok: r.ok,
@@ -105,22 +173,75 @@ fs.writeFileSync(jsonPath, JSON.stringify({
 const table = tiles.map(tile => {
   const a = titleFor(tavily, tile);
   const b = titleFor(openclaw, tile);
-  return `| ${tile} | ${a.title || ''}<br>${a.url ? host(a.url) : (a.source || '')} | ${b.title || ''}<br>${b.url ? host(b.url) : (b.source || '')} |  |  |  |  |`;
+  const aLive = runDiagnostics.tavily.liveFixture[tile] ?? 'unknown';
+  const bLive = runDiagnostics.openclaw.liveFixture[tile] ?? 'unknown';
+  return `| ${tile} | ${a.title || ''}<br>${a.url ? host(a.url) : (a.source || '')}<br><small>${aLive}</small> | ${b.title || ''}<br>${b.url ? host(b.url) : (b.source || '')}<br><small>${bLive}</small> |  |  |  |  |`;
 }).join('\n');
+
+const youtubeRows = ['Riff', 'Studio'].map(tile => {
+  const a = titleFor(tavily, tile);
+  const b = titleFor(openclaw, tile);
+  return `| ${tile} | ${a.url || ''} | ${youtubeStatus(a.url)} | ${b.url || ''} | ${youtubeStatus(b.url)} |`;
+}).join('\n');
+
+function providerDiag(provider) {
+  const d = runDiagnostics[provider];
+  return [
+    `Searches issued: ${d.searches.searches}`,
+    `Usable search result batches: ${d.searches.usableSearches}/${d.searches.searches}`,
+    `Total usable result URLs: ${d.searches.usableResults}`,
+    `Provider hits: ${d.searches.providerHits.join(', ') || 'none'}`,
+    `Tiles: ${Object.entries(d.liveFixture).map(([k, v]) => `${k}=${v}`).join('; ')}`,
+  ];
+}
+
+const tavilyRunway = usage
+  ? [
+      `Estimated bakeoff burn: ${tavilyBurn} Tavily credits/searches.`,
+      `Ledger remaining: ${usage.estCreditsRemaining} credits; projected runway ${usage.estDaysLeft} days at 12/day; projected exhaustion ${usage.projectedExhaustionDateAt12PerDay}.`,
+      `Ledger updated: ${usage.updatedAt}.`,
+    ].join('\n')
+  : `Estimated bakeoff burn: ${tavilyBurn} Tavily credits/searches. No local Tavily usage ledger found at ${path.relative(repoRoot, tavilyUsagePath)}.`;
 
 const md = `# Almanac A/B Bake-off — ${date}
 
 Generated: ${new Date().toISOString()}
 
-Dry-run only. No edition was written to KV and no tuning feedback was changed.
+Dry-run only. No edition was written to KV and no tuning feedback was changed. Provider selection was forced once per run with \`ALMANAC_SEARCH_PROVIDER=tavily\` and \`ALMANAC_SEARCH_PROVIDER=openclaw\`; Tavily failures do not fall through to model-native search.
 
 ## How to Score
 
-Use 1-5 scores. Relevance means "would I actually want this in my daily Almanac?" Freshness means "does this feel timely or non-stale?" Source quality means "is the source real, inspectable, and better than fixture filler?"
+Use 1-5 scores:
+
+- Read: did it honor feedback, especially avoiding x.com and surfacing more socio-political, economic, religious-cultural analysis?
+- Signal: did it find a real source-backed chart/data source, or fall back to curated/fixture data?
+- Riff / Studio: are YouTube URLs real, embeddable, and relevant?
+- Surprise: is it genuinely fresh with a working source URL?
+- Overall: did one provider materially improve live-source quality enough to justify credit burn?
 
 | Tile | Tavily | OpenClaw web_search | Relevance | Freshness | Source quality | Winner |
 |---|---|---|---|---|---|---|
 ${table}
+
+## Diagnostics
+
+### Tavily
+
+${providerDiag('tavily').map(l => `- ${l}`).join('\n')}
+
+### OpenClaw web_search
+
+${providerDiag('openclaw').map(l => `- ${l}`).join('\n')}
+
+### YouTube Checks
+
+| Tile | Tavily URL | Tavily embed check | OpenClaw URL | OpenClaw embed check |
+|---|---|---|---|---|
+${youtubeRows}
+
+### Tavily Credit Burn
+
+${tavilyRunway}
 
 ## Provider Logs
 
