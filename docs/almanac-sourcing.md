@@ -134,17 +134,16 @@ Paid / rate-limited market-data APIs (FRED, EIA, news APIs, recipe APIs) are
   convention (already implemented in `BarChart`). **Phase 2:** wire FRED / EIA.
 - **Workspace-first:** ✅ "You" from manifests; market series from committed dataset.
 
-### 3.4 Look (image) — **requires a data-contract change**
-- **Contract gap:** `daily.image` currently has no URL. Add `url`, `srcLink`,
-  `tags` to the `DailyData["image"]` type in `lib/data.ts` (and the placeholder in
-  `ImageBlock`).
-- **Sourcer:** **Met Museum** + **Art Institute of Chicago** Open Access APIs —
-  free, no key, public-domain, searchable by medium / classification / color.
-  Matches the stated taste ("Parrish skies, Hudson-River light"). Plus a
-  user-dropped override stored in KV.
+### 3.4 Look (image)
+- **Contract:** `daily.image` carries `url`, `srcLink`, and `tags`, with the
+  existing placeholder as a fallback when no live candidate is available.
+- **Sourcer:** prefer tasteful AI / generative art from **Wikimedia Commons**
+  public-domain / CC candidates, then fall back to **Met Museum** +
+  **Art Institute of Chicago** Open Access APIs. A user-dropped override can still
+  be pinned through KV.
 - **Ranker:** taste vector learned from kept images.
 - **Composer:** LLM writes `caption` + `curator` note.
-- **Workspace-first:** ✅ Met/AIC are zero-key public APIs.
+- **Workspace-first:** ✅ Commons/Met/AIC are zero-key public APIs.
 
 ### 3.5 Surprise — most LLM-driven
 - **Sourcer:** rotating form pool (Word / Provocation / Artifact / Recipe); pick a
@@ -171,16 +170,13 @@ Paid / rate-limited market-data APIs (FRED, EIA, news APIs, recipe APIs) are
 | **0** | Infra: zod schema, feedback-weights aggregator, history/dedup store, generator harness, OpenClaw automation registration | low | Foundation for every tile. |
 | **1** | **Quotes** + **"You" chart** | none | Deterministic, zero external APIs — proves generate→validate→KV→dedup→feedback end to end. |
 | **2** | **Article** tile | low | Highest daily value; uses existing article queue. |
-| **3** | **Look** (image) | low–med | Contract change + Met/AIC public APIs. |
+| **3** | **Look** (image) | low–med | AI/generative Commons candidates + Met/AIC fallbacks. |
 | **4** | **Venture** | med | LLM + grounding discipline. |
 | **5** | **Surprise** | med | Mostly LLM, form rotation. |
 | **6** | Investing / AI charts: wire FRED / EIA; Article: add RSS; Venture: web-search grounding | med | External data sources, rate limits, keys. |
 
 ## 5. Open contract changes required
 
-- `lib/data.ts` → `DailyData["image"]`: add `url: string`, `srcLink?: string`,
-  `tags?: string[]`. Update `ImageBlock` to render the real image with the existing
-  placeholder as fallback.
 - Optional per-item `provenance?: { label: string; url: string }[]` across tiles to
   power the export-brief sourcing line.
 
@@ -216,7 +212,7 @@ These shape both the search **queries** and the LLM **curate()** selection step.
 | Tile | Web discovery |
 |------|---------------|
 | Reading | Web results merged into the article candidate pool (beyond hardcoded RSS), then ranked/composed as before; `url` carried through. |
-| Look | Wikimedia Commons (public-domain / CC only) added to the Met + AIC candidate pool. |
+| Look | AI/generative Wikimedia Commons candidates are preferred when available; Met + AIC remain fallbacks. |
 | Signal | Searches a citable trend, fetches page text, and the curator builds a small chart **using only stated figures** + a required `sourceUrl`. Strictly validated; falls back to the curated dataset. |
 | Venture | Workspace-grounded as before, then **web-augmented**: up to 2 cited market signals appended to the lead brief. |
 | Surprise | Artifact form discovers a fresh, source-cited object via search + curate. |

@@ -21,8 +21,9 @@
  *   - Article: sourced from Obsidian article-candidates dir; LLM writes dek + why
  *     (falls back gracefully when OpenClaw env vars are absent)
  *
- * Phase 3 tiles (public-domain APIs + optional LLM captions):
- *   - Image / Look: sourced from Met Museum + Art Institute of Chicago zero-key APIs;
+ * Phase 3 tiles (open-license APIs + optional LLM captions):
+ *   - Image / Look: prefers tasteful AI / generative art from Wikimedia Commons,
+ *     then falls back to Met Museum + Art Institute of Chicago zero-key APIs;
  *     LLM writes caption + curator note (falls back to candidate metadata)
  *
  * Phase 4 tiles (workspace candidates + LLM; 21-day dedup window):
@@ -749,13 +750,13 @@ async function sourceGenerativeArtCommons(targetDate, feedbackWeights) {
   const hints = feedbackHints(feedbackWeights.image ?? {});
   const seed  = dateHash(targetDate + '-ai-art');
   const base  = [
-    'AI generated art',
-    'generative art',
-    'algorithmic art',
-    'computer generated art',
-    'neural network art',
-    'fractal art',
-    'digital generative artwork',
+    'tasteful AI generated art',
+    'generative art luminous abstract',
+    'algorithmic art minimal',
+    'computer generated art soft light',
+    'neural network art abstract',
+    'fractal art elegant',
+    'digital generative artwork refined',
   ];
   const prefer = hints.prefer.find(h => /ai|generative|algorithm|digital|fractal|abstract/i.test(h));
   const term = prefer ?? base[seed % base.length];
@@ -881,7 +882,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
       : museumLabel);
 
   return {
-    kicker:  'Look',
+    kicker:  candidate.source === 'ai-art' ? 'AI Look' : 'Look',
     title:   candidate.title,
     caption: composed?.caption
       ?? `${candidate.title} — ${candidate.medium || candidate.artist || 'a quiet study in light and form'}.`,
@@ -1977,7 +1978,7 @@ async function main() {
     warn(`  article: ${e.message} — using fixture fallback`);
   }
 
-  // Phase 3 — Image / Look (public-domain APIs + optional LLM caption)
+  // Phase 3 — Image / Look (AI/generative art first, public-domain APIs as fallback)
   let image       = fixture.image;
   let usedImageId = null;
   try {

@@ -492,11 +492,14 @@ function ChartBlock({ d, size, visibility, date, openThread }: BlockProps) {
 function ImageBlock({ d, size, visibility, date }: BlockProps) {
   const lead = size === "lead";
   const title = d.image.title || "Today's image";
-  const item = { id: "image:daily", genre: "image" as Genre, title, sub: "Curated for your taste" };
+  const tagText = (d.image.tags ?? []).join(" ").toLowerCase();
+  const sourceText = `${d.image.kicker} ${d.image.credit} ${tagText}`.toLowerCase();
+  const isGenerative = /\b(ai|generative|algorithmic|neural|fractal)\b/.test(sourceText);
+  const item = { id: "image:daily", genre: "image" as Genre, title, sub: isGenerative ? "Tasteful AI-generated art" : "Curated for your taste" };
   const hasImage = !!d.image.url;
   return (
     <div className="card-hoverable">
-      <Kicker genre="image" extra={lead ? "Curated for your taste" : "for your taste"} />
+      <Kicker genre="image" extra={lead ? (isGenerative ? "Tasteful AI-generated art" : "Curated for your taste") : (isGenerative ? "AI-generated art" : "for your taste")} />
       <div className={`almanacImageSlot almanacImageSlot--${size}`}>
         {hasImage ? (
           d.image.srcLink ? (
@@ -1094,9 +1097,9 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
       <div className={`almanac__content${isMobile ? " almanac__content--mobile" : ""}`}>
         {(poem || quote || parentQuote) && (
           <div className={`almanacOpeningStack${isMobile ? " almanacOpeningStack--mobile" : ""}`}>
-            {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
             <QuoteCard quote={quote} label="On the mind" />
             <QuoteCard quote={parentQuote} label="On raising them" />
+            {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
           </div>
         )}
 

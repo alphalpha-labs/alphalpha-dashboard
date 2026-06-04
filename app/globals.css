@@ -1585,7 +1585,7 @@ input { font-family: inherit; }
 
 .almanacOpeningStack {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, .95fr) minmax(0, .95fr);
+  grid-template-columns: minmax(0, .95fr) minmax(0, .95fr) minmax(0, 1.1fr);
   gap: 28px;
   align-items: start;
   padding-bottom: 30px;
