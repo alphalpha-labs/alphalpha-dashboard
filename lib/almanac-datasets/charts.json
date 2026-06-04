@@ -6,6 +6,8 @@
     "unit": "$ bn",
     "note": "",
     "why": "",
+    "sourceUrl": "https://aiindex.stanford.edu/report/",
+    "sourceLabel": "Stanford HAI AI Index",
     "series": [
       { "label": "2020", "value": 36 },
       { "label": "2021", "value": 93 },
@@ -23,6 +25,8 @@
     "unit": "%",
     "note": "",
     "why": "",
+    "sourceUrl": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
+    "sourceLabel": "McKinsey State of AI",
     "series": [
       { "label": "Q4 2022", "value": 5 },
       { "label": "Q4 2023", "value": 28 },
@@ -39,6 +43,8 @@
     "unit": "$ bn",
     "note": "",
     "why": "",
+    "sourceUrl": "https://www.semiconductors.org/",
+    "sourceLabel": "SIA",
     "series": [
       { "label": "2020", "value": 18 },
       { "label": "2021", "value": 22 },
@@ -56,6 +62,8 @@
     "unit": "k tokens",
     "note": "",
     "why": "",
+    "sourceUrl": "https://epoch.ai/",
+    "sourceLabel": "Epoch AI",
     "series": [
       { "label": "2022", "value": 4 },
       { "label": "2023", "value": 100 },
@@ -71,6 +79,8 @@
     "unit": "%",
     "note": "",
     "why": "",
+    "sourceUrl": "https://github.blog/",
+    "sourceLabel": "GitHub Octoverse",
     "series": [
       { "label": "2022", "value": 4 },
       { "label": "2023", "value": 13 },
@@ -86,6 +96,8 @@
     "unit": "models",
     "note": "",
     "why": "",
+    "sourceUrl": "https://epoch.ai/",
+    "sourceLabel": "Epoch AI",
     "series": [
       { "label": "2022", "value": 2 },
       { "label": "2023", "value": 6 },

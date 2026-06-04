@@ -48,6 +48,18 @@
 import fs   from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  callOpenClaw,
+  createWebDiscovery,
+  feedbackHints,
+  extractYouTubeId,
+  htmlToText,
+  hostOf,
+} from './lib/web-discovery.mjs';
+
+// Feedback-honed web discovery, initialised in main(). null until then; tile
+// sourcers check `webDiscovery?.available` and fall back to curated sources.
+let webDiscovery = null;
 
 // ── Path setup ───────────────────────────────────────────────────────────────
 
@@ -174,6 +186,8 @@ function validateDailyData(data) {
   if (!Array.isArray(data.ventures))  throw new Error('ventures must be array');
   if (!Array.isArray(data.charts))    throw new Error('charts must be array');
   if (!Array.isArray(data.surprises)) throw new Error('surprises must be array');
+  if (data.riffs && !Array.isArray(data.riffs)) throw new Error('riffs must be array');
+  if (data.productionClips && !Array.isArray(data.productionClips)) throw new Error('productionClips must be array');
   validateQuotes(data.quotes);
   validateQuotes(data.parentingQuotes);
   for (const c of data.charts) validateChart(c);
@@ -303,37 +317,8 @@ function parseMarkdownLink(text) {
 }
 
 // ── OpenClaw LLM proxy ────────────────────────────────────────────────────────
-
-async function callOpenClaw(systemPrompt, userPrompt) {
-  const baseUrl = process.env.OPENCLAW_BASE_URL;
-  const token   = process.env.OPENCLAW_GATEWAY_TOKEN;
-  if (!baseUrl || !token) return null; // silently skip — caller decides fallback
-
-  const model = process.env.ALMANAC_COMPOSER_MODEL ?? 'claude-haiku-4-5-20251001';
-
-  const res = await fetch(`${baseUrl}/v1/responses`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-    signal:  AbortSignal.timeout(30_000),
-    body: JSON.stringify({
-      model,
-      instructions: systemPrompt,
-      input:  [{ type: 'message', role: 'user', content: userPrompt }],
-      stream: false,
-      user:   'dashboard:almanac-generator',
-    }),
-  });
-
-  if (!res.ok) throw new Error(`OpenClaw ${res.status}: ${await res.text().catch(() => '')}`);
-  const data = await res.json();
-  // Try OpenAI Responses API shape, then Anthropic Messages shape.
-  return (
-    data.output?.[0]?.content?.[0]?.text ??
-    data.output_text ??
-    data.content?.[0]?.text ??
-    null
-  );
-}
+// callOpenClaw now lives in scripts/lib/web-discovery.mjs (single implementation,
+// shared by the composer and the web_search-tool provider) and is imported above.
 
 // ── Context reader (open loops + projects from workspace) ─────────────────────
 
@@ -579,7 +564,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     warn(`article composer LLM failed: ${e.message} — using candidate text`);
   }
 
-  return {
+  const article = {
     kicker:   'Reading',
     source:   candidate.source ?? 'Unknown',
     readTime: composed?.readTime ?? fallbackReadTime,
@@ -587,17 +572,22 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
   };
+  // Link out to the source so the Reading tile is clickable (RSS/workspace candidates carry a URL).
+  if (candidate.link && /^https?:\/\//.test(candidate.link)) article.url = candidate.link;
+  return article;
 }
 
 async function tileArticle(feedbackWeights, recentIds, contextFiles) {
-  // Merge workspace candidates (primary) with RSS candidates (supplementary).
-  const [wsResult, rssResult] = await Promise.allSettled([
+  // Merge workspace candidates (primary), RSS, and feedback-honed web discovery.
+  const [wsResult, rssResult, webResult] = await Promise.allSettled([
     Promise.resolve(sourceArticleCandidates()),
     sourceRSSCandidates(feedbackWeights),
+    webSourceArticles(feedbackWeights, contextFiles),
   ]);
   const candidates = [
     ...(wsResult.status  === 'fulfilled' ? wsResult.value  : []),
     ...(rssResult.status === 'fulfilled' ? rssResult.value : []),
+    ...(webResult.status === 'fulfilled' ? webResult.value : []),
   ];
   if (candidates.length === 0) return null;
 
@@ -776,10 +766,12 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
 
   const museumLabel = candidate.source === 'met'
     ? 'The Metropolitan Museum of Art'
-    : 'Art Institute of Chicago';
-  const credit = candidate.artist
-    ? `${candidate.artist}${candidate.date ? `, ${candidate.date}` : ''} · ${museumLabel}`
-    : museumLabel;
+    : candidate.source === 'aic' ? 'Art Institute of Chicago'
+    : 'Wikimedia Commons';
+  const credit = candidate.creditLabel
+    ?? (candidate.artist
+      ? `${candidate.artist}${candidate.date ? `, ${candidate.date}` : ''} · ${museumLabel}`
+      : museumLabel);
 
   return {
     kicker:  'Look',
@@ -803,10 +795,11 @@ async function tileImage(feedbackWeights, recentIds) {
     return { image: override, sourceId: override.id ?? 'override' };
   }
 
-  // Source from both APIs concurrently.
-  const [metResult, aicResult] = await Promise.allSettled([
+  // Source from the museum APIs plus Wikimedia Commons web discovery, concurrently.
+  const [metResult, aicResult, wikiResult] = await Promise.allSettled([
     sourceMetMuseum(targetDate),
     sourceAIC(targetDate),
+    sourceWikimediaCommons(targetDate, feedbackWeights),
   ]);
 
   if (metResult.status === 'rejected')
@@ -815,8 +808,9 @@ async function tileImage(feedbackWeights, recentIds) {
     warn(`AIC sourcer failed: ${aicResult.reason?.message}`);
 
   const all = [
-    ...(metResult.status === 'fulfilled' ? metResult.value : []),
-    ...(aicResult.status === 'fulfilled' ? aicResult.value : []),
+    ...(metResult.status  === 'fulfilled' ? metResult.value  : []),
+    ...(aicResult.status  === 'fulfilled' ? aicResult.value  : []),
+    ...(wikiResult.status === 'fulfilled' ? wikiResult.value : []),
   ];
   if (all.length === 0) return null;
 
@@ -1073,6 +1067,12 @@ async function tileVentures(feedbackWeights, recentIds, contextFiles) {
     }
   }
 
+  // Web-augment the lead venture's market signals with cited, recent evidence.
+  if (ventures.length > 0) {
+    try { await webAugmentVentureSignals(ventures[0]); }
+    catch (e) { warn(`venture web-augment failed: ${e.message}`); }
+  }
+
   return ventures.length > 0 ? { ventures, usedIds } : null;
 }
 
@@ -1186,6 +1186,11 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     warn(`surprise composer LLM failed: ${e.message}`);
   }
 
+  // Source link for the Artifact form so the Surprise tile can point at its source.
+  const artifactSource = (form === 'Artifact' && artifact?.sourceUrl)
+    ? { sourceUrl: artifact.sourceUrl, sourceLabel: artifact.sourceLabel ?? 'Read more' }
+    : {};
+
   if (!composed?.title?.trim() || !composed?.body?.trim()) {
     // Non-LLM fallback for Artifact: use curated metadata directly.
     if (form === 'Artifact' && artifact) {
@@ -1194,6 +1199,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
         title: artifact.name,
         body:  artifact.context.slice(0, 250),
         note:  '',
+        ...artifactSource,
       };
     }
     return null; // Word / Provocation have no non-LLM fallback → fixture
@@ -1204,11 +1210,19 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     title: composed.title,
     body:  composed.body,
     note:  composed.note ?? '',
+    ...artifactSource,
   };
 }
 
 async function tileSurprise(feedbackWeights, recentIds, contextFiles) {
-  const { form, artifact, formId, artifactId } = sourceSurpriseForm(targetDate, recentIds);
+  let { form, artifact, formId, artifactId } = sourceSurpriseForm(targetDate, recentIds);
+  // Prefer a freshly web-discovered artifact (with a real source) over the dataset.
+  if (form === 'Artifact') {
+    try {
+      const web = await webSourceArtifact(feedbackWeights);
+      if (web?.name) { artifact = web; artifactId = web.id; }
+    } catch (e) { warn(`artifact web discovery failed: ${e.message}`); }
+  }
   const surprise = await composeSurprise(form, artifact, contextFiles);
   if (!surprise) return null;
 
@@ -1265,9 +1279,8 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   return null;
 }
 
-async function tileCuratedCharts(recentIds, contextFiles) {
+async function tileCuratedCharts(feedbackWeights, recentIds, contextFiles) {
   const dataset = loadChartsDataset();
-  if (dataset.length === 0) return null;
 
   function pickChart(topic) {
     const pool  = dataset.filter(c => c.topic === topic);
@@ -1275,14 +1288,20 @@ async function tileCuratedCharts(recentIds, contextFiles) {
     return fresh.length > 0 ? fresh[0] : (pool.length > 0 ? pool[0] : null);
   }
 
-  const investingRaw = pickChart('Investing');
-  const aiRaw        = pickChart('AI');
+  // Prefer a freshly web-discovered, source-cited chart; fall back to the dataset.
+  const [investingWeb, aiWeb] = await Promise.all([
+    webSourceChart(feedbackWeights, 'Investing').catch(() => null),
+    webSourceChart(feedbackWeights, 'AI').catch(() => null),
+  ]);
+  const investingRaw = investingWeb ?? pickChart('Investing');
+  const aiRaw        = aiWeb        ?? pickChart('AI');
 
   if (!investingRaw && !aiRaw) return null;
 
+  // Web picks already carry note/why; only dataset picks need the LLM note step.
   const [investingNoteResult, aiNoteResult] = await Promise.allSettled([
-    investingRaw ? composeChartNote(investingRaw, contextFiles) : Promise.resolve(null),
-    aiRaw        ? composeChartNote(aiRaw,        contextFiles) : Promise.resolve(null),
+    (!investingWeb && investingRaw) ? composeChartNote(investingRaw, contextFiles) : Promise.resolve(null),
+    (!aiWeb        && aiRaw)        ? composeChartNote(aiRaw,        contextFiles) : Promise.resolve(null),
   ]);
 
   function applyNote(raw, noteResult) {
@@ -1301,6 +1320,98 @@ async function tileCuratedCharts(recentIds, contextFiles) {
     ai:           applyNote(aiRaw, aiNoteResult),
     aiId:         aiRaw?.id ?? null,
   };
+}
+
+// ── Phase 7/8 Tiles: Workshop (guitar riff + production clip of the day) ───────
+
+const DIFFICULTY_RANK = { beginner: 0, intermediate: 1, advanced: 2 };
+
+function loadWorkshopDataset(file) {
+  const p = path.join(repoRoot, 'lib', 'almanac-datasets', file);
+  if (!fs.existsSync(p)) return [];
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+// Feedback-weighted ranker shared by both workshop tiles. Learns toward genres /
+// techniques the reader reacts well to ("more blues", kept items) and away from
+// recently-shown clips. `matchKeys` are the candidate fields prefs are matched against.
+function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) {
+  if (candidates.length === 0) return null;
+  const w = genreWeights ?? {};
+  const chipTallies = w.chipTallies ?? {};
+
+  // "more <thing>" chips + kept-item affinity build a preference vector.
+  const pref = {};
+  for (const [k, v] of Object.entries(chipTallies)) {
+    const m = k.match(/^more (.+)$/i);
+    if (m) pref[m[1].toLowerCase()] = (pref[m[1].toLowerCase()] ?? 0) + v;
+  }
+  for (const [src, v] of Object.entries(w.sourceAffinity ?? {})) {
+    pref[src.toLowerCase()] = (pref[src.toLowerCase()] ?? 0) + v;
+  }
+
+  // Difficulty drift from too-easy / too-hard / too-advanced signals.
+  const levelDrift = (chipTallies['too easy'] ?? 0)
+    - (chipTallies['too hard'] ?? 0) - (chipTallies['too advanced'] ?? 0);
+
+  const hash = dateHash(targetDate);
+  const scored = candidates.map((c, i) => {
+    let score = 1.0;
+
+    // Dedup: penalise anything shown in the recent window (by id or videoId).
+    if (recentIds.includes(`${idPrefix}-${c.id}`) || (c.videoId && recentIds.includes(c.videoId)))
+      score -= 10;
+
+    // Preference overlap across the candidate's descriptive fields.
+    const blob = matchKeys.map(k => c[k] ?? '').join(' ').toLowerCase();
+    for (const [p, v] of Object.entries(pref)) {
+      if (p && blob.includes(p)) score += v * 0.4;
+    }
+
+    // Nudge difficulty toward the drift when the candidate declares one.
+    if (c.difficulty) {
+      const dr = DIFFICULTY_RANK[String(c.difficulty).toLowerCase()] ?? 1;
+      const target = levelDrift > 0 ? 2 : levelDrift < 0 ? 0 : 1;
+      score += (2 - Math.abs(dr - target)) * 0.1;
+    }
+
+    // Deterministic daily rotation as the tiebreak.
+    score += ((hash + i) % candidates.length) * 0.001;
+    return { ...c, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].score < -5 ? null : scored[0];
+}
+
+function toEditionItem(candidate) {
+  // Strip generator-only fields (id, tags, score) — the edition stores the schema shape.
+  const { id, tags, score, ...item } = candidate;
+  return item;
+}
+
+async function tileRiff(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('riffs.json');
+  const web = await webSourceRiffs(feedbackWeights).catch(() => []);
+  const pool = [...web, ...dataset];
+  if (pool.length === 0) return null;
+  const best = rankWorkshop(pool, feedbackWeights.riff, recentIds, 'riff', ['genre', 'difficulty']);
+  if (!best) return null;
+  const riff = toEditionItem(best);
+  if (!riff.videoId || !riff.title) throw new Error('riff missing videoId/title after rank');
+  return { riff, usedId: `riff-${best.id}` };
+}
+
+async function tileProduction(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('production.json');
+  const web = await webSourceProduction(feedbackWeights).catch(() => []);
+  const pool = [...web, ...dataset];
+  if (pool.length === 0) return null;
+  const best = rankWorkshop(pool, feedbackWeights.production, recentIds, 'production', ['daw', 'technique']);
+  if (!best) return null;
+  const clip = toEditionItem(best);
+  if (!clip.videoId || !clip.title) throw new Error('production clip missing videoId/title after rank');
+  return { clip, usedId: `production-${best.id}` };
 }
 
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
@@ -1416,6 +1527,229 @@ async function runTile(name, fn, fallbackValue) {
   }
 }
 
+// ── Web discovery sourcers (feedback-honed; every one degrades to fallback) ───
+
+const UA = 'AlphalphaDashboard/1.0 almanac-discovery';
+
+function titleCase(s) { return String(s || '').replace(/\b\w/g, c => c.toUpperCase()); }
+
+// Pull a few salient keywords from the workspace context to focus queries.
+function topicKeywords(contextFiles, max = 3) {
+  const text = `${contextFiles.openLoopsText}\n${contextFiles.projectsText}`.toLowerCase();
+  const stop = new Set(['should','context','project','projects','almanac','dashboard','status',
+    'update','review','decision','workflow','system','source','build','build','current','about']);
+  const freq = {};
+  for (const w of text.match(/[a-z][a-z-]{5,}/g) ?? []) {
+    if (!stop.has(w)) freq[w] = (freq[w] ?? 0) + 1;
+  }
+  return Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, max).map(([w]) => w);
+}
+
+// Reading — discover fresh long-form beyond the hardcoded RSS list.
+async function webSourceArticles(feedbackWeights, contextFiles) {
+  if (!webDiscovery?.available) return [];
+  const hints  = feedbackHints(feedbackWeights.article ?? {});
+  const topics = topicKeywords(contextFiles, 3);
+  const prefer = hints.prefer.slice(0, 2);
+  const queries = [
+    `best long-form essay 2026 ${[...prefer, topics[0]].filter(Boolean).join(' ')}`.trim(),
+    topics[1] ? `in-depth article ${topics.slice(0, 2).join(' ')} ${prefer[0] ?? ''}`.trim() : null,
+  ].filter(Boolean);
+  const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
+  return results
+    .map((r, i) => ({
+      id:     `web-article-${hostOf(r.url)}-${i}`,
+      title:  r.title,
+      status: 'Queued',
+      source: hostOf(r.url),
+      link:   r.url,
+      why:    (r.snippet || '').slice(0, 200) || 'Surfaced via daily web discovery.',
+      themes: [],
+    }))
+    .filter(c => c.title && c.link);
+}
+
+// Riff — search YouTube for fresh tutorials in the reader's preferred genres.
+const RIFF_DEFAULT_GENRES = ['blues', 'funk', 'fingerstyle'];
+async function webSourceRiffs(feedbackWeights) {
+  if (!webDiscovery?.available) return [];
+  const hints  = feedbackHints(feedbackWeights.riff ?? {});
+  const genres = (hints.prefer.length ? hints.prefer : RIFF_DEFAULT_GENRES).slice(0, 3);
+  const queries = genres.map(g => `${g} guitar riff lesson tutorial site:youtube.com`);
+  const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
+  const out = [];
+  for (const r of results) {
+    const vid = extractYouTubeId(r.url);
+    if (!vid) continue;
+    const blob = `${r.title} ${r.snippet}`.toLowerCase();
+    const g = genres.find(x => blob.includes(x)) ?? genres[0];
+    out.push({
+      id:         `web-${vid}`,
+      title:      r.title || 'Guitar riff',
+      artist:     r.source || 'YouTube',
+      genre:      titleCase(g),
+      difficulty: 'Intermediate',
+      videoId:    vid,
+      why:        (r.snippet || '').slice(0, 140) || `A ${g} riff worth learning today.`,
+      sourceUrl:  `https://www.youtube.com/watch?v=${vid}`,
+    });
+  }
+  return out;
+}
+
+// Production — search YouTube for fresh technique/inspiration clips (Ableton-leaning).
+async function webSourceProduction(feedbackWeights) {
+  if (!webDiscovery?.available) return [];
+  const hints = feedbackHints(feedbackWeights.production ?? {});
+  const prefs = hints.prefer.length ? hints.prefer : ['ableton sound design', 'ableton arrangement', 'electronic music production technique'];
+  const queries = prefs.slice(0, 3).map(p => `${p} tutorial site:youtube.com`);
+  const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
+  const out = [];
+  for (const r of results) {
+    const vid = extractYouTubeId(r.url);
+    if (!vid) continue;
+    const blob = `${r.title} ${r.snippet}`.toLowerCase();
+    out.push({
+      id:        `web-${vid}`,
+      title:     r.title || 'Production technique',
+      creator:   r.source || 'YouTube',
+      daw:       blob.includes('ableton') ? 'Ableton Live' : 'DAW-agnostic',
+      technique: blob.includes('sound design') ? 'Sound design'
+        : /arrang/.test(blob) ? 'Arrangement'
+        : /\bmix/.test(blob) ? 'Mixing' : 'Technique',
+      videoId:   vid,
+      why:       (r.snippet || '').slice(0, 140) || 'A production idea to try in your next session.',
+      sourceUrl: `https://www.youtube.com/watch?v=${vid}`,
+    });
+  }
+  return out;
+}
+
+// Surprise (Artifact form) — discover a fresh remarkable object with a real source.
+async function webSourceArtifact(feedbackWeights) {
+  if (!webDiscovery?.available) return null;
+  const hints = feedbackHints(feedbackWeights.surprise ?? {});
+  const q = `fascinating little-known historical artifact OR object ${hints.prefer.slice(0, 2).join(' ')}`.trim();
+  const results = await webDiscovery.search(q, { count: 6 });
+  if (!results.length) return null;
+  const picked = await webDiscovery.curate({
+    task: 'Choose one genuinely remarkable, lesser-known historical artifact or object to feature today.',
+    candidates: results,
+    hints,
+    responseShape: '{"name":"…","context":"≤250 chars: what it is + why it is remarkable","url":"<one candidate url>"}',
+  });
+  if (!picked?.name || !picked?.url || !results.some(r => r.url === picked.url)) return null;
+  return {
+    id: `web-artifact-${hostOf(picked.url)}`,
+    name: picked.name,
+    context: (picked.context ?? '').slice(0, 250),
+    themes: [],
+    sourceUrl: picked.url,
+    sourceLabel: hostOf(picked.url),
+  };
+}
+
+// Signal — discover a citable trend and build a small chart from STATED figures only.
+async function webSourceChart(feedbackWeights, topic) {
+  if (!webDiscovery?.available) return null;
+  const hints = feedbackHints(feedbackWeights.chart ?? {});
+  const q = `${topic} trend statistics 2024 2025 2026 report figures ${hints.prefer.slice(0, 1).join(' ')}`.trim();
+  const results = await webDiscovery.search(q, { count: 6 });
+  if (!results.length) return null;
+  // Enrich top results with page text so the model has real figures to quote.
+  for (const r of results.slice(0, 3)) {
+    const text = await webDiscovery.fetchText(r.url, { maxChars: 1200 });
+    if (text) r.snippet = `${r.snippet}\n${text}`.slice(0, 1400);
+  }
+  const picked = await webDiscovery.curate({
+    task: `Build one small ${topic} bar chart from a single credible source. Use ONLY numeric figures explicitly stated in the candidate text — never invent or estimate numbers. If no concrete figures are present, skip.`,
+    candidates: results,
+    hints,
+    context: `Topic: ${topic}.`,
+    responseShape: '{"title":"≤60 chars","unit":"e.g. $ bn","series":[{"label":"2024","value":110}, …3-7 points],"note":"≤200 chars","why":"≤120 chars","url":"<one candidate url>"}',
+  });
+  if (!picked) return null;
+  const series = Array.isArray(picked.series)
+    ? picked.series.filter(p => p && typeof p.value === 'number' && p.label).slice(0, 7)
+    : [];
+  if (series.length < 2) return null;
+  if (!picked.title || !picked.url || !results.some(r => r.url === picked.url)) return null;
+  return {
+    id: `web-chart-${hostOf(picked.url)}`,
+    topic,
+    title: picked.title,
+    unit: picked.unit ?? '',
+    note: picked.note ?? '',
+    why: picked.why ?? '',
+    series,
+    sourceUrl: picked.url,
+    sourceLabel: hostOf(picked.url),
+  };
+}
+
+// Look — discover a fresh public-domain / CC image via Wikimedia Commons (zero-key).
+async function sourceWikimediaCommons(targetDate, feedbackWeights) {
+  if (process.env.ALMANAC_DISABLE_WEB === '1') return [];
+  const hints = feedbackHints(feedbackWeights.image ?? {});
+  const seed  = dateHash(targetDate + '-wiki');
+  const base  = ['landscape painting', 'impressionist landscape', 'pastoral landscape', 'seascape painting', 'plein air landscape'];
+  const term  = hints.prefer[0] ?? base[seed % base.length];
+  const api = `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search` +
+    `&gsrnamespace=6&gsrlimit=10&gsrsearch=${encodeURIComponent(term + ' painting')}` +
+    `&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1000&origin=*`;
+  try {
+    const res = await fetch(api, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(8_000) });
+    if (!res.ok) return [];
+    const d = await res.json();
+    const out = [];
+    for (const p of Object.values(d.query?.pages ?? {})) {
+      const info = p.imageinfo?.[0];
+      if (!info?.thumburl) continue;
+      const meta    = info.extmetadata ?? {};
+      const license = (meta.LicenseShortName?.value ?? '').toLowerCase();
+      // Public-domain / Creative-Commons only.
+      if (!/public domain|cc0|cc by|pd-|pd /.test(license)) continue;
+      const artist = htmlToText(meta.Artist?.value ?? '', 80) || 'Unknown artist';
+      out.push({
+        source:      'wikimedia',
+        id:          `wiki-${p.pageid}`,
+        title:       (p.title || '').replace(/^File:/, '').replace(/\.[a-z]+$/i, '').trim() || 'Untitled',
+        artist,
+        date:        htmlToText(meta.DateTimeOriginal?.value ?? '', 20),
+        medium:      '',
+        url:         info.thumburl,
+        srcLink:     info.descriptionurl || `https://commons.wikimedia.org/?curid=${p.pageid}`,
+        creditLabel: `${artist} · Wikimedia Commons (${meta.LicenseShortName?.value ?? 'public domain'})`,
+        tags:        [term],
+      });
+    }
+    return out;
+  } catch (e) {
+    warn(`wikimedia sourcer failed: ${e.message}`);
+    return [];
+  }
+}
+
+// Venture — web-augment the brief with 1-2 source-tagged market signals.
+async function webAugmentVentureSignals(venture) {
+  if (!webDiscovery?.available || !venture) return;
+  const q = `${venture.title} market size growth competitors 2025 2026`;
+  const results = await webDiscovery.search(q, { count: 5 });
+  if (!results.length) return;
+  const picked = await webDiscovery.curate({
+    task: 'Extract up to 2 concrete, recent market signals for this venture, each grounded in a candidate. Do not invent figures.',
+    candidates: results,
+    context: `Venture: ${venture.title}. Pitch: ${venture.pitch}`,
+    responseShape: '{"signals":[{"text":"≤90 chars","url":"<one candidate url>"}]}',
+  });
+  const adds = Array.isArray(picked?.signals) ? picked.signals : [];
+  for (const s of adds.slice(0, 2)) {
+    if (s?.text && s?.url && results.some(r => r.url === s.url)) {
+      venture.research.signals.push(`${s.text} (${hostOf(s.url)})`);
+    }
+  }
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -1447,7 +1781,11 @@ async function main() {
 
   const contextFiles = readContextFiles();
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds] = await Promise.all([
+  // Feedback-honed web discovery layer (pluggable provider; budgeted per run).
+  webDiscovery = createWebDiscovery({ log, warn });
+  log(`Web discovery: ${webDiscovery.provider}${webDiscovery.available ? ' (active)' : ' (fallback — curated sources)'}`);
+
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
@@ -1455,11 +1793,13 @@ async function main() {
     getRecentIds('image'),
     getRecentIds('venture', 21),  // ventures cycle slowly; 21-day window
     getRecentIds('surprise', 7),  // 7-day window — 3 forms cycle in ~3 days each
+    getRecentIds('riff', 7),      // riff pool rotates daily; 7-day no-repeat window
+    getRecentIds('production', 4),// smaller pool; 4-day no-repeat window
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length} riff:${recentRiffIds.length} production:${recentProductionIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -1545,7 +1885,7 @@ async function main() {
   let liveAIChart        = null;
   const chartUsedIds     = youChart ? [`you-chart-${targetDate}`] : [];
   try {
-    const result = await tileCuratedCharts(recentChartIds, contextFiles);
+    const result = await tileCuratedCharts(feedbackWeights, recentChartIds, contextFiles);
     if (result) {
       liveInvestingChart = result.investing ?? null;
       liveAIChart        = result.ai        ?? null;
@@ -1568,6 +1908,38 @@ async function main() {
   ].filter(Boolean);
   if (charts.length === 0) charts = fixture.charts ?? [];
 
+  // Phase 7 — Guitar riff of the day (curated dataset + feedback-weighted rank)
+  let riffs       = fixture.riffs ?? [];
+  let usedRiffIds = [];
+  try {
+    const result = await tileRiff(feedbackWeights, recentRiffIds);
+    if (result) {
+      riffs = [result.riff];
+      usedRiffIds = [result.usedId];
+      log(`  riff: OK — "${result.riff.title.slice(0, 50)}" (${result.riff.genre})`);
+    } else {
+      log('  riff: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  riff: ${e.message} — using fixture fallback`);
+  }
+
+  // Phase 8 — Production technique / inspiration clip of the day
+  let productionClips       = fixture.productionClips ?? [];
+  let usedProductionIds     = [];
+  try {
+    const result = await tileProduction(feedbackWeights, recentProductionIds);
+    if (result) {
+      productionClips = [result.clip];
+      usedProductionIds = [result.usedId];
+      log(`  production: OK — "${result.clip.title.slice(0, 50)}" (${result.clip.daw})`);
+    } else {
+      log('  production: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  production: ${e.message} — using fixture fallback`);
+  }
+
   // ── Assemble & validate ───────────────────────────────────────────────────
 
   const edition = {
@@ -1579,6 +1951,8 @@ async function main() {
     quotes,
     parentingQuotes,
     surprises,
+    riffs,
+    productionClips,
   };
 
   try {
@@ -1596,6 +1970,8 @@ async function main() {
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
   log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${liveAIChart ? 'live' : 'fix'})`);
+  log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
@@ -1627,6 +2003,8 @@ async function main() {
     usedImageId                    ? recordUsed('image',    [usedImageId],   targetDate) : Promise.resolve(),
     usedVentureIds.length > 0      ? recordUsed('venture',  usedVentureIds,  targetDate) : Promise.resolve(),
     usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),
+    usedRiffIds.length > 0         ? recordUsed('riff',     usedRiffIds,     targetDate) : Promise.resolve(),
+    usedProductionIds.length > 0   ? recordUsed('production', usedProductionIds, targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');

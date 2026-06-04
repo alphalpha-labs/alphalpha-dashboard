@@ -70079,7 +70079,8 @@
       "readTime": "11 min",
       "title": "The notebook beats the model: why durable notes outlast clever retrieval",
       "dek": "A case that the bottleneck in personal knowledge work was never search \u2014 it was the discipline of writing things down in a form your future self can trust.",
-      "why": "Lands squarely on your source-of-truth question. The argument for file-backed, human-readable memory is the same one you\u2019re making for Alphalpha."
+      "why": "Lands squarely on your source-of-truth question. The argument for file-backed, human-readable memory is the same one you\u2019re making for Alphalpha.",
+      "url": "https://worksinprogress.co/"
     },
     "ventures": [
       {
@@ -70181,7 +70182,9 @@
             "label": "'30e",
             "value": 88
           }
-        ]
+        ],
+        "sourceUrl": "https://www.iea.org/",
+        "sourceLabel": "IEA"
       },
       {
         "topic": "AI",
@@ -70210,7 +70213,9 @@
             "label": "'27e",
             "value": 0.3
           }
-        ]
+        ],
+        "sourceUrl": "https://epoch.ai/",
+        "sourceLabel": "Epoch AI"
       },
       {
         "topic": "You",
@@ -70283,7 +70288,9 @@
         "form": "Word",
         "title": "sonder",
         "body": "n. \u2014 the realization that each passerby is living a life as vivid and complex as your own.",
-        "note": "From the Dictionary of Obscure Sorrows. Felt adjacent to your note on holding more people in mind."
+        "note": "From the Dictionary of Obscure Sorrows. Felt adjacent to your note on holding more people in mind.",
+        "sourceUrl": "https://www.dictionaryofobscuresorrows.com/",
+        "sourceLabel": "Dictionary of Obscure Sorrows"
       },
       {
         "form": "Provocation",
@@ -70295,13 +70302,159 @@
         "form": "Artifact",
         "title": "The Voyager Golden Record cover diagram",
         "body": "The pulsar map etched to tell whoever finds it where \u2014 and when \u2014 we were. A whole civilization\u2019s return address in line art.",
-        "note": "You keep returning to durable, self-describing formats. Here\u2019s the most ambitious one ever made."
+        "note": "You keep returning to durable, self-describing formats. Here\u2019s the most ambitious one ever made.",
+        "sourceUrl": "https://voyager.jpl.nasa.gov/golden-record/",
+        "sourceLabel": "NASA / JPL"
       },
       {
         "form": "Recipe",
         "title": "Cacio e pepe, the three-ingredient proof",
         "body": "Pasta water, pecorino, black pepper. No cream, no butter. The hardest simple thing \u2014 emulsion is everything.",
         "note": "A small Friday-night win you can pull off with what\u2019s in the house."
+      }
+    ],
+    "riffs": [
+      {
+        "title": "The Hendrix riff you can play forever and not get bored",
+        "artist": "RJ Ronquillo",
+        "genre": "Blues-rock",
+        "difficulty": "Intermediate",
+        "videoId": "rj-YurbfhRE",
+        "why": "A thumb-over chord-melody move in the Hendrix tradition \u2014 endlessly loopable once it's in the hands.",
+        "note": "Focus on the thumb fretting the low E so the top voices ring while you embellish underneath.",
+        "sourceUrl": "https://youtu.be/rj-YurbfhRE"
+      },
+      {
+        "title": "An easy trick for cool fingerstyle blues riffs",
+        "artist": "Fingerstyle blues lesson",
+        "genre": "Fingerstyle",
+        "difficulty": "Beginner",
+        "videoId": "ovNbB2i-jG0",
+        "why": "A repeatable shape that turns a plain blues into a thumb-and-fingers groove you can improvise over.",
+        "note": "Keep a steady alternating thumb bass while the top moves \u2014 that contrast is the whole sound.",
+        "sourceUrl": "https://youtu.be/ovNbB2i-jG0"
+      },
+      {
+        "title": "Funky blues-style rhythm groove",
+        "artist": "Funk guitar lesson",
+        "genre": "Funk",
+        "difficulty": "Intermediate",
+        "videoId": "7i6KcQqvl28",
+        "why": "Dominant-7 stabs answered by single low notes \u2014 a tight call-and-response groove in E.",
+        "note": "Mute hard with the fretting hand between stabs; the silence is what makes it funky.",
+        "sourceUrl": "https://youtu.be/7i6KcQqvl28"
+      },
+      {
+        "title": "A funk-blues groove riff in E",
+        "artist": "Funk guitar lesson",
+        "genre": "Funk",
+        "difficulty": "Beginner",
+        "videoId": "R7SJQ5eBdxM",
+        "why": "Mixes dom-7 chords with single low-string notes \u2014 an approachable on-ramp into funk rhythm.",
+        "note": "Lock the strum hand to a steady 16th-note motion and let the fretting hand pick what sounds.",
+        "sourceUrl": "https://youtu.be/R7SJQ5eBdxM"
+      },
+      {
+        "title": "Ten easy bluesy riffs for beginners",
+        "artist": "Blues guitar lesson",
+        "genre": "Blues",
+        "difficulty": "Beginner",
+        "videoId": "wZevnsXReuY",
+        "why": "A pocket grab-bag of classic blues moves \u2014 learn one a sitting and bank the rest.",
+        "note": "Pick the one that sounds most like a song you love and drill it slow with a metronome.",
+        "sourceUrl": "https://youtu.be/wZevnsXReuY"
+      },
+      {
+        "title": "Play blues in any key with this one riff",
+        "artist": "Blues guitar lesson",
+        "genre": "Blues",
+        "difficulty": "Beginner",
+        "videoId": "okU5U4or928",
+        "why": "A movable shape that transposes anywhere \u2014 one pattern, twelve keys.",
+        "note": "Memorise the root on the low E so you can slide the whole shape to any key on the fly.",
+        "sourceUrl": "https://youtu.be/okU5U4or928"
+      },
+      {
+        "title": "Three blues riffs every guitarist should know",
+        "artist": "Blues guitar lesson",
+        "genre": "Blues",
+        "difficulty": "Beginner",
+        "videoId": "EojOW1rFcvw",
+        "why": "Three vocabulary staples that show up across the whole blues canon.",
+        "note": "Chain them into a 12-bar \u2014 riff one over the I, the others over the IV and V.",
+        "sourceUrl": "https://youtu.be/EojOW1rFcvw"
+      },
+      {
+        "title": "A fingerstyle acoustic funk-blues groove",
+        "artist": "Fingerstyle guitar lesson",
+        "genre": "Fingerstyle",
+        "difficulty": "Intermediate",
+        "videoId": "_LRzg89NL3k",
+        "why": "An E7-centred groove that puts funk feel under fingerstyle \u2014 percussive and melodic at once.",
+        "note": "Add a light palm slap on the backbeat to fake a drummer while you play.",
+        "sourceUrl": "https://youtu.be/_LRzg89NL3k"
+      },
+      {
+        "title": "Three levels of a one-chord funk groove",
+        "artist": "Funk guitar lesson",
+        "genre": "Funk",
+        "difficulty": "Intermediate",
+        "videoId": "m8JTBw5_0tg",
+        "why": "Same vamp, three depths \u2014 a clean ladder from simple comp to full funk workout.",
+        "note": "Start at level one and only move up once the 16th-note strum stays metronome-tight.",
+        "sourceUrl": "https://youtu.be/m8JTBw5_0tg"
+      }
+    ],
+    "productionClips": [
+      {
+        "title": "Why Clams Casino's beats are so euphoric",
+        "creator": "Beat breakdown",
+        "daw": "DAW-agnostic",
+        "technique": "Sampling & atmosphere",
+        "videoId": "lqazOnFWatM",
+        "why": "A breakdown of how blown-out, reverb-drenched samples create that weightless cloud-rap haze.",
+        "note": "Steal the move: pitch a vocal sample down, drown it in reverb, then sidechain it to the kick.",
+        "sourceUrl": "https://www.youtube.com/watch?v=lqazOnFWatM"
+      },
+      {
+        "title": "Make a melodic house track start to finish",
+        "creator": "Production Music Live",
+        "daw": "Ableton Live",
+        "technique": "Arrangement",
+        "videoId": "La5h9Zl6g_8",
+        "why": "Watch a full loop become a finished arrangement \u2014 the part most tracks die before reaching.",
+        "note": "Note where they use subtractive arrangement: strip elements to build tension before the drop.",
+        "sourceUrl": "https://www.youtube.com/watch?v=La5h9Zl6g_8"
+      },
+      {
+        "title": "Sound-design in Serum 2 like the pros",
+        "creator": "Sound design tutorial",
+        "daw": "DAW-agnostic",
+        "technique": "Synth sound design",
+        "videoId": "CefGLB87Vks",
+        "why": "Wavetable, modulation and FX moves that separate a flat patch from a pro-sounding one.",
+        "note": "Try one idea tonight: assign an LFO to wavetable position for instant movement.",
+        "sourceUrl": "https://www.youtube.com/watch?v=CefGLB87Vks"
+      },
+      {
+        "title": "An Ableton + Serum 2 sound-design session",
+        "creator": "Sound design session",
+        "daw": "Ableton Live",
+        "technique": "Sound design",
+        "videoId": "Cnm-YKOxSZg",
+        "why": "Real-time patch building inside Ableton \u2014 see the workflow, not just the finished sound.",
+        "note": "Watch how they resample a synth to audio, then re-process it in Simpler for new textures.",
+        "sourceUrl": "https://www.youtube.com/watch?v=Cnm-YKOxSZg"
+      },
+      {
+        "title": "Serum 2: LFO lead & pad for melodic house / techno",
+        "creator": "Synth tutorial",
+        "daw": "DAW-agnostic",
+        "technique": "Modulation",
+        "videoId": "OdInZtaxqGY",
+        "why": "Modulation-first patching \u2014 the difference between a static pad and one that breathes.",
+        "note": "Copy the LFO routing onto a bass patch and you've got a moving Reese in minutes.",
+        "sourceUrl": "https://www.youtube.com/watch?v=OdInZtaxqGY"
       }
     ]
   }

@@ -10,10 +10,12 @@ export const QuoteSchema = z.object({
 });
 
 export const SurpriseSchema = z.object({
-  form:  z.string().min(1),
-  title: z.string().min(1),
-  body:  z.string().min(1),
-  note:  z.string(),
+  form:        z.string().min(1),
+  title:       z.string().min(1),
+  body:        z.string().min(1),
+  note:        z.string(),
+  sourceUrl:   z.string().url().optional(),
+  sourceLabel: z.string().optional(),
 });
 
 export const ChartSeriesPointSchema = z.object({
@@ -22,12 +24,40 @@ export const ChartSeriesPointSchema = z.object({
 });
 
 export const DailyChartSchema = z.object({
-  topic:  z.string().min(1),
-  title:  z.string().min(1),
-  unit:   z.string(),
-  note:   z.string(),
-  why:    z.string(),
-  series: z.array(ChartSeriesPointSchema).min(1),
+  topic:       z.string().min(1),
+  title:       z.string().min(1),
+  unit:        z.string(),
+  note:        z.string(),
+  why:         z.string(),
+  series:      z.array(ChartSeriesPointSchema).min(1),
+  sourceUrl:   z.string().url().optional(),
+  sourceLabel: z.string().optional(),
+});
+
+// ── Workshop tiles: guitar riff + production clip of the day ──────────────────
+
+export const DailyRiffSchema = z.object({
+  title:      z.string().min(1),
+  artist:     z.string(),
+  genre:      z.string(),
+  difficulty: z.string(),
+  videoId:    z.string().min(1),
+  start:      z.number().nonnegative().optional(),
+  why:        z.string(),
+  note:       z.string().optional(),
+  sourceUrl:  z.string().url().optional(),
+});
+
+export const DailyProductionClipSchema = z.object({
+  title:      z.string().min(1),
+  creator:    z.string(),
+  daw:        z.string(),
+  technique:  z.string(),
+  videoId:    z.string().min(1),
+  start:      z.number().nonnegative().optional(),
+  why:        z.string(),
+  note:       z.string().optional(),
+  sourceUrl:  z.string().url().optional(),
 });
 
 export const DailyVentureResearchSchema = z.object({
@@ -69,6 +99,7 @@ export const DailyArticleSchema = z.object({
   title:    z.string().min(1),
   dek:      z.string().min(1),
   why:      z.string().min(1),
+  url:      z.string().url().optional(),
 });
 
 // ── Root schema ──────────────────────────────────────────────────────────────
@@ -82,6 +113,8 @@ export const DailyDataSchema = z.object({
   quotes:          z.array(QuoteSchema).min(1),
   parentingQuotes: z.array(QuoteSchema).min(1),
   surprises:       z.array(SurpriseSchema),
+  riffs:           z.array(DailyRiffSchema).optional(),
+  productionClips: z.array(DailyProductionClipSchema).optional(),
 });
 
 export type ValidatedDailyData = z.infer<typeof DailyDataSchema>;

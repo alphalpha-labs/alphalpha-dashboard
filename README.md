@@ -37,4 +37,26 @@ The cron descriptor lives in `scripts/almanac-automation.json` (runs at 5 am CT 
 | `ALMANAC_COMPOSER_MODEL` | No | Claude model for tile composition (default: `claude-haiku-4-5-20251001`) |
 | `ALPHALPHA_CONTEXT_DIR` | No | Path to workspace context files for Surprise + You-chart sourcing |
 
+#### Web discovery (optional — feedback-honed daily crawl)
+
+Every tile can source fresh material from the web each day, honed by your Keep/Tune
+feedback. The provider is pluggable; the first one with a key set wins, otherwise the
+generator falls back to its curated/RSS/workspace sources (so nothing breaks when
+none are set). See `docs/almanac-sourcing.md` for the full design.
+
+| Variable | Required | Description |
+|---|---|---|
+| `TAVILY_API_KEY` | No | Use Tavily as the search backend (preferred) |
+| `EXA_API_KEY` | No | Use Exa as the search backend |
+| `BRAVE_SEARCH_API_KEY` | No | Use Brave Search as the backend |
+| `SERPER_API_KEY` | No | Use Serper (Google) as the backend |
+| `ALMANAC_SEARCH_PROVIDER` | No | Force a provider: `tavily` \| `exa` \| `brave` \| `serper` \| `openclaw` |
+| `ALMANAC_SEARCH_MAX` | No | Max web searches per daily run (default 12) |
+| `ALMANAC_FETCH_MAX` | No | Max page fetches per daily run (default 8) |
+| `ALMANAC_DISABLE_WEB` | No | Set to `1` to force curated-only (no web calls) |
+
+If no dedicated key is set but the OpenClaw gateway is configured, the generator
+attempts the model's own `web_search` tool (`openclaw` provider). Wikimedia Commons
+image discovery is zero-key and runs unless `ALMANAC_DISABLE_WEB=1`.
+
 All env vars are also used at runtime by the API routes (`/api/almanac/*`). Set them in Vercel project settings or a local `.env.local` file.

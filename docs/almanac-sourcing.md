@@ -190,3 +190,39 @@ Paid / rate-limited market-data APIs (FRED, EIA, news APIs, recipe APIs) are
   edition.
 - **Provider responses cached** within a run to avoid duplicate calls.
 - **Missed cron** degrades to the component's existing fixture recompute.
+
+## 7. Web discovery layer (feedback-honed daily crawl)
+
+`scripts/lib/web-discovery.mjs` adds a pluggable discovery backend used by every
+tile sourcer. It is **additive** — it widens the candidate pool that the existing
+feedback-aware rankers and validators already gate, and degrades to the curated
+sources above when no provider is configured.
+
+**Provider resolution** (first available wins; override with `ALMANAC_SEARCH_PROVIDER`):
+`TAVILY_API_KEY` → `EXA_API_KEY` → `BRAVE_SEARCH_API_KEY` → `SERPER_API_KEY` →
+OpenClaw model `web_search` tool → none (curated fallback). Wikimedia Commons image
+discovery is zero-key and independent of the above.
+
+**Feedback honing.** `feedbackHints()` turns each genre's weight vector into:
+- `prefer` — terms from `more <X>` Tune chips + kept-source affinity (riff genres,
+  article sources, image styles, production techniques);
+- `avoid` — `seen it` / `not for me` / net-negative reaction signals;
+- `notes` — free-text Tune notes, passed verbatim to the curator.
+These shape both the search **queries** and the LLM **curate()** selection step.
+
+**Per-tile use:**
+
+| Tile | Web discovery |
+|------|---------------|
+| Reading | Web results merged into the article candidate pool (beyond hardcoded RSS), then ranked/composed as before; `url` carried through. |
+| Look | Wikimedia Commons (public-domain / CC only) added to the Met + AIC candidate pool. |
+| Signal | Searches a citable trend, fetches page text, and the curator builds a small chart **using only stated figures** + a required `sourceUrl`. Strictly validated; falls back to the curated dataset. |
+| Venture | Workspace-grounded as before, then **web-augmented**: up to 2 cited market signals appended to the lead brief. |
+| Surprise | Artifact form discovers a fresh, source-cited object via search + curate. |
+| Riff / Studio | Searches YouTube in the reader's preferred genres/techniques; video ids merged into the curated pool and ranked. |
+
+**Budget & safety.** `ALMANAC_SEARCH_MAX` / `ALMANAC_FETCH_MAX` cap calls per run
+(defaults 12 / 8); on exhaustion tiles fall back. Searched/fetched text is treated
+as **untrusted** — the `curate()` prompt forbids following instructions inside
+candidates, every returned URL must match a candidate, and numbers/ids are validated
+before use. `ALMANAC_DISABLE_WEB=1` forces curated-only runs.

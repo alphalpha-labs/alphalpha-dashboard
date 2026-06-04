@@ -1,15 +1,17 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import type { DailyData, DailyVenture } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
 const GENRE = {
-  article: { label: "Reading",  color: "oklch(0.55 0.08 70)" },
-  venture: { label: "Venture",  color: "oklch(0.55 0.08 150)" },
-  image:   { label: "Look",     color: "oklch(0.55 0.09 30)" },
-  chart:   { label: "Signal",   color: "oklch(0.55 0.08 250)" },
-  surprise:{ label: "Surprise", color: "oklch(0.62 0.10 70)" },
+  article:   { label: "Reading",  color: "oklch(0.55 0.08 70)" },
+  venture:   { label: "Venture",  color: "oklch(0.55 0.08 150)" },
+  image:     { label: "Look",     color: "oklch(0.55 0.09 30)" },
+  chart:     { label: "Signal",   color: "oklch(0.55 0.08 250)" },
+  surprise:  { label: "Surprise", color: "oklch(0.62 0.10 70)" },
+  riff:      { label: "Riff",     color: "oklch(0.55 0.12 25)" },
+  production:{ label: "Studio",   color: "oklch(0.52 0.11 305)" },
 } as const;
 type Genre = keyof typeof GENRE;
 
@@ -193,16 +195,20 @@ function KeepBtn({ kept, onClick }: { kept: boolean; onClick: () => void }) {
 
 // ── TuneStrip ────────────────────────────────────────────────────────────────
 const NUANCE_CHIPS = ["too long","wrong vibe","seen it","love the source","go deeper","more practical","more beautiful"];
+// Genre-specific tuning vocab — these steer tomorrow's pick via almanac-feedback-weights.
+const RIFF_CHIPS = ["more blues","more funk","more fingerstyle","too hard","too easy","love this riff"];
+const PRODUCTION_CHIPS = ["more Ableton","more sound design","more arrangement","too advanced","inspiring","not for me"];
 
 interface TuneStripProps {
   visibility: "hover" | "always" | "readonly" | "none";
   compact?: boolean;
   item: { id: string; genre: string; title: string; sub?: string };
   date: string;
+  chips?: string[];
   onDiscuss?: () => void;
 }
 
-function TuneStrip({ visibility, compact, item, date, onDiscuss }: TuneStripProps) {
+function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_CHIPS, onDiscuss }: TuneStripProps) {
   const feedback = useFeedback(date);
   const kept = !!feedback.keeps[item.id];
   const saved = feedback.tunes[item.id] ?? null;
@@ -283,7 +289,7 @@ function TuneStrip({ visibility, compact, item, date, onDiscuss }: TuneStripProp
                 ))}
               </div>
               <div className="almanacTunePanel__chips">
-                {NUANCE_CHIPS.map(c => (
+                {chipVocab.map(c => (
                   <button key={c} onClick={() => toggleChip(c)}
                     className={`almanacChip${chips.has(c) ? " almanacChip--on" : ""}`}>{c}</button>
                 ))}
@@ -345,16 +351,21 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
   const lead = size === "lead";
   const item = { id: "article:" + d.article.title, genre: "article" as Genre, title: d.article.title, sub: d.article.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-article", title: d.article.title, summary: d.article.dek, category: "Daily reading" });
+  const url = d.article.url;
   return (
     <div className="card-hoverable">
       <Kicker genre="article" extra={lead ? `${d.article.source} · ${d.article.readTime}` : d.article.source} />
-      <div className={`almanacHeadline almanacHeadline--${size}`}>{d.article.title}</div>
+      {url ? (
+        <a className={`almanacHeadline almanacHeadline--${size} almanacHeadlineLink`} href={url} target="_blank" rel="noopener noreferrer">{d.article.title}</a>
+      ) : (
+        <div className={`almanacHeadline almanacHeadline--${size}`}>{d.article.title}</div>
+      )}
       <div className={`almanacDek almanacDek--${size}`}>{d.article.dek}</div>
-      {lead && (
-        <>
-          <WhyLine text={d.article.why} />
-          <a href="#" onClick={e => e.preventDefault()} className="almanacReadLink">Read the full piece →</a>
-        </>
+      {lead && <WhyLine text={d.article.why} />}
+      {url && (
+        <a href={url} target="_blank" rel="noopener noreferrer" className={`almanacReadLink${lead ? "" : " almanacReadLink--dept"}`}>
+          {lead ? "Read the full piece →" : "Read →"}
+        </a>
       )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} onDiscuss={lead ? disc : undefined} />
     </div>
@@ -401,6 +412,11 @@ function ChartBlock({ d, size, visibility, date, openThread }: BlockProps) {
           <div className="almanacChartNote">{chart.note}</div>
           <WhyLine text={chart.why} />
         </>
+      )}
+      {chart.sourceUrl && (
+        <a href={chart.sourceUrl} target="_blank" rel="noopener noreferrer" className={`almanacReadLink${lead ? "" : " almanacReadLink--dept"}`}>
+          {chart.sourceLabel ? `Source — ${chart.sourceLabel} →` : (lead ? "See the source data →" : "Source →")}
+        </a>
       )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} onDiscuss={lead ? disc : undefined} />
     </div>
@@ -479,11 +495,73 @@ function SurpriseBand({ s, visibility, date, isMobile, openThread }: SurprisePro
             <span className="almanacSurprise__alpha">α</span>
             <span className="almanacSurprise__note">{s.note}</span>
           </div>
+          {s.sourceUrl && (
+            <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacReadLink almanacReadLink--dept">
+              {s.sourceLabel ? `${s.sourceLabel} →` : "Go to the source →"}
+            </a>
+          )}
         </div>
       </div>
       <div className="surprise-tune">
         <TuneStrip visibility={visibility} compact onDiscuss={disc} item={item} date={date} />
       </div>
+    </div>
+  );
+}
+
+// ── YouTube embed ─────────────────────────────────────────────────────────────
+function YouTubeEmbed({ videoId, start, title }: { videoId: string; start?: number; title: string }) {
+  // youtube-nocookie keeps the privacy-enhanced mode; rel=0 keeps suggestions on-channel.
+  const params = new URLSearchParams({ rel: "0", modestbranding: "1", playsinline: "1" });
+  if (start && start > 0) params.set("start", String(start));
+  return (
+    <div className="almanacVideo">
+      <iframe
+        className="almanacVideo__frame"
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
+    </div>
+  );
+}
+
+// ── Workshop blocks: guitar riff + production clip ────────────────────────────
+function RiffBlock({ riff, visibility, date, openThread }: { riff: DailyRiff; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const item = { id: "riff:" + riff.videoId, genre: "riff" as Genre, title: riff.title, sub: riff.genre };
+  const url = riff.sourceUrl || `https://youtu.be/${riff.videoId}`;
+  const disc = () => openThread?.({ type: "digest", id: "daily-riff", title: riff.title, summary: riff.why, category: "Guitar riff" });
+  return (
+    <div className="card-hoverable almanacWorkshopCard">
+      <Kicker genre="riff" extra={`${riff.genre} · ${riff.difficulty}`} />
+      <div className="almanacWorkshopTitle">{riff.title}</div>
+      <div className="almanacWorkshopByline">{riff.artist}</div>
+      <YouTubeEmbed videoId={riff.videoId} start={riff.start} title={riff.title} />
+      {riff.note && <div className="almanacWorkshopNote">{riff.note}</div>}
+      <WhyLine text={riff.why} />
+      <a href={url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Watch &amp; learn on YouTube →</a>
+      <TuneStrip visibility={visibility} compact item={item} date={date} chips={RIFF_CHIPS} onDiscuss={disc} />
+    </div>
+  );
+}
+
+function ProductionBlock({ clip, visibility, date, openThread }: { clip: DailyProductionClip; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const item = { id: "production:" + clip.videoId, genre: "production" as Genre, title: clip.title, sub: clip.technique };
+  const url = clip.sourceUrl || `https://youtu.be/${clip.videoId}`;
+  const disc = () => openThread?.({ type: "digest", id: "daily-production", title: clip.title, summary: clip.why, category: "Production clip" });
+  return (
+    <div className="card-hoverable almanacWorkshopCard">
+      <Kicker genre="production" extra={`${clip.daw} · ${clip.technique}`} />
+      <div className="almanacWorkshopTitle">{clip.title}</div>
+      <div className="almanacWorkshopByline">{clip.creator}</div>
+      <YouTubeEmbed videoId={clip.videoId} start={clip.start} title={clip.title} />
+      {clip.note && <div className="almanacWorkshopNote">{clip.note}</div>}
+      <WhyLine text={clip.why} />
+      <a href={url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Open on YouTube →</a>
+      <TuneStrip visibility={visibility} compact item={item} date={date} chips={PRODUCTION_CHIPS} onDiscuss={disc} />
     </div>
   );
 }
@@ -742,6 +820,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const quote = pick(base.quotes, dayIdx);
   const parentQuote = pick(base.parentingQuotes, dayIdx);
   const surprise = pick(base.surprises, dayIdx);
+
+  // Workshop row — fall back to the fixture pools when an archived edition predates the feature.
+  const riffPool = base.riffs?.length ? base.riffs : (daily.riffs ?? []);
+  const clipPool = base.productionClips?.length ? base.productionClips : (daily.productionClips ?? []);
+  const riff = riffPool.length ? pick(riffPool, dayIdx) : null;
+  const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
@@ -812,6 +896,20 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
         <div className="almanac__surpriseWrap">
           <SurpriseBand s={surprise} visibility={vis} date={date} isMobile={isMobile} openThread={openThread} />
         </div>
+
+        {/* Workshop — guitar riff + production clip of the day */}
+        {(riff || clip) && (
+          <div className="almanac__workshopWrap">
+            <div className="almanac__workshopHead">
+              <span className="almanac__workshopKicker">The Workshop</span>
+              <span className="almanac__workshopSub">· something to learn &amp; save for later</span>
+            </div>
+            <div className={`almanac__workshop${isMobile ? " almanac__workshop--mobile" : ""}`}>
+              {riff && <RiffBlock riff={riff} visibility={vis} date={date} openThread={openThread} />}
+              {clip && <ProductionBlock clip={clip} visibility={vis} date={date} openThread={openThread} />}
+            </div>
+          </div>
+        )}
 
         {/* Colophon */}
         <div className={`almanac__colophon${isMobile ? " almanac__colophon--mobile" : ""}`}>

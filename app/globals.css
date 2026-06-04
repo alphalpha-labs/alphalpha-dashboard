@@ -1625,6 +1625,71 @@ input { font-family: inherit; }
   font-weight: 500;
 }
 .almanacReadLink:hover { text-decoration: underline; }
+.almanacReadLink--dept { margin-top: 10px; font-size: 12px; }
+.almanacHeadlineLink { display: block; text-decoration: none; color: inherit; transition: color .15s ease; }
+.almanacHeadlineLink:hover { color: #9a6a3a; }
+
+/* ── Workshop (riff + production clip of the day) ──────────────────────────── */
+.almanac__workshopWrap { margin-top: 48px; }
+.almanac__workshopHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.almanac__workshopKicker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a6f62;
+}
+.almanac__workshopSub { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 13px; color: #b0a080; }
+.almanac__workshop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+.almanac__workshop--mobile { grid-template-columns: 1fr; gap: 36px; }
+
+.almanacWorkshopTitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.22;
+  color: var(--ink);
+  margin-bottom: 4px;
+  text-wrap: balance;
+}
+.almanacWorkshopByline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  color: #b0a080;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+.almanacWorkshopNote {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #5a5040;
+  margin-top: 12px;
+}
+
+/* Responsive 16:9 YouTube embed */
+.almanacVideo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1712;
+  box-shadow: 0 1px 3px rgba(58,48,38,0.14);
+}
+.almanacVideo__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
 /* ── Venture card ─────────────────────────────────────────────────────────── */
 .almanacVentureCard { cursor: pointer; }

@@ -3,120 +3,160 @@
     "id": "antikythera",
     "name": "The Antikythera Mechanism",
     "context": "c. 100 BCE — recovered from a Greek shipwreck in 1901. The oldest known analog computer: 37 meshing bronze gears that predict planetary positions, lunar phases, and eclipses decades in advance.",
-    "themes": ["systems", "calculation", "time"]
+    "themes": ["systems", "calculation", "time"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Antikythera_mechanism",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "da-vinci-todo",
     "name": "Leonardo's 1490 To-Do List",
     "context": "In one of his notebooks, Leonardo listed tasks: 'Get the master of arithmetic to show you how to square a triangle. Ask Giannino the Bombardier about the tower of Ferrara. Find a master of hydraulics and get him to tell you how to repair a lock, canal, and mill in the Lombard manner.' A mind in perpetual apprenticeship.",
-    "themes": ["curiosity", "learning", "breadth"]
+    "themes": ["curiosity", "learning", "breadth"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "jacquard-punch-card",
     "name": "The Jacquard Loom Punch Card",
     "context": "Invented 1804 by Joseph-Marie Jacquard. Punched cards told the loom which threads to lift — binary logic encoded in paper a century before computers. Babbage was inspired by it. So was Hollerith's census machine.",
-    "themes": ["systems", "abstraction", "making"]
+    "themes": ["systems", "abstraction", "making"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Jacquard_machine",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "feynman-notebook",
     "name": "Feynman's Problem-Solving Notebook",
     "context": "Feynman kept notebooks as an extension of thinking, not a record of it. When told his notebooks were his work, he replied: 'No, the work is in my head. The notebooks are the work.' The distinction matters.",
-    "themes": ["thinking", "process", "externalization"]
+    "themes": ["thinking", "process", "externalization"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Richard_Feynman",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "rosetta-stone",
     "name": "The Rosetta Stone",
     "context": "Carved 196 BCE, found 1799. The same royal decree in three scripts — hieroglyphic, Demotic, Greek. Its genius was redundancy: the same message in three languages became the key to 1,400 years of lost writing. Translation as a gift across time.",
-    "themes": ["translation", "redundancy", "access"]
+    "themes": ["translation", "redundancy", "access"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Rosetta_Stone",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "babbage-difference-engine",
     "name": "Babbage's Difference Engine Fragment",
     "context": "Designed 1819, never finished in Babbage's lifetime. The Science Museum built it in 1991 from his original drawings — it worked perfectly. Some ideas are simply ahead of their manufacturing base.",
-    "themes": ["building", "patience", "precision"]
+    "themes": ["building", "patience", "precision"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Difference_engine",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "shannon-paper",
     "name": "Shannon's 'A Mathematical Theory of Communication' (1948)",
     "context": "77 pages in the Bell System Technical Journal. Shannon invented the bit, defined entropy, set the theoretical limits of compression and transmission. In the acknowledgments, he thanked no one — he had invented an entire field alone.",
-    "themes": ["limits", "abstraction", "information"]
+    "themes": ["limits", "abstraction", "information"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "pacioli-ledger",
     "name": "Pacioli's Double-Entry Ledger (1494)",
     "context": "Luca Pacioli codified double-entry bookkeeping in Summa de arithmetica — invented by Venetian merchants. Every transaction recorded twice, from two perspectives. It made the invisible visible: the same idea that drives modern observability.",
-    "themes": ["systems", "clarity", "trust"]
+    "themes": ["systems", "clarity", "trust"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Double-entry_bookkeeping",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "index-card",
     "name": "The Index Card",
     "context": "Invented by Carl Linnaeus in the 1760s to reorganize his taxonomy notes — the same flexible unit that became the backbone of Luhmann's Zettelkasten, the library card catalog, and the recipe box. One atom of thought, movable and linkable.",
-    "themes": ["organization", "thinking", "tools"]
+    "themes": ["organization", "thinking", "tools"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Index_card",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "first-photograph",
     "name": "View from the Window at Le Gras (c. 1826)",
     "context": "The oldest surviving photograph, taken by Joseph Nicéphore Niépce using an 8-hour exposure on pewter. The smearing of light across the rooftops captures an entire day compressed into a single moment.",
-    "themes": ["time", "light", "invention"]
+    "themes": ["time", "light", "invention"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "turing-bombe",
     "name": "Alan Turing's Bombe Machine (1940)",
     "context": "Designed to crack German Enigma-encoded messages. At Bletchley's peak, 211 Bombes decoded over 3,000 messages per day. Turing never published a paper on it — the entire project was classified for decades.",
-    "themes": ["adversarial", "systems", "secrecy"]
+    "themes": ["adversarial", "systems", "secrecy"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Bombe",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "dewey-decimal",
     "name": "Dewey's First Classification Scheme (1876)",
     "context": "Melvil Dewey published his system as a 42-page pamphlet. The insight: any knowledge domain can be given a decimal address, allowing infinite subdivision without reorganizing the whole. Still used in 95% of US public libraries.",
-    "themes": ["organization", "address", "scale"]
+    "themes": ["organization", "address", "scale"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Dewey_Decimal_Classification",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "lascaux-caves",
     "name": "The Lascaux Cave Paintings",
     "context": "Created approximately 17,000 years ago in the Dordogne. Over 600 animals rendered with anatomical precision — foreshortening, motion blur — by people with no written language. Visual intelligence at full resolution.",
-    "themes": ["observation", "craft", "representation"]
+    "themes": ["observation", "craft", "representation"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Lascaux",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "morse-first-telegram",
     "name": "The First Telegraph Message (1844)",
     "context": "'What hath God wrought' — sent by Samuel Morse from Washington to Baltimore on May 24, 1844. The first words sent faster than a horse could carry them. Distance suddenly became a variable, not a constant.",
-    "themes": ["communication", "distance", "latency"]
+    "themes": ["communication", "distance", "latency"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Samuel_Morse",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "newton-prism",
     "name": "Newton's Prism Experiment (1666)",
     "context": "Newton proved that white light contains all colors — the prism doesn't add color, it reveals it. The prevailing view had it backwards. He bought the prism at a fair, curious about the colors he saw in it.",
-    "themes": ["curiosity", "inversion", "optics"]
+    "themes": ["curiosity", "inversion", "optics"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Isaac_Newton",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "eames-chair-sketch",
     "name": "The Eames Lounge Chair Design Process (1956)",
     "context": "Charles and Ray Eames spent a decade on the lounge chair — hundreds of material experiments, plywood studies, prototype failures. The final form looks inevitable. It took ten years to look that way.",
-    "themes": ["craft", "iteration", "form"]
+    "themes": ["craft", "iteration", "form"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Eames_Lounge_Chair",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "tao-bamboo-strips",
     "name": "Bamboo Strip Tao Te Ching (300 BCE)",
     "context": "The oldest known Tao Te Ching was found on bamboo strips in a 300 BCE tomb. Scholars discovered that in this version, 'Virtue' (Te) comes before 'Way' (Tao) — inverting the canonical chapter order and suggesting a different interpretive tradition.",
-    "themes": ["wisdom", "order", "revision"]
+    "themes": ["wisdom", "order", "revision"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Tao_Te_Ching",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "voynich-manuscript",
     "name": "The Voynich Manuscript",
     "context": "A 15th-century illustrated codex written in an unknown script. Despite analysis by cryptographers, linguists, and AI systems, it has never been decoded. It may be a constructed language, a cipher, or an elaborate hoax. The mystery is itself the artifact.",
-    "themes": ["mystery", "language", "limits"]
+    "themes": ["mystery", "language", "limits"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Voynich_manuscript",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "voyager-golden-record",
     "name": "The Voyager Golden Record Cover Diagram",
     "context": "The pulsar map etched onto both Voyager spacecraft encodes our location in the galaxy using 14 pulsars as reference points, plus a hydrogen spin-flip as the unit of time. A whole civilization's return address in line art — designed to be self-decoding.",
-    "themes": ["communication", "distance", "encoding"]
+    "themes": ["communication", "distance", "encoding"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Voyager_Golden_Record",
+    "sourceLabel": "Wikipedia"
   },
   {
     "id": "unix-man-page",
     "name": "The First UNIX man Page (1971)",
     "context": "Written by Dennis Ritchie and Ken Thompson. 'man ls' — the original manual page established the convention of machine-readable, human-readable documentation co-located with the software. Every `man` command since is a direct descendant.",
-    "themes": ["tools", "craft", "documentation"]
+    "themes": ["tools", "craft", "documentation"],
+    "sourceUrl": "https://en.wikipedia.org/wiki/Man_page",
+    "sourceLabel": "Wikipedia"
   }
 ]

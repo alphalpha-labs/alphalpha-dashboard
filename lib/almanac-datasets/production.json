@@ -1,0 +1,62 @@
+[
+  {
+    "id": "prod-clams-casino-euphoric",
+    "title": "Why Clams Casino's beats are so euphoric",
+    "creator": "Beat breakdown",
+    "daw": "DAW-agnostic",
+    "technique": "Sampling & atmosphere",
+    "videoId": "lqazOnFWatM",
+    "why": "A breakdown of how blown-out, reverb-drenched samples create that weightless cloud-rap haze.",
+    "note": "Steal the move: pitch a vocal sample down, drown it in reverb, then sidechain it to the kick.",
+    "sourceUrl": "https://www.youtube.com/watch?v=lqazOnFWatM",
+    "tags": ["sampling", "ambient", "inspiration"]
+  },
+  {
+    "id": "prod-melodic-house-start-finish",
+    "title": "Make a melodic house track start to finish",
+    "creator": "Production Music Live",
+    "daw": "Ableton Live",
+    "technique": "Arrangement",
+    "videoId": "La5h9Zl6g_8",
+    "why": "Watch a full loop become a finished arrangement — the part most tracks die before reaching.",
+    "note": "Note where they use subtractive arrangement: strip elements to build tension before the drop.",
+    "sourceUrl": "https://www.youtube.com/watch?v=La5h9Zl6g_8",
+    "tags": ["ableton", "arrangement", "melodic-house"]
+  },
+  {
+    "id": "prod-serum2-sound-design-pros",
+    "title": "Sound-design in Serum 2 like the pros",
+    "creator": "Sound design tutorial",
+    "daw": "DAW-agnostic",
+    "technique": "Synth sound design",
+    "videoId": "CefGLB87Vks",
+    "why": "Wavetable, modulation and FX moves that separate a flat patch from a pro-sounding one.",
+    "note": "Try one idea tonight: assign an LFO to wavetable position for instant movement.",
+    "sourceUrl": "https://www.youtube.com/watch?v=CefGLB87Vks",
+    "tags": ["serum", "sound-design", "synthesis"]
+  },
+  {
+    "id": "prod-ableton-serum2-session",
+    "title": "An Ableton + Serum 2 sound-design session",
+    "creator": "Sound design session",
+    "daw": "Ableton Live",
+    "technique": "Sound design",
+    "videoId": "Cnm-YKOxSZg",
+    "why": "Real-time patch building inside Ableton — see the workflow, not just the finished sound.",
+    "note": "Watch how they resample a synth to audio, then re-process it in Simpler for new textures.",
+    "sourceUrl": "https://www.youtube.com/watch?v=Cnm-YKOxSZg",
+    "tags": ["ableton", "serum", "sound-design"]
+  },
+  {
+    "id": "prod-serum2-lfo-lead-pad",
+    "title": "Serum 2: LFO lead & pad for melodic house / techno",
+    "creator": "Synth tutorial",
+    "daw": "DAW-agnostic",
+    "technique": "Modulation",
+    "videoId": "OdInZtaxqGY",
+    "why": "Modulation-first patching — the difference between a static pad and one that breathes.",
+    "note": "Copy the LFO routing onto a bass patch and you've got a moving Reese in minutes.",
+    "sourceUrl": "https://www.youtube.com/watch?v=OdInZtaxqGY",
+    "tags": ["serum", "modulation", "techno"]
+  }
+]
