@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
+import longReadDataset from "@/lib/almanac-datasets/long-reads.json";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
 const GENRE = {
@@ -352,18 +353,7 @@ const FALLBACK_POEMS: DailyPoem[] = [
   },
 ];
 
-const FALLBACK_LONG_READS: DailyLongRead[] = [
-  {
-    title: "Financial Stability Report, May 2026",
-    source: "Federal Reserve Board",
-    readTime: "70-90 min",
-    frame: "Macro risk map",
-    thesis: "Valuation pressure, leverage, funding risk, and term-premium volatility are the live fault lines to watch before they become market prices.",
-    why: "A current source-backed checklist for where portfolio fragility may hide.",
-    url: "https://www.federalreserve.gov/publications/files/financial-stability-report-20260508.pdf",
-    sourceLabel: "Federal Reserve PDF",
-  },
-];
+const FALLBACK_LONG_READS: DailyLongRead[] = longReadDataset.map(({ id, tags, ...read }) => read);
 
 const FALLBACK_AUSTIN_EXPLORES: DailyAustinExplore[] = [
   {

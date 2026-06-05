@@ -1,5 +1,41 @@
 [
   {
+    "id": "longread-lyn-alden-june-2026-wild-west",
+    "title": "June 2026 Investing Newsletter: The Wild West",
+    "source": "Lyn Alden",
+    "readTime": "35-50 min",
+    "frame": "Macro / investment letter",
+    "thesis": "A secondary macro-investing read that ties liquidity, fiscal constraints, market structure, and asset allocation into one investable frame.",
+    "why": "This is closer to the desired long-read lane: a single-threaded macro/investment analysis from an investor-writer, not a primary-source institutional PDF.",
+    "url": "https://www.lynalden.com/june-2026-newsletter/?utm_source=aweber&utm_medium=email&utm_campaign=june-2026-investing-newsletter-the-wild-west",
+    "sourceLabel": "Lyn Alden newsletter",
+    "tags": ["macro", "secondary-analysis", "newsletter", "investment-thesis", "lyn alden"]
+  },
+  {
+    "id": "longread-byrne-hobart-finance-scale-invariant-computer",
+    "title": "Finance as a Scale-Invariant Global Computer",
+    "source": "The Diff / Byrne Hobart",
+    "readTime": "20-35 min",
+    "frame": "Markets as information systems",
+    "thesis": "Markets can be read as a distributed computation layer, where every time horizon trades off speed, information, uncertainty, and capital allocation.",
+    "why": "A Byrne Hobart-style evergreen deep dive: finance, technology, and incentives in one thread rather than a raw data release.",
+    "url": "https://www.thediff.co/archive/finance-as-a-scale-invariant-global-computer/",
+    "sourceLabel": "The Diff",
+    "tags": ["markets", "secondary-analysis", "deep-dive", "byrne hobart", "finance"]
+  },
+  {
+    "id": "longread-cervantes-new-trilemma",
+    "title": "A New Trilemma",
+    "source": "David Cervantes / Pinebrook Capital",
+    "readTime": "25-40 min",
+    "frame": "Macro reaction function",
+    "thesis": "Jobs data, geopolitical shock, and stagflationary supply risk create a policy trilemma that matters for rates, energy, and risk appetite.",
+    "why": "A secondary macro strategy note in the requested style: one analyst's market-relevant frame, not a primary-source report.",
+    "url": "https://www.pinebrookcap.com/p/signal-and-noise-filter-6e6",
+    "sourceLabel": "Pinebrook Capital",
+    "tags": ["macro", "secondary-analysis", "deep-dive", "david cervantes", "rates", "energy"]
+  },
+  {
     "id": "longread-fed-financial-stability-2026-05",
     "title": "Financial Stability Report, May 2026",
     "source": "Federal Reserve Board",

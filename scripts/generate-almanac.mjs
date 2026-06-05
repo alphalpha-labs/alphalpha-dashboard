@@ -234,7 +234,12 @@ async function loadFeedbackWeights() {
         weights[genre].keepScore += 1;
         if (keep.sub) weights[genre].sourceAffinity[keep.sub] = (weights[genre].sourceAffinity[keep.sub] ?? 0) + 1;
       }
-      for (const tune of Object.values(rec.tunes ?? {})) {
+      const tuneHistory = Object.values(rec.history ?? {})
+        .flat()
+        .filter(entry => entry?.type === 'tune');
+      const tunes = tuneHistory.length > 0 ? tuneHistory : Object.values(rec.tunes ?? {});
+
+      for (const tune of tunes) {
         // itemId from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
         // Split on colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
         const genre = tune.itemId?.split(/[:-]/)[0] ?? 'article';
@@ -243,6 +248,7 @@ async function loadFeedbackWeights() {
         if (tune.reaction === 'less') weights[genre].lessScore += 1;
         for (const chip of tune.chips ?? []) weights[genre].chipTallies[chip] = (weights[genre].chipTallies[chip] ?? 0) + 1;
         if (tune.note?.trim()) weights[genre].notes.push(tune.note.trim());
+        if (tune.interpretation?.trim()) weights[genre].notes.push(tune.interpretation.trim());
       }
     }
   } catch (e) {
@@ -1454,6 +1460,7 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
   if (candidates.length === 0) return null;
   const w = genreWeights ?? {};
   const chipTallies = w.chipTallies ?? {};
+  const notes = (w.notes ?? []).join(' ').toLowerCase();
 
   // "more <thing>" chips + kept-item affinity build a preference vector.
   const pref = {};
@@ -1478,9 +1485,28 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
       score -= 10;
 
     // Preference overlap across the candidate's descriptive fields.
-    const blob = matchKeys.map(k => c[k] ?? '').join(' ').toLowerCase();
+    const blob = [
+      c.title,
+      c.source,
+      c.sourceLabel,
+      c.url,
+      ...(Array.isArray(c.tags) ? c.tags : []),
+      ...matchKeys.map(k => c[k] ?? ''),
+    ].join(' ').toLowerCase();
     for (const [p, v] of Object.entries(pref)) {
       if (p && blob.includes(p)) score += v * 0.4;
+    }
+
+    if (idPrefix === 'longread') {
+      const primarySourceDisliked = /too primary|primary source|primary-source/.test(notes);
+      if (primarySourceDisliked && /\bfederal reserve\b|\bbis\b|\bbank for international settlements\b|\bpdf\b/.test(blob)) {
+        score -= 6;
+      }
+      if (/secondary macro|macro analysis|single[-\s]?threaded|deep dive|investment thesis|sector|lyn alden|byrne hobart|david cervantes/.test(notes)) {
+        if (/lyn alden|byrne hobart|the diff|david cervantes|pinebrook|newsletter|secondary-analysis|deep-dive|investment-thesis|sector/.test(blob)) {
+          score += 5;
+        }
+      }
     }
 
     // Nudge difficulty toward the drift when the candidate declares one.
