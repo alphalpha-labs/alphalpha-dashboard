@@ -2288,6 +2288,29 @@ input { font-family: inherit; }
   color: #455447;
   line-height: 1.45;
 }
+.almanacFeedbackReceipt__history {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.almanacFeedbackReceipt__history li {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 9px;
+  align-items: baseline;
+}
+.almanacFeedbackReceipt__history time {
+  color: #7a8a7d;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+.almanacFeedbackReceipt__history p {
+  overflow-wrap: anywhere;
+}
 
 .almanacDiscussBtn {
   display: flex;

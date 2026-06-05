@@ -78,7 +78,25 @@ function ToastHost() {
 // ── Feedback persistence ──────────────────────────────────────────────────────
 type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; keptAt: number; date: string };
 type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; at: number; date: string };
-type FeedbackState = { keeps: Record<string, KeepRecord>; tunes: Record<string, TuneRecord> };
+type FeedbackHistoryItem = {
+  id: string;
+  type: "keep" | "tune";
+  action?: "added" | "removed";
+  itemId: string;
+  genre: string;
+  title: string;
+  sub?: string;
+  reaction?: "more" | "less" | null;
+  chips?: string[];
+  note?: string;
+  at: number;
+  date: string;
+};
+type FeedbackState = {
+  keeps: Record<string, KeepRecord>;
+  tunes: Record<string, TuneRecord>;
+  history: Record<string, FeedbackHistoryItem[]>;
+};
 type RecrawlStatus = "idle" | "working" | "done" | "error";
 type AlmanacRunStatus = {
   status?: "idle" | "queued" | "running" | "done" | "error";
@@ -94,6 +112,18 @@ const feedbackCache: Partial<Record<string, FeedbackState>> = {};
 const feedbackInflight: Partial<Record<string, Promise<FeedbackState>>> = {};
 const feedbackSubs = new Set<() => void>();
 
+function emptyFeedback(): FeedbackState {
+  return { keeps: {}, tunes: {}, history: {} };
+}
+
+function normalizeFeedback(data: Partial<FeedbackState> | null | undefined): FeedbackState {
+  return {
+    keeps: data?.keeps ?? {},
+    tunes: data?.tunes ?? {},
+    history: data?.history ?? {},
+  };
+}
+
 async function loadFeedback(date: string): Promise<FeedbackState> {
   if (feedbackCache[date]) return feedbackCache[date];
   if (feedbackInflight[date]) return feedbackInflight[date];
@@ -102,36 +132,40 @@ async function loadFeedback(date: string): Promise<FeedbackState> {
       const res = await fetch(`/api/almanac/feedback?date=${date}`);
       if (res.ok) {
         const data = await res.json();
-        feedbackCache[date] = data;
-        return data;
+        feedbackCache[date] = normalizeFeedback(data);
+        return feedbackCache[date];
       }
     } catch {}
-    feedbackCache[date] = { keeps: {}, tunes: {} };
+    feedbackCache[date] = emptyFeedback();
     return feedbackCache[date];
   })();
   feedbackInflight[date] = p;
   try { return await p; } finally { delete feedbackInflight[date]; }
 }
 
-async function persistKeep(date: string, keep: KeepRecord | null, itemId: string): Promise<boolean> {
+async function persistKeep(date: string, keep: KeepRecord | null, itemId: string, item?: { genre: string; title: string; sub?: string }): Promise<FeedbackState | null> {
   const body = keep
     ? { ...keep, date, type: "keep", itemId }
-    : { date, type: "keep", itemId, remove: true };
+    : { date, type: "keep", itemId, remove: true, genre: item?.genre, title: item?.title, sub: item?.sub };
   const res = await fetch("/api/almanac/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  return res.ok;
+  if (!res.ok) return null;
+  const data = await res.json().catch(() => null);
+  return normalizeFeedback(data?.feedback);
 }
 
-async function persistTune(date: string, tune: TuneRecord): Promise<boolean> {
+async function persistTune(date: string, tune: TuneRecord, item: { genre: string; title: string; sub?: string }): Promise<FeedbackState | null> {
   const res = await fetch("/api/almanac/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...tune, date, type: "tune" }),
+    body: JSON.stringify({ ...tune, date, type: "tune", genre: item.genre, title: item.title, sub: item.sub }),
   });
-  return res.ok;
+  if (!res.ok) return null;
+  const data = await res.json().catch(() => null);
+  return normalizeFeedback(data?.feedback);
 }
 
 function useFeedback(date: string) {
@@ -144,42 +178,36 @@ function useFeedback(date: string) {
       feedbackSubs.delete(fn);
     };
   }, [date]);
-  return feedbackCache[date] ?? { keeps: {}, tunes: {} };
+  return feedbackCache[date] ?? emptyFeedback();
 }
 
 async function toggleKeep(date: string, item: { id: string; genre: string; title: string; sub?: string }) {
-  const state = feedbackCache[date] ?? { keeps: {}, tunes: {} };
+  const state = feedbackCache[date] ?? emptyFeedback();
   const existing = state.keeps[item.id];
-  const next = { ...state };
   if (existing) {
-    const ok = await persistKeep(date, null, item.id).catch(() => false);
-    if (!ok) {
+    const next = await persistKeep(date, null, item.id, item).catch(() => null);
+    if (!next) {
       showToast("Could not update feedback. Please try again.");
       return;
     }
-    const n = { ...next.keeps };
-    delete n[item.id];
-    next.keeps = n;
     feedbackCache[date] = next;
   } else {
     const rec: KeepRecord = { itemId: item.id, genre: item.genre, title: item.title, sub: item.sub, keptAt: Date.now(), date };
-    const ok = await persistKeep(date, rec, item.id).catch(() => false);
-    if (!ok) {
+    const next = await persistKeep(date, rec, item.id, item).catch(() => null);
+    if (!next) {
       showToast("Could not save feedback. Please try again.");
       return;
     }
-    next.keeps = { ...next.keeps, [item.id]: rec };
     feedbackCache[date] = next;
     showToast("Saved: kept to your Almanac feedback store");
   }
   feedbackSubs.forEach(fn => fn());
 }
 
-async function saveTune(date: string, tune: TuneRecord): Promise<boolean> {
-  const ok = await persistTune(date, tune).catch(() => false);
-  if (!ok) return false;
-  const state = feedbackCache[date] ?? { keeps: {}, tunes: {} };
-  feedbackCache[date] = { ...state, tunes: { ...state.tunes, [tune.itemId]: tune } };
+async function saveTune(date: string, tune: TuneRecord, item: { genre: string; title: string; sub?: string }): Promise<boolean> {
+  const next = await persistTune(date, tune, item).catch(() => null);
+  if (!next) return false;
+  feedbackCache[date] = next;
   feedbackSubs.forEach(fn => fn());
   return true;
 }
@@ -284,16 +312,55 @@ function describeFeedbackReceipt(saved: TuneRecord | null, kept: boolean) {
   return parts.length ? parts.join(" · ") : "No feedback saved yet.";
 }
 
-function describeFeedbackInterpretation(saved: TuneRecord | null, kept: boolean) {
+function notePlan(note: string, item: { genre: string; title: string; sub?: string }) {
+  const lower = note.trim().toLowerCase();
+  const genreLabel = GENRE[item.genre as Genre]?.label ?? item.genre;
+  const title = item.title ? `“${item.title}”` : "this tile";
+
+  if (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(lower)) {
+    if (item.genre === "chart") {
+      return "Do not treat AI adoption stats alone as a strong Signal. Prefer charts that connect AI to markets, labor, culture, policy, product behavior, or other second-order effects, with a clearer why-it-matters frame.";
+    }
+    return `Use ${title} as a reminder to avoid surface-level ${genreLabel} picks; require a sharper angle, stronger consequence, or less obvious source before selecting similar tiles.`;
+  }
+  if (/\bsource\b|\bsourcing\b|\bcredible\b|\bbacked\b|\bdata\b/.test(lower)) {
+    return `Require stronger sourcing for future ${genreLabel} candidates like ${title}, and prefer primary or clearly attributed material over thin summaries.`;
+  }
+  if (/\bvibe\b|\btone\b|\bbeautiful\b|\baesthetic\b|\bstyle\b/.test(lower)) {
+    return `Retune future ${genreLabel} picks toward this taste note: preserve the useful topic, but shift the feel, style, and presentation before ranking similar candidates.`;
+  }
+  if (/\bpractical\b|\baction\b|\buseful\b|\bdo\b|\btry\b/.test(lower)) {
+    return `Favor future ${genreLabel} tiles that turn the idea behind ${title} into a more usable takeaway, experiment, or decision aid.`;
+  }
+  if (/\bfamiliar\b|\bseen\b|\bobvious\b|\bstale\b/.test(lower)) {
+    return `Down-rank familiar versions of ${title}; search for fresher sources, more surprising examples, or less recycled framing before using this lane again.`;
+  }
+  return `Treat the note as composer guidance for future ${genreLabel} candidates: compare similar tiles against this preference before final selection, not just after drafting.`;
+}
+
+function describeFeedbackInterpretation(saved: TuneRecord | null, kept: boolean, item: { genre: string; title: string; sub?: string }) {
   const plans: string[] = [];
-  if (kept) plans.push("boost this tile's source/style for future picks");
-  if (saved?.reaction === "more") plans.push("rank similar candidates higher");
-  if (saved?.reaction === "less") plans.push("rank similar candidates lower");
-  if (saved?.chips?.length) plans.push(`use ${saved.chips.slice(0, 3).join(", ")} as tuning weights`);
-  if (saved?.note?.trim()) plans.push("pass the note into composer steering context");
+  const genreLabel = GENRE[item.genre as Genre]?.label ?? item.genre;
+  if (kept) plans.push(`Keep signal: boost the ${item.sub ? `${item.sub} source/style` : `${genreLabel} lane`} when nearby candidates compete`);
+  if (saved?.reaction === "more") plans.push(`More signal: rank candidates with a similar ${genreLabel} angle higher`);
+  if (saved?.reaction === "less") plans.push(`Less signal: down-rank candidates that repeat this ${genreLabel} angle without a stronger reason`);
+  if (saved?.chips?.length) plans.push(`Chip weights: ${saved.chips.slice(0, 3).join(", ")} will bias ranking and composer prompts`);
+  if (saved?.note?.trim()) plans.push(notePlan(saved.note, item));
   return plans.length
-    ? plans.join("; ") + "."
+    ? plans.join(" ")
     : "Save a reaction, chip, note, or keep signal to steer future editions.";
+}
+
+function describeHistoryItem(entry: FeedbackHistoryItem) {
+  if (entry.type === "keep") {
+    return entry.action === "removed" ? "Removed keep signal" : "Kept this tile";
+  }
+  const parts: string[] = [];
+  if (entry.reaction === "more") parts.push("more like this");
+  if (entry.reaction === "less") parts.push("less like this");
+  if (entry.chips?.length) parts.push(entry.chips.join(", "));
+  if (entry.note?.trim()) parts.push(`"${entry.note.trim()}"`);
+  return parts.length ? parts.join(" · ") : "Tune saved";
 }
 
 const FALLBACK_POEMS: DailyPoem[] = [
@@ -376,7 +443,7 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
   const submit = async () => {
     if (!reaction && chips.size === 0 && !note.trim()) { setOpen(false); return; }
     setSaveState("saving");
-    const ok = await saveTune(date, { itemId: item.id, reaction, chips: [...chips], note: note.trim(), at: Date.now(), date });
+    const ok = await saveTune(date, { itemId: item.id, reaction, chips: [...chips], note: note.trim(), at: Date.now(), date }, item);
     if (!ok) {
       setSaveState("error");
       return;
@@ -388,7 +455,9 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
   };
 
   const wrapCls = visibility === "always" ? "almanacTuneRow almanacTuneRow--on" : "almanacTuneRow";
-  const hasReceipt = kept || !!saved;
+  const history = feedback.history[item.id] ?? [];
+  const hasReceipt = kept || !!saved || history.length > 0;
+  const historyCount = Math.max(history.length, hasReceipt ? 1 : 0);
 
   const keepEl = (
     <KeepBtn kept={kept} onClick={() => { void toggleKeep(date, { id: item.id, genre: item.genre, title: item.title, sub: item.sub }); }} />
@@ -415,7 +484,7 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
       className={`almanacReceiptBtn${receiptOpen ? " almanacReceiptBtn--open" : ""}`}
       aria-expanded={receiptOpen}
     >
-      Receipt
+      Feedback{historyCount > 1 ? ` ${historyCount}` : ""}
       <span className={`almanacTuneBtn__caret${receiptOpen ? " almanacTuneBtn__caret--open" : ""}`}>▾</span>
     </button>
   );
@@ -443,7 +512,22 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
           </div>
           <div className="almanacFeedbackReceipt__row">
             <span>Interpretation</span>
-            <p>{describeFeedbackInterpretation(saved, kept)}</p>
+            <p>{describeFeedbackInterpretation(saved, kept, item)}</p>
+          </div>
+          <div className="almanacFeedbackReceipt__row">
+            <span>History</span>
+            {history.length ? (
+              <ol className="almanacFeedbackReceipt__history">
+                {history.slice(0, 5).map(entry => (
+                  <li key={entry.id}>
+                    <time>{fmtFeedbackTime(entry.at)}</time>
+                    <p>{describeHistoryItem(entry)}</p>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>Older feedback was saved before history tracking; new saves will appear here.</p>
+            )}
           </div>
         </div>
       )}

@@ -26,9 +26,14 @@ type StoredTune = {
   [k: string]: unknown;
 };
 
+type StoredHistoryItem = StoredTune & {
+  type?: "keep" | "tune";
+};
+
 type StoredFeedback = {
   keeps: Record<string, StoredKeep>;
   tunes: Record<string, StoredTune>;
+  history?: Record<string, StoredHistoryItem[]>;
 };
 
 export type GenreWeights = {
@@ -97,7 +102,12 @@ export async function loadFeedbackWeights(): Promise<FeedbackWeights> {
       }
     }
 
-    for (const tune of Object.values(record.tunes ?? {})) {
+    const tuneHistory = Object.values(record.history ?? {})
+      .flat()
+      .filter(entry => entry?.type === "tune");
+    const tunes = tuneHistory.length > 0 ? tuneHistory : Object.values(record.tunes ?? {});
+
+    for (const tune of tunes) {
       // itemId format from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
       // Split on either colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
       const genre = tune.itemId.split(/[:-]/)[0] ?? "article";
