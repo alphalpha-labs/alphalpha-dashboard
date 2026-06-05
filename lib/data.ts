@@ -470,6 +470,19 @@ export type DailyLongRead = {
   sourceLabel?: string;
 };
 
+export type DailyAustinExplore = {
+  title: string;
+  category: string;
+  area: string;
+  duration: string;
+  bestTime: string;
+  vibe: string;
+  prompt: string;
+  why: string;
+  url?: string;
+  sourceLabel?: string;
+};
+
 export type DailyData = {
   edition:         string;
   image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
@@ -483,6 +496,7 @@ export type DailyData = {
   productionClips?: DailyProductionClip[];
   poems?:          DailyPoem[];
   longReads?:      DailyLongRead[];
+  austinExplores?: DailyAustinExplore[];
 };
 
 export type DashboardData = {

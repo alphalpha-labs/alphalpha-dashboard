@@ -82,6 +82,19 @@ export const DailyLongReadSchema = z.object({
   sourceLabel: z.string().optional(),
 });
 
+export const DailyAustinExploreSchema = z.object({
+  title:       z.string().min(1),
+  category:    z.string().min(1),
+  area:        z.string().min(1),
+  duration:    z.string().min(1),
+  bestTime:    z.string().min(1),
+  vibe:        z.string().min(1),
+  prompt:      z.string().min(1),
+  why:         z.string().min(1),
+  url:         z.string().url().optional(),
+  sourceLabel: z.string().optional(),
+});
+
 export const DailyVentureResearchSchema = z.object({
   tam:         z.string(),
   tamLabel:    z.string(),
@@ -139,6 +152,7 @@ export const DailyDataSchema = z.object({
   productionClips: z.array(DailyProductionClipSchema).optional(),
   poems:           z.array(DailyPoemSchema).optional(),
   longReads:       z.array(DailyLongReadSchema).optional(),
+  austinExplores:  z.array(DailyAustinExploreSchema).optional(),
 });
 
 export type ValidatedDailyData = z.infer<typeof DailyDataSchema>;

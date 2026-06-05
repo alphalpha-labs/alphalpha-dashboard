@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
@@ -14,6 +14,7 @@ const GENRE = {
   production:{ label: "Studio",   color: "oklch(0.52 0.11 305)" },
   poem:      { label: "Poem",     color: "oklch(0.50 0.08 325)" },
   longread:  { label: "Long read", color: "oklch(0.48 0.09 215)" },
+  austin:    { label: "Explore Austin", color: "oklch(0.52 0.09 165)" },
 } as const;
 type Genre = keyof typeof GENRE;
 
@@ -249,6 +250,7 @@ const RIFF_CHIPS = ["more blues","more funk","more fingerstyle","too hard","too 
 const PRODUCTION_CHIPS = ["more Ableton","more sound design","more arrangement","too advanced","inspiring","not for me"];
 const POEM_CHIPS = ["more modernist","more religious","more political","too familiar","more beautiful"];
 const LONG_READ_CHIPS = ["more macro","more investing","more source-backed","too long","go deeper"];
+const AUSTIN_CHIPS = ["more family","more outdoors","more beautiful","closer to home","less obvious"];
 
 const FALLBACK_POEMS: DailyPoem[] = [
   {
@@ -273,6 +275,21 @@ const FALLBACK_LONG_READS: DailyLongRead[] = [
     why: "A current source-backed checklist for where portfolio fragility may hide.",
     url: "https://www.federalreserve.gov/publications/files/financial-stability-report-20260508.pdf",
     sourceLabel: "Federal Reserve PDF",
+  },
+];
+
+const FALLBACK_AUSTIN_EXPLORES: DailyAustinExplore[] = [
+  {
+    title: "Mayfield Park and Preserve",
+    category: "Garden wander",
+    area: "Tarrytown",
+    duration: "35-75 min",
+    bestTime: "Morning",
+    vibe: "Peacocks, palms, lily ponds, stone paths.",
+    prompt: "Start in the cottage gardens, then take one preserve trail loop.",
+    why: "It feels like an Austin pocket world: lush, odd, compact, and restorative.",
+    url: "https://mayfieldpark.org/park-overview/",
+    sourceLabel: "Mayfield Park",
   },
 ];
 
@@ -760,6 +777,38 @@ function LongReadBlock({ read, visibility, date, openThread, compact = false }: 
   );
 }
 
+function AustinExploreBlock({ explore, visibility, date, openThread }: { explore: DailyAustinExplore; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const item = { id: "austin:" + explore.title, genre: "austin" as Genre, title: explore.title, sub: explore.area };
+  const disc = () => openThread?.({ type: "digest", id: "daily-austin-explore", title: explore.title, summary: explore.why, category: "Explore Austin" });
+  return (
+    <div className="card-hoverable almanacExplore">
+      <div className="almanacExplore__meta">
+        <Kicker genre="austin" extra={`${explore.category} · ${explore.area}`} />
+        <div className="almanacExplore__time">{explore.duration} · {explore.bestTime}</div>
+      </div>
+      <div className="almanacExplore__body">
+        <div>
+          <div className="almanacExplore__title">{explore.title}</div>
+          <p className="almanacExplore__vibe">{explore.vibe}</p>
+        </div>
+        <div className="almanacExplore__prompt">
+          <span>Try this</span>
+          <p>{explore.prompt}</p>
+        </div>
+      </div>
+      <WhyLine text={explore.why} />
+      <div className="almanacExplore__actions">
+        {explore.url && (
+          <a href={explore.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">
+            {explore.sourceLabel ? `Open ${explore.sourceLabel} →` : "Open source →"}
+          </a>
+        )}
+        <TuneStrip visibility={visibility} compact item={item} date={date} chips={AUSTIN_CHIPS} onDiscuss={disc} />
+      </div>
+    </div>
+  );
+}
+
 // ── Venture modal ─────────────────────────────────────────────────────────────
 interface VentureModalProps {
   venture: DailyVenture | null;
@@ -1026,10 +1075,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const clipPool = base.productionClips?.length ? base.productionClips : (daily.productionClips ?? []);
   const poemPool = base.poems?.length ? base.poems : (daily.poems?.length ? daily.poems : FALLBACK_POEMS);
   const longReadPool = base.longReads?.length ? base.longReads : (daily.longReads?.length ? daily.longReads : FALLBACK_LONG_READS);
+  const austinExplorePool = base.austinExplores?.length ? base.austinExplores : (daily.austinExplores?.length ? daily.austinExplores : FALLBACK_AUSTIN_EXPLORES);
   const riff = riffPool.length ? pick(riffPool, dayIdx) : null;
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
   const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
+  const austinExplore = austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null;
   const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
@@ -1192,6 +1243,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
             </div>
           ))}
         </div>
+
+        {austinExplore && (
+          <div className="almanacExploreWrap">
+            <AustinExploreBlock explore={austinExplore} visibility={vis} date={date} openThread={openThread} />
+          </div>
+        )}
 
         {/* Surprise */}
         <div className="almanac__surpriseWrap">

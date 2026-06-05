@@ -1549,6 +1549,16 @@ async function tileLongRead(feedbackWeights, recentIds) {
   return { longRead, usedId: `longread-${best.id}` };
 }
 
+async function tileAustinExplore(feedbackWeights, recentIds) {
+  const dataset = loadWorkshopDataset('austin-explore.json');
+  if (dataset.length === 0) return null;
+  const best = rankWorkshop(dataset, feedbackWeights.austin ?? feedbackWeights.explore, recentIds, 'austin', ['category', 'area', 'vibe', 'prompt', 'why']);
+  if (!best) return null;
+  const austinExplore = toEditionItem(best);
+  if (!austinExplore.title || !austinExplore.prompt || !austinExplore.why) throw new Error('Austin explore missing title/prompt/why after rank');
+  return { austinExplore, usedId: `austin-${best.id}` };
+}
+
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
 
 const KNOWN_FEEDS = {
@@ -1926,7 +1936,7 @@ async function main() {
   log(`Web discovery: ${webDiscovery.provider}${webDiscovery.available ? ' (active)' : ' (fallback — curated sources)'}`);
   await setRunStatus('running', `Discovery via ${webDiscovery.provider}`);
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds, recentPoemIds, recentLongReadIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds, recentPoemIds, recentLongReadIds, recentAustinExploreIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
@@ -1938,6 +1948,7 @@ async function main() {
     getRecentIds('production', 4),// smaller pool; 4-day no-repeat window
     getRecentIds('poem', 14),
     getRecentIds('longread', 14),
+    getRecentIds('austin', 14),
   ]);
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
@@ -2116,6 +2127,22 @@ async function main() {
     warn(`  long read: ${e.message} — using fixture fallback`);
   }
 
+  // Phase 11 — Explore Austin (curated local place/activity)
+  let austinExplores       = fixture.austinExplores ?? [];
+  let usedAustinExploreIds = [];
+  try {
+    const result = await tileAustinExplore(feedbackWeights, recentAustinExploreIds);
+    if (result) {
+      austinExplores = [result.austinExplore];
+      usedAustinExploreIds = [result.usedId];
+      log(`  Austin explore: OK — "${result.austinExplore.title.slice(0, 50)}" (${result.austinExplore.category})`);
+    } else {
+      log('  Austin explore: no dataset — using fixture fallback');
+    }
+  } catch (e) {
+    warn(`  Austin explore: ${e.message} — using fixture fallback`);
+  }
+
   // ── Assemble & validate ───────────────────────────────────────────────────
 
   const edition = {
@@ -2131,6 +2158,7 @@ async function main() {
     productionClips,
     poems,
     longReads,
+    austinExplores,
   };
 
   try {
@@ -2152,6 +2180,7 @@ async function main() {
   log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  poem: ${edition.poems?.[0]?.title?.slice(0, 40) ?? 'none'}${usedPoemIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  long read: ${edition.longReads?.[0]?.title?.slice(0, 40) ?? 'none'}${usedLongReadIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  Austin explore: ${edition.austinExplores?.[0]?.title?.slice(0, 40) ?? 'none'}${usedAustinExploreIds.length ? ' (live)' : ' (fixture)'}`);
 
   if (dryRun) {
     log('Dry-run — printing edition, not writing to KV.');
@@ -2191,6 +2220,7 @@ async function main() {
     usedProductionIds.length > 0   ? recordUsed('production', usedProductionIds, targetDate) : Promise.resolve(),
     usedPoemIds.length > 0         ? recordUsed('poem', usedPoemIds, targetDate) : Promise.resolve(),
     usedLongReadIds.length > 0     ? recordUsed('longread', usedLongReadIds, targetDate) : Promise.resolve(),
+    usedAustinExploreIds.length > 0 ? recordUsed('austin', usedAustinExploreIds, targetDate) : Promise.resolve(),
   ]);
 
   log('History updated. Done.');
