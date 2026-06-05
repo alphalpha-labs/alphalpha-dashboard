@@ -1502,6 +1502,12 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
       if (primarySourceDisliked && /\bfederal reserve\b|\bbis\b|\bbank for international settlements\b|\bpdf\b/.test(blob)) {
         score -= 6;
       }
+      if (/ai\b|artificial intelligence|llm|machine learning|macro|markets|finance|investing/.test(blob)) {
+        score -= 0.9;
+      }
+      if (/culture|institutions|housing|cities|public-health|psychology|religion|anthropology|political-economy|governance|software|craft|defense|osint|progress-studies|systems|provocative/.test(blob)) {
+        score += 1.6;
+      }
       if (/secondary macro|macro analysis|single[-\s]?threaded|deep dive|investment thesis|sector|lyn alden|byrne hobart|david cervantes/.test(notes)) {
         if (/lyn alden|byrne hobart|the diff|david cervantes|pinebrook|newsletter|secondary-analysis|deep-dive|investment-thesis|sector/.test(blob)) {
           score += 5;

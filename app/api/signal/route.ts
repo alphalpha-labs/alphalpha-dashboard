@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireDashboardSession } from "@/lib/auth";
 import { sendSignal } from "@/lib/openclaw";
 
-const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop", "event-feedback", "automation-action", "review-action", "investment-action", "refresh-dashboard", "almanac-regenerate", "article-save"]);
+const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop", "event-feedback", "automation-action", "review-action", "investment-action", "refresh-dashboard", "almanac-regenerate", "article-save", "queue-entry-add"]);
 
 export async function POST(req: NextRequest) {
   const authError = await requireDashboardSession(req);
@@ -54,6 +54,7 @@ function receiptFor(type: string, itemId: string, payload: unknown) {
   if (type === "refresh-dashboard") return "Refresh request accepted.";
   if (type === "almanac-regenerate") return `Almanac recrawl accepted for ${p.date || "today"}.`;
   if (type === "article-save") return `Queue + Instapaper request accepted for “${p.title || itemId}”.`;
+  if (type === "queue-entry-add") return `Queue entry accepted for “${(p.suggestion as Record<string, unknown> | undefined)?.title || itemId}”.`;
   return `Dashboard action ${type} accepted.`;
 }
 
