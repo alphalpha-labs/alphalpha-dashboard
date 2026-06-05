@@ -23,6 +23,35 @@ type Genre = keyof typeof GENRE;
 const DEFAULT_DEPT_ITEMS: Array<"article" | "venture" | "chart"> = ["article", "venture", "chart"];
 const TODAY_DAY = Math.floor(Date.now() / 864e5);
 
+type AlmanacHeroImage = {
+  title: string;
+  location: string;
+  url: string;
+  sourceUrl: string;
+  credit: string;
+  fit?: "cover" | "contain";
+  position?: string;
+};
+
+const AUSTIN_HERO_IMAGES: AlmanacHeroImage[] = [
+  {
+    title: "Lady Bird Lake Skyline",
+    location: "Lady Bird Lake",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Lady_Bird_Lake_in_Austin%2C_Texas.jpg/1920px-Lady_Bird_Lake_in_Austin%2C_Texas.jpg",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Lady_Bird_Lake_in_Austin,_Texas.jpg",
+    credit: "Rish0203 / Wikimedia Commons",
+    position: "center 54%",
+  },
+  {
+    title: "Austin Winter Sunrise",
+    location: "Lady Bird Lake",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Austin_Winter_Sunrise.jpg/1920px-Austin_Winter_Sunrise.jpg",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Austin_Winter_Sunrise.jpg",
+    credit: "LoneStarMike / Wikimedia Commons",
+    position: "center 48%",
+  },
+];
+
 // ── Date helpers ──────────────────────────────────────────────────────────────
 const MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -50,6 +79,10 @@ function offsetForDate(d: Date) {
 }
 function pick<T>(arr: T[], idx: number): T {
   return arr[((idx % arr.length) + arr.length) % arr.length];
+}
+function heroImageForDate(date: string, dayIdx: number) {
+  const dateSeed = date.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return pick(AUSTIN_HERO_IMAGES, dayIdx + dateSeed);
 }
 
 // ── Toast ────────────────────────────────────────────────────────────────────
@@ -1223,6 +1256,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
+  const heroImage = heroImageForDate(date, dayIdx);
 
   const applyRunStatus = useCallback(async (run: AlmanacRunStatus, announceDone = false) => {
     const providerSuffix = run.provider ? ` · ${run.provider}` : "";
@@ -1330,6 +1364,21 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     <div className="almanac">
       {/* Masthead */}
       <div className={`almanac__masthead${isMobile ? " almanac__masthead--mobile" : ""}`}>
+        <figure className={`almanacHero${isMobile ? " almanacHero--mobile" : ""}`}>
+          <img
+            className="almanacHero__image"
+            src={heroImage.url}
+            alt={`${heroImage.title}, ${heroImage.location}`}
+            style={{ objectPosition: heroImage.position ?? "center" }}
+          />
+          <figcaption className="almanacHero__caption">
+            <span className="almanacHero__label">Austin view of the day</span>
+            <span className="almanacHero__place">{heroImage.title} · {heroImage.location}</span>
+            <a className="almanacHero__credit" href={heroImage.sourceUrl} target="_blank" rel="noreferrer">
+              {heroImage.credit}
+            </a>
+          </figcaption>
+        </figure>
         <div className="almanac__titleRow">
           <div className="almanac__titleGroup">
             <span className={`almanac__title${isMobile ? " almanac__title--mobile" : ""}`}>The Almanac</span>
