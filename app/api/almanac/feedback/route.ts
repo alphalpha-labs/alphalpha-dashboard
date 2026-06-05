@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { requireDashboardSession } from "@/lib/auth";
+import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
 
 const redis = new Redis({
   url:   process.env.KV_REST_API_URL!,
@@ -21,6 +22,7 @@ export type AlmanacTune = {
   reaction: "more" | "less" | null;
   chips:    string[];
   note:     string;
+  interpretation?: string;
   at:       number;
   date:     string; // YYYY-MM-DD
 };
@@ -36,6 +38,7 @@ export type AlmanacFeedbackHistoryItem = {
   reaction?: "more" | "less" | null;
   chips?:   string[];
   note?:    string;
+  interpretation?: string;
   at:       number;
   date:     string; // YYYY-MM-DD
 };
@@ -132,11 +135,21 @@ export async function POST(req: NextRequest) {
     }
   } else if (body.type === "tune") {
     const at = body.at ?? Date.now();
+    const genre = body.genre ?? String(body.itemId).split(/[:-]/)[0] ?? "article";
+    const interpretation = buildAlmanacFeedbackInterpretation({
+      genre,
+      title: body.title ?? "",
+      sub: body.sub,
+      reaction: body.reaction ?? null,
+      chips: body.chips ?? [],
+      note: body.note ?? "",
+    });
     feedback.tunes[body.itemId] = {
       itemId:   body.itemId,
       reaction: body.reaction ?? null,
       chips:    body.chips ?? [],
       note:     body.note ?? "",
+      interpretation,
       at,
       date:     body.date,
     };
@@ -144,12 +157,13 @@ export async function POST(req: NextRequest) {
       id: historyId("tune", body.itemId, at),
       type: "tune",
       itemId: body.itemId,
-      genre: body.genre ?? String(body.itemId).split(/[:-]/)[0] ?? "article",
+      genre,
       title: body.title ?? "",
       sub: body.sub,
       reaction: body.reaction ?? null,
       chips: body.chips ?? [],
       note: body.note ?? "",
+      interpretation,
       at,
       date: body.date,
     });

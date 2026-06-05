@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
+import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
 const GENRE = {
@@ -77,7 +78,7 @@ function ToastHost() {
 
 // ── Feedback persistence ──────────────────────────────────────────────────────
 type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; keptAt: number; date: string };
-type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; at: number; date: string };
+type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; interpretation?: string; at: number; date: string };
 type FeedbackHistoryItem = {
   id: string;
   type: "keep" | "tune";
@@ -89,6 +90,7 @@ type FeedbackHistoryItem = {
   reaction?: "more" | "less" | null;
   chips?: string[];
   note?: string;
+  interpretation?: string;
   at: number;
   date: string;
 };
@@ -312,43 +314,17 @@ function describeFeedbackReceipt(saved: TuneRecord | null, kept: boolean) {
   return parts.length ? parts.join(" · ") : "No feedback saved yet.";
 }
 
-function notePlan(note: string, item: { genre: string; title: string; sub?: string }) {
-  const lower = note.trim().toLowerCase();
-  const genreLabel = GENRE[item.genre as Genre]?.label ?? item.genre;
-  const title = item.title ? `“${item.title}”` : "this tile";
-
-  if (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(lower)) {
-    if (item.genre === "chart") {
-      return "Do not treat AI adoption stats alone as a strong Signal. Prefer charts that connect AI to markets, labor, culture, policy, product behavior, or other second-order effects, with a clearer why-it-matters frame.";
-    }
-    return `Use ${title} as a reminder to avoid surface-level ${genreLabel} picks; require a sharper angle, stronger consequence, or less obvious source before selecting similar tiles.`;
-  }
-  if (/\bsource\b|\bsourcing\b|\bcredible\b|\bbacked\b|\bdata\b/.test(lower)) {
-    return `Require stronger sourcing for future ${genreLabel} candidates like ${title}, and prefer primary or clearly attributed material over thin summaries.`;
-  }
-  if (/\bvibe\b|\btone\b|\bbeautiful\b|\baesthetic\b|\bstyle\b/.test(lower)) {
-    return `Retune future ${genreLabel} picks toward this taste note: preserve the useful topic, but shift the feel, style, and presentation before ranking similar candidates.`;
-  }
-  if (/\bpractical\b|\baction\b|\buseful\b|\bdo\b|\btry\b/.test(lower)) {
-    return `Favor future ${genreLabel} tiles that turn the idea behind ${title} into a more usable takeaway, experiment, or decision aid.`;
-  }
-  if (/\bfamiliar\b|\bseen\b|\bobvious\b|\bstale\b/.test(lower)) {
-    return `Down-rank familiar versions of ${title}; search for fresher sources, more surprising examples, or less recycled framing before using this lane again.`;
-  }
-  return `Treat the note as composer guidance for future ${genreLabel} candidates: compare similar tiles against this preference before final selection, not just after drafting.`;
-}
-
 function describeFeedbackInterpretation(saved: TuneRecord | null, kept: boolean, item: { genre: string; title: string; sub?: string }) {
-  const plans: string[] = [];
-  const genreLabel = GENRE[item.genre as Genre]?.label ?? item.genre;
-  if (kept) plans.push(`Keep signal: boost the ${item.sub ? `${item.sub} source/style` : `${genreLabel} lane`} when nearby candidates compete`);
-  if (saved?.reaction === "more") plans.push(`More signal: rank candidates with a similar ${genreLabel} angle higher`);
-  if (saved?.reaction === "less") plans.push(`Less signal: down-rank candidates that repeat this ${genreLabel} angle without a stronger reason`);
-  if (saved?.chips?.length) plans.push(`Chip weights: ${saved.chips.slice(0, 3).join(", ")} will bias ranking and composer prompts`);
-  if (saved?.note?.trim()) plans.push(notePlan(saved.note, item));
-  return plans.length
-    ? plans.join(" ")
-    : "Save a reaction, chip, note, or keep signal to steer future editions.";
+  if (saved?.interpretation) return saved.interpretation;
+  return buildAlmanacFeedbackInterpretation({
+    genre: item.genre,
+    title: item.title,
+    sub: item.sub,
+    reaction: saved?.reaction ?? null,
+    chips: saved?.chips ?? [],
+    note: saved?.note ?? "",
+    kept,
+  });
 }
 
 function describeHistoryItem(entry: FeedbackHistoryItem) {
@@ -422,6 +398,7 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
   const [reaction, setReaction] = useState<"more" | "less" | null>(saved?.reaction ?? null);
   const [chips, setChips] = useState<Set<string>>(() => new Set(saved?.chips ?? []));
   const [note, setNote] = useState(saved?.note ?? "");
+  const [noteExpanded, setNoteExpanded] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [receiptOpen, setReceiptOpen] = useState(false);
 
@@ -555,10 +532,12 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
                 ))}
               </div>
               <div className="almanacTunePanel__noteRow">
-                <input value={note} onChange={e => setNote(e.target.value)}
-                  onKeyDown={e => { if (e.key === "Enter") submit(); }}
+                <textarea value={note} onChange={e => setNote(e.target.value)}
+                  onFocus={() => setNoteExpanded(true)}
+                  onKeyDown={e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) submit(); }}
                   placeholder="tell Alphalpha why… (optional)"
-                  className="almanacTunePanel__noteInput" />
+                  className={`almanacTunePanel__noteInput${noteExpanded || note.length > 80 ? " almanacTunePanel__noteInput--expanded" : ""}`}
+                  rows={noteExpanded || note.length > 80 ? 5 : 2} />
                 <button onClick={submit} className="almanacTunePanel__save" disabled={saveState === "saving"}>
                   {saveState === "saving" ? "Saving..." : saved ? "Update" : "Save"}
                 </button>
