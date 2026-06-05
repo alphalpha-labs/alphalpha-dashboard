@@ -17,7 +17,7 @@ const GENRE = {
 } as const;
 type Genre = keyof typeof GENRE;
 
-const LEAD_ORDER: Genre[] = ["image", "article", "venture", "chart"];
+const DEFAULT_DEPT_ITEMS: Array<"article" | "venture" | "chart"> = ["article", "venture", "chart"];
 const TODAY_DAY = Math.floor(Date.now() / 864e5);
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
@@ -666,11 +666,11 @@ function QuoteCard({ quote, label }: { quote: { text: string; source: string }; 
   );
 }
 
-function LongReadBlock({ read, visibility, date, openThread }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+function LongReadBlock({ read, visibility, date, openThread, compact = false }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void; compact?: boolean }) {
   const item = { id: "longread:" + read.title, genre: "longread" as Genre, title: read.title, sub: read.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-longread", title: read.title, summary: read.thesis, category: "Macro / investment thesis" });
   return (
-    <div className="card-hoverable almanacShelfCard">
+    <div className={`card-hoverable${compact ? "" : " almanacShelfCard"}`}>
       <Kicker genre="longread" extra={`${read.source} · ${read.readTime}`} />
       <div className="almanacShelfTitle">{read.title}</div>
       <div className="almanacShelfByline">{read.frame}</div>
@@ -933,7 +933,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     : daily;
 
   const lead = "image" as const;
-  const rest = LEAD_ORDER.filter(t => t !== lead);
+  const rest = DEFAULT_DEPT_ITEMS;
 
   // Build resolved daily with the right picks for this dayIdx
   const resolved: DailyData = {
@@ -956,6 +956,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
   const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
+  const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
 
@@ -1109,9 +1110,11 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
 
         {/* Departments */}
         <div className={`almanac__depts${isMobile ? " almanac__depts--mobile" : ""}`}>
-          {rest.map((t, i) => (
+          {deptItems.map((t, i) => (
             <div key={t} className={`almanac__dept${!isMobile && i > 0 ? " almanac__dept--divided" : ""}`}>
-              {renderBlock(t, "dept")}
+              {t === "longread-card"
+                ? (longRead ? <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact /> : null)
+                : renderBlock(t, "dept")}
             </div>
           ))}
         </div>
@@ -1120,19 +1123,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
         <div className="almanac__surpriseWrap">
           <SurpriseBand s={surprise} visibility={vis} date={date} isMobile={isMobile} openThread={openThread} />
         </div>
-
-        {/* Reading shelf — macro/investment thesis */}
-        {longRead && (
-          <div className="almanac__shelfWrap">
-            <div className="almanac__workshopHead">
-              <span className="almanac__workshopKicker">The Reading Shelf</span>
-              <span className="almanac__workshopSub">· one longer thesis</span>
-            </div>
-            <div className={`almanac__shelf${isMobile ? " almanac__shelf--mobile" : ""}`}>
-              <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} />
-            </div>
-          </div>
-        )}
 
         {/* Workshop — guitar riff + production clip of the day */}
         {(riff || clip) && (
