@@ -1183,7 +1183,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
         </div>
 
         {/* Departments */}
-        <div className={`almanac__depts${isMobile ? " almanac__depts--mobile" : ""}`}>
+        <div className={`almanac__depts${longRead ? " almanac__depts--withLongRead" : ""}${isMobile ? " almanac__depts--mobile" : ""}`}>
           {deptItems.map((t, i) => (
             <div key={t} className={`almanac__dept${!isMobile && i > 0 ? " almanac__dept--divided" : ""}`}>
               {t === "longread-card"
