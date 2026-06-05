@@ -197,6 +197,17 @@ async function fetchAlmanacRunStatus(date: string): Promise<AlmanacRunStatus> {
   return res.json();
 }
 
+async function postArticleSave(itemId: string, payload: Record<string, unknown>) {
+  const res = await fetch("/api/signal", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "article-save", itemId, payload }),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(json?.error || `Article save failed (${res.status})`);
+  return json;
+}
+
 // ── Kicker ───────────────────────────────────────────────────────────────────
 function Kicker({ genre, extra }: { genre: Genre; extra?: string }) {
   const g = GENRE[genre];
@@ -433,6 +444,22 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
           {lead ? "Read the full piece →" : "Read →"}
         </a>
       )}
+      {url && (
+        <ArticleSaveButton
+          itemId={item.id}
+          payload={{
+            kind: "almanac-article",
+            title: d.article.title,
+            url,
+            source: d.article.source,
+            summary: d.article.dek,
+            why: d.article.why,
+            date,
+            themes: ["article", "daily reading"],
+          }}
+          compact={!lead}
+        />
+      )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} onDiscuss={lead ? disc : undefined} />
     </div>
   );
@@ -666,6 +693,37 @@ function QuoteCard({ quote, label }: { quote: { text: string; source: string }; 
   );
 }
 
+function ArticleSaveButton({ itemId, payload, compact = false }: { itemId: string; payload: Record<string, unknown>; compact?: boolean }) {
+  const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const disabled = state === "saving" || typeof payload.url !== "string" || !payload.url;
+  const label = state === "saving" ? "Saving..." : state === "saved" ? "Queued + sent" : state === "error" ? "Retry save" : "Queue + Instapaper";
+
+  const save = async () => {
+    if (disabled) return;
+    setState("saving");
+    try {
+      await postArticleSave(itemId, payload);
+      setState("saved");
+      showToast("Article save request accepted");
+    } catch {
+      setState("error");
+      showToast("Article save failed");
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      className={`almanacArticleSaveBtn${compact ? " almanacArticleSaveBtn--compact" : ""} almanacArticleSaveBtn--${state}`}
+      onClick={save}
+      disabled={disabled}
+    >
+      <span aria-hidden="true">{state === "saved" ? "✓" : "+"}</span>
+      <span>{label}</span>
+    </button>
+  );
+}
+
 function LongReadBlock({ read, visibility, date, openThread, compact = false }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void; compact?: boolean }) {
   const item = { id: "longread:" + read.title, genre: "longread" as Genre, title: read.title, sub: read.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-longread", title: read.title, summary: read.thesis, category: "Macro / investment thesis" });
@@ -680,6 +738,22 @@ function LongReadBlock({ read, visibility, date, openThread, compact = false }: 
         <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">
           {read.sourceLabel ? `Open ${read.sourceLabel} →` : "Open the long read →"}
         </a>
+      )}
+      {read.url && (
+        <ArticleSaveButton
+          itemId={item.id}
+          payload={{
+            kind: "almanac-longread",
+            title: read.title,
+            url: read.url,
+            source: read.source,
+            summary: read.thesis,
+            why: read.why,
+            date,
+            themes: ["macro", "investing", "long read"],
+          }}
+          compact={compact}
+        />
       )}
       <TuneStrip visibility={visibility} compact item={item} date={date} chips={LONG_READ_CHIPS} onDiscuss={disc} />
     </div>

@@ -1736,6 +1736,44 @@ input { font-family: inherit; }
 .almanacReadLink--dept { margin-top: 10px; font-size: 12px; }
 .almanacHeadlineLink { display: block; text-decoration: none; color: inherit; transition: color .15s ease; }
 .almanacHeadlineLink:hover { color: #9a6a3a; }
+.almanacArticleSaveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border: 1px solid color-mix(in oklch, var(--genre-article) 36%, var(--border));
+  border-radius: var(--radius-sm);
+  background: rgba(255, 252, 246, .78);
+  color: #7a5a34;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  padding: 7px 9px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.almanacArticleSaveBtn:hover:not(:disabled) {
+  background: var(--card-hover);
+  border-color: color-mix(in oklch, var(--genre-article) 55%, var(--border-strong));
+  color: #5d3f1e;
+}
+.almanacArticleSaveBtn:disabled { cursor: default; opacity: .72; }
+.almanacArticleSaveBtn--compact {
+  margin-left: 0;
+  font-size: 11px;
+  padding: 6px 8px;
+}
+.almanacArticleSaveBtn--saving { opacity: .72; }
+.almanacArticleSaveBtn--saved {
+  border-color: color-mix(in oklch, var(--genre-venture) 45%, var(--border));
+  color: #55715a;
+}
+.almanacArticleSaveBtn--error {
+  border-color: color-mix(in oklch, var(--accent-high) 45%, var(--border));
+  color: var(--accent-high);
+}
 
 /* ── Workshop (riff + production clip of the day) ──────────────────────────── */
 .almanac__workshopWrap { margin-top: 48px; }
