@@ -108,6 +108,18 @@
     "tags": ["macro", "secondary-analysis", "newsletter", "investment-thesis", "markets"]
   },
   {
+    "id": "longread-cervantes-new-trilemma",
+    "title": "A New Trilemma",
+    "source": "David Cervantes / Pinebrook Capital",
+    "readTime": "20-35 min",
+    "frame": "Macro policy trilemma",
+    "thesis": "Jobs data, geopolitical shock, and stagflationary supply risk create a policy trilemma for rates, energy, and risk appetite.",
+    "why": "A secondary macro strategy note in the requested style: one analyst's market-relevant frame, not a primary-source report.",
+    "url": "https://www.pinebrookcap.com/p/signal-and-noise-filter-6e6",
+    "sourceLabel": "Pinebrook Capital",
+    "tags": ["macro", "secondary-analysis", "investment-thesis", "energy", "rates", "long-read"]
+  },
+  {
     "id": "longread-hobart-finance-scale-invariant-computer",
     "title": "Finance as a Scale-Invariant Global Computer",
     "source": "The Diff / Byrne Hobart",
