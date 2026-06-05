@@ -113,23 +113,25 @@ async function loadFeedback(date: string): Promise<FeedbackState> {
   try { return await p; } finally { delete feedbackInflight[date]; }
 }
 
-async function persistKeep(date: string, keep: KeepRecord | null, itemId: string) {
+async function persistKeep(date: string, keep: KeepRecord | null, itemId: string): Promise<boolean> {
   const body = keep
     ? { ...keep, date, type: "keep", itemId }
     : { date, type: "keep", itemId, remove: true };
-  await fetch("/api/almanac/feedback", {
+  const res = await fetch("/api/almanac/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
-  }).catch(() => {});
+  });
+  return res.ok;
 }
 
-async function persistTune(date: string, tune: TuneRecord) {
-  await fetch("/api/almanac/feedback", {
+async function persistTune(date: string, tune: TuneRecord): Promise<boolean> {
+  const res = await fetch("/api/almanac/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...tune, date, type: "tune" }),
-  }).catch(() => {});
+  });
+  return res.ok;
 }
 
 function useFeedback(date: string) {
@@ -145,31 +147,41 @@ function useFeedback(date: string) {
   return feedbackCache[date] ?? { keeps: {}, tunes: {} };
 }
 
-function toggleKeep(date: string, item: { id: string; genre: string; title: string; sub?: string }) {
+async function toggleKeep(date: string, item: { id: string; genre: string; title: string; sub?: string }) {
   const state = feedbackCache[date] ?? { keeps: {}, tunes: {} };
   const existing = state.keeps[item.id];
   const next = { ...state };
   if (existing) {
+    const ok = await persistKeep(date, null, item.id).catch(() => false);
+    if (!ok) {
+      showToast("Could not update feedback. Please try again.");
+      return;
+    }
     const n = { ...next.keeps };
     delete n[item.id];
     next.keeps = n;
     feedbackCache[date] = next;
-    persistKeep(date, null, item.id);
   } else {
     const rec: KeepRecord = { itemId: item.id, genre: item.genre, title: item.title, sub: item.sub, keptAt: Date.now(), date };
+    const ok = await persistKeep(date, rec, item.id).catch(() => false);
+    if (!ok) {
+      showToast("Could not save feedback. Please try again.");
+      return;
+    }
     next.keeps = { ...next.keeps, [item.id]: rec };
     feedbackCache[date] = next;
-    persistKeep(date, rec, item.id);
-    showToast("✦ Kept to your collection");
+    showToast("Saved: kept to your Almanac feedback store");
   }
   feedbackSubs.forEach(fn => fn());
 }
 
-function saveTune(date: string, tune: TuneRecord) {
+async function saveTune(date: string, tune: TuneRecord): Promise<boolean> {
+  const ok = await persistTune(date, tune).catch(() => false);
+  if (!ok) return false;
   const state = feedbackCache[date] ?? { keeps: {}, tunes: {} };
   feedbackCache[date] = { ...state, tunes: { ...state.tunes, [tune.itemId]: tune } };
-  persistTune(date, tune);
   feedbackSubs.forEach(fn => fn());
+  return true;
 }
 
 async function postAlmanacRegenerate(date: string) {
@@ -252,6 +264,38 @@ const POEM_CHIPS = ["more modernist","more religious","more political","too fami
 const LONG_READ_CHIPS = ["more macro","more investing","more source-backed","too long","go deeper"];
 const AUSTIN_CHIPS = ["more family","more outdoors","more beautiful","closer to home","less obvious"];
 
+function fmtFeedbackTime(ms?: number) {
+  if (!ms) return "saved";
+  return new Date(ms).toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function describeFeedbackReceipt(saved: TuneRecord | null, kept: boolean) {
+  const parts: string[] = [];
+  if (kept) parts.push("kept");
+  if (saved?.reaction === "more") parts.push("more like this");
+  if (saved?.reaction === "less") parts.push("less like this");
+  if (saved?.chips?.length) parts.push(saved.chips.join(", "));
+  if (saved?.note?.trim()) parts.push(`"${saved.note.trim()}"`);
+  return parts.length ? parts.join(" · ") : "No feedback saved yet.";
+}
+
+function describeFeedbackInterpretation(saved: TuneRecord | null, kept: boolean) {
+  const plans: string[] = [];
+  if (kept) plans.push("boost this tile's source/style for future picks");
+  if (saved?.reaction === "more") plans.push("rank similar candidates higher");
+  if (saved?.reaction === "less") plans.push("rank similar candidates lower");
+  if (saved?.chips?.length) plans.push(`use ${saved.chips.slice(0, 3).join(", ")} as tuning weights`);
+  if (saved?.note?.trim()) plans.push("pass the note into composer steering context");
+  return plans.length
+    ? plans.join("; ") + "."
+    : "Save a reaction, chip, note, or keep signal to steer future editions.";
+}
+
 const FALLBACK_POEMS: DailyPoem[] = [
   {
     title: "Sunday Morning",
@@ -311,7 +355,8 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
   const [reaction, setReaction] = useState<"more" | "less" | null>(saved?.reaction ?? null);
   const [chips, setChips] = useState<Set<string>>(() => new Set(saved?.chips ?? []));
   const [note, setNote] = useState(saved?.note ?? "");
-  const [done, setDone] = useState(false);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [receiptOpen, setReceiptOpen] = useState(false);
 
   // Sync from loaded state
   useEffect(() => {
@@ -328,17 +373,25 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
     return n;
   });
 
-  const submit = () => {
+  const submit = async () => {
     if (!reaction && chips.size === 0 && !note.trim()) { setOpen(false); return; }
-    saveTune(date, { itemId: item.id, reaction, chips: [...chips], note: note.trim(), at: Date.now(), date });
-    setDone(true);
-    setTimeout(() => { setOpen(false); setTimeout(() => setDone(false), 300); }, 1600);
+    setSaveState("saving");
+    const ok = await saveTune(date, { itemId: item.id, reaction, chips: [...chips], note: note.trim(), at: Date.now(), date });
+    if (!ok) {
+      setSaveState("error");
+      return;
+    }
+    setSaveState("saved");
+    setReceiptOpen(true);
+    showToast("Saved: feedback recorded for future Almanac editions");
+    setTimeout(() => { setOpen(false); setTimeout(() => setSaveState("idle"), 300); }, 1600);
   };
 
   const wrapCls = visibility === "always" ? "almanacTuneRow almanacTuneRow--on" : "almanacTuneRow";
+  const hasReceipt = kept || !!saved;
 
   const keepEl = (
-    <KeepBtn kept={kept} onClick={() => toggleKeep(date, { id: item.id, genre: item.genre, title: item.title, sub: item.sub })} />
+    <KeepBtn kept={kept} onClick={() => { void toggleKeep(date, { id: item.id, genre: item.genre, title: item.title, sub: item.sub }); }} />
   );
 
   const tuneBtn = (
@@ -355,6 +408,18 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
     </button>
   );
 
+  const receiptBtn = hasReceipt && (
+    <button
+      type="button"
+      onClick={() => setReceiptOpen(o => !o)}
+      className={`almanacReceiptBtn${receiptOpen ? " almanacReceiptBtn--open" : ""}`}
+      aria-expanded={receiptOpen}
+    >
+      Receipt
+      <span className={`almanacTuneBtn__caret${receiptOpen ? " almanacTuneBtn__caret--open" : ""}`}>▾</span>
+    </button>
+  );
+
   return (
     <div style={{ marginTop: compact ? 12 : 18 }}>
       <div className={wrapCls}>
@@ -362,14 +427,31 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
         <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           {visibility === "hover" && keepEl}
           {tuneBtn}
+          {receiptBtn}
           {discussBtn}
         </span>
       </div>
+      {receiptOpen && hasReceipt && (
+        <div className="almanacFeedbackReceipt">
+          <div className="almanacFeedbackReceipt__top">
+            <span className="almanacFeedbackReceipt__status">Saved</span>
+            <span className="almanacFeedbackReceipt__time">{fmtFeedbackTime(saved?.at ?? (kept ? feedback.keeps[item.id]?.keptAt : undefined))}</span>
+          </div>
+          <div className="almanacFeedbackReceipt__row">
+            <span>Feedback</span>
+            <p>{describeFeedbackReceipt(saved, kept)}</p>
+          </div>
+          <div className="almanacFeedbackReceipt__row">
+            <span>Interpretation</span>
+            <p>{describeFeedbackInterpretation(saved, kept)}</p>
+          </div>
+        </div>
+      )}
       {open && (
         <div className="almanacTunePanel">
-          {done ? (
+          {saveState === "saved" ? (
             <div className="almanacTunePanel__confirm">
-              <span>✓</span> Noted — tomorrow&apos;s edition will lean that way.
+              <span>✓</span> Saved to the feedback store. Future editions will use the receipt below.
             </div>
           ) : (
             <>
@@ -393,10 +475,14 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
                   onKeyDown={e => { if (e.key === "Enter") submit(); }}
                   placeholder="tell Alphalpha why… (optional)"
                   className="almanacTunePanel__noteInput" />
-                <button onClick={submit} className="almanacTunePanel__save">
-                  {saved ? "Update" : "Save"}
+                <button onClick={submit} className="almanacTunePanel__save" disabled={saveState === "saving"}>
+                  {saveState === "saving" ? "Saving..." : saved ? "Update" : "Save"}
                 </button>
               </div>
+              {saveState === "error" && (
+                <div className="almanacTunePanel__error">Not saved. Check the connection and try again.</div>
+              )}
+              <div className="almanacTunePanel__storageHint">Writes to /api/almanac/feedback before this tile marks it saved.</div>
             </>
           )}
         </div>
