@@ -251,6 +251,85 @@ export type InvestingFeedbackCalibration = { generatedAt: string; metrics: Recor
 export type InvestingInputHealth = { generatedAt: string; status: string; summary: Record<string, number>; health?: { blockers?: string[]; warnings?: string[] }; investorPosts?: { bySource30d?: Array<{ source: string; platform?: string; posts: number; latest?: string; avg_thesis?: number; avg_macro?: number }>; recentHighSignal?: Array<{ investor_name?: string; source_label?: string; title?: string; url?: string; event_time?: string; ai_summary?: string; themes_detected?: string[] }> }; news?: { bySource30d?: Array<{ source: string; items: number; latest?: string; avg_relevance?: number }> }; fetchRuns?: { byStatus14d?: Array<{ status: string; runs: number; items_seen?: number; items_inserted?: number; latest?: string }> }; recommendations?: string[] };
 export type InvestingPortfolioContextMap = { generatedAt: string; portfolio: { holding_count?: number; account_count?: number; cash_balance?: number | null; total_equity?: number | null; warnings?: string[] }; exposureMap: { byTheme?: Array<{ id: string; title: string; equity: number; portfolioPct: number; holdings: Array<{ symbol: string; equity?: number | null; portfolio_pct?: number | null; name?: string | null }> }>; unmappedHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; prompt?: string | null }>; topHoldings?: Array<{ symbol: string; name?: string | null; equity?: number | null; portfolio_pct?: number | null; thesisTitle?: string | null; mappedTheme?: string | null }> }; obsidianSignals?: { noteCount?: number; themeEvidence?: Array<{ theme: string; noteCount: number; symbols?: Record<string, number>; examples?: Array<{ path: string; title?: string; snippet?: string }> }> }; prompts?: Array<{ type: string; symbol?: string; theme?: string; prompt: string; equity?: number | null; portfolio_pct?: number | null; examples?: string[] }> };
 
+export type InvestingAllocationTargets = {
+  schemaVersion?: string;
+  generatedAt: string;
+  portfolioSnapshotAt?: string | null;
+  scope?: { trackedEquity?: number | null; trackedCash?: number | null; householdContextNotes?: string[] };
+  summary: { targetCoveragePct: number; inRangeCount: number; overweightCount: number; underweightCount: number; staleTargetCount: number; recentChangeCount: number };
+  sleeves: Array<{
+    id: string;
+    title: string;
+    kind?: string;
+    currentPct: number;
+    currentEquity?: number | null;
+    target: { minPct: number; midPct: number; maxPct: number; priorMinPct?: number; priorMidPct?: number; priorMaxPct?: number; updatedAt?: string; source?: string };
+    gapToTargetMidPct: number;
+    status: string;
+    statusTone?: string;
+    confidence?: string;
+    conviction?: string;
+    convictionScore?: number | null;
+    trend?: string | null;
+    freshness?: string | null;
+    actionPosture?: string;
+    holdings?: Array<{ symbol: string; name?: string | null; portfolioPct?: number | null; equity?: number | null }>;
+    latestChangeEventId?: string;
+    receipts?: Array<{ label: string; source?: string; date?: string | null; url?: string | null; excerpt?: string }>;
+    invalidators?: string[];
+  }>;
+  targetChangeEvents: Array<{
+    id: string;
+    sleeveId: string;
+    at: string;
+    title: string;
+    priorTarget?: { minPct: number; midPct: number; maxPct: number };
+    newTarget: { minPct: number; midPct: number; maxPct: number };
+    changeDirection: string;
+    changeMagnitudePct: number;
+    confidence?: string;
+    status?: string;
+    summary?: string;
+    analysisSummary?: string;
+    whyChanged?: string;
+    evidenceConsidered?: string[];
+    counterEvidence?: string[];
+    invalidators?: string[];
+    reversalConditions?: string[];
+    impactType?: string;
+    receipts?: Array<{ label: string; source?: string; date?: string | null; url?: string | null; excerpt?: string }>;
+    sourceRefs?: string[];
+    discussionPrompt?: string;
+    executionBoundary?: string;
+  }>;
+};
+
+export type InvestingDailyTradeAnalysis = {
+  schemaVersion?: string;
+  generatedAt: string;
+  sourceWindow?: { startDate?: string | null; endDate?: string | null };
+  summary: { dayCount: number; tradeCount: number; totalBuys: number; totalSells: number; totalOutsidePlan: number; totalPlanAligned: number };
+  days: Array<{
+    date: string;
+    tradeCount: number;
+    buys: number;
+    sells: number;
+    cashEvents: number;
+    grossBuyAmount?: number | null;
+    grossSellAmount?: number | null;
+    netAmount?: number | null;
+    symbols: string[];
+    thesisIds: string[];
+    alignmentMix: Record<string, number>;
+    dailySummary: string;
+    behavioralRead: string;
+    targetAllocationImpact: string;
+    riskConcentrationImpact: string;
+    followUps?: Array<{ id: string; symbol?: string | null; prompt: string; alignment: string }>;
+    trades: Array<{ id: string; symbol?: string | null; action: string; description?: string | null; tradeDate?: string | null; quantity?: number | null; price?: number | null; amount?: number | null; thesisId?: string | null; thesisTitle?: string | null; valuationState?: string | null; alignment?: string; prompt?: string | null }>;
+  }>;
+};
+
 export type InvestingTaxonomyDecisionSheet = {
   generatedAt?: string;
   schemaVersion?: string;
@@ -529,6 +608,8 @@ export type DashboardData = {
     investingFeedbackCalibration?: InvestingFeedbackCalibration | null;
     investingInputHealth?: InvestingInputHealth | null;
     investingPortfolioContextMap?: InvestingPortfolioContextMap | null;
+    investingAllocationTargets?: InvestingAllocationTargets | null;
+    investingDailyTradeAnalysis?: InvestingDailyTradeAnalysis | null;
     investingTaxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
     investingTaxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;

@@ -20,6 +20,8 @@ import type {
   InvestingFeedbackCalibration,
   InvestingInputHealth,
   InvestingPortfolioContextMap,
+  InvestingAllocationTargets,
+  InvestingDailyTradeAnalysis,
   InvestingTaxonomyDecisionSheet,
   InvestingTaxonomyDecisionWorkflow,
   InvestingTaxonomyDecisions,
@@ -62,6 +64,8 @@ interface Props {
   feedbackCalibration?: InvestingFeedbackCalibration | null;
   inputHealth?: InvestingInputHealth | null;
   portfolioContextMap?: InvestingPortfolioContextMap | null;
+  allocationTargets?: InvestingAllocationTargets | null;
+  dailyTradeAnalysis?: InvestingDailyTradeAnalysis | null;
   taxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
   taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
   taxonomyDecisions?: InvestingTaxonomyDecisions | null;
@@ -84,7 +88,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -147,6 +151,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
 
       {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} evidence={thesisInvalidationEvidence} onDiscuss={onDiscuss} onAction={onAction} />}
 
+      {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} onDiscuss={onDiscuss} />}
+
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
       )}
@@ -200,6 +206,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           onAction={onAction}
         />
       )}
+
+      {dailyTradeAnalysis && <DailyTradeAnalysisPanel dailyTradeAnalysis={dailyTradeAnalysis} onDiscuss={onDiscuss} />}
 
       {tradeReview && (
         <section className="investmentSection investmentTradeReview investmentTradeReviewFeatured">
@@ -435,6 +443,198 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         ))}
       </section>
     </div>
+  );
+}
+
+function TargetAllocationCockpit({ allocationTargets, onDiscuss }: { allocationTargets: InvestingAllocationTargets; onDiscuss: Props["onDiscuss"] }) {
+  const sleeves = allocationTargets.sleeves ?? [];
+  const [selectedId, setSelectedId] = useState(sleeves[0]?.id ?? "");
+  const [expandedEventId, setExpandedEventId] = useState(allocationTargets.targetChangeEvents?.[0]?.id ?? "");
+  const selected = sleeves.find(sleeve => sleeve.id === selectedId) ?? sleeves[0] ?? null;
+  const selectedEvent = selected ? allocationTargets.targetChangeEvents?.find(event => event.id === selected.latestChangeEventId || event.sleeveId === selected.id) : null;
+  const recentEvents = allocationTargets.targetChangeEvents ?? [];
+
+  if (!sleeves.length) return null;
+
+  return (
+    <section className="investmentSection targetCockpit">
+      <div className="targetCockpitHeader">
+        <div>
+          <span className="digestEyebrow">Allocation engine · {formatDate(allocationTargets.generatedAt)}</span>
+          <h2>Target allocation cockpit</h2>
+          <p>Current portfolio weights vs model target ranges. Target changes are approved model outputs only; no trades placed.</p>
+        </div>
+        <div className="targetBoundaryPill">Model targets · no trades</div>
+      </div>
+
+      <div className="targetKpiStrip">
+        <span><strong>{allocationTargets.summary.targetCoveragePct}%</strong> coverage</span>
+        <span><strong>{allocationTargets.summary.inRangeCount}</strong> in range</span>
+        <span><strong>{allocationTargets.summary.overweightCount}</strong> overweight</span>
+        <span><strong>{allocationTargets.summary.underweightCount}</strong> underweight</span>
+        <span><strong>{allocationTargets.summary.recentChangeCount}</strong> target changes</span>
+        <span><strong>{formatMoney(allocationTargets.scope?.trackedEquity)}</strong> tracked</span>
+      </div>
+
+      <div className="targetCockpitGrid">
+        <div className="targetTreemap" aria-label="Current allocation by target sleeve">
+          {sleeves.slice(0, 14).map(sleeve => {
+            const selectedTile = selected?.id === sleeve.id;
+            return (
+              <button
+                key={sleeve.id}
+                className={`targetTile targetTile--${targetToneClass(sleeve.statusTone || sleeve.status)}${selectedTile ? " targetTile--selected" : ""}`}
+                style={{ flexBasis: `${Math.max(9, Math.min(34, sleeve.currentPct * 1.65))}%` }}
+                onClick={() => setSelectedId(sleeve.id)}
+                title={`${sleeve.title}: ${sleeve.currentPct.toFixed(1)}%, target ${sleeve.target.minPct}-${sleeve.target.maxPct}%`}
+              >
+                <span>{sleeve.title}</span>
+                <strong>{sleeve.currentPct.toFixed(1)}%</strong>
+                <em>Target {sleeve.target.minPct}-{sleeve.target.maxPct}% · {sleeve.status.replace(/-/g, " ")}</em>
+                <TargetRangeBar current={sleeve.currentPct} min={sleeve.target.minPct} max={sleeve.target.maxPct} />
+              </button>
+            );
+          })}
+        </div>
+
+        <aside className="targetDetailPanel">
+          {selected && (
+            <>
+              <div className="targetDetailTop">
+                <span className={`targetStatus targetStatus--${targetToneClass(selected.statusTone || selected.status)}`}>{selected.status.replace(/-/g, " ")}</span>
+                <strong>{selected.title}</strong>
+                <p>{selected.actionPosture || "Hold/review."}</p>
+              </div>
+              <div className="targetMetricGrid">
+                <span><b>{selected.currentPct.toFixed(1)}%</b><em>Current</em></span>
+                <span><b>{selected.target.minPct}-{selected.target.maxPct}%</b><em>Target</em></span>
+                <span><b>{selected.gapToTargetMidPct > 0 ? "+" : ""}{selected.gapToTargetMidPct.toFixed(1)} pts</b><em>Gap to mid</em></span>
+                <span><b>{selected.confidence || "n/a"}</b><em>Confidence</em></span>
+              </div>
+              {selectedEvent && (
+                <div className="targetChangeCallout">
+                  <span>Latest target event</span>
+                  <strong>{selectedEvent.changeDirection} · {selectedEvent.changeMagnitudePct.toFixed(1)} pts</strong>
+                  <p>{selectedEvent.summary || selectedEvent.analysisSummary}</p>
+                </div>
+              )}
+              <div className="targetReceiptStack">
+                <span>Receipts</span>
+                {(selected.receipts ?? []).slice(0, 4).map(receipt => (
+                  <p key={`${receipt.label}-${receipt.source}`}>{receipt.excerpt || receipt.label}<em>{receipt.source}</em></p>
+                ))}
+              </div>
+              <div className="targetHoldingLine">
+                {(selected.holdings ?? []).slice(0, 8).map(h => <span key={h.symbol}>{h.symbol} {h.portfolioPct != null ? `${h.portfolioPct.toFixed(1)}%` : ""}</span>)}
+              </div>
+              <div className="investmentButtonRow">
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: selectedEvent?.id || selected.id, type: "investing-target-change", title: selected.title, theme: "target allocation", stance: selected.status, summary: selectedEvent?.analysisSummary || selected.actionPosture })}>Ask why</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `challenge-${selected.id}`, type: "investing-target-change", title: `Challenge ${selected.title}`, theme: "target allocation", stance: selected.status, summary: selectedEvent?.discussionPrompt || selected.actionPosture })}>Challenge</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `receipts-${selected.id}`, type: "investing-target-change", title: `${selected.title} receipts`, theme: "target allocation receipts", stance: selected.confidence, summary: (selected.receipts ?? []).map(r => r.excerpt).filter(Boolean).join(" ") })}>Show receipts</button>
+              </div>
+            </>
+          )}
+        </aside>
+      </div>
+
+      <div className="targetEventHistory">
+        <div className="sectionTitleRow"><h2>Target change history</h2><span>{recentEvents.length} events</span></div>
+        {recentEvents.slice(0, 8).map(event => {
+          const open = expandedEventId === event.id;
+          return (
+            <article key={event.id} className="targetEventRow">
+              <button className="targetEventSummary" onClick={() => setExpandedEventId(open ? "" : event.id)}>
+                <span><strong>{sleeves.find(s => s.id === event.sleeveId)?.title || event.sleeveId}</strong><em>{formatDate(event.at)} · {event.impactType || "target"}</em></span>
+                <span>{event.priorTarget ? `${event.priorTarget.minPct}-${event.priorTarget.maxPct}%` : "n/a"} → {event.newTarget.minPct}-{event.newTarget.maxPct}%</span>
+                <b>{event.changeDirection}</b>
+              </button>
+              {open && (
+                <div className="targetEventDetail">
+                  <p>{event.analysisSummary || event.summary || "No analysis summary recorded."}</p>
+                  <div className="targetEventColumns">
+                    <div><strong>Evidence</strong>{(event.evidenceConsidered ?? []).slice(0, 4).map(item => <span key={item}>{item}</span>)}</div>
+                    <div><strong>Would reverse if</strong>{(event.reversalConditions ?? []).slice(0, 4).map(item => <span key={item}>{item}</span>)}</div>
+                  </div>
+                  <div className="investmentButtonRow">
+                    <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: event.id, type: "investing-target-change", title: event.title, theme: "target change analysis", stance: event.changeDirection, summary: event.analysisSummary || event.discussionPrompt })}>Discuss</button>
+                    <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `follow-up-${event.id}`, type: "investing-target-change", title: `Follow-up: ${event.title}`, theme: "target change follow-up", stance: event.status, summary: event.discussionPrompt })}>Add follow-up</button>
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function TargetRangeBar({ current, min, max }: { current: number; min: number; max: number }) {
+  const scale = Math.max(max * 1.25, current * 1.12, 1);
+  const currentWidth = Math.min(100, (current / scale) * 100);
+  const left = Math.min(100, (min / scale) * 100);
+  const width = Math.max(3, Math.min(100 - left, ((max - min) / scale) * 100));
+  return <i className="targetRangeBar"><b style={{ left: `${left}%`, width: `${width}%` }} /><span style={{ width: `${currentWidth}%` }} /></i>;
+}
+
+function DailyTradeAnalysisPanel({ dailyTradeAnalysis, onDiscuss }: { dailyTradeAnalysis: InvestingDailyTradeAnalysis; onDiscuss: Props["onDiscuss"] }) {
+  const days = dailyTradeAnalysis.days ?? [];
+  const [expandedDate, setExpandedDate] = useState(days[0]?.date ?? "");
+  if (!days.length) return null;
+
+  return (
+    <section className="investmentSection dailyTradePanel">
+      <div className="tradeReviewHeader">
+        <div>
+          <span className="digestEyebrow">Daily trade analysis · {formatDate(dailyTradeAnalysis.generatedAt)}</span>
+          <h2>Trades by day</h2>
+          <p>{dailyTradeAnalysis.sourceWindow?.startDate} → {dailyTradeAnalysis.sourceWindow?.endDate} · retrospective analysis, not trade authorization</p>
+        </div>
+        <div className="tradeReviewStats">
+          <span><strong>{dailyTradeAnalysis.summary.dayCount}</strong> days</span>
+          <span><strong>{dailyTradeAnalysis.summary.tradeCount}</strong> events</span>
+          <span><strong>{dailyTradeAnalysis.summary.totalPlanAligned}</strong> aligned</span>
+          <span><strong>{dailyTradeAnalysis.summary.totalOutsidePlan}</strong> outside plan</span>
+        </div>
+      </div>
+      <div className="dailyTradeStack">
+        {days.slice(0, 8).map(day => {
+          const open = expandedDate === day.date;
+          return (
+            <article key={day.date} className="dailyTradeDay">
+              <button className="dailyTradeSummary" onClick={() => setExpandedDate(open ? "" : day.date)}>
+                <span><strong>{day.date}</strong><em>{day.dailySummary}</em></span>
+                <span>{day.symbols.slice(0, 7).join(", ") || "cash"}</span>
+                <b>{formatMoney(day.netAmount)}</b>
+              </button>
+              {open && (
+                <div className="dailyTradeDetail">
+                  <div className="dailyTradeAnalysisGrid">
+                    <p><strong>Behavior</strong>{day.behavioralRead}</p>
+                    <p><strong>Target impact</strong>{day.targetAllocationImpact}</p>
+                    <p><strong>Risk read</strong>{day.riskConcentrationImpact}</p>
+                  </div>
+                  {day.followUps?.length ? <div className="dailyTradeFollowups">{day.followUps.map(item => <span key={item.id}>{item.symbol || "Trade"} · {item.prompt}</span>)}</div> : null}
+                  <div className="dailyTradeTable">
+                    {day.trades.slice(0, 10).map(trade => (
+                      <div key={trade.id} className="dailyTradeLine">
+                        <strong>{trade.action.toUpperCase()} {trade.symbol || "cash"}</strong>
+                        <span>{formatMoneyAbs(trade.amount)} · {trade.alignment || "unknown"}</span>
+                        <em>{trade.thesisTitle || trade.description || "No thesis mapping"}</em>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="investmentButtonRow">
+                    <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `daily-trade-${day.date}`, type: "daily-trade-analysis", title: `Trades on ${day.date}`, theme: "daily trade analysis", stance: `${day.tradeCount} events`, summary: `${day.behavioralRead} ${day.targetAllocationImpact}` })}>Discuss day</button>
+                    <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `journal-trade-${day.date}`, type: "daily-trade-analysis", title: `Journal ${day.date} trades`, theme: "trade journal", stance: "retrospective", summary: day.riskConcentrationImpact })}>Journal</button>
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
@@ -1220,6 +1420,15 @@ function labelForSourceStatus(status: string) {
 
 function shortId(value: string) {
   return value.replace(/-/g, " ").replace(/\b(ai|em)\b/gi, match => match.toUpperCase()).slice(0, 34);
+}
+
+function targetToneClass(value?: string | null) {
+  const lower = String(value || "neutral").toLowerCase();
+  if (lower.includes("red") || lower.includes("overweight")) return "red";
+  if (lower.includes("blue") || lower.includes("underweight")) return "blue";
+  if (lower.includes("amber") || lower.includes("needs")) return "amber";
+  if (lower.includes("green") || lower.includes("in-range")) return "green";
+  return "neutral";
 }
 
 function uniqueSymbols(rows: Array<{ symbol?: string }>) {
