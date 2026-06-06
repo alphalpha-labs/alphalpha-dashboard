@@ -677,6 +677,9 @@ const IMAGE_QUERIES = [
   'dawn mist river reflection',
 ];
 
+const IMAGE_ARCHIVE_SCAN_RE = /\b(internet archive|medical heritage library|california digital library|biodiversity heritage library|\bia\b|dictionary|book|scan|page|plate|volume|text)\b/i;
+const GENERATIVE_ART_RE = /\b(ai|artificial intelligence|generative|algorithmic|algorithm|computer[- ]generated|neural|fractal|digital)\b/i;
+
 const MET_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
 const AIC_BASE = 'https://api.artic.edu/api/v1';
 
@@ -783,7 +786,8 @@ async function sourceGenerativeArtCommons(targetDate, feedbackWeights) {
       const title = (p.title || '').replace(/^File:/, '').replace(/\.[a-z0-9]+$/i, '').trim() || 'Untitled';
       const description = htmlToText(meta.ImageDescription?.value ?? '', 160);
       const blob = `${title} ${description} ${term}`.toLowerCase();
-      if (!/(ai|artificial intelligence|generative|algorithm|computer.generated|neural|fractal|digital)/.test(blob)) continue;
+      if (IMAGE_ARCHIVE_SCAN_RE.test(blob)) continue;
+      if (!GENERATIVE_ART_RE.test(blob)) continue;
       const artist = htmlToText(meta.Artist?.value ?? '', 80) || 'Unknown artist';
       out.push({
         source:      'ai-art',
@@ -827,6 +831,7 @@ function rankImage(candidates, feedbackWeights, recentIds) {
     score += (iw.sourceAffinity?.[c.source] ?? 0) * 0.3;
 
     const blob = `${c.title} ${c.medium} ${c.tags.join(' ')}`.toLowerCase();
+    if (IMAGE_ARCHIVE_SCAN_RE.test(blob)) score -= 8;
     score += TASTE_KEYWORDS.filter(kw => blob.includes(kw)).length * 0.4;
 
     // Era preference: 1800–1940 sweet spot.
@@ -1528,7 +1533,10 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
   });
 
   scored.sort((a, b) => b.score - a.score);
-  return scored[0].score < -5 ? null : scored[0];
+  const allCandidatesWereRecent = candidates.every(c =>
+    recentIds.includes(`${idPrefix}-${c.id}`) || (c.videoId && recentIds.includes(c.videoId))
+  );
+  return scored[0].score < -5 && !allCandidatesWereRecent ? null : scored[0];
 }
 
 function toEditionItem(candidate) {
@@ -1890,10 +1898,13 @@ async function sourceWikimediaCommons(targetDate, feedbackWeights) {
       // Public-domain / Creative-Commons only.
       if (!/public domain|cc0|cc by|pd-|pd /.test(license)) continue;
       const artist = htmlToText(meta.Artist?.value ?? '', 80) || 'Unknown artist';
+      const title = (p.title || '').replace(/^File:/, '').replace(/\.[a-z]+$/i, '').trim() || 'Untitled';
+      const blob = `${title} ${artist} ${term}`.toLowerCase();
+      if (IMAGE_ARCHIVE_SCAN_RE.test(blob)) continue;
       out.push({
         source:      'wikimedia',
         id:          `wiki-${p.pageid}`,
-        title:       (p.title || '').replace(/^File:/, '').replace(/\.[a-z]+$/i, '').trim() || 'Untitled',
+        title,
         artist,
         date:        htmlToText(meta.DateTimeOriginal?.value ?? '', 20),
         medium:      '',

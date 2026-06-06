@@ -11,9 +11,9 @@
     "expr": "0 11 * * *",
     "tz": "America/Chicago"
   },
-  "sessionTarget": "scripts/generate-almanac.mjs --date=$(date -d 'tomorrow' +%Y-%m-%d)",
+  "sessionTarget": "main",
   "lightContext": true,
   "toolsAllow": ["Bash"],
-  "delivery": "kv-write",
-  "summary": "Full pipeline (Phases 1–8): quotes, You chart, article (RSS + web discovery + LLM composer), look/image (Met Museum + AIC), venture, surprise/artifact rotation, investing/AI signal charts, riff videos, and production clips. During the evaluation window discovery is Tavily-backed with ALMANAC_SEARCH_MAX=12 and ALMANAC_FETCH_MAX=8; tiles dedup via KV history and fall back to curated/fixture sources when discovery or LLM curation is unavailable."
+  "delivery": "announce-on-failure",
+  "summary": "Full pipeline (Phases 1–11): quotes, You chart, article, look/image, ventures, surprise/artifact rotation, investing/AI signal charts, riff videos, production clips, poem, long read, and Austin Explore. Scheduled runs are injected as main-session system events because isolated agent-turn cron runs currently lack shell execution; failures must report RUN_FAILED visibly instead of being treated as a silent success."
 }

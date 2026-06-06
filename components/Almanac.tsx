@@ -80,9 +80,12 @@ function offsetForDate(d: Date) {
 function pick<T>(arr: T[], idx: number): T {
   return arr[((idx % arr.length) + arr.length) % arr.length];
 }
-function heroImageForDate(date: string, dayIdx: number) {
-  const dateSeed = date.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return pick(AUSTIN_HERO_IMAGES, dayIdx + dateSeed);
+function heroImageForDate(dayIdx: number) {
+  return pick(AUSTIN_HERO_IMAGES, dayIdx);
+}
+
+function hasCuratedImage(image: DailyData["image"] | undefined) {
+  return !!image?.url;
 }
 
 // ── Toast ────────────────────────────────────────────────────────────────────
@@ -1223,9 +1226,17 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
 
   // Priority: archive snapshot (past) > live KV edition (today) > static fixture (fallback)
-  const base = offset < 0 && archiveEdition ? archiveEdition
+  const rawBase = offset < 0 && archiveEdition ? archiveEdition
     : offset === 0 && liveEdition ? liveEdition
     : daily;
+
+  const base: DailyData = {
+    ...rawBase,
+    image: hasCuratedImage(rawBase.image) ? rawBase.image : daily.image,
+    poems: rawBase.poems?.length ? rawBase.poems : daily.poems,
+    longReads: rawBase.longReads?.length ? rawBase.longReads : daily.longReads,
+    austinExplores: rawBase.austinExplores?.length ? rawBase.austinExplores : daily.austinExplores,
+  };
 
   const lead = "image" as const;
   const rest = DEFAULT_DEPT_ITEMS;
@@ -1256,7 +1267,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
   const editionNo = resolved.edition || `No. ${214 + offset}`;
   const curDate = dateForOffset(offset);
-  const heroImage = heroImageForDate(date, dayIdx);
+  const heroImage = heroImageForDate(dayIdx);
 
   const applyRunStatus = useCallback(async (run: AlmanacRunStatus, announceDone = false) => {
     const providerSuffix = run.provider ? ` · ${run.provider}` : "";
