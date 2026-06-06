@@ -50,9 +50,9 @@ export type ThreadContext = {
 
 const TABS = [
   { id: "today",     label: "Today", href: "/" },
+  { id: "investing", label: "Investing", href: "/investing" },
   { id: "loops",     label: "Open loops", href: "/open-loops" },
   { id: "projects",  label: "Projects", href: "/projects" },
-  { id: "investing", label: "Investing", href: "/investing" },
   { id: "digests",   label: "Digests", href: "/digests" },
   { id: "outing-oracle", label: "Outing Oracle", href: "/outing-oracle" },
   { id: "queues",    label: "Queues", href: "/queues" },

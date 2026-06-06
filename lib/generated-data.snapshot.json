@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-06-06T17:22:37.240Z",
+    "generatedAt": "2026-06-06T19:07:49.162Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "32dc222",
+      "commit": "9cc4938",
       "branch": "main",
-      "generatedAt": "2026-06-06T17:22:37.255Z",
+      "generatedAt": "2026-06-06T19:07:49.179Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 5
+      "dirtyFiles": 2
     },
     "contextHealth": {
       "generatedAt": "2026-06-06T13:15:09.938Z",
@@ -60,7 +60,7 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "4h old",
+        "age": "6h old",
         "summary": "42 active files / 46686 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "4h old",
+        "age": "6h old",
         "summary": "0 family / 0 music latest",
         "detail": "0 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -105,7 +105,7 @@
         "id": "ai-tooling",
         "label": "AI tooling",
         "status": "OK",
-        "age": "4h old",
+        "age": "6h old",
         "summary": "0 selected / 0 recent deduped",
         "detail": "0 raw items",
         "path": "memory/ai-tooling/latest-manifest.json",
@@ -138,7 +138,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "3h old",
+        "age": "5h old",
         "summary": "164 tickers / 67 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -150,7 +150,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "6h old",
+        "age": "8h old",
         "summary": "5 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -183,7 +183,7 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "4h old",
+        "age": "6h old",
         "summary": "34 enabled / 7 paused",
         "detail": "41 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
@@ -230,16 +230,16 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@217d237, 61 dirty · Alphalpha dashboard: main@32dc222, 5 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@9cc4938, 2 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
             "label": "Alphalpha workspace",
-            "value": "master@217d237 · 61 dirty · 0 ahead · 0 behind"
+            "value": "master@9a3aeb9 · 20 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@32dc222 · 5 dirty · 18 ahead · 0 behind"
+            "value": "main@9cc4938 · 2 dirty · 19 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -286,7 +286,7 @@
         "id": "review-queue",
         "label": "Review queue",
         "status": "OK",
-        "age": "4h old",
+        "age": "6h old",
         "summary": "6 pending / 6 high",
         "detail": "15 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
@@ -78478,7 +78478,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "Austin events: 0 family / 0 music latest",
-      "summary": "0 crawl artifacts indexed · 4h old · memory/events/latest-manifest.json",
+      "summary": "0 crawl artifacts indexed · 6h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78489,7 +78489,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
-      "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
+      "summary": "0 raw items · 6h old · memory/ai-tooling/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78500,7 +78500,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "Investing watchlist: 164 tickers / 67 themes",
-      "summary": "4 high-priority research candidates · 3h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 5h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78511,7 +78511,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "Obsidian proposals: 5 proposed updates",
-      "summary": "proposal-only · 6h old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 8h old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78522,7 +78522,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "Automations: 34 enabled / 7 paused",
-      "summary": "41 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
+      "summary": "41 cron jobs indexed · 6h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78533,7 +78533,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@217d237, 61 dirty · Alphalpha dashboard: main@32dc222, 5 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@9cc4938, 2 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78555,7 +78555,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "Review queue: 6 pending / 6 high",
-      "summary": "15 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
+      "summary": "15 review items indexed · 6h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"

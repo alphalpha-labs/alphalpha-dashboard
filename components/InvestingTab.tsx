@@ -106,6 +106,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       <h1 className="tabTitle">Investing decision layer</h1>
       <p className="tabSubtitle">5–10 year accumulation focus · {decisions.length || investing.length} current signals</p>
 
+      {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} onDiscuss={onDiscuss} />}
+
       {preflight && preflight.summary?.status !== "ready" && (
         <section className="investmentSection investmentPreflight">
           <div className="sectionTitleRow"><h2>Live digest preflight</h2><span>{preflight.summary?.status || "unknown"}</span></div>
@@ -150,8 +152,6 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       )}
 
       {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} evidence={thesisInvalidationEvidence} onDiscuss={onDiscuss} onAction={onAction} />}
-
-      {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} onDiscuss={onDiscuss} />}
 
       {(weeklyDecisionReview || manualDecisions) && (
         <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
