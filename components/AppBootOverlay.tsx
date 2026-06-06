@@ -32,9 +32,20 @@ export default function AppBootOverlay() {
   return (
     <div className={`appBoot${exiting ? " appBoot--exit" : ""}`} role="status" aria-live="polite" aria-label="Loading Alphalpha">
       <div className="appBoot__panel">
-        <div className="appBoot__mark" aria-hidden="true">
-          <span>α</span>
-          <i />
+        <div className="appBoot__stage" aria-hidden="true">
+          <div className="appBoot__orbit appBoot__orbit--outer">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="appBoot__orbit appBoot__orbit--inner">
+            <span />
+            <span />
+          </div>
+          <div className="appBoot__mark">
+            <span>α</span>
+            <i />
+          </div>
         </div>
         <div className="appBoot__copy">
           <strong>Alphalpha</strong>

@@ -80,9 +80,23 @@ input { font-family: inherit; }
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
+@keyframes bootFieldGlow {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.72; }
+  50%      { transform: translate3d(0, -10px, 0); opacity: 1; }
+}
+@keyframes bootOrbit {
+  to { transform: rotate(1turn); }
+}
+@keyframes bootOrbitReverse {
+  to { transform: rotate(-1turn); }
+}
 @keyframes bootMarkScan {
   0%   { transform: translateX(-110%); }
   100% { transform: translateX(110%); }
+}
+@keyframes bootMarkPulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(28,23,20,0.08), 0 0 0 0 rgba(168,64,48,0); }
+  48%      { box-shadow: inset 0 0 0 1px rgba(28,23,20,0.08), 0 0 0 9px rgba(168,64,48,0.08); }
 }
 @keyframes bootTrace {
   0%, 100% { transform: scaleX(0.28); opacity: 0.38; }
@@ -101,24 +115,115 @@ input { font-family: inherit; }
   place-items: center;
   padding: 24px;
   background:
+    radial-gradient(circle at 50% 40%, rgba(255,248,240,0.94), transparent 0 178px),
+    radial-gradient(circle at 30% 25%, rgba(90,122,90,0.14), transparent 0 120px),
+    radial-gradient(circle at 70% 68%, rgba(168,64,48,0.13), transparent 0 130px),
     linear-gradient(90deg, rgba(216,206,187,0.24) 1px, transparent 1px),
     linear-gradient(180deg, rgba(216,206,187,0.22) 1px, transparent 1px),
     var(--bg);
-  background-size: 46px 46px, 46px 46px, auto;
+  background-size: auto, auto, auto, 46px 46px, 46px 46px, auto;
   pointer-events: none;
+}
+.appBoot::before,
+.appBoot::after {
+  content: "";
+  position: absolute;
+  width: min(58vw, 520px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.82;
+  filter: blur(1px);
+  animation: bootFieldGlow 3.2s ease-in-out infinite;
+}
+.appBoot::before {
+  left: max(-160px, -12vw);
+  top: 8vh;
+  background: radial-gradient(circle, rgba(90,122,90,0.16), transparent 64%);
+}
+.appBoot::after {
+  right: max(-180px, -14vw);
+  bottom: 4vh;
+  background: radial-gradient(circle, rgba(154,106,58,0.18), transparent 62%);
+  animation-delay: -1.6s;
 }
 .appBoot--exit { animation: bootFade 240ms ease forwards; }
 .appBoot__panel {
+  position: relative;
+  z-index: 1;
   width: min(320px, calc(100vw - 48px));
   display: grid;
   justify-items: center;
-  gap: 14px;
-  padding: 28px 26px 24px;
+  gap: 16px;
+  padding: 30px 26px 24px;
   border: 1px solid var(--border-strong);
   border-radius: 8px;
-  background: color-mix(in oklch, var(--card) 92%, white);
-  box-shadow: 0 18px 45px rgba(53, 43, 31, 0.13);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.48), transparent 48%),
+    color-mix(in oklch, var(--card) 92%, white);
+  box-shadow: 0 18px 45px rgba(53, 43, 31, 0.13), 0 0 0 6px rgba(250,246,238,0.42);
   animation: bootPanelIn 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.appBoot__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+}
+.appBoot__orbit {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(200,188,158,0.74);
+  border-radius: 50%;
+  animation: bootOrbit 4.8s linear infinite;
+}
+.appBoot__orbit::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(122,111,98,0.18);
+}
+.appBoot__orbit span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(250,246,238,0.74);
+}
+.appBoot__orbit--outer span:nth-child(1) {
+  top: -5px;
+  left: 50%;
+  background: var(--accent-high);
+}
+.appBoot__orbit--outer span:nth-child(2) {
+  right: 8px;
+  bottom: 17px;
+  background: var(--accent-low);
+}
+.appBoot__orbit--outer span:nth-child(3) {
+  left: 9px;
+  bottom: 18px;
+  background: #c9a34a;
+}
+.appBoot__orbit--inner {
+  inset: 19px;
+  border-color: rgba(168,64,48,0.25);
+  animation: bootOrbitReverse 3.4s linear infinite;
+}
+.appBoot__orbit--inner span {
+  width: 7px;
+  height: 7px;
+}
+.appBoot__orbit--inner span:nth-child(1) {
+  top: 7px;
+  right: 8px;
+  background: var(--ink);
+}
+.appBoot__orbit--inner span:nth-child(2) {
+  left: 6px;
+  bottom: 10px;
+  background: var(--accent-med);
 }
 .appBoot__mark {
   position: relative;
@@ -132,6 +237,7 @@ input { font-family: inherit; }
   background:
     linear-gradient(180deg, rgba(255,255,255,0.38), transparent),
     #efe6d6;
+  animation: bootMarkPulse 1.8s ease-in-out infinite;
 }
 .appBoot__mark span {
   position: relative;
@@ -185,8 +291,12 @@ input { font-family: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   .appBoot,
+  .appBoot::before,
+  .appBoot::after,
   .appBoot__panel,
+  .appBoot__orbit,
   .appBoot__mark i,
+  .appBoot__mark,
   .appBoot__trace span {
     animation: none;
   }
