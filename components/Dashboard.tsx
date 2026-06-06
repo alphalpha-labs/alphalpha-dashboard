@@ -36,7 +36,7 @@ type SignalReceipt = {
 
 export type ThreadContext = {
   id:        string;
-  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc" | "queueItem" | "signalFailure" | "investing-target-change" | "daily-trade-analysis";
+  type:      "decision" | "loop" | "project" | "ticker" | "digest" | "systemDoc" | "queueItem" | "signalFailure" | "investing-target-change" | "daily-trade-analysis" | "daily-market-brief";
   title:     string;
   project?:  string;
   priority?: string;
@@ -375,6 +375,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               portfolioContextMap={data.meta.investingPortfolioContextMap}
               allocationTargets={data.meta.investingAllocationTargets}
               dailyTradeAnalysis={data.meta.investingDailyTradeAnalysis}
+              dailyMarketBrief={data.meta.investingDailyMarketBrief}
               taxonomyDecisionSheet={data.meta.investingTaxonomyDecisionSheet}
               taxonomyDecisionWorkflow={data.meta.investingTaxonomyDecisionWorkflow}
               taxonomyDecisions={data.meta.investingTaxonomyDecisions}

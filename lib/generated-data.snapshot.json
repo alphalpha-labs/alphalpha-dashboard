@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generatedAt": "2026-06-06T19:07:49.162Z",
+    "generatedAt": "2026-06-06T19:20:27.008Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "9cc4938",
+      "commit": "4d61c34",
       "branch": "main",
-      "generatedAt": "2026-06-06T19:07:49.179Z",
+      "generatedAt": "2026-06-06T19:20:27.020Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
-      "dirtyFiles": 2
+      "dirtyFiles": 5
     },
     "contextHealth": {
       "generatedAt": "2026-06-06T13:15:09.938Z",
@@ -230,7 +230,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 2 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@9cc4938, 2 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@4d61c34, 5 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -239,7 +239,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@9cc4938 · 2 dirty · 19 ahead · 0 behind"
+            "value": "main@4d61c34 · 5 dirty · 20 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -56443,6 +56443,59 @@
       },
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
+    "investingDailyMarketBrief": {
+      "schemaVersion": "1.0",
+      "generatedAt": "2026-06-06T19:12:55.000Z",
+      "publishedAt": null,
+      "publishCadence": "Weekdays at 12:00 America/Chicago after market/news crawl completes",
+      "status": "awaiting-noon-publish",
+      "headline": "Noon market brief pending",
+      "summary": "This section is reserved for the daily noon read on what is moving markets, which moves matter to the portfolio, and which headlines should be treated as noise until evidence changes.",
+      "marketDrivers": [
+        {
+          "id": "pending-crawl",
+          "title": "Awaiting current market/news crawl",
+          "summary": "The noon publisher should replace this placeholder with the top market drivers once current source checks have run.",
+          "direction": "pending",
+          "urgency": "needs-current-sources",
+          "relatedTheses": [],
+          "relatedSymbols": []
+        }
+      ],
+      "lookPast": [
+        {
+          "id": "single-session-noise",
+          "title": "Single-session price noise",
+          "reason": "Do not let one-day moves change target allocations unless the move connects to thesis evidence, valuation range changes, or explicit invalidators.",
+          "watchIf": "The same driver persists for several sessions or begins changing customer demand, capex budgets, policy, rates, credit, or margins."
+        }
+      ],
+      "payAttention": [
+        {
+          "id": "portfolio-thesis-link",
+          "title": "Drivers with thesis or allocation consequences",
+          "reason": "The useful brief should emphasize market moves that change the evidence base for active theses, target sleeves, accumulation posture, or invalidation risk.",
+          "portfolioRelevance": "Route items into allocation cockpit, action queue, or invalidation review as needed.",
+          "relatedTheses": [],
+          "relatedSymbols": []
+        }
+      ],
+      "thesisImpacts": [
+        {
+          "title": "No current-source thesis impact published yet",
+          "impact": "Pending the next noon run. The final brief should map each material driver to affected baskets, holdings, and whether it is noise, confirmation, contradiction, or an invalidator.",
+          "action": "wait-for-noon-publish",
+          "confidence": "not-yet-scored"
+        }
+      ],
+      "portfolioRead": "No trade implication. This is an interpretation layer for attention and thesis review, not execution authorization.",
+      "sourceNotes": [
+        "Placeholder artifact created during dashboard consolidation.",
+        "Do not treat this as current market analysis."
+      ],
+      "discussionPrompt": "What should the daily noon market brief prioritize so it is useful without duplicating the allocation cockpit or action queue?",
+      "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
+    },
     "investingTaxonomyDecisionSheet": {
       "generatedAt": "2026-05-15T22:34:00Z",
       "schemaVersion": "2026-05-15.1",
@@ -78533,7 +78586,7 @@
       "date": "2026-06-06",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 2 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@9cc4938, 2 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@9a3aeb9, 20 dirty · Alphalpha dashboard: main@4d61c34, 5 dirty · Obsidian vault: main@f6c19c3 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"

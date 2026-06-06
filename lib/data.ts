@@ -330,6 +330,23 @@ export type InvestingDailyTradeAnalysis = {
   }>;
 };
 
+export type InvestingDailyMarketBrief = {
+  schemaVersion?: string;
+  generatedAt: string;
+  publishedAt?: string | null;
+  publishCadence?: string;
+  status?: string;
+  headline: string;
+  summary: string;
+  marketDrivers?: Array<{ id: string; title: string; summary: string; direction?: string; urgency?: string; relatedTheses?: string[]; relatedSymbols?: string[] }>;
+  lookPast?: Array<{ id: string; title: string; reason: string; watchIf?: string }>;
+  payAttention?: Array<{ id: string; title: string; reason: string; portfolioRelevance?: string; relatedTheses?: string[]; relatedSymbols?: string[] }>;
+  thesisImpacts?: Array<{ thesisId?: string; title: string; impact: string; action?: string; confidence?: string }>;
+  portfolioRead?: string;
+  sourceNotes?: string[];
+  discussionPrompt?: string;
+};
+
 export type InvestingTaxonomyDecisionSheet = {
   generatedAt?: string;
   schemaVersion?: string;
@@ -610,6 +627,7 @@ export type DashboardData = {
     investingPortfolioContextMap?: InvestingPortfolioContextMap | null;
     investingAllocationTargets?: InvestingAllocationTargets | null;
     investingDailyTradeAnalysis?: InvestingDailyTradeAnalysis | null;
+    investingDailyMarketBrief?: InvestingDailyMarketBrief | null;
     investingTaxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
     investingTaxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
     investingTaxonomyDecisions?: InvestingTaxonomyDecisions | null;

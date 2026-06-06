@@ -22,6 +22,7 @@ import type {
   InvestingPortfolioContextMap,
   InvestingAllocationTargets,
   InvestingDailyTradeAnalysis,
+  InvestingDailyMarketBrief,
   InvestingTaxonomyDecisionSheet,
   InvestingTaxonomyDecisionWorkflow,
   InvestingTaxonomyDecisions,
@@ -66,6 +67,7 @@ interface Props {
   portfolioContextMap?: InvestingPortfolioContextMap | null;
   allocationTargets?: InvestingAllocationTargets | null;
   dailyTradeAnalysis?: InvestingDailyTradeAnalysis | null;
+  dailyMarketBrief?: InvestingDailyMarketBrief | null;
   taxonomyDecisionSheet?: InvestingTaxonomyDecisionSheet | null;
   taxonomyDecisionWorkflow?: InvestingTaxonomyDecisionWorkflow | null;
   taxonomyDecisions?: InvestingTaxonomyDecisions | null;
@@ -88,7 +90,7 @@ interface Props {
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, dailyMarketBrief, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -106,24 +108,14 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       <h1 className="tabTitle">Investing decision layer</h1>
       <p className="tabSubtitle">5–10 year accumulation focus · {decisions.length || investing.length} current signals</p>
 
+      {dailyMarketBrief && <DailyMarketBriefPanel brief={dailyMarketBrief} onDiscuss={onDiscuss} />}
+
       {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} onDiscuss={onDiscuss} />}
 
       {preflight && preflight.summary?.status !== "ready" && (
         <section className="investmentSection investmentPreflight">
           <div className="sectionTitleRow"><h2>Live digest preflight</h2><span>{preflight.summary?.status || "unknown"}</span></div>
           {(preflight.summary?.blockers ?? []).map(blocker => <div key={blocker} className="investmentListRow"><strong>Blocked</strong><p>{blocker}</p></div>)}
-        </section>
-      )}
-
-      {digest && (
-        <section className="investmentDigestHero">
-          <div>
-            <span className="digestEyebrow">Thesis Baskets digest · {formatDate(digest.as_of)}</span>
-            <h2>{digest.posture?.headline || "Latest investment posture"}</h2>
-            {digest.posture?.summary && <p>{digest.posture.summary}</p>}
-            {digest.posture?.key_risk && <strong>Key risk: {digest.posture.key_risk}</strong>}
-          </div>
-          <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief ↗</a>
         </section>
       )}
 
@@ -152,14 +144,6 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       )}
 
       {thesisInvalidationReview && <ThesisInvalidationReviewPanel review={thesisInvalidationReview} evidence={thesisInvalidationEvidence} onDiscuss={onDiscuss} onAction={onAction} />}
-
-      {(weeklyDecisionReview || manualDecisions) && (
-        <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
-      )}
-
-      {receiptOutcomes && <ReceiptOutcomeLoop receiptOutcomes={receiptOutcomes} onDiscuss={onDiscuss} />}
-
-      {layerIntegrity && <LayerIntegrityPanel layerIntegrity={layerIntegrity} onDiscuss={onDiscuss} />}
 
       {!decisionPipeline && (executionBoundaryPolicy || rankedActionQueue || sourceReliabilityPlan) && (
         <InvestmentActionCommandCenter
@@ -195,21 +179,9 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
         />
       )}
 
-      {(taxonomyDecisionSheet || basketGovernanceAudit || thesisUniverse) && (
-        <TaxonomyReview
-          taxonomyDecisionSheet={taxonomyDecisionSheet}
-          taxonomyDecisionWorkflow={taxonomyDecisionWorkflow}
-          taxonomyDecisions={taxonomyDecisions}
-          basketGovernanceAudit={basketGovernanceAudit}
-          thesisUniverse={thesisUniverse}
-          onDiscuss={onDiscuss}
-          onAction={onAction}
-        />
-      )}
-
       {dailyTradeAnalysis && <DailyTradeAnalysisPanel dailyTradeAnalysis={dailyTradeAnalysis} onDiscuss={onDiscuss} />}
 
-      {tradeReview && (
+      {!dailyTradeAnalysis && tradeReview && (
         <section className="investmentSection investmentTradeReview investmentTradeReviewFeatured">
           <div className="tradeReviewHeader">
             <div>
@@ -241,6 +213,44 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
               <span><b className={`tradeBadge tradeBadge--${item.alignment}`}>{item.alignment.replace(/-/g, " ")}</b><em>{item.valuationState || "unknown"}</em></span>
             </div>)}
           </div>
+        </section>
+      )}
+
+      <details className="investmentSection investingArchive" open={false}>
+        <summary>
+          <span>Research, source health, and legacy detail</span>
+          <em>{theses.length} theses · {research.length} research · {sources.length} sources</em>
+        </summary>
+
+      {(weeklyDecisionReview || manualDecisions) && (
+        <InvestmentDecisionAudit weeklyDecisionReview={weeklyDecisionReview} manualDecisions={manualDecisions} onDiscuss={onDiscuss} />
+      )}
+
+      {receiptOutcomes && <ReceiptOutcomeLoop receiptOutcomes={receiptOutcomes} onDiscuss={onDiscuss} />}
+
+      {layerIntegrity && <LayerIntegrityPanel layerIntegrity={layerIntegrity} onDiscuss={onDiscuss} />}
+
+      {(taxonomyDecisionSheet || basketGovernanceAudit || thesisUniverse) && (
+        <TaxonomyReview
+          taxonomyDecisionSheet={taxonomyDecisionSheet}
+          taxonomyDecisionWorkflow={taxonomyDecisionWorkflow}
+          taxonomyDecisions={taxonomyDecisions}
+          basketGovernanceAudit={basketGovernanceAudit}
+          thesisUniverse={thesisUniverse}
+          onDiscuss={onDiscuss}
+          onAction={onAction}
+        />
+      )}
+
+      {digest && (
+        <section className="investmentDigestHero investmentDigestHero--compact">
+          <div>
+            <span className="digestEyebrow">Thesis Baskets digest · {formatDate(digest.as_of)}</span>
+            <h2>{digest.posture?.headline || "Latest investment posture"}</h2>
+            {digest.posture?.summary && <p>{digest.posture.summary}</p>}
+            {digest.posture?.key_risk && <strong>Key risk: {digest.posture.key_risk}</strong>}
+          </div>
+          <a href={digest.source_url} target="_blank" rel="noreferrer">Open source brief</a>
         </section>
       )}
 
@@ -442,7 +452,47 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
           </div>
         ))}
       </section>
+      </details>
     </div>
+  );
+}
+
+function DailyMarketBriefPanel({ brief, onDiscuss }: { brief: InvestingDailyMarketBrief; onDiscuss: Props["onDiscuss"] }) {
+  const drivers = brief.marketDrivers ?? [];
+  const lookPast = brief.lookPast ?? [];
+  const payAttention = brief.payAttention ?? [];
+  const thesisImpacts = brief.thesisImpacts ?? [];
+  return (
+    <section className="investmentSection dailyMarketBrief">
+      <div className="dailyMarketBriefHeader">
+        <div>
+          <span className="digestEyebrow">Daily market brief · published {brief.publishedAt ? formatTime(brief.publishedAt) : "noon"}</span>
+          <h2>{brief.headline}</h2>
+          <p>{brief.summary}</p>
+        </div>
+        <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "daily-market-brief", type: "daily-market-brief", title: brief.headline, theme: "market thesis brief", stance: brief.status || "published", summary: brief.discussionPrompt || brief.summary })}>Discuss brief</button>
+      </div>
+      <div className="dailyMarketBriefGrid">
+        <div className="dailyMarketColumn">
+          <strong>Moving markets</strong>
+          {drivers.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.summary}<em>{[item.direction, item.urgency, ...(item.relatedSymbols ?? []).slice(0, 4)].filter(Boolean).join(" · ")}</em></p>)}
+        </div>
+        <div className="dailyMarketColumn dailyMarketColumn--muted">
+          <strong>Look past</strong>
+          {lookPast.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.reason}<em>{item.watchIf ? `Watch if: ${item.watchIf}` : "Noise unless it persists"}</em></p>)}
+        </div>
+        <div className="dailyMarketColumn dailyMarketColumn--focus">
+          <strong>Pay attention</strong>
+          {payAttention.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.reason}<em>{item.portfolioRelevance || (item.relatedSymbols ?? []).join(", ")}</em></p>)}
+        </div>
+      </div>
+      {(thesisImpacts.length > 0 || brief.portfolioRead) && (
+        <div className="dailyMarketThesisStrip">
+          {brief.portfolioRead && <span><b>Portfolio read</b>{brief.portfolioRead}</span>}
+          {thesisImpacts.slice(0, 4).map(item => <span key={`${item.thesisId || item.title}-${item.action || ""}`}><b>{item.title}</b>{item.impact}<em>{[item.action, item.confidence].filter(Boolean).join(" · ")}</em></span>)}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -1440,6 +1490,13 @@ function formatDate(iso?: string | null) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "n/a";
   return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function formatTime(iso?: string | null) {
+  if (!iso) return "noon";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "noon";
+  return d.toLocaleString("en-US", { hour: "numeric", minute: "2-digit" });
 }
 
 function formatDateTime(iso?: string | null) {
