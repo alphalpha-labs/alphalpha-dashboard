@@ -66,6 +66,7 @@ const PRIMARY_TAB_IDS = new Set<DashboardTab>(["today", "loops", "projects", "in
 const SYSTEM_TAB_IDS = new Set<DashboardTab>(["system", "digests", "outing-oracle", "queues", "review", "automations"]);
 const primaryTabs = TABS.filter(tab => PRIMARY_TAB_IDS.has(tab.id));
 const systemTabs = TABS.filter(tab => SYSTEM_TAB_IDS.has(tab.id));
+const mobileMainTabs = TABS.filter(tab => ["today", "investing", "loops", "projects"].includes(tab.id));
 
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
 // When OpenClaw wires up the real endpoint, no changes needed here —
@@ -433,6 +434,33 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           )}
         </div>
       </main>
+
+      <nav className="mobileBottomNav" aria-label="Mobile dashboard sections">
+        {mobileMainTabs.map(tab => (
+          <button
+            key={tab.id}
+            className={`mobileBottomNav__btn${activeTab === tab.id ? " mobileBottomNav__btn--active" : ""}`}
+            onClick={() => navigateTab(tab)}
+            type="button"
+          >
+            {tab.id === "loops" ? "Loops" : tab.label}
+          </button>
+        ))}
+        <label className={`mobileBottomNav__more${SYSTEM_TAB_IDS.has(activeTab as DashboardTab) ? " mobileBottomNav__more--active" : ""}`}>
+          <span className="srOnly">More dashboard sections</span>
+          <select
+            value={SYSTEM_TAB_IDS.has(activeTab as DashboardTab) ? activeTab : ""}
+            onChange={event => {
+              const tab = TABS.find(t => t.id === event.target.value);
+              if (tab) navigateTab(tab);
+            }}
+            aria-label="More dashboard sections"
+          >
+            <option value="" disabled>More</option>
+            {systemTabs.map(tab => <option key={tab.id} value={tab.id}>{tab.label}</option>)}
+          </select>
+        </label>
+      </nav>
 
       <ThreadDrawer thread={thread} onClose={closeThread} />
       <StatusBar stats={data.stats} generatedAt={data.meta.generatedAt} drawerOpen={drawerOpen} />

@@ -514,7 +514,7 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
         <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           {visibility === "hover" && keepEl}
           {tuneBtn}
-          {(!compactMode || hasReceipt) && receiptBtn}
+          {!compactMode && receiptBtn}
           {!compactMode && discussBtn}
         </span>
       </div>
@@ -561,6 +561,7 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
               {compactMode && (
                 <div className="almanacTunePanel__mobileActions">
                   {keepEl}
+                  {receiptBtn}
                   {discussBtn}
                 </div>
               )}
@@ -1496,7 +1497,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           </div>
         )}
 
-        {(poem || quote || parentQuote) && (
+        {!isMobile && (poem || quote || parentQuote) && (
           <div className={`almanacOpeningStack${isMobile ? " almanacOpeningStack--mobile" : ""}`}>
             <QuoteCard quote={quote} label="On the mind" />
             <QuoteCard quote={parentQuote} label="On raising them" />
@@ -1514,6 +1515,14 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
             </div>
           ))}
         </div>
+
+        {isMobile && (poem || quote || parentQuote) && (
+          <div className="almanacOpeningStack almanacOpeningStack--mobile">
+            <QuoteCard quote={quote} label="On the mind" />
+            <QuoteCard quote={parentQuote} label="On raising them" />
+            {poem && <PoemBlock poem={poem} visibility={vis} date={date} openThread={openThread} />}
+          </div>
+        )}
 
         <div className="almanac__lead almanac__lead--afterReads">
           {renderBlock("image", "lead")}

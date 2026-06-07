@@ -347,6 +347,7 @@ input { font-family: inherit; }
 }
 .systemNavSelect:hover { border-color: var(--border-strong); color: var(--ink-2); }
 .mastheadDate { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-faint); flex-shrink: 0; }
+.mobileBottomNav { display: none; }
 
 /* 6. Main content wrapper */
 .mainContent { flex: 1; overflow-y: auto; transition: margin-right 0.28s ease; }
@@ -1000,10 +1001,57 @@ input { font-family: inherit; }
 @media (max-width: 640px) {
   body { overflow: auto; }
   .appShell { height: auto; overflow: visible; }
-  .masthead { flex-wrap: wrap; height: auto; padding: 10px 16px 0; gap: 6px; }
-  .mastheadDate { order: -1; }
-  .tabNav { overflow-x: auto; width: 100%; }
+  .masthead { height: 54px; padding: 0 12px; gap: 8px; }
+  .mastheadLogo { flex-direction: column; align-items: flex-start; gap: 0; line-height: 1; }
+  .mastheadWordmark { font-size: 20px; letter-spacing: 0; }
+  .mastheadSub { font-size: 8px; letter-spacing: .1em; }
+  .tabNav,
+  .mastheadDate { display: none; }
+  .mastheadTools { margin-left: auto; gap: 8px; }
+  .refreshBtn { min-height: 32px; padding: 6px 10px; font-size: 11px; }
   .mainContent { margin-right: 0 !important; }
+  .mobileBottomNav {
+    position: fixed;
+    z-index: 80;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border);
+    background: color-mix(in oklch, var(--bg) 92%, white);
+    box-shadow: 0 -10px 30px rgba(34, 29, 22, .08);
+  }
+  .mobileBottomNav__btn,
+  .mobileBottomNav__more select {
+    width: 100%;
+    min-height: 38px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  .mobileBottomNav__btn--active,
+  .mobileBottomNav__more--active select {
+    border-color: var(--border);
+    background: var(--card);
+    color: var(--ink);
+  }
+  .mobileBottomNav__more {
+    position: relative;
+    display: block;
+  }
+  .mobileBottomNav__more select {
+    appearance: none;
+    padding: 0 4px;
+  }
   .todayLayout { flex-direction: column; height: auto; }
   .focusStage { padding: 28px 20px; min-height: 70vh; }
   .focusTitle { font-size: 22px; }
@@ -1027,7 +1075,7 @@ input { font-family: inherit; }
   .threadInputRow { padding: 8px 12px 12px; align-items: flex-end; }
   .threadInput { min-height: 42px; font-size: 16px; }
   .threadSend { min-width: 44px; min-height: 42px; }
-  .tabPage, .investingPage, .tabPageWide { padding: 20px 16px 48px; }
+  .tabPage, .investingPage, .tabPageWide { padding: 20px 16px calc(72px + env(safe-area-inset-bottom, 0px)); }
   .snoozedStrip { padding: 8px 20px; }
   .loopActions { opacity: 1; pointer-events: auto; }
   .tickerDiscuss { opacity: 1; pointer-events: auto; }
@@ -3321,13 +3369,14 @@ input { font-family: inherit; }
 
 /* ── Mobile adjustments ────────────────────────────────────────────────────── */
 @media (max-width: 760px) {
-  .investingPage { max-width: 100%; padding: 18px 12px 52px; }
-  .investmentSection { margin-top: 12px; padding: 11px; border-radius: 8px; }
-  .investmentDigestHero { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 13px; }
+  .investingPage { max-width: 100%; padding: 16px 12px calc(82px + env(safe-area-inset-bottom, 0px)); }
+  .investmentSection { margin-top: 10px; padding: 10px; border-radius: 8px; box-shadow: none; }
+  .investmentSection > p { font-size: 12px; line-height: 1.45; }
+  .investmentDigestHero { display: grid; grid-template-columns: 1fr; gap: 9px; padding: 12px; }
   .investmentDigestHero h2,
   .dailyMarketBriefHeader h2,
   .targetCockpitHeader h2,
-  .taxonomyHeroGrid h3 { font-size: 22px; line-height: 1.16; }
+  .taxonomyHeroGrid h3 { font-size: 21px; line-height: 1.14; }
   .sectionTitleRow { align-items: flex-start; gap: 8px; }
   .sectionTitleRow span { text-align: right; line-height: 1.25; }
   .investmentCardGrid,
@@ -3344,9 +3393,10 @@ input { font-family: inherit; }
   .taxonomyStats span,
   .inputHealthStats span,
   .tradeReviewStats span { padding: 7px; letter-spacing: .05em; overflow-wrap: anywhere; }
-  .targetTreemap { min-height: 0; gap: 6px; }
-  .targetTile { min-width: min(132px, calc(50% - 4px)); min-height: 92px; padding: 9px; flex-basis: calc(50% - 4px) !important; }
-  .targetTile strong { font-size: 22px; }
+  .targetCockpitGrid { gap: 9px; }
+  .targetTreemap { min-height: 0; gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; scroll-snap-type: x proximity; }
+  .targetTile { min-width: 142px; min-height: 84px; padding: 8px; flex: 0 0 142px !important; scroll-snap-align: start; }
+  .targetTile strong { font-size: 20px; }
   .targetTile em { letter-spacing: .03em; text-transform: none; }
   .targetDetailPanel { padding: 12px; }
   .targetDetailTop strong { font-size: 20px; }
@@ -3357,6 +3407,9 @@ input { font-family: inherit; }
   .targetCorrelationCell { min-height: 68px; }
   .targetEventSummary { padding: 9px; gap: 4px; }
   .targetEventDetail { padding: 10px; }
+  .targetBasketDossier p,
+  .targetInvalidatorStack p,
+  .targetCorrelationNotes p { font-size: 11px; line-height: 1.42; }
   .dailyTradeSummary span:nth-child(2),
   .dailyTradeSummary b,
   .dailyTradeLine em { white-space: normal; overflow: visible; text-overflow: clip; }
@@ -3399,10 +3452,16 @@ input { font-family: inherit; }
   .almanac__rule { margin-bottom: 22px; padding-bottom: 10px; gap: 8px; }
   .almanacOpeningStack,
   .almanacOpeningStack--mobile { gap: 18px; padding: 17px 0 24px; margin-bottom: 24px; }
+  .almanacOpeningStack--mobile { margin-top: 28px; }
+  .almanacOpeningStack--mobile::before { content: "reflection"; }
   .almanacOpeningStack .almanacShelfCard,
   .almanacShelfCard { padding-left: 14px; }
   .almanacQuoteCard { padding: 2px 8px 0; }
   .almanac__lead { padding-bottom: 24px; margin-bottom: 22px; }
+  .almanac__depts .almanacKicker__extra,
+  .almanac__lead .almanacKicker__extra { display: none; }
+  .almanac__depts .almanacWhyLine,
+  .almanac__lead .almanacWhyLine { display: none; }
   .almanac__depts,
   .almanac__depts--mobile { gap: 22px; }
   .almanac__depts--withLongRead::before { display: none; }
@@ -3428,6 +3487,7 @@ input { font-family: inherit; }
   .almanacSurprise--mobile { padding: 23px 18px; border-radius: 10px; }
   .almanacTuneRow { opacity: 1; gap: 6px; }
   .almanacTuneRow--compact { justify-content: flex-start; }
+  .almanacTuneRow--compact > span { gap: 0 !important; }
   .almanacKeepBtn,
   .almanacTuneBtn,
   .almanacReceiptBtn,
@@ -3460,7 +3520,7 @@ input { font-family: inherit; }
 
 @media (max-width: 420px) {
   .investmentButtonRow { grid-template-columns: 1fr; }
-  .targetTile { flex-basis: 100% !important; min-width: 100%; }
+  .targetTile { flex: 0 0 148px !important; min-width: 148px; }
   .targetKpiStrip,
   .taxonomyStats,
   .inputHealthStats,
