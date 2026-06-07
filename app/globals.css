@@ -1902,14 +1902,30 @@ input { font-family: inherit; }
   object-fit: cover;
   filter: saturate(1.04) contrast(1.02);
 }
+.almanacHero__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .almanacHero::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(17, 14, 10, 0.06), transparent 42%),
-    linear-gradient(0deg, rgba(17, 14, 10, 0.72), rgba(17, 14, 10, 0.18) 34%, transparent 64%);
+    linear-gradient(180deg, rgba(17, 14, 10, 0.03), transparent 44%),
+    linear-gradient(0deg, rgba(17, 14, 10, 0.08), transparent 38%);
   pointer-events: none;
+}
+.almanacHero__caption--sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 .almanacHero__caption {
   position: absolute;
@@ -2686,6 +2702,9 @@ input { font-family: inherit; }
   transition: opacity 0.18s;
 }
 .almanacTuneRow--on { opacity: 1; }
+.almanacTuneRow--compact {
+  opacity: 1;
+}
 .card-hoverable:hover .almanacTuneRow { opacity: 1; }
 
 .almanacTuneBtn {
@@ -2721,6 +2740,13 @@ input { font-family: inherit; }
   font-size: 11.5px;
 }
 .almanacReceiptBtn--open { background: rgba(74,112,92,0.14); }
+
+.almanacTunePanel__mobileActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 
 .almanacFeedbackReceipt {
   margin-top: 10px;
@@ -3325,10 +3351,13 @@ input { font-family: inherit; }
   .almanacSurprise,
   .almanacSurprise--mobile { padding: 23px 18px; border-radius: 10px; }
   .almanacTuneRow { opacity: 1; gap: 6px; }
+  .almanacTuneRow--compact { justify-content: flex-start; }
   .almanacKeepBtn,
   .almanacTuneBtn,
   .almanacReceiptBtn,
   .almanacDiscussBtn { min-height: 34px; justify-content: center; }
+  .almanacTunePanel__mobileActions .almanacKeepBtn,
+  .almanacTunePanel__mobileActions .almanacDiscussBtn { flex: 1 1 140px; }
   .almanacTunePanel { max-width: none; padding: 12px; }
   .almanacTunePanel__noteRow { flex-direction: column; align-items: stretch; }
   .almanacTunePanel__save { min-height: 38px; }
@@ -3365,11 +3394,10 @@ input { font-family: inherit; }
   .tickerRow { grid-template-columns: 56px 1fr; }
   .tickerConf { grid-column: 1 / -1; justify-self: start; }
   .almanacRecrawlBtn,
-  .almanacKeepBtn,
-  .almanacTuneBtn,
-  .almanacReceiptBtn,
-  .almanacDiscussBtn,
   .almanacArticleSaveBtn { width: 100%; }
+  .almanacTunePanel__mobileActions .almanacKeepBtn,
+  .almanacTunePanel__mobileActions .almanacDiscussBtn,
+  .almanacTunePanel .almanacTunePanel__save { width: 100%; }
   .almanacReadLink { display: block; }
   .almanacReadLink + .almanacArticleSaveBtn { margin-left: 0; }
   .almanacTunePanel__reactions { flex-direction: column; }

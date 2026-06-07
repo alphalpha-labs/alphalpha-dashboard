@@ -295,6 +295,28 @@ async function getRecentIds(genre, withinDays = 14) {
   } catch { return []; }
 }
 
+function titleKey(text = '') {
+  return String(text)
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 96);
+}
+
+function linkKey(url = '') {
+  try {
+    const u = new URL(url);
+    u.hash = '';
+    for (const param of [...u.searchParams.keys()]) {
+      if (/^(utm_|fbclid|gclid|mc_|ref$|source$)/i.test(param)) u.searchParams.delete(param);
+    }
+    return u.toString().replace(/\/$/, '');
+  } catch {
+    return String(url).replace(/[?#].*$/, '').replace(/\/$/, '');
+  }
+}
+
 async function recordUsed(genre, ids, date) {
   try {
     const key      = `alphalpha:almanac:history:${genre}`;
@@ -552,10 +574,16 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
   const scored = candidates.map(c => {
     let score = 1.0;
+    const candidateTitleKey = `title:${titleKey(c.title)}`;
+    const candidateLinkKey = c.link ? linkKey(c.link) : null;
+    const blob = `${c.title} ${c.why} ${c.themes.join(' ')}`.toLowerCase();
 
-    // Dedup: penalise anything seen in the last 14 days (by id or link).
-    if (recentIds.includes(c.id) || (c.link && recentIds.includes(c.link)))
-      score -= 10;
+    // Dedup: reject anything seen in the last 14 days by id, canonical link, or normalized title.
+    if (recentIds.includes(c.id) || recentIds.includes(candidateTitleKey) || (candidateLinkKey && recentIds.includes(candidateLinkKey)))
+      score -= 100;
+
+    // Hard user preference: when feedback says less/no AI-focused Reading, AI/ML/LLM pieces are out.
+    if (feedbackProfile.avoidAiFocused && isAiFocusedText(blob)) score -= 100;
 
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
@@ -568,7 +596,6 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     if ((aw.chipTallies?.['go deeper']        ?? 0) > 0) score += 0.1;
 
     // Open-loop keyword overlap.
-    const blob = `${c.title} ${c.why} ${c.themes.join(' ')}`.toLowerCase();
     score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.25;
     score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
 
@@ -598,9 +625,21 @@ function articleFeedbackProfile(weights = {}) {
 
   return {
     avoidHosts: [...new Set(avoidHosts)],
+    avoidAiFocused: wantsLessAiFocus(notes),
     preferTerms: [...new Set(preferTerms)],
     preferredQuery: preferTerms.length ? [...new Set(preferTerms)].join(' ') : '',
   };
+}
+
+function wantsLessAiFocus(notes = '') {
+  return /\b(less|no|not|avoid|stop)\s+(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric|articles?|signals?|charts?|states?|stuff|content)?\b/.test(notes)
+    || (/\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric)\b/.test(notes) && /\b(less|no|not|avoid|stop)\b/.test(notes))
+    || (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(notes) && /\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)\b/.test(notes) && /\b(?:adoption|infrastructure|stats?|statistics|state)\b/.test(notes));
+}
+
+function isAiFocusedText(text = '') {
+  const lower = String(text).toLowerCase();
+  return /\b(ai|a\.i\.|artificial intelligence|genai|generative ai|llm|llms|large language model|machine learning|frontier model|open-weight model)\b/.test(lower);
 }
 
 async function composeArticle(candidate, contextFiles) {
@@ -685,8 +724,12 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
   if (!article.dek?.trim())   throw new Error('article missing dek after compose');
 
   // Prefer stable link over file-based ID for dedup — links survive renames.
-  const sourceId = best.link ?? best.id;
-  return { article, sourceId };
+  const sourceIds = [
+    best.id,
+    `title:${titleKey(best.title)}`,
+    best.link ? linkKey(best.link) : null,
+  ].filter(Boolean);
+  return { article, sourceIds };
 }
 
 // ── Phase 3 Tile: Look (image) ────────────────────────────────────────────────
@@ -1434,9 +1477,10 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
 
 async function tileCuratedCharts(feedbackWeights, recentIds, contextFiles) {
   const dataset = loadChartsDataset();
+  const chartProfile = chartFeedbackProfile(feedbackWeights.chart ?? {});
 
   function pickChart(topic) {
-    const pool  = dataset.filter(c => c.topic === topic);
+    const pool  = dataset.filter(c => c.topic === topic && !isRejectedChart(c, chartProfile));
     const fresh = pool.filter(c => !recentIds.includes(c.id));
     return fresh.length > 0 ? fresh[0] : (pool.length > 0 ? pool[0] : null);
   }
@@ -1444,10 +1488,10 @@ async function tileCuratedCharts(feedbackWeights, recentIds, contextFiles) {
   // Prefer a freshly web-discovered, source-cited chart; fall back to the dataset.
   const [investingWeb, aiWeb] = await Promise.all([
     webSourceChart(feedbackWeights, 'Investing').catch(() => null),
-    webSourceChart(feedbackWeights, 'AI').catch(() => null),
+    chartProfile.avoidAiFocused ? Promise.resolve(null) : webSourceChart(feedbackWeights, 'AI').catch(() => null),
   ]);
-  const investingRaw = investingWeb ?? pickChart('Investing');
-  const aiRaw        = aiWeb        ?? pickChart('AI');
+  const investingRaw = isRejectedChart(investingWeb, chartProfile) ? pickChart('Investing') : (investingWeb ?? pickChart('Investing'));
+  const aiRaw        = chartProfile.avoidAiFocused ? null : (aiWeb ?? pickChart('AI'));
 
   if (!investingRaw && !aiRaw) return null;
 
@@ -1472,7 +1516,19 @@ async function tileCuratedCharts(feedbackWeights, recentIds, contextFiles) {
     investingId:  investingRaw?.id ?? null,
     ai:           applyNote(aiRaw, aiNoteResult),
     aiId:         aiRaw?.id ?? null,
+    aiSuppressed: chartProfile.avoidAiFocused,
   };
+}
+
+function chartFeedbackProfile(weights = {}) {
+  const notes = (weights.notes ?? []).join(' ').toLowerCase();
+  return { avoidAiFocused: wantsLessAiFocus(notes) };
+}
+
+function isRejectedChart(chart, profile) {
+  if (!chart) return false;
+  if (!profile?.avoidAiFocused) return false;
+  return chart.topic === 'AI' || isAiFocusedText(`${chart.title} ${chart.note ?? ''} ${chart.why ?? ''} ${chart.sourceLabel ?? ''}`);
 }
 
 // ── Phase 7/8 Tiles: Workshop (guitar riff + production clip of the day) ───────
@@ -1764,10 +1820,11 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
   const profile = articleFeedbackProfile(feedbackWeights.article ?? {});
   const topics = topicKeywords(contextFiles, 3);
   const prefer = hints.prefer.slice(0, 2);
+  const avoidAi = profile.avoidAiFocused ? ' -AI -LLM -GenAI non-AI' : '';
   const queries = [
-    `best long-form essay 2026 ${[...prefer, topics[0]].filter(Boolean).join(' ')}`.trim(),
-    profile.preferredQuery ? `fresh long-form ${profile.preferredQuery} analysis essay 2026` : null,
-    topics[1] ? `in-depth article ${topics.slice(0, 2).join(' ')} ${prefer[0] ?? ''}`.trim() : null,
+    `best long-form essay 2026 ${[...prefer, topics[0]].filter(Boolean).join(' ')}${avoidAi}`.trim(),
+    profile.preferredQuery ? `fresh long-form ${profile.preferredQuery} analysis essay 2026${avoidAi}` : null,
+    topics[1] ? `in-depth article ${topics.slice(0, 2).join(' ')} ${prefer[0] ?? ''}${avoidAi}`.trim() : null,
   ].filter(Boolean);
   const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
   return results
@@ -1781,7 +1838,8 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
       why:    (r.snippet || '').slice(0, 200) || 'Surfaced via daily web discovery.',
       themes: [],
     }))
-    .filter(c => c.title && c.link);
+    .filter(c => c.title && c.link)
+    .filter(c => !(profile.avoidAiFocused && isAiFocusedText(`${c.title} ${c.why}`)));
 }
 
 // Riff — search YouTube for fresh tutorials in the reader's preferred genres.
@@ -1868,7 +1926,9 @@ async function webSourceArtifact(feedbackWeights) {
 async function webSourceChart(feedbackWeights, topic) {
   if (!webDiscovery?.available) return null;
   const hints = feedbackHints(feedbackWeights.chart ?? {});
-  const q = `${topic} trend statistics 2024 2025 2026 report figures ${hints.prefer.slice(0, 1).join(' ')}`.trim();
+  const profile = chartFeedbackProfile(feedbackWeights.chart ?? {});
+  if (topic === 'AI' && profile.avoidAiFocused) return null;
+  const q = `${topic} trend statistics 2024 2025 2026 report figures ${hints.prefer.slice(0, 1).join(' ')}${profile.avoidAiFocused ? ' non-AI' : ''}`.trim();
   const results = await webDiscovery.search(q, { count: 6 });
   if (!results.length) return null;
   // Enrich top results with page text so the model has real figures to quote.
@@ -1877,7 +1937,7 @@ async function webSourceChart(feedbackWeights, topic) {
     if (text) r.snippet = `${r.snippet}\n${text}`.slice(0, 1400);
   }
   const picked = await webDiscovery.curate({
-    task: `Build one small ${topic} bar chart from a single credible source. Use ONLY numeric figures explicitly stated in the candidate text — never invent or estimate numbers. If no concrete figures are present, skip.`,
+    task: `Build one small ${topic} bar chart from a single credible source. Use ONLY numeric figures explicitly stated in the candidate text — never invent or estimate numbers. If no concrete figures are present, skip.${profile.avoidAiFocused ? ' Do not select an AI-focused, GenAI, LLM, or machine-learning chart.' : ''}`,
     candidates: results,
     hints,
     context: `Topic: ${topic}.`,
@@ -1889,7 +1949,7 @@ async function webSourceChart(feedbackWeights, topic) {
     : [];
   if (series.length < 2) return null;
   if (!picked.title || !picked.url || !results.some(r => r.url === picked.url)) return null;
-  return {
+  const chart = {
     id: `web-chart-${hostOf(picked.url)}`,
     topic,
     title: picked.title,
@@ -1900,6 +1960,7 @@ async function webSourceChart(feedbackWeights, topic) {
     sourceUrl: picked.url,
     sourceLabel: hostOf(picked.url),
   };
+  return isRejectedChart(chart, profile) ? null : chart;
 }
 
 // Look — discover a fresh public-domain / CC image via Wikimedia Commons (zero-key).
@@ -2046,11 +2107,12 @@ async function main() {
 
   // Phase 2 — Article (Sourcer → Ranker → Composer; returns {article, sourceId} or null)
   let article       = fixture.article;
-  let usedArticleId = null;
+  let usedArticleIds = [];
   try {
     const result = await tileArticle(feedbackWeights, recentArticleIds, contextFiles);
     if (result) {
-      ({ article, sourceId: usedArticleId } = result);
+      article = result.article;
+      usedArticleIds = result.sourceIds ?? [];
       log(`  article: OK — "${article.title.slice(0, 60)}…"`);
     } else {
       log('  article: no candidates — using fixture fallback');
@@ -2108,30 +2170,33 @@ async function main() {
   // Phase 6 — Curated Investing / AI charts (dataset + LLM note/why)
   let liveInvestingChart = null;
   let liveAIChart        = null;
+  let aiChartSuppressed  = false;
   const chartUsedIds     = youChart ? [`you-chart-${targetDate}`] : [];
   try {
     const result = await tileCuratedCharts(feedbackWeights, recentChartIds, contextFiles);
     if (result) {
       liveInvestingChart = result.investing ?? null;
       liveAIChart        = result.ai        ?? null;
+      aiChartSuppressed  = !!result.aiSuppressed;
       if (result.investingId) chartUsedIds.push(result.investingId);
       if (result.aiId)        chartUsedIds.push(result.aiId);
-      log(`  curated charts: OK — investing:${!!liveInvestingChart} ai:${!!liveAIChart}`);
+      log(`  curated charts: OK — investing:${!!liveInvestingChart} ai:${!!liveAIChart}${aiChartSuppressed ? ' (AI suppressed by feedback)' : ''}`);
     }
   } catch (e) {
     warn(`  curated charts: ${e.message} — using fixture fallback`);
   }
 
   // Assemble charts: prefer live per topic, fall back to fixture.
-  const fixtureInvesting = (fixture.charts ?? []).find(c => c.topic === 'Investing') ?? null;
-  const fixtureAI        = (fixture.charts ?? []).find(c => c.topic === 'AI')        ?? null;
+  const chartProfile = chartFeedbackProfile(feedbackWeights.chart ?? {});
+  const fixtureInvesting = (fixture.charts ?? []).find(c => c.topic === 'Investing' && !isRejectedChart(c, chartProfile)) ?? null;
+  const fixtureAI        = aiChartSuppressed || chartProfile.avoidAiFocused ? null : ((fixture.charts ?? []).find(c => c.topic === 'AI') ?? null);
 
   let charts = [
     liveInvestingChart ?? fixtureInvesting,
-    liveAIChart        ?? fixtureAI,
+    aiChartSuppressed ? null : (liveAIChart ?? fixtureAI),
     youChart,
   ].filter(Boolean);
-  if (charts.length === 0) charts = fixture.charts ?? [];
+  if (charts.length === 0) charts = (fixture.charts ?? []).filter(c => !isRejectedChart(c, chartProfile));
 
   // Phase 7 — Guitar riff of the day (curated dataset + feedback-weighted rank)
   let riffs       = fixture.riffs ?? [];
@@ -2241,11 +2306,11 @@ async function main() {
 
   log(`Edition assembled: ${edition.edition}`);
   log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
-  log(`  article: ${article.source}${usedArticleId ? ' (live)' : ' (fixture)'}`);
+  log(`  article: ${article.source}${usedArticleIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
-  log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${liveAIChart ? 'live' : 'fix'})`);
+  log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${aiChartSuppressed ? 'suppressed' : (liveAIChart ? 'live' : 'fix')})`);
   log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  poem: ${edition.poems?.[0]?.title?.slice(0, 40) ?? 'none'}${usedPoemIds.length ? ' (live)' : ' (fixture)'}`);
@@ -2282,7 +2347,7 @@ async function main() {
     recordUsed('quote-mind',      usedMindIds,      targetDate),
     recordUsed('quote-parenting', usedParentingIds, targetDate),
     chartUsedIds.length > 0        ? recordUsed('chart',    chartUsedIds,    targetDate) : Promise.resolve(),
-    usedArticleId                  ? recordUsed('article',  [usedArticleId], targetDate) : Promise.resolve(),
+    usedArticleIds.length > 0      ? recordUsed('article',  usedArticleIds, targetDate) : Promise.resolve(),
     usedImageId                    ? recordUsed('image',    [usedImageId],   targetDate) : Promise.resolve(),
     usedVentureIds.length > 0      ? recordUsed('venture',  usedVentureIds,  targetDate) : Promise.resolve(),
     usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),

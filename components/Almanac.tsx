@@ -35,20 +35,28 @@ type AlmanacHeroImage = {
 
 const AUSTIN_HERO_IMAGES: AlmanacHeroImage[] = [
   {
-    title: "Lady Bird Lake Skyline",
-    location: "Lady Bird Lake",
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Lady_Bird_Lake_in_Austin%2C_Texas.jpg/1920px-Lady_Bird_Lake_in_Austin%2C_Texas.jpg",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Lady_Bird_Lake_in_Austin,_Texas.jpg",
-    credit: "Rish0203 / Wikimedia Commons",
-    position: "center 54%",
+    title: "Barton Creek Greenbelt",
+    location: "Gus Fruh",
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/Barton%20Creek%20Greenbelt%20-%20Gus%20Fruh%20Park%20-%20panoramio.jpg",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Barton_Creek_Greenbelt_-_Gus_Fruh_Park_-_panoramio.jpg",
+    credit: "Wikimedia Commons / CC BY-SA",
+    position: "center 50%",
   },
   {
-    title: "Austin Winter Sunrise",
-    location: "Lady Bird Lake",
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Austin_Winter_Sunrise.jpg/1920px-Austin_Winter_Sunrise.jpg",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Austin_Winter_Sunrise.jpg",
+    title: "Barton Creek Greenbelt",
+    location: "Austin",
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/Barton%20Creek%20Greenbelt-19.jpg",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Barton_Creek_Greenbelt-19.jpg",
     credit: "LoneStarMike / Wikimedia Commons",
-    position: "center 48%",
+    position: "center 52%",
+  },
+  {
+    title: "Texas Hill Country Bluebonnets",
+    location: "Near Marble Falls",
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/A%20pretty%20field%20of%20bluebonnets,%20the%20Texas%20State%20Flower,%20near%20Marble%20Falls%20in%20Burnet%20County%20in%20the%20Texas%20Hill%20Country%20LCCN2014632953.tif",
+    sourceUrl: "https://commons.wikimedia.org/wiki/Category:Texas_Hill_Country",
+    credit: "Carol M. Highsmith / Library of Congress",
+    position: "center 50%",
   },
 ];
 
@@ -414,7 +422,7 @@ const FALLBACK_AUSTIN_EXPLORES: DailyAustinExplore[] = [
 ];
 
 interface TuneStripProps {
-  visibility: "hover" | "always" | "readonly" | "none";
+  visibility: "hover" | "always" | "compact" | "readonly" | "none";
   compact?: boolean;
   item: { id: string; genre: string; title: string; sub?: string };
   date: string;
@@ -464,7 +472,8 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
     setTimeout(() => { setOpen(false); setTimeout(() => setSaveState("idle"), 300); }, 1600);
   };
 
-  const wrapCls = visibility === "always" ? "almanacTuneRow almanacTuneRow--on" : "almanacTuneRow";
+  const compactMode = visibility === "compact";
+  const wrapCls = visibility === "always" ? "almanacTuneRow almanacTuneRow--on" : `almanacTuneRow${compactMode ? " almanacTuneRow--compact" : ""}`;
   const history = feedback.history[item.id] ?? [];
   const hasReceipt = kept || !!saved || history.length > 0;
   const historyCount = Math.max(history.length, hasReceipt ? 1 : 0);
@@ -502,12 +511,12 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
   return (
     <div style={{ marginTop: compact ? 12 : 18 }}>
       <div className={wrapCls}>
-        {visibility !== "hover" && keepEl}
+        {visibility !== "hover" && !compactMode && keepEl}
         <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           {visibility === "hover" && keepEl}
           {tuneBtn}
-          {receiptBtn}
-          {discussBtn}
+          {(!compactMode || hasReceipt) && receiptBtn}
+          {!compactMode && discussBtn}
         </span>
       </div>
       {receiptOpen && hasReceipt && (
@@ -550,6 +559,12 @@ function TuneStrip({ visibility, compact, item, date, chips: chipVocab = NUANCE_
           ) : (
             <>
               <div className="almanacTunePanel__header">Tune tomorrow&apos;s edition</div>
+              {compactMode && (
+                <div className="almanacTunePanel__mobileActions">
+                  {keepEl}
+                  {discussBtn}
+                </div>
+              )}
               <div className="almanacTunePanel__reactions">
                 {(["more","less"] as const).map(r => (
                   <button key={r} onClick={() => setReaction(p => p === r ? null : r)}
@@ -617,7 +632,7 @@ function BarChart({ series, size }: { series: { label: string; value: number }[]
 interface BlockProps {
   d: DailyData;
   size: "lead" | "dept";
-  visibility: "hover" | "always" | "readonly" | "none";
+  visibility: "hover" | "always" | "compact" | "readonly" | "none";
   date: string;
   openThread?: (ctx: ThreadContext) => void;
   openVenture?: (v: DailyVenture) => void;
@@ -766,7 +781,7 @@ function ImageBlock({ d, size, visibility, date }: BlockProps) {
 // ── Surprise band ─────────────────────────────────────────────────────────────
 interface SurpriseProps {
   s: DailyData["surprises"][0];
-  visibility: "hover" | "always" | "readonly" | "none";
+  visibility: "hover" | "always" | "compact" | "readonly" | "none";
   date: string;
   isMobile: boolean;
   openThread?: (ctx: ThreadContext) => void;
@@ -1230,7 +1245,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const isToday = offset === 0;
   const date = almanacIsoForOffset(offset);
   const dayIdx = daysSinceAlmanacEpoch(date);
-  const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
+  const vis: "hover" | "compact" | "readonly" = isToday ? (isMobile ? "compact" : "hover") : "readonly";
 
   // Priority: archive snapshot (past) > live KV edition (today) > static fixture (fallback)
   const rawBase = offset < 0 && archiveEdition ? archiveEdition
@@ -1383,13 +1398,22 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
       {/* Masthead */}
       <div className={`almanac__masthead${isMobile ? " almanac__masthead--mobile" : ""}`}>
         <figure className={`almanacHero${isMobile ? " almanacHero--mobile" : ""}`}>
-          <img
-            className="almanacHero__image"
-            src={heroImage.url}
-            alt={`${heroImage.title}, ${heroImage.location}`}
-            style={{ objectPosition: heroImage.position ?? "center" }}
-          />
-          <figcaption className="almanacHero__caption">
+          <a
+            className="almanacHero__link"
+            href={heroImage.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${heroImage.title}, ${heroImage.location}. ${heroImage.credit}`}
+            title={`${heroImage.title}, ${heroImage.location} · ${heroImage.credit}`}
+          >
+            <img
+              className="almanacHero__image"
+              src={heroImage.url}
+              alt={`${heroImage.title}, ${heroImage.location}`}
+              style={{ objectPosition: heroImage.position ?? "center" }}
+            />
+          </a>
+          <figcaption className="almanacHero__caption almanacHero__caption--sr">
             <span className="almanacHero__label">Austin view of the day</span>
             <span className="almanacHero__place">{heroImage.title} · {heroImage.location}</span>
             <a className="almanacHero__credit" href={heroImage.sourceUrl} target="_blank" rel="noreferrer">

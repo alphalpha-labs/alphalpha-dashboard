@@ -19,4 +19,35 @@ describe("buildAlmanacFeedbackInterpretation", () => {
     expect(interpretation).toContain("older evergreen work");
     expect(interpretation).not.toContain("composer guidance");
   });
+
+  it("treats less/no AI feedback as a hard avoid for reading and signal tiles", () => {
+    const article = buildAlmanacFeedbackInterpretation({
+      genre: "article",
+      title: "AI After Drug Development",
+      reaction: "less",
+      note: "Less AI focused articles, ideally no AI articles for a while.",
+    });
+    const chart = buildAlmanacFeedbackInterpretation({
+      genre: "chart",
+      title: "The State of AI",
+      reaction: "less",
+      note: "Not AI focused for signal either.",
+    });
+
+    expect(article).toContain("hard avoid");
+    expect(article).toContain("AI-focused Reading");
+    expect(chart).toContain("hard avoid");
+    expect(chart).toContain("AI-focused Signal");
+  });
+
+  it("upgrades beyond-AI-adoption chart feedback from a soft nudge to a hard avoid", () => {
+    const interpretation = buildAlmanacFeedbackInterpretation({
+      genre: "chart",
+      title: "AI-assisted code, % of new code written with AI tools",
+      note: "Lets make this signal/chart range beyond just stats on AI adoption and infrastructure",
+    });
+
+    expect(interpretation).toContain("hard avoid");
+    expect(interpretation).toContain("AI-focused Signal");
+  });
 });

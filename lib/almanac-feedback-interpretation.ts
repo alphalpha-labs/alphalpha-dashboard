@@ -37,6 +37,13 @@ function sourceDirective(note: string, genreLabel: string) {
 
 function positiveDirective(note: string, genre: string, genreLabel: string) {
   const lower = note.toLowerCase();
+  const wantsLessAiFocus = /\b(less|no|not|avoid|stop)\s+(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric|articles?|signals?|charts?|states?|stuff|content)?\b/.test(lower)
+    || (/\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric)\b/.test(lower) && /\b(less|no|not|avoid|stop)\b/.test(lower))
+    || (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(lower) && /\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)\b/.test(lower) && /\b(?:adoption|infrastructure|stats?|statistics|state)\b/.test(lower));
+  if (wantsLessAiFocus && (genre === "article" || genre === "chart")) {
+    return `Treat AI-focused ${genreLabel} candidates as a hard avoid; AI can be background context only when the selected tile is really about another subject.`;
+  }
+
   const wantsLong = /\blong\b|\blongform\b|\blong-form\b|\bessay\b|\bessays\b/.test(lower);
   const wantsProvoking = /\bthought provoking\b|\bthought-provoking\b|\bprovoking\b|\bdeep\b|\bserious\b/.test(lower);
   const wantsSocial = /\bsocial\b|\bcultural\b|\bpolitical\b|\bsociety\b|\bculture\b|\bpolitics\b/.test(lower);
