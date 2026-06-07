@@ -15,6 +15,8 @@ export type AlmanacKeep = {
   sub?:    string;
   keptAt:  number;
   date:    string; // YYYY-MM-DD
+  editionDate?: string; // YYYY-MM-DD; same as date for new records
+  recordedAt?:  string; // ISO timestamp for audit/reporting by action time
 };
 
 export type AlmanacTune = {
@@ -25,6 +27,8 @@ export type AlmanacTune = {
   interpretation?: string;
   at:       number;
   date:     string; // YYYY-MM-DD
+  editionDate?: string; // YYYY-MM-DD; same as date for new records
+  recordedAt?:  string; // ISO timestamp for audit/reporting by action time
 };
 
 export type AlmanacFeedbackHistoryItem = {
@@ -41,6 +45,8 @@ export type AlmanacFeedbackHistoryItem = {
   interpretation?: string;
   at:       number;
   date:     string; // YYYY-MM-DD
+  editionDate?: string; // YYYY-MM-DD; same as date for new records
+  recordedAt?:  string; // ISO timestamp for audit/reporting by action time
 };
 
 export type AlmanacFeedback = {
@@ -91,6 +97,8 @@ function withBackfilledHistory(feedback: AlmanacFeedback): AlmanacFeedback {
         sub: keep.sub,
         at: keep.keptAt,
         date: keep.date,
+        editionDate: keep.editionDate ?? keep.date,
+        recordedAt: keep.recordedAt ?? new Date(keep.keptAt).toISOString(),
       };
       history[keep.itemId] = [
         item,
@@ -117,6 +125,8 @@ function withBackfilledHistory(feedback: AlmanacFeedback): AlmanacFeedback {
         interpretation: tune.interpretation,
         at: tune.at,
         date: tune.date,
+        editionDate: tune.editionDate ?? tune.date,
+        recordedAt: tune.recordedAt ?? new Date(tune.at).toISOString(),
       };
       history[tune.itemId] = [
         item,
@@ -154,6 +164,8 @@ export async function POST(req: NextRequest) {
 
   if (body.type === "keep") {
     const at = body.keptAt ?? Date.now();
+    const recordedAt = body.recordedAt ?? new Date(at).toISOString();
+    const editionDate = body.editionDate ?? body.date;
     if (body.remove) {
       delete feedback.keeps[body.itemId];
       appendHistory(feedback, {
@@ -166,6 +178,8 @@ export async function POST(req: NextRequest) {
         sub: body.sub,
         at,
         date: body.date,
+        editionDate,
+        recordedAt,
       });
     } else {
       feedback.keeps[body.itemId] = {
@@ -175,6 +189,8 @@ export async function POST(req: NextRequest) {
         sub:     body.sub,
         keptAt:  at,
         date:    body.date,
+        editionDate,
+        recordedAt,
       };
       appendHistory(feedback, {
         id: historyId("keep", body.itemId, at),
@@ -186,10 +202,14 @@ export async function POST(req: NextRequest) {
         sub: body.sub,
         at,
         date: body.date,
+        editionDate,
+        recordedAt,
       });
     }
   } else if (body.type === "tune") {
     const at = body.at ?? Date.now();
+    const recordedAt = body.recordedAt ?? new Date(at).toISOString();
+    const editionDate = body.editionDate ?? body.date;
     const genre = body.genre ?? String(body.itemId).split(/[:-]/)[0] ?? "article";
     const interpretation = buildAlmanacFeedbackInterpretation({
       genre,
@@ -207,6 +227,8 @@ export async function POST(req: NextRequest) {
       interpretation,
       at,
       date:     body.date,
+      editionDate,
+      recordedAt,
     };
     appendHistory(feedback, {
       id: historyId("tune", body.itemId, at),
@@ -221,6 +243,8 @@ export async function POST(req: NextRequest) {
       interpretation,
       at,
       date: body.date,
+      editionDate,
+      recordedAt,
     });
   } else {
     return NextResponse.json({ error: "type must be keep or tune" }, { status: 400 });

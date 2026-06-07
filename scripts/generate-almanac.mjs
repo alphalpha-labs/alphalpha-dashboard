@@ -76,10 +76,31 @@ const dryRun  = args.includes('--dry-run');
 const force   = args.includes('--force');
 const dateArg = args.find(a => a.startsWith('--date='))?.slice('--date='.length);
 
-function tomorrow() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
+const ALMANAC_TIME_ZONE = 'America/Chicago';
+const almanacDateFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: ALMANAC_TIME_ZONE,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+function almanacTodayIso(now = new Date()) {
+  const parts = almanacDateFormatter.formatToParts(now);
+  const year = parts.find(part => part.type === 'year')?.value;
+  const month = parts.find(part => part.type === 'month')?.value;
+  const day = parts.find(part => part.type === 'day')?.value;
+  if (!year || !month || !day) throw new Error('Could not format Almanac date');
+  return `${year}-${month}-${day}`;
+}
+
+function addDaysToIso(dateIso, days) {
+  const [year, month, day] = dateIso.split('-').map(Number);
+  const d = new Date(Date.UTC(year, month - 1, day + days));
   return d.toISOString().slice(0, 10);
+}
+
+function tomorrow() {
+  return addDaysToIso(almanacTodayIso(), 1);
 }
 
 const targetDate = dateArg ?? tomorrow();

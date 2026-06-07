@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
+import { almanacEditionNumber, almanacIsoForOffset, daysSinceAlmanacEpoch, localDateFromIso } from "@/lib/almanac-date";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
 import longReadDataset from "@/lib/almanac-datasets/long-reads.json";
 
@@ -21,7 +22,6 @@ const GENRE = {
 type Genre = keyof typeof GENRE;
 
 const DEFAULT_DEPT_ITEMS: Array<"article" | "venture" | "chart"> = ["article", "venture", "chart"];
-const TODAY_DAY = Math.floor(Date.now() / 864e5);
 
 type AlmanacHeroImage = {
   title: string;
@@ -59,10 +59,7 @@ const WDAYS_LONG = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday",
 const WDAYS_SHORT = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 function dateForOffset(o: number): Date {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + o);
-  return d;
+  return localDateFromIso(almanacIsoForOffset(o));
 }
 function fmtLong(d: Date) {
   return `${WDAYS_LONG[d.getDay()]}, ${MONTHS_LONG[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
@@ -114,8 +111,8 @@ function ToastHost() {
 }
 
 // ── Feedback persistence ──────────────────────────────────────────────────────
-type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; keptAt: number; date: string };
-type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; interpretation?: string; at: number; date: string };
+type KeepRecord = { itemId: string; genre: string; title: string; sub?: string; keptAt: number; date: string; editionDate?: string; recordedAt?: string };
+type TuneRecord  = { itemId: string; reaction: "more" | "less" | null; chips: string[]; note: string; interpretation?: string; at: number; date: string; editionDate?: string; recordedAt?: string };
 type FeedbackHistoryItem = {
   id: string;
   type: "keep" | "tune";
@@ -231,7 +228,17 @@ async function toggleKeep(date: string, item: { id: string; genre: string; title
     }
     feedbackCache[date] = next;
   } else {
-    const rec: KeepRecord = { itemId: item.id, genre: item.genre, title: item.title, sub: item.sub, keptAt: Date.now(), date };
+    const keptAt = Date.now();
+    const rec: KeepRecord = {
+      itemId: item.id,
+      genre: item.genre,
+      title: item.title,
+      sub: item.sub,
+      keptAt,
+      date,
+      editionDate: date,
+      recordedAt: new Date(keptAt).toISOString(),
+    };
     const next = await persistKeep(date, rec, item.id, item).catch(() => null);
     if (!next) {
       showToast("Could not save feedback. Please try again.");
@@ -1220,9 +1227,9 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
       .finally(() => setArchiveLoading(false));
   }, [offset]);
 
-  const dayIdx = TODAY_DAY + offset;
   const isToday = offset === 0;
-  const date = fmtIso(dateForOffset(offset));
+  const date = almanacIsoForOffset(offset);
+  const dayIdx = daysSinceAlmanacEpoch(date);
   const vis: "hover" | "always" | "readonly" = isToday ? (isMobile ? "always" : "hover") : "readonly";
 
   // Priority: archive snapshot (past) > live KV edition (today) > static fixture (fallback)
@@ -1265,7 +1272,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
   const austinExplore = austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null;
   const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
-  const editionNo = resolved.edition || `No. ${214 + offset}`;
+  const editionNo = resolved.edition || almanacEditionNumber(date);
   const curDate = dateForOffset(offset);
   const heroImage = heroImageForDate(dayIdx);
 
