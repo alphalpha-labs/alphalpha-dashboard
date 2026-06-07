@@ -110,7 +110,7 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
 
       {dailyMarketBrief && <DailyMarketBriefPanel brief={dailyMarketBrief} onDiscuss={onDiscuss} />}
 
-      {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} onDiscuss={onDiscuss} />}
+      {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} basketGovernanceAudit={basketGovernanceAudit} onDiscuss={onDiscuss} />}
 
       {preflight && preflight.summary?.status !== "ready" && (
         <section className="investmentSection investmentPreflight">
@@ -496,13 +496,16 @@ function DailyMarketBriefPanel({ brief, onDiscuss }: { brief: InvestingDailyMark
   );
 }
 
-function TargetAllocationCockpit({ allocationTargets, onDiscuss }: { allocationTargets: InvestingAllocationTargets; onDiscuss: Props["onDiscuss"] }) {
+function TargetAllocationCockpit({ allocationTargets, basketGovernanceAudit, onDiscuss }: { allocationTargets: InvestingAllocationTargets; basketGovernanceAudit?: InvestingBasketGovernanceAudit | null; onDiscuss: Props["onDiscuss"] }) {
   const sleeves = allocationTargets.sleeves ?? [];
   const [selectedId, setSelectedId] = useState(sleeves[0]?.id ?? "");
   const [expandedEventId, setExpandedEventId] = useState(allocationTargets.targetChangeEvents?.[0]?.id ?? "");
   const selected = sleeves.find(sleeve => sleeve.id === selectedId) ?? sleeves[0] ?? null;
+  const basketRows = basketGovernanceAudit?.baskets ?? [];
+  const selectedBasket = selected ? basketRows.find(basket => basket.id === selected.id || basket.title === selected.title) ?? null : null;
   const selectedEvent = selected ? allocationTargets.targetChangeEvents?.find(event => event.id === selected.latestChangeEventId || event.sleeveId === selected.id) : null;
   const recentEvents = allocationTargets.targetChangeEvents ?? [];
+  const correlationRows = selected ? basketCorrelationRows(selected, sleeves, selectedBasket, basketRows) : [];
 
   if (!sleeves.length) return null;
 
@@ -574,18 +577,61 @@ function TargetAllocationCockpit({ allocationTargets, onDiscuss }: { allocationT
                   <p key={`${receipt.label}-${receipt.source}`}>{receipt.excerpt || receipt.label}<em>{receipt.source}</em></p>
                 ))}
               </div>
-              <div className="targetHoldingLine">
-                {(selected.holdings ?? []).slice(0, 8).map(h => <span key={h.symbol}>{h.symbol} {h.portfolioPct != null ? `${h.portfolioPct.toFixed(1)}%` : ""}</span>)}
+              <div className="targetBasketDossier">
+                <span>Basket dossier</span>
+                <p>{selectedBasket?.definition?.appThesis || selectedBasket?.definition?.registryClaim || selected.actionPosture || "No thesis text recorded for this sleeve yet."}</p>
+                {selectedBasket?.definition?.canonicalBoundary && (
+                  <div className="targetBoundaryGrid">
+                    <em><b>Owns</b>{selectedBasket.definition.canonicalBoundary.owns || "not specified"}</em>
+                    <em><b>Does not own</b>{selectedBasket.definition.canonicalBoundary.does_not_own || "not specified"}</em>
+                  </div>
+                )}
               </div>
+              <div className="targetHoldingStack">
+                <span>Holdings</span>
+                <div className="targetHoldingLine">
+                  {(selected.holdings ?? []).slice(0, 10).map(h => <span key={h.symbol}>{h.symbol} {h.portfolioPct != null ? `${h.portfolioPct.toFixed(1)}%` : ""}</span>)}
+                </div>
+              </div>
+              {(selected.invalidators?.length || selectedBasket?.governanceQuestions?.length) ? (
+                <div className="targetInvalidatorStack">
+                  <span>Invalidators / gates</span>
+                  {[...(selected.invalidators ?? []), ...(selectedBasket?.governanceQuestions ?? [])].slice(0, 4).map(item => <p key={item}>{item}</p>)}
+                </div>
+              ) : null}
               <div className="investmentButtonRow">
-                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: selectedEvent?.id || selected.id, type: "investing-target-change", title: selected.title, theme: "target allocation", stance: selected.status, summary: selectedEvent?.analysisSummary || selected.actionPosture })}>Ask why</button>
-                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `challenge-${selected.id}`, type: "investing-target-change", title: `Challenge ${selected.title}`, theme: "target allocation", stance: selected.status, summary: selectedEvent?.discussionPrompt || selected.actionPosture })}>Challenge</button>
-                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `receipts-${selected.id}`, type: "investing-target-change", title: `${selected.title} receipts`, theme: "target allocation receipts", stance: selected.confidence, summary: (selected.receipts ?? []).map(r => r.excerpt).filter(Boolean).join(" ") })}>Show receipts</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `thesis-${selected.id}`, type: "investing-target-change", title: `${selected.title} current thesis`, theme: "target allocation thesis", stance: selected.status, summary: selectedBasket?.definition?.appThesis || selectedBasket?.definition?.registryClaim || selectedEvent?.analysisSummary || selected.actionPosture })}>Current thesis</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `week-${selected.id}`, type: "investing-target-change", title: `Is ${selected.title} working this week?`, theme: "weekly thesis check", stance: selected.status, summary: `${selected.actionPosture || ""} Holdings: ${(selected.holdings ?? []).map(h => h.symbol).join(", ")}` })}>Working this week?</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `invalidators-${selected.id}`, type: "investing-target-change", title: `${selected.title} invalidators`, theme: "key invalidators", stance: selected.confidence, summary: [...(selected.invalidators ?? []), ...(selectedBasket?.governanceQuestions ?? [])].join(" ") || selectedEvent?.discussionPrompt || selected.actionPosture })}>Invalidators</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `correlation-${selected.id}`, type: "investing-target-change", title: `${selected.title} correlation map`, theme: "basket correlation", stance: selected.status, summary: correlationRows.map(row => `${row.title}: ${row.level} (${row.reason})`).join("\n") || "Review overlapping drivers and concentration risk." })}>Correlation risk</button>
+                <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `expression-${selected.id}`, type: "investing-target-change", title: `${selected.title} best expressions`, theme: "holding quality", stance: selected.confidence, summary: `Current holdings: ${(selected.holdings ?? []).map(h => `${h.symbol}${h.portfolioPct != null ? ` ${h.portfolioPct.toFixed(1)}%` : ""}`).join(", ")}` })}>Best expressions</button>
               </div>
             </>
           )}
         </aside>
       </div>
+
+      {selected && (
+        <div className="targetCorrelationPanel">
+          <div className="sectionTitleRow"><h2>Correlation lens</h2><span>{correlationRows.length} relationships</span></div>
+          <div className="targetCorrelationBody">
+            <div className="targetCorrelationMatrix" aria-label={`Correlation levels for ${selected.title}`}>
+              {correlationRows.slice(0, 9).map(row => (
+                <button key={`${selected.id}-${row.id}`} className={`targetCorrelationCell targetCorrelationCell--${row.level}`} onClick={() => setSelectedId(row.id)} title={row.reason}>
+                  <strong>{row.shortTitle}</strong>
+                  <span>{row.level}</span>
+                  <em>{row.sharedSymbols.length ? row.sharedSymbols.slice(0, 3).join(", ") : row.basis}</em>
+                </button>
+              ))}
+            </div>
+            <div className="targetCorrelationNotes">
+              <strong>{selected.title}</strong>
+              <p>Explicit canonical relationships are shown first. When a relationship is not recorded, the cockpit uses a conservative overlap proxy from shared holdings, sector words, and target-status co-movement.</p>
+              {correlationRows.slice(0, 4).map(row => <span key={`note-${row.id}`}><b>{row.title}</b>{row.reason}</span>)}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="targetEventHistory">
         <div className="sectionTitleRow"><h2>Target change history</h2><span>{recentEvents.length} events</span></div>
@@ -625,6 +671,109 @@ function TargetRangeBar({ current, min, max }: { current: number; min: number; m
   const left = Math.min(100, (min / scale) * 100);
   const width = Math.max(3, Math.min(100 - left, ((max - min) / scale) * 100));
   return <i className="targetRangeBar"><b style={{ left: `${left}%`, width: `${width}%` }} /><span style={{ width: `${currentWidth}%` }} /></i>;
+}
+
+type TargetSleeve = InvestingAllocationTargets["sleeves"][number];
+type GovernanceBasket = NonNullable<InvestingBasketGovernanceAudit["baskets"]>[number];
+type CorrelationRow = { id: string; title: string; shortTitle: string; level: "high" | "medium" | "low"; basis: string; reason: string; sharedSymbols: string[] };
+
+function basketCorrelationRows(selected: TargetSleeve, sleeves: TargetSleeve[], selectedBasket: GovernanceBasket | null, baskets: GovernanceBasket[]): CorrelationRow[] {
+  const selectedSymbols = new Set((selected.holdings ?? []).map(h => h.symbol));
+  const explicit = new Map<string, CorrelationRow>();
+  for (const overlap of (selectedBasket?.overlaps ?? []) as Array<Record<string, unknown>>) {
+    const raw = typeof overlap.raw === "object" && overlap.raw ? overlap.raw as Record<string, unknown> : {};
+    const payload = typeof raw.payload === "object" && raw.payload ? raw.payload as Record<string, unknown> : {};
+    const targetId = String(raw.target_basket_id || payload.target_basket_id || "");
+    const sourceId = String(raw.source_basket_id || payload.source_basket_id || "");
+    const relatedTitle = String(raw.source_basket_name || "");
+    const related = baskets.find(basket => basket.id === targetId || basket.id === sourceId || basket.title === relatedTitle);
+    const sleeve = findRelatedSleeve(sleeves, selected.id, related?.title || relatedTitle, related?.id || targetId || sourceId);
+    if (!sleeve) continue;
+    const id = sleeve?.id || related?.id || targetId || sourceId;
+    if (!id || id === selected.id || explicit.has(id)) continue;
+    const title = sleeve.title;
+    const level = correlationLevel(String(overlap.correlation_level || raw.correlation_level || payload.correlation_level || "medium"));
+    explicit.set(id, {
+      id,
+      title,
+      shortTitle: shortBasketTitle(title),
+      level,
+      basis: "canonical",
+      reason: String(overlap.rationale || raw.rationale || payload.rationale || "Canonical basket relationship."),
+      sharedSymbols: sharedHoldingSymbols(selectedSymbols, sleeve),
+    });
+  }
+
+  const inferred = sleeves
+    .filter(sleeve => sleeve.id !== selected.id && !explicit.has(sleeve.id))
+    .map(sleeve => inferredCorrelationRow(selected, sleeve, selectedSymbols))
+    .filter(row => row.level !== "low" || row.sharedSymbols.length > 0)
+    .sort((a, b) => correlationRank(b.level) - correlationRank(a.level) || b.sharedSymbols.length - a.sharedSymbols.length)
+    .slice(0, Math.max(0, 9 - explicit.size));
+
+  return [...explicit.values(), ...inferred]
+    .sort((a, b) => correlationRank(b.level) - correlationRank(a.level) || a.title.localeCompare(b.title))
+    .slice(0, 9);
+}
+
+function findRelatedSleeve(sleeves: TargetSleeve[], selectedId: string, title: string, id?: string) {
+  const direct = sleeves.find(sleeve => sleeve.id !== selectedId && (sleeve.id === id || sleeve.title === title));
+  if (direct) return direct;
+  const words = topicalWords(title);
+  if (!words.length) return null;
+  return sleeves
+    .filter(sleeve => sleeve.id !== selectedId)
+    .map(sleeve => ({ sleeve, overlap: topicalWords(sleeve.title).filter(word => words.includes(word)).length }))
+    .filter(item => item.overlap >= 2)
+    .sort((a, b) => b.overlap - a.overlap)[0]?.sleeve ?? null;
+}
+
+function inferredCorrelationRow(selected: TargetSleeve, sleeve: TargetSleeve, selectedSymbols: Set<string>): CorrelationRow {
+  const sharedSymbols = sharedHoldingSymbols(selectedSymbols, sleeve);
+  const titleWords = topicalWords(selected.title);
+  const matchingWords = topicalWords(sleeve.title).filter(word => titleWords.includes(word));
+  const sameStatus = selected.status === sleeve.status && selected.status !== "in-range";
+  const level = sharedSymbols.length >= 2 || matchingWords.length >= 2 ? "high" : sharedSymbols.length || matchingWords.length || sameStatus ? "medium" : "low";
+  const basis = sharedSymbols.length ? "shared holdings" : matchingWords.length ? "theme overlap" : sameStatus ? "status co-movement" : "low overlap";
+  return {
+    id: sleeve.id,
+    title: sleeve.title,
+    shortTitle: shortBasketTitle(sleeve.title),
+    level,
+    basis,
+    reason: sharedSymbols.length
+      ? `Shares ${sharedSymbols.slice(0, 4).join(", ")} exposure.`
+      : matchingWords.length
+        ? `Shares ${matchingWords.slice(0, 3).join(", ")} thesis language.`
+        : sameStatus
+          ? `Both are currently ${selected.status.replace(/-/g, " ")} against target ranges.`
+          : "No explicit relationship recorded; shown as a low-overlap sleeve.",
+    sharedSymbols,
+  };
+}
+
+function sharedHoldingSymbols(selectedSymbols: Set<string>, sleeve?: TargetSleeve) {
+  return (sleeve?.holdings ?? []).map(h => h.symbol).filter(symbol => selectedSymbols.has(symbol));
+}
+
+function topicalWords(title: string) {
+  const stop = new Set(["and", "the", "for", "with", "stockpiling", "strategic", "basket", "sleeve"]);
+  return title.toLowerCase().split(/[^a-z0-9]+/).filter(word => word.length > 3 && !stop.has(word));
+}
+
+function correlationLevel(value: string): CorrelationRow["level"] {
+  const lower = value.toLowerCase();
+  if (lower.includes("high")) return "high";
+  if (lower.includes("low")) return "low";
+  return "medium";
+}
+
+function correlationRank(value: CorrelationRow["level"]) {
+  return value === "high" ? 3 : value === "medium" ? 2 : 1;
+}
+
+function shortBasketTitle(title: string) {
+  return title.replace(/\s*\/\s*/g, " / ").split(/\s+/).slice(0, 5).join(" ");
 }
 
 function DailyTradeAnalysisPanel({ dailyTradeAnalysis, onDiscuss }: { dailyTradeAnalysis: InvestingDailyTradeAnalysis; onDiscuss: Props["onDiscuss"] }) {

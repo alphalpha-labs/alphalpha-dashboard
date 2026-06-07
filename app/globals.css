@@ -1601,13 +1601,36 @@ input { font-family: inherit; }
 .targetMetricGrid span { border: 1px solid var(--border-faint); border-radius: 12px; background: rgba(250,246,238,.7); padding: 8px; }
 .targetMetricGrid b { display: block; font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--ink); }
 .targetMetricGrid em { display: block; margin-top: 2px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); font-style: normal; text-transform: uppercase; letter-spacing: .08em; }
-.targetChangeCallout, .targetReceiptStack { border-top: 1px solid var(--border-faint); padding-top: 10px; margin-top: 10px; }
-.targetChangeCallout span, .targetReceiptStack > span { display: block; margin-bottom: 5px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .1em; }
+.targetChangeCallout, .targetReceiptStack, .targetBasketDossier, .targetHoldingStack, .targetInvalidatorStack { border-top: 1px solid var(--border-faint); padding-top: 10px; margin-top: 10px; }
+.targetChangeCallout span, .targetReceiptStack > span, .targetBasketDossier > span, .targetHoldingStack > span, .targetInvalidatorStack > span { display: block; margin-bottom: 5px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .1em; }
 .targetChangeCallout strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); text-transform: capitalize; }
-.targetChangeCallout p, .targetReceiptStack p { margin: 4px 0 0; font-family: 'Lora', Georgia, serif; font-size: 11px; line-height: 1.42; color: var(--ink-muted); }
+.targetChangeCallout p, .targetReceiptStack p, .targetBasketDossier p, .targetInvalidatorStack p { margin: 4px 0 0; font-family: 'Lora', Georgia, serif; font-size: 11px; line-height: 1.42; color: var(--ink-muted); }
 .targetReceiptStack p em { display: block; margin-top: 2px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-faint); font-style: normal; overflow-wrap: anywhere; }
+.targetBoundaryGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 8px; }
+.targetBoundaryGrid em { display: block; border: 1px solid var(--border-faint); border-radius: 10px; padding: 7px; background: rgba(250,246,238,.56); font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.35; color: var(--ink-muted); font-style: normal; }
+.targetBoundaryGrid b { display: block; margin-bottom: 3px; color: var(--ink-2); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
 .targetHoldingLine { display: flex; flex-wrap: wrap; gap: 6px; margin: 11px 0; }
 .targetHoldingLine span { border: 1px solid var(--border-faint); border-radius: var(--radius-pill); padding: 3px 7px; background: rgba(255,255,255,.48); font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); }
+.targetCorrelationPanel { margin-top: 14px; border-top: 1px solid var(--border-faint); padding-top: 13px; }
+.targetCorrelationBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .4fr); gap: 12px; align-items: stretch; }
+.targetCorrelationMatrix { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.targetCorrelationCell { min-height: 78px; border: 1px solid var(--border); border-radius: 8px; padding: 9px; background: rgba(255,255,255,.58); text-align: left; display: flex; flex-direction: column; justify-content: space-between; gap: 5px; transition: border-color .14s ease, background .14s ease, transform .08s ease; }
+.targetCorrelationCell:hover { border-color: var(--border-strong); background: var(--card-hover); }
+.targetCorrelationCell:active { transform: translateY(1px); }
+.targetCorrelationCell strong { font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.25; color: var(--ink-2); }
+.targetCorrelationCell span { align-self: flex-start; border-radius: var(--radius-pill); padding: 2px 6px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink); text-transform: uppercase; letter-spacing: .08em; }
+.targetCorrelationCell em { font-family: 'DM Sans', sans-serif; font-size: 9px; line-height: 1.3; color: var(--ink-faint); font-style: normal; }
+.targetCorrelationCell--high { background: rgba(168,64,48,.09); border-color: rgba(168,64,48,.24); }
+.targetCorrelationCell--high span { background: rgba(168,64,48,.13); color: var(--accent-high); }
+.targetCorrelationCell--medium { background: rgba(177,133,61,.10); border-color: rgba(177,133,61,.24); }
+.targetCorrelationCell--medium span { background: rgba(177,133,61,.14); color: #89652a; }
+.targetCorrelationCell--low { background: rgba(76,128,94,.08); border-color: rgba(76,128,94,.20); }
+.targetCorrelationCell--low span { background: rgba(76,128,94,.12); color: #3a6a3a; }
+.targetCorrelationNotes { border: 1px solid var(--border-faint); border-radius: var(--radius-card); background: rgba(255,255,255,.50); padding: 11px; }
+.targetCorrelationNotes > strong { display: block; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-2); }
+.targetCorrelationNotes p { margin: 5px 0 9px; font-family: 'Lora', Georgia, serif; font-size: 11px; line-height: 1.45; color: var(--ink-muted); }
+.targetCorrelationNotes span { display: block; border-top: 1px solid var(--border-faint); padding-top: 7px; margin-top: 7px; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.35; color: var(--ink-muted); }
+.targetCorrelationNotes b { display: block; color: var(--ink-2); }
 .targetEventHistory { margin-top: 14px; border-top: 1px solid var(--border-faint); padding-top: 13px; }
 .targetEventRow { border: 1px solid var(--border-faint); border-radius: 12px; background: rgba(255,255,255,.50); margin-top: 7px; overflow: hidden; }
 .targetEventSummary { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 150px 74px; gap: 10px; align-items: center; padding: 10px 11px; text-align: left; }
@@ -1642,7 +1665,7 @@ input { font-family: inherit; }
 .dailyTradeLine strong { color: var(--ink-2); }
 .dailyTradeLine em { color: var(--ink-faint); font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 980px) {
-  .targetCockpitHeader, .targetCockpitGrid { grid-template-columns: 1fr; flex-direction: column; }
+  .targetCockpitHeader, .targetCockpitGrid, .targetCorrelationBody { grid-template-columns: 1fr; flex-direction: column; }
   .targetKpiStrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .targetEventSummary, .dailyTradeSummary { grid-template-columns: 1fr; }
   .targetEventSummary b, .dailyTradeSummary b { text-align: left; }
@@ -1650,6 +1673,7 @@ input { font-family: inherit; }
 }
 @media (max-width: 620px) {
   .targetKpiStrip, .targetMetricGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .targetBoundaryGrid, .targetCorrelationMatrix { grid-template-columns: 1fr; }
   .dailyTradeLine { grid-template-columns: 1fr; gap: 3px; }
 }
 
