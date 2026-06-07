@@ -5,6 +5,7 @@ import type { ThreadContext } from "./Dashboard";
 import { almanacEditionNumber, almanacIsoForOffset, daysSinceAlmanacEpoch, localDateFromIso } from "@/lib/almanac-date";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
 import longReadDataset from "@/lib/almanac-datasets/long-reads.json";
+import austinExploreDataset from "@/lib/almanac-datasets/austin-explore.json";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
 const GENRE = {
@@ -406,20 +407,7 @@ const FALLBACK_POEMS: DailyPoem[] = [
 
 const FALLBACK_LONG_READS: DailyLongRead[] = longReadDataset.map(({ id, tags, ...read }) => read);
 
-const FALLBACK_AUSTIN_EXPLORES: DailyAustinExplore[] = [
-  {
-    title: "Mayfield Park and Preserve",
-    category: "Garden wander",
-    area: "Tarrytown",
-    duration: "35-75 min",
-    bestTime: "Morning",
-    vibe: "Peacocks, palms, lily ponds, stone paths.",
-    prompt: "Start in the cottage gardens, then take one preserve trail loop.",
-    why: "It feels like an Austin pocket world: lush, odd, compact, and restorative.",
-    url: "https://mayfieldpark.org/park-overview/",
-    sourceLabel: "Mayfield Park",
-  },
-];
+const FALLBACK_AUSTIN_EXPLORES = austinExploreDataset as DailyAustinExplore[];
 
 interface TuneStripProps {
   visibility: "hover" | "always" | "compact" | "readonly" | "none";
@@ -879,19 +867,17 @@ function ProductionBlock({ clip, visibility, date, openThread }: { clip: DailyPr
 function PoemBlock({ poem, visibility, date, openThread }: { poem: DailyPoem; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
   const item = { id: "poem:" + poem.title, genre: "poem" as Genre, title: poem.title, sub: poem.poet };
   const disc = () => openThread?.({ type: "digest", id: "daily-poem", title: poem.title, summary: poem.note, category: "Poem" });
+  const excerpt = <blockquote className="almanacPoemExcerpt">&ldquo;{poem.excerpt}&rdquo;</blockquote>;
   return (
     <div className="card-hoverable almanacShelfCard almanacShelfCard--poem">
       <Kicker genre="poem" extra={poem.era || poem.poet} />
       <div className="almanacShelfTitle">{poem.title}</div>
       <div className="almanacShelfByline">{poem.poet}</div>
-      <blockquote className="almanacPoemExcerpt">&ldquo;{poem.excerpt}&rdquo;</blockquote>
-      <p className="almanacShelfNote">{poem.note}</p>
-      <WhyLine text={poem.why} />
-      {poem.sourceUrl && (
-        <a href={poem.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacReadLink">
-          {poem.sourceLabel ? `Read at ${poem.sourceLabel} →` : "Read the poem →"}
+      {poem.sourceUrl ? (
+        <a href={poem.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacPoemExcerptLink" aria-label={`Read ${poem.title} by ${poem.poet}`}>
+          {excerpt}
         </a>
-      )}
+      ) : excerpt}
       <TuneStrip visibility={visibility} compact item={item} date={date} chips={POEM_CHIPS} onDiscuss={disc} />
     </div>
   );
@@ -974,9 +960,20 @@ function LongReadBlock({ read, visibility, date, openThread, compact = false }: 
   );
 }
 
+function mapEmbedUrl(explore: DailyAustinExplore) {
+  if (typeof explore.latitude !== "number" || typeof explore.longitude !== "number") return null;
+  const lat = explore.latitude;
+  const lon = explore.longitude;
+  const delta = 0.012;
+  const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`;
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${encodeURIComponent(`${lat},${lon}`)}`;
+}
+
 function AustinExploreBlock({ explore, visibility, date, openThread }: { explore: DailyAustinExplore; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
   const item = { id: "austin:" + explore.title, genre: "austin" as Genre, title: explore.title, sub: explore.area };
   const disc = () => openThread?.({ type: "digest", id: "daily-austin-explore", title: explore.title, summary: explore.why, category: "Explore Austin" });
+  const mapUrl = explore.mapUrl || (typeof explore.latitude === "number" && typeof explore.longitude === "number" ? `https://www.openstreetmap.org/?mlat=${explore.latitude}&mlon=${explore.longitude}#map=15/${explore.latitude}/${explore.longitude}` : undefined);
+  const mapEmbed = mapEmbedUrl(explore);
   return (
     <div className="card-hoverable almanacExplore">
       <div className="almanacExplore__meta">
@@ -993,6 +990,38 @@ function AustinExploreBlock({ explore, visibility, date, openThread }: { explore
           <p>{explore.prompt}</p>
         </div>
       </div>
+      {(explore.imageUrl || mapEmbed) && (
+        <div className="almanacExplore__media">
+          {explore.imageUrl && (
+            <a
+              className="almanacExplore__imageLink"
+              href={explore.imageSourceUrl || explore.url || explore.imageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open image source for ${explore.title}`}
+            >
+              <img className="almanacExplore__image" src={explore.imageUrl} alt={explore.imageAlt || explore.title} />
+              {explore.imageCredit && <span className="almanacExplore__imageCredit">{explore.imageCredit}</span>}
+            </a>
+          )}
+          {mapEmbed && (
+            <div className="almanacExplore__mapWrap">
+              <iframe
+                className="almanacExplore__map"
+                src={mapEmbed}
+                title={`${explore.title} map`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              {mapUrl && (
+                <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="almanacExplore__mapLink">
+                  Open map
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       <WhyLine text={explore.why} />
       <div className="almanacExplore__actions">
         {explore.url && (
@@ -1451,6 +1480,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
 
       {/* Lead */}
       <div className={`almanac__content${isMobile ? " almanac__content--mobile" : ""}`}>
+        {austinExplore && (
+          <div className="almanacExploreWrap almanacExploreWrap--top">
+            <AustinExploreBlock explore={austinExplore} visibility={vis} date={date} openThread={openThread} />
+          </div>
+        )}
+
         {(poem || quote || parentQuote) && (
           <div className={`almanacOpeningStack${isMobile ? " almanacOpeningStack--mobile" : ""}`}>
             <QuoteCard quote={quote} label="On the mind" />
@@ -1473,12 +1508,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
             </div>
           ))}
         </div>
-
-        {austinExplore && (
-          <div className="almanacExploreWrap">
-            <AustinExploreBlock explore={austinExplore} visibility={vis} date={date} openThread={openThread} />
-          </div>
-        )}
 
         {/* Surprise */}
         <div className="almanac__surpriseWrap">

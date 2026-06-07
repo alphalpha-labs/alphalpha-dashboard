@@ -575,6 +575,13 @@ export type DailyAustinExplore = {
   vibe: string;
   prompt: string;
   why: string;
+  latitude?: number;
+  longitude?: number;
+  mapUrl?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageCredit?: string;
+  imageSourceUrl?: string;
   url?: string;
   sourceLabel?: string;
 };

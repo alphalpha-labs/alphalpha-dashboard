@@ -2364,6 +2364,14 @@ input { font-family: inherit; }
   color: #3a3026;
   text-wrap: balance;
 }
+.almanacPoemExcerptLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.almanacPoemExcerptLink:hover .almanacPoemExcerpt {
+  color: color-mix(in oklch, var(--genre-surprise) 54%, var(--ink));
+}
 .almanacShelfNote, .almanacShelfThesis { margin: 0; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.62; color: #5a5040; }
 .almanacShelfThesis { font-size: 13.5px; color: #3f362c; }
 
@@ -2371,6 +2379,10 @@ input { font-family: inherit; }
   border-top: 1px solid color-mix(in oklch, var(--genre-austin) 25%, var(--border));
   border-bottom: 1px solid color-mix(in oklch, var(--genre-austin) 18%, var(--border));
   padding: 22px 0 20px;
+}
+.almanacExploreWrap--top {
+  margin-top: 0;
+  margin-bottom: 32px;
 }
 .almanacExplore__meta {
   display: flex;
@@ -2429,6 +2441,64 @@ input { font-family: inherit; }
   font-size: 13.25px;
   line-height: 1.6;
   color: #3f362c;
+}
+.almanacExplore__media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+  gap: 18px;
+  margin: 18px 0 16px;
+  align-items: stretch;
+}
+.almanacExplore__imageLink,
+.almanacExplore__mapWrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efe7d7;
+  aspect-ratio: 16 / 10;
+}
+.almanacExplore__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.almanacExplore__imageCredit {
+  position: absolute;
+  left: 8px;
+  bottom: 7px;
+  max-width: calc(100% - 16px);
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(36, 31, 25, .68);
+  color: #fffaf0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  line-height: 1.2;
+}
+.almanacExplore__map {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.almanacExplore__mapLink {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(255, 252, 246, .92);
+  color: #2f5d4b;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 5px 14px rgba(50, 42, 30, .12);
 }
 .almanacExplore__actions {
   display: flex;
@@ -3347,6 +3417,9 @@ input { font-family: inherit; }
   .almanacExplore__body { grid-template-columns: 1fr; gap: 16px; }
   .almanacExplore__prompt { border-left: 0; border-top: 1px solid color-mix(in oklch, var(--genre-austin) 36%, var(--border)); padding: 12px 0 0; }
   .almanacExplore__title { font-size: 22px; }
+  .almanacExplore__media { grid-template-columns: 1fr; gap: 10px; margin: 14px 0 13px; }
+  .almanacExplore__imageLink,
+  .almanacExplore__mapWrap { aspect-ratio: 16 / 9; }
   .almanacExplore__actions { gap: 8px; }
   .almanacSurprise,
   .almanacSurprise--mobile { padding: 23px 18px; border-radius: 10px; }

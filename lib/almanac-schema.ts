@@ -91,6 +91,13 @@ export const DailyAustinExploreSchema = z.object({
   vibe:        z.string().min(1),
   prompt:      z.string().min(1),
   why:         z.string().min(1),
+  latitude:    z.number().optional(),
+  longitude:   z.number().optional(),
+  mapUrl:      z.string().url().optional(),
+  imageUrl:    z.string().url().optional(),
+  imageAlt:    z.string().optional(),
+  imageCredit: z.string().optional(),
+  imageSourceUrl: z.string().url().optional(),
   url:         z.string().url().optional(),
   sourceLabel: z.string().optional(),
 });

@@ -11,6 +11,13 @@
     "why": "It is one of Austin's best combinations of beauty, art, and low-friction wandering.",
     "url": "https://thecontemporaryaustin.org/lagunagloria/",
     "sourceLabel": "The Contemporary Austin",
+    "latitude": 30.3121,
+    "longitude": -97.7745,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.3121&mlon=-97.7745#map=16/30.3121/-97.7745",
+    "imageUrl": "https://thecontemporaryaustin.org/wp-content/uploads/2019/07/laguna-grounds_su14_10-768x512-768x512.jpg",
+    "imageAlt": "Laguna Gloria sculpture grounds in Austin",
+    "imageCredit": "The Contemporary Austin",
+    "imageSourceUrl": "https://thecontemporaryaustin.org/lagunagloria/",
     "tags": ["art", "beautiful", "outdoors", "quiet"]
   },
   {
@@ -25,6 +32,13 @@
     "why": "It feels like an Austin pocket world: lush, odd, compact, and restorative.",
     "url": "https://mayfieldpark.org/park-overview/",
     "sourceLabel": "Mayfield Park",
+    "latitude": 30.3128,
+    "longitude": -97.7707,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.3128&mlon=-97.7707#map=16/30.3128/-97.7707",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b7/MayfieldPark-2008-a.JPG",
+    "imageAlt": "Garden pond at Mayfield Park in Austin",
+    "imageCredit": "Larry D. Moore / CC BY-SA",
+    "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:MayfieldPark-2008-a.JPG",
     "tags": ["garden", "wildlife", "beautiful", "family"]
   },
   {
@@ -39,6 +53,13 @@
     "why": "A low-noise way to get Hill Country texture without leaving town.",
     "url": "https://www.stedwards.edu/academics/centers-institutes-arts/wild-basin/visit",
     "sourceLabel": "St. Edward's University",
+    "latitude": 30.3104,
+    "longitude": -97.8241,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.3104&mlon=-97.8241#map=15/30.3104/-97.8241",
+    "imageUrl": "https://www.stedwards.edu/sites/default/files/2024-07/01_HERO%20%281%29.jpg",
+    "imageAlt": "Trail at Wild Basin Wilderness Preserve",
+    "imageCredit": "St. Edward's University",
+    "imageSourceUrl": "https://www.stedwards.edu/academics/centers-institutes-arts/wild-basin/visit",
     "tags": ["nature", "trail", "quiet", "beautiful"]
   },
   {
@@ -53,6 +74,13 @@
     "why": "It is close, beautiful, and better when approached as a mood rather than an errand.",
     "url": "https://www.austintexas.gov/parks/locations/zilker-botanical-garden",
     "sourceLabel": "Austin Parks and Recreation",
+    "latitude": 30.2677,
+    "longitude": -97.7725,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.2677&mlon=-97.7725#map=16/30.2677/-97.7725",
+    "imageUrl": "https://austin.widen.net/content/448ad14e-b249-4212-a394-4d6fbe9a7eb8/web/Zilker%20Botanical%20Rose%20Garden.jpg",
+    "imageAlt": "Zilker Botanical Garden in Austin",
+    "imageCredit": "Austin Parks and Recreation",
+    "imageSourceUrl": "https://www.austintexas.gov/parks/locations/zilker-botanical-garden",
     "tags": ["garden", "family", "beautiful", "outdoors"]
   },
   {
@@ -67,6 +95,13 @@
     "why": "It is the easiest beautiful urban walk in Austin when the weather cooperates.",
     "url": "https://thetrailconservancy.org/visit-the-trail/amenity/boardwalk-entrances-boardwalk-entrances/",
     "sourceLabel": "The Trail Conservancy",
+    "latitude": 30.2503,
+    "longitude": -97.7395,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.2503&mlon=-97.7395#map=15/30.2503/-97.7395",
+    "imageUrl": "https://thetrailconservancy.org/wp-content/uploads/2020/10/Board_walk_ttc_amenities_dark.jpg",
+    "imageAlt": "Boardwalk Trail at Lady Bird Lake",
+    "imageCredit": "The Trail Conservancy",
+    "imageSourceUrl": "https://thetrailconservancy.org/visit-the-trail/amenity/boardwalk-entrances-boardwalk-entrances/",
     "tags": ["walk", "water", "city", "beautiful"]
   },
   {
@@ -81,6 +116,13 @@
     "why": "A polished but still local-feeling park surface for family time or a simple decompression walk.",
     "url": "https://peasepark.org/kingsbury-commons",
     "sourceLabel": "Pease Park Conservancy",
+    "latitude": 30.2826,
+    "longitude": -97.7524,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.2826&mlon=-97.7524#map=16/30.2826/-97.7524",
+    "imageUrl": "https://static1.squarespace.com/static/5c2d2da955b02c84384fe844/t/5d23a70eba8974000110b78d/1562617626752/Entry.jpg?format=1500w",
+    "imageAlt": "Pease Park in Austin",
+    "imageCredit": "Pease Park Conservancy",
+    "imageSourceUrl": "https://peasepark.org/kingsbury-commons",
     "tags": ["family", "park", "kids", "outdoors"]
   },
   {
@@ -95,6 +137,13 @@
     "why": "It is obvious for a reason: a quick elevation change can reset the day.",
     "url": "https://www.tclf.org/landscapes/covert-park-mount-bonnell",
     "sourceLabel": "The Cultural Landscape Foundation",
+    "latitude": 30.3210,
+    "longitude": -97.7736,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.3210&mlon=-97.7736#map=16/30.3210/-97.7736",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/Covert_Park_at_Mount_Bonnell_20160905125852.jpg",
+    "imageAlt": "View from Mount Bonnell in Austin",
+    "imageCredit": "Larry D. Moore / CC BY-SA",
+    "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:Covert_Park_at_Mount_Bonnell_20160905125852.jpg",
     "tags": ["view", "classic", "short", "beautiful"]
   },
   {
@@ -109,6 +158,13 @@
     "why": "A small, distinctive Austin cultural place that rewards curiosity without demanding a whole afternoon.",
     "url": "https://www.austintexas.gov/ney",
     "sourceLabel": "Austin Parks and Recreation",
+    "latitude": 30.3066,
+    "longitude": -97.7262,
+    "mapUrl": "https://www.openstreetmap.org/?mlat=30.3066&mlon=-97.7262#map=16/30.3066/-97.7262",
+    "imageUrl": "https://austin.widen.net/content/d1ed0239-445c-4496-8e14-147f16e9d46d/web/ACME%20-%20Web_elisabet-ney-museum.jpg?crop=yes&w=1920&h=450&itok=rfOQSlxW",
+    "imageAlt": "Elisabet Ney Museum in Austin",
+    "imageCredit": "Austin Parks and Recreation",
+    "imageSourceUrl": "https://www.austintexas.gov/ney",
     "tags": ["museum", "art", "architecture", "quiet"]
   }
 ]
