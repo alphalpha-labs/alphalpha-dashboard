@@ -7,7 +7,7 @@
   "scripts": {
     "generate:data": "node scripts/generate-dashboard-data.mjs",
     "generate:data:snapshot": "node scripts/generate-dashboard-data.mjs --snapshot",
-    "dev": "npm run generate:data && next dev",
+    "dev": "NODE_ENV=development npm run generate:data && NODE_ENV=development next dev",
     "build": "npm run generate:data && next build",
     "start": "next start",
     "lint": "next lint",
