@@ -20,9 +20,11 @@ type StoredKeep = {
 
 type StoredTune = {
   itemId:   string;
+  genre?:   string;
   reaction: "more" | "less" | null;
   chips:    string[];
   note:     string;
+  interpretation?: string;
   [k: string]: unknown;
 };
 
@@ -64,6 +66,22 @@ function empty(): GenreWeights {
   };
 }
 
+export function mergedTuneSignals(record: StoredFeedback): StoredTune[] {
+  const bySignal = new Map<string, StoredTune>();
+  const add = (tune: StoredTune) => {
+    if (!tune?.itemId) return;
+    const key = `${tune.itemId}:${tune.at ?? ""}:${tune.note ?? ""}`;
+    bySignal.set(key, tune);
+  };
+
+  for (const entry of Object.values(record.history ?? {}).flat()) {
+    if (entry?.type === "tune") add(entry);
+  }
+  for (const tune of Object.values(record.tunes ?? {})) add(tune);
+
+  return [...bySignal.values()];
+}
+
 /**
  * Aggregate all historical feedback records into a per-genre weight vector.
  * Returns an empty object (no bias) when KV is unavailable or has no feedback.
@@ -102,15 +120,10 @@ export async function loadFeedbackWeights(): Promise<FeedbackWeights> {
       }
     }
 
-    const tuneHistory = Object.values(record.history ?? {})
-      .flat()
-      .filter(entry => entry?.type === "tune");
-    const tunes = tuneHistory.length > 0 ? tuneHistory : Object.values(record.tunes ?? {});
-
-    for (const tune of tunes) {
+    for (const tune of mergedTuneSignals(record)) {
       // itemId format from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
       // Split on either colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
-      const genre = tune.itemId.split(/[:-]/)[0] ?? "article";
+      const genre = tune.genre ?? tune.itemId.split(/[:-]/)[0] ?? "article";
       if (!weights[genre]) weights[genre] = empty();
       if (tune.reaction === "more") weights[genre].moreScore += 1;
       if (tune.reaction === "less") weights[genre].lessScore += 1;
@@ -119,6 +132,7 @@ export async function loadFeedbackWeights(): Promise<FeedbackWeights> {
           (weights[genre].chipTallies[chip] ?? 0) + 1;
       }
       if (tune.note?.trim()) weights[genre].notes.push(tune.note.trim());
+      if (tune.interpretation?.trim()) weights[genre].notes.push(tune.interpretation.trim());
     }
   }
 

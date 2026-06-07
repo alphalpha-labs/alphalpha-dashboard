@@ -53,11 +53,11 @@ const feedbackKey = (date: string) => `alphalpha:almanac:feedback:${date}`;
 
 async function readFeedback(date: string): Promise<AlmanacFeedback> {
   const data = await redis.get<AlmanacFeedback>(feedbackKey(date));
-  return {
+  return withBackfilledHistory({
     keeps: data?.keeps ?? {},
     tunes: data?.tunes ?? {},
     history: data?.history ?? {},
-  };
+  });
 }
 
 function historyId(type: AlmanacFeedbackHistoryItem["type"], itemId: string, at: number) {
@@ -71,6 +71,61 @@ function appendHistory(feedback: AlmanacFeedback, item: AlmanacFeedbackHistoryIt
     ...history,
     [item.itemId]: [item, ...list].slice(0, 24),
   };
+}
+
+function withBackfilledHistory(feedback: AlmanacFeedback): AlmanacFeedback {
+  const history = { ...(feedback.history ?? {}) };
+
+  for (const keep of Object.values(feedback.keeps ?? {})) {
+    const exists = (history[keep.itemId] ?? []).some(
+      item => item.type === "keep" && item.action === "added" && item.at === keep.keptAt,
+    );
+    if (!exists) {
+      const item: AlmanacFeedbackHistoryItem = {
+        id: historyId("keep", keep.itemId, keep.keptAt),
+        type: "keep",
+        action: "added",
+        itemId: keep.itemId,
+        genre: keep.genre,
+        title: keep.title,
+        sub: keep.sub,
+        at: keep.keptAt,
+        date: keep.date,
+      };
+      history[keep.itemId] = [
+        item,
+        ...(history[keep.itemId] ?? []),
+      ].slice(0, 24);
+    }
+  }
+
+  for (const tune of Object.values(feedback.tunes ?? {})) {
+    const exists = (history[tune.itemId] ?? []).some(
+      item => item.type === "tune" && item.at === tune.at,
+    );
+    if (!exists) {
+      const genre = String(tune.itemId).split(/[:-]/)[0] || "article";
+      const item: AlmanacFeedbackHistoryItem = {
+        id: historyId("tune", tune.itemId, tune.at),
+        type: "tune",
+        itemId: tune.itemId,
+        genre,
+        title: tune.itemId.replace(/^[^:]+:/, ""),
+        reaction: tune.reaction,
+        chips: tune.chips,
+        note: tune.note,
+        interpretation: tune.interpretation,
+        at: tune.at,
+        date: tune.date,
+      };
+      history[tune.itemId] = [
+        item,
+        ...(history[tune.itemId] ?? []),
+      ].slice(0, 24);
+    }
+  }
+
+  return { ...feedback, history };
 }
 
 // GET /api/almanac/feedback?date=YYYY-MM-DD

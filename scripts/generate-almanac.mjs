@@ -234,15 +234,21 @@ async function loadFeedbackWeights() {
         weights[genre].keepScore += 1;
         if (keep.sub) weights[genre].sourceAffinity[keep.sub] = (weights[genre].sourceAffinity[keep.sub] ?? 0) + 1;
       }
-      const tuneHistory = Object.values(rec.history ?? {})
-        .flat()
-        .filter(entry => entry?.type === 'tune');
-      const tunes = tuneHistory.length > 0 ? tuneHistory : Object.values(rec.tunes ?? {});
+      const tunesBySignal = new Map();
+      const addTune = (tune) => {
+        if (!tune?.itemId) return;
+        const key = `${tune.itemId}:${tune.at ?? ''}:${tune.note ?? ''}`;
+        tunesBySignal.set(key, tune);
+      };
+      for (const entry of Object.values(rec.history ?? {}).flat()) {
+        if (entry?.type === 'tune') addTune(entry);
+      }
+      for (const tune of Object.values(rec.tunes ?? {})) addTune(tune);
 
-      for (const tune of tunes) {
+      for (const tune of tunesBySignal.values()) {
         // itemId from Almanac.tsx: "article:Title", "image:daily", "surprise:Title" etc.
         // Split on colon or hyphen to handle both "article:..." and legacy "quote-mind-3".
-        const genre = tune.itemId?.split(/[:-]/)[0] ?? 'article';
+        const genre = tune.genre ?? tune.itemId?.split(/[:-]/)[0] ?? 'article';
         if (!weights[genre]) weights[genre] = { keepScore: 0, moreScore: 0, lessScore: 0, chipTallies: {}, notes: [], sourceAffinity: {} };
         if (tune.reaction === 'more') weights[genre].moreScore += 1;
         if (tune.reaction === 'less') weights[genre].lessScore += 1;
