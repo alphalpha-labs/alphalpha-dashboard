@@ -3221,6 +3221,125 @@ input { font-family: inherit; }
 .almanacToast__text { color: var(--gold-light); }
 
 /* ── Mobile adjustments ────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .investingPage { max-width: 100%; padding: 18px 12px 52px; }
+  .investmentSection { margin-top: 12px; padding: 11px; border-radius: 8px; }
+  .investmentDigestHero { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 13px; }
+  .investmentDigestHero h2,
+  .dailyMarketBriefHeader h2,
+  .targetCockpitHeader h2,
+  .taxonomyHeroGrid h3 { font-size: 22px; line-height: 1.16; }
+  .sectionTitleRow { align-items: flex-start; gap: 8px; }
+  .sectionTitleRow span { text-align: right; line-height: 1.25; }
+  .investmentCardGrid,
+  .pullbackWatchGrid,
+  .invalidationCardGrid { grid-template-columns: 1fr; }
+  .investmentButtonRow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; width: 100%; }
+  .btnAlphaDiscuss { justify-content: center; min-height: 36px; white-space: normal; text-align: center; line-height: 1.2; padding: 7px 8px; }
+  .targetBoundaryPill { align-self: flex-start; white-space: normal; line-height: 1.25; }
+  .targetKpiStrip,
+  .taxonomyStats,
+  .inputHealthStats,
+  .tradeReviewStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .targetKpiStrip span,
+  .taxonomyStats span,
+  .inputHealthStats span,
+  .tradeReviewStats span { padding: 7px; letter-spacing: .05em; overflow-wrap: anywhere; }
+  .targetTreemap { min-height: 0; gap: 6px; }
+  .targetTile { min-width: min(132px, calc(50% - 4px)); min-height: 92px; padding: 9px; flex-basis: calc(50% - 4px) !important; }
+  .targetTile strong { font-size: 22px; }
+  .targetTile em { letter-spacing: .03em; text-transform: none; }
+  .targetDetailPanel { padding: 12px; }
+  .targetDetailTop strong { font-size: 20px; }
+  .targetMetricGrid { gap: 7px; }
+  .targetMetricGrid b { font-size: 14px; overflow-wrap: anywhere; }
+  .targetHoldingLine { margin: 8px 0 2px; }
+  .targetHoldingLine span { max-width: 100%; overflow-wrap: anywhere; }
+  .targetCorrelationCell { min-height: 68px; }
+  .targetEventSummary { padding: 9px; gap: 4px; }
+  .targetEventDetail { padding: 10px; }
+  .dailyTradeSummary span:nth-child(2),
+  .dailyTradeSummary b,
+  .dailyTradeLine em { white-space: normal; overflow: visible; text-overflow: clip; }
+  .dailyTradeDetail { padding: 10px; }
+  .tradeTable { overflow: visible; }
+  .tradeTableHead { display: none; }
+  .tradeTableRow { min-width: 0; display: grid; grid-template-columns: 1fr; gap: 4px; padding: 10px; }
+  .tradeTableRow span { min-width: 0; overflow-wrap: anywhere; }
+  .taxonomyHeroGrid,
+  .taxonomyTwoCol,
+  .taxonomyDecisionLayout { grid-template-columns: 1fr; gap: 10px; }
+  .taxonomyPanel { padding: 10px; }
+  .taxonomyTreemap { min-height: 0; }
+  .taxonomyBlock { min-width: min(138px, calc(50% - 4px)); min-height: 68px; border-radius: 8px; }
+  .taxonomyKindRow { grid-template-columns: 1fr; gap: 5px; }
+  .taxonomyChoiceGrid { grid-template-columns: 1fr; }
+  .taxonomyConfirm { align-items: stretch; }
+  .taxonomyConfirmBtn { flex: 1; }
+  .taxonomyMatrix { overflow: visible; border: 0; background: transparent; display: grid; gap: 8px; }
+  .taxonomyMatrixHead { display: none; }
+  .taxonomyMatrixRow { min-width: 0; display: grid; grid-template-columns: 1fr; gap: 5px; border: 1px solid var(--border-faint); border-radius: 8px; background: var(--card); padding: 10px; }
+  .tickerRow { display: grid; grid-template-columns: 58px 1fr auto; gap: 6px 8px; align-items: start; padding: 10px 4px; }
+  .tickerTheme { min-width: 0; overflow-wrap: anywhere; }
+  .tickerConf { width: auto; justify-self: end; }
+  .tickerDiscuss { grid-column: 1 / -1; justify-self: stretch; }
+
+  .almanac__masthead,
+  .almanac__masthead--mobile { padding: 18px 12px 0; }
+  .almanac__content,
+  .almanac__content--mobile { padding: 0 12px; }
+  .almanacHero,
+  .almanacHero--mobile { height: 188px; border-radius: 7px; margin-bottom: 14px; }
+  .almanacHero::before { inset: 7px; }
+  .almanacHero__caption { left: 12px; right: 12px; bottom: 11px; grid-template-columns: 1fr; gap: 4px; }
+  .almanacHero__place,
+  .almanacHero--mobile .almanacHero__place { font-size: 22px; line-height: 1.04; }
+  .almanacHero__credit { white-space: normal; font-size: 10px; line-height: 1.25; }
+  .almanac__titleRow { gap: 10px; margin-bottom: 12px; }
+  .almanac__titleGroup { gap: 8px; }
+  .almanac__rule { margin-bottom: 22px; padding-bottom: 10px; gap: 8px; }
+  .almanacOpeningStack,
+  .almanacOpeningStack--mobile { gap: 18px; padding: 17px 0 24px; margin-bottom: 24px; }
+  .almanacOpeningStack .almanacShelfCard,
+  .almanacShelfCard { padding-left: 14px; }
+  .almanacQuoteCard { padding: 2px 8px 0; }
+  .almanac__lead { padding-bottom: 24px; margin-bottom: 22px; }
+  .almanac__depts,
+  .almanac__depts--mobile { gap: 22px; }
+  .almanac__depts--withLongRead::before { display: none; }
+  .almanacExploreWrap { margin-top: 26px; }
+  .almanac__surpriseWrap { margin-top: 32px; }
+  .almanacHeadline--lead { font-size: 25px; line-height: 1.18; }
+  .almanacHeadline--venture-lead { font-size: 23px; }
+  .almanacHeadline--chart-lead { font-size: 20px; }
+  .almanacDek--lead { font-size: 14px; }
+  .almanacArticleSaveBtn { margin-left: 0; margin-top: 9px; min-height: 34px; justify-content: center; }
+  .almanacReadLink + .almanacArticleSaveBtn { margin-left: 8px; }
+  .almanacImageCaption { font-size: 12.25px; line-height: 1.55; }
+  .almanacImageCredit { display: block; margin: 5px 0 0; white-space: normal; }
+  .almanacExplore { padding: 18px 0; }
+  .almanacExplore__body { grid-template-columns: 1fr; gap: 16px; }
+  .almanacExplore__prompt { border-left: 0; border-top: 1px solid color-mix(in oklch, var(--genre-austin) 36%, var(--border)); padding: 12px 0 0; }
+  .almanacExplore__title { font-size: 22px; }
+  .almanacExplore__actions { gap: 8px; }
+  .almanacSurprise,
+  .almanacSurprise--mobile { padding: 23px 18px; border-radius: 10px; }
+  .almanacTuneRow { opacity: 1; gap: 6px; }
+  .almanacKeepBtn,
+  .almanacTuneBtn,
+  .almanacReceiptBtn,
+  .almanacDiscussBtn { min-height: 34px; justify-content: center; }
+  .almanacTunePanel { max-width: none; padding: 12px; }
+  .almanacTunePanel__noteRow { flex-direction: column; align-items: stretch; }
+  .almanacTunePanel__save { min-height: 38px; }
+  .almanacFeedbackReceipt { max-width: none; }
+  .almanacFeedbackReceipt__top,
+  .almanacFeedbackReceipt__row,
+  .almanacFeedbackReceipt__history li { grid-template-columns: 1fr; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .almanacToast { left: 12px; right: 12px; bottom: 16px; transform: translateY(16px); justify-content: center; white-space: normal; text-align: center; }
+  .almanacToast--visible { transform: translateY(0); }
+}
+
 @media (max-width: 640px) {
   .todayToggle__btn { padding: 7px 16px; }
   .almanacTuneRow { opacity: 1; }
@@ -3232,4 +3351,26 @@ input { font-family: inherit; }
   .almanacImageSlot--lead { aspect-ratio: 4 / 3; height: auto; }
   /* Calendar dropdown: right-anchor so it never clips off the right edge on narrow screens */
   .almanacCal { left: auto; right: 0; }
+}
+
+@media (max-width: 420px) {
+  .investmentButtonRow { grid-template-columns: 1fr; }
+  .targetTile { flex-basis: 100% !important; min-width: 100%; }
+  .targetKpiStrip,
+  .taxonomyStats,
+  .inputHealthStats,
+  .tradeReviewStats,
+  .targetMetricGrid { grid-template-columns: 1fr; }
+  .taxonomyBlock { min-width: 100%; }
+  .tickerRow { grid-template-columns: 56px 1fr; }
+  .tickerConf { grid-column: 1 / -1; justify-self: start; }
+  .almanacRecrawlBtn,
+  .almanacKeepBtn,
+  .almanacTuneBtn,
+  .almanacReceiptBtn,
+  .almanacDiscussBtn,
+  .almanacArticleSaveBtn { width: 100%; }
+  .almanacReadLink { display: block; }
+  .almanacReadLink + .almanacArticleSaveBtn { margin-left: 0; }
+  .almanacTunePanel__reactions { flex-direction: column; }
 }
