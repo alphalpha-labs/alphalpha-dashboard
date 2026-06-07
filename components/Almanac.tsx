@@ -409,6 +409,17 @@ const FALLBACK_LONG_READS: DailyLongRead[] = longReadDataset.map(({ id, tags, ..
 
 const FALLBACK_AUSTIN_EXPLORES = austinExploreDataset as DailyAustinExplore[];
 
+function enrichAustinExplore(explore: DailyAustinExplore | null): DailyAustinExplore | null {
+  if (!explore) return null;
+  const title = explore.title.trim().toLowerCase();
+  const url = explore.url?.trim().toLowerCase();
+  const match = FALLBACK_AUSTIN_EXPLORES.find(candidate =>
+    candidate.title.trim().toLowerCase() === title ||
+    (!!url && candidate.url?.trim().toLowerCase() === url)
+  );
+  return match ? { ...match, ...explore } : explore;
+}
+
 interface TuneStripProps {
   visibility: "hover" | "always" | "compact" | "readonly" | "none";
   compact?: boolean;
@@ -1289,7 +1300,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     austinExplores: rawBase.austinExplores?.length ? rawBase.austinExplores : daily.austinExplores,
   };
 
-  const lead = "image" as const;
   const rest = DEFAULT_DEPT_ITEMS;
 
   // Build resolved daily with the right picks for this dayIdx
@@ -1314,7 +1324,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
   const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
-  const austinExplore = austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null;
+  const austinExplore = enrichAustinExplore(austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null);
   const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
   const editionNo = resolved.edition || almanacEditionNumber(date);
   const curDate = dateForOffset(offset);
@@ -1494,10 +1504,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           </div>
         )}
 
-        <div className="almanac__lead">
-          {renderBlock(lead, "lead")}
-        </div>
-
         {/* Departments */}
         <div className={`almanac__depts${longRead ? " almanac__depts--withLongRead" : ""}${isMobile ? " almanac__depts--mobile" : ""}`}>
           {deptItems.map((t, i) => (
@@ -1507,6 +1513,10 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
                 : renderBlock(t, "dept")}
             </div>
           ))}
+        </div>
+
+        <div className="almanac__lead almanac__lead--afterReads">
+          {renderBlock("image", "lead")}
         </div>
 
         {/* Surprise */}

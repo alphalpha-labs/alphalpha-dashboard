@@ -2130,6 +2130,9 @@ input { font-family: inherit; }
   border-bottom: 1px solid color-mix(in oklch, var(--border) 88%, transparent);
   margin-bottom: 26px;
 }
+.almanac__lead--afterReads {
+  margin-top: 34px;
+}
 .almanac__depts {
   position: relative;
   display: grid;
