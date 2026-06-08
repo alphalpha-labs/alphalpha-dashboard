@@ -57,6 +57,17 @@ import {
   htmlToText,
   hostOf,
 } from './lib/web-discovery.mjs';
+import {
+  articleFeedbackProfile,
+  imageFeedbackProfile,
+  isAiFocusedText,
+  isAiToolingText,
+  isArticleIndexText,
+  isReadingBadFormatText,
+  isVideoHost,
+  wantsLessAiFocus,
+  workshopNoteTerms,
+} from './lib/almanac-feedback-selection.mjs';
 
 // Feedback-honed web discovery, initialised in main(). null until then; tile
 // sourcers check `webDiscovery?.available` and fall back to curated sources.
@@ -613,76 +624,6 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
   return scored[0].score < -5 ? null : scored[0]; // all deduped → null → fixture
 }
 
-function articleFeedbackProfile(weights = {}) {
-  const notes = (weights.notes ?? []).join(' ').toLowerCase();
-  const avoidHosts = [];
-  if (/\bx\.com\b|twitter\.com|twitter as a source/.test(notes)) {
-    avoidHosts.push('x.com', 'twitter.com');
-  }
-  if (/reddit/.test(notes) && /\b(wouldn'?t|never|avoid|not)\b/.test(notes)) {
-    avoidHosts.push('reddit.com');
-  }
-
-  const preferTerms = [];
-  if (/socio[-\s]?political|politics|political/.test(notes)) preferTerms.push('political', 'socio-political');
-  if (/economic|economics/.test(notes)) preferTerms.push('economic', 'economics');
-  if (/religious|religion/.test(notes)) preferTerms.push('religious', 'religion');
-  if (/cultural|culture/.test(notes)) preferTerms.push('cultural', 'culture');
-  if (/social theory/.test(notes)) preferTerms.push('social theory', 'sociology');
-  if (/philosophy|philosophical/.test(notes)) preferTerms.push('philosophy', 'philosophical');
-  if (/analysis|essay|long[-\s]?form|thought[-\s]?provoking/.test(notes)) preferTerms.push('analysis', 'essay', 'long-form');
-
-  return {
-    avoidHosts: [...new Set(avoidHosts)],
-    avoidAiFocused: wantsLessAiFocus(notes),
-    avoidAiTooling: wantsLessAiTooling(notes),
-    preferTerms: [...new Set(preferTerms)],
-    preferredQuery: preferTerms.length ? [...new Set(preferTerms)].join(' ') : '',
-  };
-}
-
-function wantsLessAiFocus(notes = '') {
-  return /\b(less|no|not|avoid|stop)\s+(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric|articles?|signals?|charts?|states?|stuff|content)?\b/.test(notes)
-    || (/\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric)\b/.test(notes) && /\b(less|no|not|avoid|stop)\b/.test(notes))
-    || (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(notes) && /\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)\b/.test(notes) && /\b(?:adoption|infrastructure|stats?|statistics|state)\b/.test(notes));
-}
-
-function wantsLessAiTooling(notes = '') {
-  return wantsLessAiFocus(notes)
-    || (/\b(?:too|still|less|no|not|avoid|stop)\b/.test(notes) && /\b(?:ai tooling|tooling|developer tools?|obsidian|vector dbs?|vector databases?|memory agents?|rag|embeddings?)\b/.test(notes));
-}
-
-function isAiFocusedText(text = '') {
-  const lower = String(text).toLowerCase();
-  return /\b(ai|a\.i\.|artificial intelligence|genai|generative ai|llm|llms|large language model|machine learning|frontier model|open-weight model)\b/.test(lower);
-}
-
-function isAiToolingText(text = '') {
-  const lower = String(text).toLowerCase();
-  return isAiFocusedText(lower)
-    || /\b(?:ai tooling|developer tools?|obsidian|vector dbs?|vector databases?|memory agents?|rag|embeddings?|towardsdatascience|medium\.com)\b/.test(lower);
-}
-
-function isVideoHost(host = '') {
-  return /(^|\.)youtube\.com$|(^|\.)youtu\.be$|(^|\.)vimeo\.com$|(^|\.)tiktok\.com$/.test(String(host).toLowerCase());
-}
-
-function isArticleIndexText(text = '') {
-  const lower = String(text).toLowerCase();
-  return /\b(?:\d{3,}|best|great|favorite|top)\s+(?:longform|long-form|articles?|essays?)\b/.test(lower)
-    || /\b(?:list|index|directory|archive|collection|menu)\s+of\s+(?:longform|long-form|articles?|essays?)\b/.test(lower)
-    || /\/menu\d*\b/.test(lower);
-}
-
-function isReadingBadFormatText(text = '') {
-  const lower = String(text).toLowerCase();
-  return /\b(?:pdf|textbook|worksheet|syllabus|course packet|lecture notes|contemporary introduction)\b/.test(lower)
-    || /\b(?:topics?|ideas?)\s+for\s+(?:papers?|essays?)\b/.test(lower)
-    || /\b(?:essay examples?|paper examples?|research paper topics?|writing prompts?)\b/.test(lower)
-    || /\b(?:edubirdie|gradesfixer|studycorgi|ivypanda|essaypro|papersowl)\b/.test(lower)
-    || /\.pdf(?:$|[?#])/.test(lower);
-}
-
 async function composeArticle(candidate, contextFiles) {
   const { openLoopsText, projectsText } = contextFiles;
 
@@ -964,14 +905,6 @@ function rankImage(candidates, feedbackWeights, recentIds) {
   scored.sort((a, b) => b.score - a.score);
   const best = scored[0];
   return best.score < -5 ? null : best;
-}
-
-function imageFeedbackProfile(weights = {}) {
-  const notes = (weights.notes ?? []).join(' ').toLowerCase();
-  return {
-    avoidCommons: /\b(?:wikimedia|wikipedia commons|commons)\b/.test(notes)
-      || (/\b(?:blank|black|broken|source this differently|source differently|sourcing .*off|source .*off)\b/.test(notes) && /\b(?:link|image|source|sourcing|commons|wikipedia)\b/.test(notes)),
-  };
 }
 
 async function composeImage(candidate) {
@@ -1676,28 +1609,6 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
     recentIds.includes(`${idPrefix}-${c.id}`) || (c.videoId && recentIds.includes(c.videoId))
   );
   return scored[0].score < -5 && !allCandidatesWereRecent ? null : scored[0];
-}
-
-function workshopNoteTerms(notes = '') {
-  const prefer = [];
-  const avoid = [];
-
-  const addFrom = (target, re) => {
-    const match = notes.match(re);
-    if (!match?.[1]) return;
-    for (const term of match[1].split(/[,/;]|\band\b|\bor\b/)) {
-      const t = term.trim().replace(/^(more|less|not|no|avoid|stop|about|like)\s+/, '');
-      if (t.length >= 3 && t.length <= 40) target.push(t);
-    }
-  };
-
-  addFrom(prefer, /\bmore (?:about |like |of )?([^.!?]+)/);
-  addFrom(avoid, /\b(?:less|not|no|avoid|stop) (?:about |like |of )?([^.!?]+)/);
-
-  return {
-    prefer: [...new Set(prefer)],
-    avoid: [...new Set(avoid)],
-  };
 }
 
 function toEditionItem(candidate) {
