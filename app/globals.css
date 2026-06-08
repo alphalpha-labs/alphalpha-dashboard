@@ -3507,6 +3507,7 @@ input { font-family: inherit; }
 
 @media (max-width: 640px) {
   .todayToggle__btn { padding: 7px 16px; }
+  .almanac { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   .almanacTuneRow { opacity: 1; }
   .todayLayout { height: auto; }
   .almanacExplore__body { grid-template-columns: 1fr; gap: 18px; }
