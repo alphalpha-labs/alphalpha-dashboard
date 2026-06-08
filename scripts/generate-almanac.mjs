@@ -584,9 +584,13 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Hard user preference: when feedback says less/no AI-focused Reading, AI/ML/LLM pieces are out.
     if (feedbackProfile.avoidAiFocused && isAiFocusedText(blob)) score -= 100;
+    if (feedbackProfile.avoidAiTooling && isAiToolingText(`${blob} ${c.source ?? ''} ${c.link ?? ''}`)) score -= 100;
 
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
+    if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
+    if (isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
+    if (isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
     if (c.link && feedbackProfile.avoidHosts.some(h => hostOf(c.link).endsWith(h))) score -= 3;
 
     // Nuance-chip signals from feedback.
@@ -596,7 +600,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     if ((aw.chipTallies?.['go deeper']        ?? 0) > 0) score += 0.1;
 
     // Open-loop keyword overlap.
-    score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.25;
+    score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.65;
     score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
 
     // Project-name overlap.
@@ -615,17 +619,23 @@ function articleFeedbackProfile(weights = {}) {
   if (/\bx\.com\b|twitter\.com|twitter as a source/.test(notes)) {
     avoidHosts.push('x.com', 'twitter.com');
   }
+  if (/reddit/.test(notes) && /\b(wouldn'?t|never|avoid|not)\b/.test(notes)) {
+    avoidHosts.push('reddit.com');
+  }
 
   const preferTerms = [];
   if (/socio[-\s]?political|politics|political/.test(notes)) preferTerms.push('political', 'socio-political');
   if (/economic|economics/.test(notes)) preferTerms.push('economic', 'economics');
   if (/religious|religion/.test(notes)) preferTerms.push('religious', 'religion');
   if (/cultural|culture/.test(notes)) preferTerms.push('cultural', 'culture');
-  if (/analysis|essay|long[-\s]?form/.test(notes)) preferTerms.push('analysis', 'essay');
+  if (/social theory/.test(notes)) preferTerms.push('social theory', 'sociology');
+  if (/philosophy|philosophical/.test(notes)) preferTerms.push('philosophy', 'philosophical');
+  if (/analysis|essay|long[-\s]?form|thought[-\s]?provoking/.test(notes)) preferTerms.push('analysis', 'essay', 'long-form');
 
   return {
     avoidHosts: [...new Set(avoidHosts)],
     avoidAiFocused: wantsLessAiFocus(notes),
+    avoidAiTooling: wantsLessAiTooling(notes),
     preferTerms: [...new Set(preferTerms)],
     preferredQuery: preferTerms.length ? [...new Set(preferTerms)].join(' ') : '',
   };
@@ -637,9 +647,40 @@ function wantsLessAiFocus(notes = '') {
     || (/\bbeyond\b|\bnot just\b|\bmore than\b|\bdeeper than\b/.test(notes) && /\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)\b/.test(notes) && /\b(?:adoption|infrastructure|stats?|statistics|state)\b/.test(notes));
 }
 
+function wantsLessAiTooling(notes = '') {
+  return wantsLessAiFocus(notes)
+    || (/\b(?:too|still|less|no|not|avoid|stop)\b/.test(notes) && /\b(?:ai tooling|tooling|developer tools?|obsidian|vector dbs?|vector databases?|memory agents?|rag|embeddings?)\b/.test(notes));
+}
+
 function isAiFocusedText(text = '') {
   const lower = String(text).toLowerCase();
   return /\b(ai|a\.i\.|artificial intelligence|genai|generative ai|llm|llms|large language model|machine learning|frontier model|open-weight model)\b/.test(lower);
+}
+
+function isAiToolingText(text = '') {
+  const lower = String(text).toLowerCase();
+  return isAiFocusedText(lower)
+    || /\b(?:ai tooling|developer tools?|obsidian|vector dbs?|vector databases?|memory agents?|rag|embeddings?|towardsdatascience|medium\.com)\b/.test(lower);
+}
+
+function isVideoHost(host = '') {
+  return /(^|\.)youtube\.com$|(^|\.)youtu\.be$|(^|\.)vimeo\.com$|(^|\.)tiktok\.com$/.test(String(host).toLowerCase());
+}
+
+function isArticleIndexText(text = '') {
+  const lower = String(text).toLowerCase();
+  return /\b(?:\d{3,}|best|great|favorite|top)\s+(?:longform|long-form|articles?|essays?)\b/.test(lower)
+    || /\b(?:list|index|directory|archive|collection|menu)\s+of\s+(?:longform|long-form|articles?|essays?)\b/.test(lower)
+    || /\/menu\d*\b/.test(lower);
+}
+
+function isReadingBadFormatText(text = '') {
+  const lower = String(text).toLowerCase();
+  return /\b(?:pdf|textbook|worksheet|syllabus|course packet|lecture notes|contemporary introduction)\b/.test(lower)
+    || /\b(?:topics?|ideas?)\s+for\s+(?:papers?|essays?)\b/.test(lower)
+    || /\b(?:essay examples?|paper examples?|research paper topics?|writing prompts?)\b/.test(lower)
+    || /\b(?:edubirdie|gradesfixer|studycorgi|ivypanda|essaypro|papersowl)\b/.test(lower)
+    || /\.pdf(?:$|[?#])/.test(lower);
 }
 
 async function composeArticle(candidate, contextFiles) {
@@ -883,6 +924,7 @@ function rankImage(candidates, feedbackWeights, recentIds) {
   if (candidates.length === 0) return null;
 
   const iw = feedbackWeights.image ?? {};
+  const imageProfile = imageFeedbackProfile(iw);
 
   const TASTE_KEYWORDS = [
     'landscape', 'light', 'hudson river', 'pastoral', 'impressi',
@@ -898,6 +940,7 @@ function rankImage(candidates, feedbackWeights, recentIds) {
     if (recentIds.includes(c.id)) score -= 10;
 
     if (c.source === 'ai-art') score += 2.0;
+    if (imageProfile.avoidCommons && (c.source === 'ai-art' || c.source === 'wikimedia')) score -= 10;
     score += (iw.sourceAffinity?.[c.source] ?? 0) * 0.3;
 
     const blob = `${c.title} ${c.medium} ${c.tags.join(' ')}`.toLowerCase();
@@ -921,6 +964,14 @@ function rankImage(candidates, feedbackWeights, recentIds) {
   scored.sort((a, b) => b.score - a.score);
   const best = scored[0];
   return best.score < -5 ? null : best;
+}
+
+function imageFeedbackProfile(weights = {}) {
+  const notes = (weights.notes ?? []).join(' ').toLowerCase();
+  return {
+    avoidCommons: /\b(?:wikimedia|wikipedia commons|commons)\b/.test(notes)
+      || (/\b(?:blank|black|broken|source this differently|source differently|sourcing .*off|source .*off)\b/.test(notes) && /\b(?:link|image|source|sourcing|commons|wikipedia)\b/.test(notes)),
+  };
 }
 
 async function composeImage(candidate) {
@@ -1007,7 +1058,7 @@ async function tileImage(feedbackWeights, recentIds) {
     ...(aicResult.status  === 'fulfilled' ? aicResult.value  : []),
     ...(wikiResult.status === 'fulfilled' ? wikiResult.value : []),
   ];
-  const all = aiArt.length ? aiArt : fallback;
+  const all = [...aiArt, ...fallback];
   if (all.length === 0) return null;
 
   const best = rankImage(all, feedbackWeights, recentIds);
@@ -1549,6 +1600,7 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
   const w = genreWeights ?? {};
   const chipTallies = w.chipTallies ?? {};
   const notes = (w.notes ?? []).join(' ').toLowerCase();
+  const noteTerms = workshopNoteTerms(notes);
 
   // "more <thing>" chips + kept-item affinity build a preference vector.
   const pref = {};
@@ -1561,7 +1613,7 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
   }
 
   // Difficulty drift from too-easy / too-hard / too-advanced signals.
-  const levelDrift = (chipTallies['too easy'] ?? 0)
+  const levelDrift = (chipTallies['too easy'] ?? 0) + (/\btoo beginner\b|\bbeginner oriented\b/.test(notes) ? 1 : 0)
     - (chipTallies['too hard'] ?? 0) - (chipTallies['too advanced'] ?? 0);
 
   const hash = dateHash(targetDate);
@@ -1584,6 +1636,8 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
     for (const [p, v] of Object.entries(pref)) {
       if (p && blob.includes(p)) score += v * 0.4;
     }
+    score += noteTerms.prefer.filter(term => blob.includes(term)).length * 1.2;
+    score -= noteTerms.avoid.filter(term => blob.includes(term)).length * 4;
 
     if (idPrefix === 'longread') {
       const primarySourceDisliked = /too primary|primary source|primary-source/.test(notes);
@@ -1607,7 +1661,9 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
     if (c.difficulty) {
       const dr = DIFFICULTY_RANK[String(c.difficulty).toLowerCase()] ?? 1;
       const target = levelDrift > 0 ? 2 : levelDrift < 0 ? 0 : 1;
-      score += (2 - Math.abs(dr - target)) * 0.1;
+      score += (2 - Math.abs(dr - target)) * 0.8;
+      if (levelDrift > 0 && dr === 0) score -= 3;
+      if (levelDrift < 0 && dr === 2) score -= 3;
     }
 
     // Deterministic daily rotation as the tiebreak.
@@ -1620,6 +1676,28 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
     recentIds.includes(`${idPrefix}-${c.id}`) || (c.videoId && recentIds.includes(c.videoId))
   );
   return scored[0].score < -5 && !allCandidatesWereRecent ? null : scored[0];
+}
+
+function workshopNoteTerms(notes = '') {
+  const prefer = [];
+  const avoid = [];
+
+  const addFrom = (target, re) => {
+    const match = notes.match(re);
+    if (!match?.[1]) return;
+    for (const term of match[1].split(/[,/;]|\band\b|\bor\b/)) {
+      const t = term.trim().replace(/^(more|less|not|no|avoid|stop|about|like)\s+/, '');
+      if (t.length >= 3 && t.length <= 40) target.push(t);
+    }
+  };
+
+  addFrom(prefer, /\bmore (?:about |like |of )?([^.!?]+)/);
+  addFrom(avoid, /\b(?:less|not|no|avoid|stop) (?:about |like |of )?([^.!?]+)/);
+
+  return {
+    prefer: [...new Set(prefer)],
+    avoid: [...new Set(avoid)],
+  };
 }
 
 function toEditionItem(candidate) {
@@ -1829,6 +1907,7 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
   const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
   return results
     .filter(r => !profile.avoidHosts.some(h => hostOf(r.url).endsWith(h)))
+    .filter(r => !isVideoHost(hostOf(r.url)))
     .map((r, i) => ({
       id:     `web-article-${hostOf(r.url)}-${i}`,
       title:  r.title,
@@ -1839,6 +1918,8 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
       themes: [],
     }))
     .filter(c => c.title && c.link)
+    .filter(c => !isArticleIndexText(`${c.title} ${c.why} ${c.link}`))
+    .filter(c => !isReadingBadFormatText(`${c.title} ${c.why} ${c.link}`))
     .filter(c => !(profile.avoidAiFocused && isAiFocusedText(`${c.title} ${c.why}`)));
 }
 
