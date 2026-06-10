@@ -88,9 +88,10 @@ interface Props {
   thesisInvalidationEvidence?: InvestingThesisInvalidationEvidence | null;
   onDiscuss: (ctx: ThreadContext) => void;
   onAction?: (itemId: string, action: string, payload?: object) => void | Promise<void>;
+  onRegenerateMarketBrief?: () => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, dailyMarketBrief, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, dailyMarketBrief, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction, onRegenerateMarketBrief }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -108,7 +109,7 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       <h1 className="tabTitle">Investing decision layer</h1>
       <p className="tabSubtitle">5–10 year accumulation focus · {decisions.length || investing.length} current signals</p>
 
-      {dailyMarketBrief && <DailyMarketBriefPanel brief={dailyMarketBrief} onDiscuss={onDiscuss} />}
+      {dailyMarketBrief && <DailyMarketBriefPanel brief={dailyMarketBrief} onDiscuss={onDiscuss} onRegenerate={onRegenerateMarketBrief} />}
 
       {allocationTargets && <TargetAllocationCockpit allocationTargets={allocationTargets} basketGovernanceAudit={basketGovernanceAudit} onDiscuss={onDiscuss} />}
 
@@ -457,32 +458,51 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
   );
 }
 
-function DailyMarketBriefPanel({ brief, onDiscuss }: { brief: InvestingDailyMarketBrief; onDiscuss: Props["onDiscuss"] }) {
+function DailyMarketBriefPanel({ brief, onDiscuss, onRegenerate }: { brief: InvestingDailyMarketBrief; onDiscuss: Props["onDiscuss"]; onRegenerate?: Props["onRegenerateMarketBrief"] }) {
   const drivers = brief.marketDrivers ?? [];
   const lookPast = brief.lookPast ?? [];
   const payAttention = brief.payAttention ?? [];
   const thesisImpacts = brief.thesisImpacts ?? [];
+  const changed = brief.changedSincePrevious ?? [];
+  const topDriver = drivers[0] ?? null;
+  const sourceCount = brief.sourceNotes?.length ?? 0;
+  const actionPosture = brief.actionPosture || topDriver?.urgency || brief.status || "review";
+  const mainDriver = brief.mainDriver || topDriver?.title || "No market driver exported";
+  const portfolioImplication = brief.portfolioImplication || brief.portfolioRead || "No portfolio implication exported yet.";
   return (
     <section className="investmentSection dailyMarketBrief">
       <div className="dailyMarketBriefHeader">
         <div>
-          <span className="digestEyebrow">Daily market brief · published {brief.publishedAt ? formatTime(brief.publishedAt) : "noon"}</span>
+          <span className="digestEyebrow">Daily market brief · generated {formatDateTime(brief.generatedAt)} · published {brief.publishedAt ? formatDateTime(brief.publishedAt) : "pending"}</span>
           <h2>{brief.headline}</h2>
           <p>{brief.summary}</p>
         </div>
-        <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "daily-market-brief", type: "daily-market-brief", title: brief.headline, theme: "market thesis brief", stance: brief.status || "published", summary: brief.discussionPrompt || brief.summary })}>Discuss brief</button>
+        <div className="dailyMarketBriefActions">
+          <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: "daily-market-brief", type: "daily-market-brief", title: brief.headline, theme: "market thesis brief", stance: brief.status || "published", summary: brief.discussionPrompt || brief.summary })}>Discuss brief</button>
+          {onRegenerate && <button className="btnAlphaDiscuss" onClick={() => void onRegenerate()}>Regenerate full crawl</button>}
+        </div>
+      </div>
+      <div className="dailyNoonRead" aria-label="Noon read">
+        <span><b>Action posture</b>{actionPosture.replace(/-/g, " ")}</span>
+        <span><b>Main driver</b>{mainDriver}</span>
+        <span><b>Portfolio implication</b>{portfolioImplication}</span>
+        <span><b>Source trail</b>{sourceCount ? `${sourceCount} notes` : "no sources exported"}</span>
+      </div>
+      <div className="dailyChangedRow">
+        <div className="sectionTitleRow"><h2>Changed since previous brief</h2><span>{changed.length ? `${changed.length} changes` : "not exported yet"}</span></div>
+        {changed.length ? changed.slice(0, 3).map(item => <p key={item.id || item.title}><b>{item.title}</b>{item.summary}<em>{item.severity || "change"}</em></p>) : <p><b>No change log</b>The digest schema can now carry yesterday-vs-today changes; the next full crawl should populate this instead of forcing a reread of the whole memo.</p>}
       </div>
       <div className="dailyMarketBriefGrid">
         <div className="dailyMarketColumn">
           <strong>Moving markets</strong>
-          {drivers.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.summary}<em>{[item.direction, item.urgency, ...(item.relatedSymbols ?? []).slice(0, 4)].filter(Boolean).join(" · ")}</em></p>)}
+          {drivers.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.summary}<em>{[item.direction, item.urgency, item.evidenceQuality, typeof item.sourceCount === "number" ? `${item.sourceCount} sources` : null, ...(item.relatedSymbols ?? []).slice(0, 4)].filter(Boolean).join(" · ")}</em></p>)}
         </div>
         <div className="dailyMarketColumn dailyMarketColumn--muted">
-          <strong>Look past</strong>
+          <strong>Do not react to</strong>
           {lookPast.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.reason}<em>{item.watchIf ? `Watch if: ${item.watchIf}` : "Noise unless it persists"}</em></p>)}
         </div>
         <div className="dailyMarketColumn dailyMarketColumn--focus">
-          <strong>Pay attention</strong>
+          <strong>Reconsider if</strong>
           {payAttention.slice(0, 4).map(item => <p key={item.id}><b>{item.title}</b>{item.reason}<em>{item.portfolioRelevance || (item.relatedSymbols ?? []).join(", ")}</em></p>)}
         </div>
       </div>
@@ -492,6 +512,12 @@ function DailyMarketBriefPanel({ brief, onDiscuss }: { brief: InvestingDailyMark
           {thesisImpacts.slice(0, 4).map(item => <span key={`${item.thesisId || item.title}-${item.action || ""}`}><b>{item.title}</b>{item.impact}<em>{[item.action, item.confidence].filter(Boolean).join(" · ")}</em></span>)}
         </div>
       )}
+      {brief.sourceNotes?.length ? (
+        <details className="dailySourceTrail">
+          <summary>Source trail · {brief.sourceNotes.length} notes</summary>
+          {brief.sourceNotes.map(note => <p key={note}>{note}</p>)}
+        </details>
+      ) : null}
     </section>
   );
 }

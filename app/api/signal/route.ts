@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireDashboardSession } from "@/lib/auth";
 import { sendSignal } from "@/lib/openclaw";
 
-const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop", "event-feedback", "automation-action", "review-action", "investment-action", "refresh-dashboard", "almanac-regenerate", "article-save", "queue-entry-add"]);
+const VALID_TYPES = new Set(["done", "snooze", "skip", "wake", "add-loop", "event-feedback", "automation-action", "review-action", "investment-action", "investment-digest-regenerate", "refresh-dashboard", "almanac-regenerate", "article-save", "queue-entry-add"]);
 
 export async function POST(req: NextRequest) {
   const authError = await requireDashboardSession(req);
@@ -51,6 +51,7 @@ function receiptFor(type: string, itemId: string, payload: unknown) {
   }
   if (type === "review-action") return `Review action ${p.action || "recorded"} accepted for ${itemId}.`;
   if (type === "automation-action") return `Automation action ${p.action || "recorded"} accepted.`;
+  if (type === "investment-digest-regenerate") return "Noon investment digest full crawl accepted.";
   if (type === "refresh-dashboard") return "Refresh request accepted.";
   if (type === "almanac-regenerate") return `Almanac recrawl accepted for ${p.date || "today"}.`;
   if (type === "article-save") return `Queue + Instapaper request accepted for “${p.title || itemId}”.`;

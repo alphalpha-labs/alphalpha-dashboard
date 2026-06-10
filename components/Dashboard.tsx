@@ -194,6 +194,14 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
     }, action === "stage-taxonomy-decision" || action === "stage-manual-investing-decision" ? "Saving decision" : "Investing action");
   }, [dispatchSignal]);
 
+  const handleInvestmentDigestRegenerate = useCallback(async () => {
+    await dispatchSignal("investment-digest-regenerate", "daily-market-brief", {
+      mode: "full-current-source-crawl",
+      requestedAction: "rerun-investing-os-daily-market-brief-full-crawl-and-refresh-dashboard",
+      requestedAt: new Date().toISOString(),
+    }, "Regenerating noon digest");
+  }, [dispatchSignal]);
+
   const handleAutomationAction = useCallback((jobId: string, action: string, payload: object = {}) => {
     const job = automations.find(j => j.id === jobId);
     setAutomations(prev => prev.map(job => {
@@ -397,6 +405,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               thesisInvalidationEvidence={data.meta.investingThesisInvalidationEvidence}
               onDiscuss={openThread}
               onAction={handleInvestmentAction}
+              onRegenerateMarketBrief={handleInvestmentDigestRegenerate}
             />
           )}
           {activeTab === "digests" && (

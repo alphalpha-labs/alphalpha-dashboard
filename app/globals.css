@@ -1438,7 +1438,7 @@ input { font-family: inherit; }
 .invalidationRiskStrip strong { margin-right: 5px; color: var(--accent-high); text-transform: uppercase; }
 .investmentHealth ul { margin: 8px 0 0 18px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.5; }
 .emptyText { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-faint); }
-@media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol, .pullbackWatchIntro, .dailyMarketBriefHeader, .dailyMarketBriefGrid { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; } }
+@media (max-width: 900px) { .investmentDigestHero, .investmentTwoCol, .pullbackWatchIntro, .dailyMarketBriefHeader, .dailyMarketBriefGrid, .dailyNoonRead { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; } }
 .investmentPreflight { border-color: rgba(177, 80, 45, .35); background: rgba(255, 244, 235, .72); }
 .investmentButtonRow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
@@ -1446,6 +1446,16 @@ input { font-family: inherit; }
 .dailyMarketBriefHeader { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 13px; }
 .dailyMarketBriefHeader h2 { margin: 6px 0 6px; font-family: 'Playfair Display', Georgia, serif; font-size: 28px; line-height: 1.1; color: var(--ink); }
 .dailyMarketBriefHeader p { max-width: 840px; margin: 0; font-family: 'Lora', Georgia, serif; font-size: 13px; line-height: 1.55; color: var(--ink-muted); }
+.dailyMarketBriefActions { display: flex; flex-direction: column; gap: 8px; min-width: 170px; }
+.dailyNoonRead { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.dailyNoonRead span { min-width: 0; border: 1px solid rgba(42, 78, 99, .18); border-radius: 12px; padding: 9px 10px; background: rgba(255,255,255,.62); font-family: 'Lora', Georgia, serif; font-size: 11px; line-height: 1.35; color: var(--ink-muted); overflow-wrap: anywhere; }
+.dailyNoonRead b { display: block; margin-bottom: 4px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .08em; }
+.dailyChangedRow { margin: 10px 0; border: 1px solid var(--border-faint); border-radius: var(--radius-card); padding: 10px; background: rgba(255,255,255,.45); }
+.dailyChangedRow p { margin: 7px 0 0; border-top: 1px solid var(--border-faint); padding-top: 7px; font-family: 'Lora', Georgia, serif; font-size: 11px; line-height: 1.45; color: var(--ink-muted); }
+.dailyChangedRow p:first-of-type { border-top: 0; padding-top: 0; }
+.dailyChangedRow b, .dailyChangedRow em { display: block; font-family: 'DM Sans', sans-serif; font-style: normal; }
+.dailyChangedRow b { margin-bottom: 3px; color: var(--ink-2); }
+.dailyChangedRow em { margin-top: 4px; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .06em; }
 .dailyMarketBriefGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .dailyMarketColumn { border: 1px solid var(--border-faint); border-radius: var(--radius-card); padding: 11px; background: rgba(255,255,255,.58); }
 .dailyMarketColumn > strong { display: block; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .1em; }
@@ -1460,6 +1470,9 @@ input { font-family: inherit; }
 .dailyMarketThesisStrip b, .dailyMarketThesisStrip em { display: block; font-family: 'DM Sans', sans-serif; font-style: normal; }
 .dailyMarketThesisStrip b { margin-bottom: 3px; font-size: 10px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .08em; }
 .dailyMarketThesisStrip em { margin-top: 4px; font-size: 9px; color: var(--ink-faint); }
+.dailySourceTrail { margin-top: 10px; border: 1px solid var(--border-faint); border-radius: 12px; padding: 9px 10px; background: rgba(255,255,255,.42); }
+.dailySourceTrail summary { cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .1em; }
+.dailySourceTrail p { margin: 8px 0 0; font-family: 'DM Sans', sans-serif; font-size: 10px; line-height: 1.45; color: var(--ink-faint); overflow-wrap: anywhere; }
 .investingArchive { background: rgba(250,246,238,.32); }
 .investingArchive > summary { display: flex; justify-content: space-between; gap: 12px; align-items: center; cursor: pointer; list-style: none; }
 .investingArchive > summary::-webkit-details-marker { display: none; }

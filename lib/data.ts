@@ -336,9 +336,13 @@ export type InvestingDailyMarketBrief = {
   publishedAt?: string | null;
   publishCadence?: string;
   status?: string;
+  actionPosture?: string;
+  mainDriver?: string;
+  portfolioImplication?: string;
+  changedSincePrevious?: Array<{ id?: string; title: string; summary: string; severity?: string }>;
   headline: string;
   summary: string;
-  marketDrivers?: Array<{ id: string; title: string; summary: string; direction?: string; urgency?: string; relatedTheses?: string[]; relatedSymbols?: string[] }>;
+  marketDrivers?: Array<{ id: string; title: string; summary: string; direction?: string; urgency?: string; evidenceQuality?: string; sourceCount?: number; relatedTheses?: string[]; relatedSymbols?: string[] }>;
   lookPast?: Array<{ id: string; title: string; reason: string; watchIf?: string }>;
   payAttention?: Array<{ id: string; title: string; reason: string; portfolioRelevance?: string; relatedTheses?: string[]; relatedSymbols?: string[] }>;
   thesisImpacts?: Array<{ thesisId?: string; title: string; impact: string; action?: string; confidence?: string }>;
