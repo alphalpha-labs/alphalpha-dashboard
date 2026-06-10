@@ -1325,6 +1325,11 @@ Include 2–3 competitors and 3–4 signals.`;
     warn(`venture composer LLM failed: ${e.message}`);
   }
 
+  if (!composed && candidate.id?.startsWith('taxonomy-')) {
+    composed = fallbackTaxonomyVenture(candidate);
+    log(`  venture composer: deterministic taxonomy fallback — "${composed.name}"`);
+  }
+
   if (!composed) return null;
 
   // Normalise arrays and fill defaults so the schema validator passes.
@@ -1350,6 +1355,43 @@ Include 2–3 competitors and 3–4 signals.`;
   }
 
   return composed;
+}
+
+function fallbackTaxonomyVenture(candidate) {
+  const themes = candidate.themes ?? [];
+  const primary = themes[0] ?? 'B2B operations';
+  const shortName = candidate.name
+    .replace(/\b(Operating Layer|Copilot|Relief|Ledger|Desk|OS)\b/gi, '')
+    .replace(/[^A-Za-z0-9 ]+/g, '')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .join('');
+  return {
+    name: shortName.slice(0, 20) || 'OpsLayer',
+    effort: candidate.effort || 'Worth studying',
+    title: `${candidate.name} — ${primary} wedge`,
+    pitch: firstSentence(candidate.description, `${candidate.name} targets a large, fragmented operational market.`).slice(0, 280),
+    why: `Broadens the Almanac venture lane into ${primary}, beyond current project loops.`,
+    research: {
+      tam: 'TBD',
+      tamLabel: `${primary} TAM est. pending source check`,
+      growth: 'TBD',
+      growthLabel: 'growth est. pending source check',
+      model: 'Vertical SaaS plus workflow/payment take rates',
+      whyNow: 'Legacy workflows, labor pressure, and AI-native coordination make the category timely.',
+      wedge: candidate.description.slice(0, 120),
+      competitors: [
+        { name: 'ServiceTitan', note: 'Shows vertical workflow appetite' },
+        { name: 'Toast', note: 'Proof of SMB operating-system economics' },
+      ],
+      signals: [
+        `${primary} remains fragmented and workflow-heavy`,
+        'Operators are under pressure to do more with fewer staff',
+        'Vertical software can bundle workflow, payments, and data',
+      ],
+    },
+  };
 }
 
 async function tileVentures(feedbackWeights, recentIds, contextFiles) {
