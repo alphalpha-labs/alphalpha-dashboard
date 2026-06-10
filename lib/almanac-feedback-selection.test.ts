@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 // @ts-expect-error mjs helper module is used by the generator script.
 import {
   articleFeedbackProfile,
+  isBlockedReadingUrl,
   imageFeedbackProfile,
   isAiToolingText,
   isArticleIndexText,
@@ -31,6 +32,9 @@ describe("almanac feedback selection gates", () => {
     expect(isArticleIndexText("1,000 Great Longform Articles and Essays https://tetw.org/menu2")).toBe(true);
     expect(isReadingBadFormatText("[PDF] Social and Political Philosophy: A Contemporary Introduction")).toBe(true);
     expect(isReadingBadFormatText("250+ Political Science Topics for 2025: Ideas for Papers & Essays edubirdie.com")).toBe(true);
+    expect(isBlockedReadingUrl("https://www.facebook.com/groups/austinreadingclub")).toBe(true);
+    expect(isBlockedReadingUrl("https://reddit.com/r/PoliticalDiscussion/comments/abc")).toBe(true);
+    expect(isBlockedReadingUrl("https://www.theatlantic.com/ideas/archive/example")).toBe(false);
   });
 
   it("turns image sourcing complaints into a Commons avoidance signal", () => {

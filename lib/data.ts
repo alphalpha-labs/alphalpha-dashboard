@@ -598,6 +598,7 @@ export type DailyData = {
   riffs?:          DailyRiff[];
   productionClips?: DailyProductionClip[];
   poems?:          DailyPoem[];
+  macroRead?:      DailyLongRead;
   longReads?:      DailyLongRead[];
   austinExplores?: DailyAustinExplore[];
 };

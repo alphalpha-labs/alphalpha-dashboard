@@ -34,5 +34,77 @@
     "sourceUrl": "https://www.gutenberg.org/ebooks/1459",
     "sourceLabel": "Project Gutenberg",
     "tags": ["modernism", "urban-life", "self-consciousness"]
+  },
+  {
+    "id": "poem-dickinson-tell-all-truth",
+    "title": "Tell all the truth but tell it slant",
+    "poet": "Emily Dickinson",
+    "era": "c. 1868 / American lyric",
+    "excerpt": "Tell all the truth but tell it slant",
+    "note": "A tiny operating manual for truth, tact, and indirect illumination.",
+    "why": "It fits a dashboard that needs to tell hard truths without becoming noisy or blunt.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/56824/tell-all-the-truth-but-tell-it-slant-1263",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["truth", "tact", "american-lyric"]
+  },
+  {
+    "id": "poem-hopkins-gods-grandeur",
+    "title": "God's Grandeur",
+    "poet": "Gerard Manley Hopkins",
+    "era": "1877 / Victorian religious lyric",
+    "excerpt": "The world is charged with the grandeur of God",
+    "note": "A religious poem that treats beauty as pressure in the physical world, not an abstraction.",
+    "why": "Good for the religion/culture lane: doctrine, industry, nature, and perception in fourteen lines.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/44395/gods-grandeur",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["religion", "nature", "beauty"]
+  },
+  {
+    "id": "poem-hardy-darkling-thrush",
+    "title": "The Darkling Thrush",
+    "poet": "Thomas Hardy",
+    "era": "1900 / fin-de-siecle",
+    "excerpt": "I leant upon a coppice gate",
+    "note": "A winter poem about exhausted civilization and a small, irrational note of hope.",
+    "why": "It pairs political fatigue with attention: not optimism exactly, but a signal in the dusk.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/44325/the-darkling-thrush",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["history", "hope", "winter"]
+  },
+  {
+    "id": "poem-blake-london",
+    "title": "London",
+    "poet": "William Blake",
+    "era": "1794 / Songs of Experience",
+    "excerpt": "I wander thro' each charter'd street",
+    "note": "A city poem where politics, markets, church, and family pain all show up as institutions.",
+    "why": "A compact civic x-ray for days when the Society & Ideas lane needs bite.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/43673/london-56d222777e969",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["city", "politics", "institutions"]
+  },
+  {
+    "id": "poem-rossetti-uphill",
+    "title": "Up-Hill",
+    "poet": "Christina Rossetti",
+    "era": "1861 / Victorian devotional",
+    "excerpt": "Does the road wind up-hill all the way?",
+    "note": "A call-and-response poem about endurance, rest, and the shape of a whole life.",
+    "why": "Useful when the day needs spiritual gravity without sermonizing.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/45002/up-hill",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["religion", "endurance", "devotional"]
+  },
+  {
+    "id": "poem-wordsworth-world-too-much",
+    "title": "The World Is Too Much with Us",
+    "poet": "William Wordsworth",
+    "era": "1807 / Romantic sonnet",
+    "excerpt": "The world is too much with us; late and soon",
+    "note": "A complaint about commerce, attention, and spiritual numbness that still feels current.",
+    "why": "A clean counterweight to market dashboards: money matters, but it can also flatten perception.",
+    "sourceUrl": "https://www.poetryfoundation.org/poems/45564/the-world-is-too-much-with-us",
+    "sourceLabel": "Poetry Foundation",
+    "tags": ["commerce", "attention", "romanticism"]
   }
 ]

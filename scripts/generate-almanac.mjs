@@ -36,8 +36,8 @@
  *     lib/almanac-datasets/artifacts.json; LLM writes body + note; Recipe deferred
  *
  * Phase 6 tiles (curated dataset + RSS; no external paid API keys):
- *   - Investing / AI charts: series data committed to lib/almanac-datasets/charts.json;
- *     LLM writes note + why grounded in real data; falls back to fixture chart per topic
+ *   - Signal / chart code remains available, but the shipped Almanac suppresses
+ *     chart tiles until the lane earns its space again.
  *   - Article RSS: supplementary sourcer fetches public RSS feeds for known publications;
  *     merged with workspace candidates before ranking; FRED/EIA wiring deferred
  *
@@ -60,6 +60,7 @@ import {
 import {
   articleFeedbackProfile,
   imageFeedbackProfile,
+  isBlockedReadingUrl,
   isAiFocusedText,
   isAiToolingText,
   isArticleIndexText,
@@ -249,6 +250,27 @@ function validateDailyData(data) {
   validateQuotes(data.quotes);
   validateQuotes(data.parentingQuotes);
   for (const c of data.charts) validateChart(c);
+  runAlmanacQa(data);
+}
+
+function runAlmanacQa(data) {
+  const failures = [];
+  const macroRead = data.macroRead ?? data.longReads?.[0] ?? null;
+
+  if (data.article?.url && isBlockedReadingUrl(data.article.url)) {
+    failures.push(`Society & Ideas article uses blocked source: ${data.article.url}`);
+  }
+  if (macroRead?.url && isBlockedReadingUrl(macroRead.url)) {
+    failures.push(`Macro / Investing read uses blocked source: ${macroRead.url}`);
+  }
+  if (data.charts?.length) failures.push('Signal/chart tile is disabled but charts were emitted');
+  if (!data.article?.title?.trim()) failures.push('Society & Ideas read is missing');
+  if (!macroRead?.title?.trim()) failures.push('Macro / Investing read is missing');
+  if (macroRead?.title && data.article?.title && titleKey(macroRead.title) === titleKey(data.article.title)) {
+    failures.push('Society & Ideas and Macro / Investing reads selected the same title');
+  }
+
+  if (failures.length) throw new Error(`QA failed: ${failures.join('; ')}`);
 }
 
 // ── KV helpers (feedback weights + history) ───────────────────────────────────
@@ -567,7 +589,30 @@ function sourceArticleCandidates() {
       };
     })
     // Skip anything already read or dismissed.
-    .filter(c => !/^(read|done|dismissed)/i.test(c.status));
+    .filter(c => !/^(read|done|dismissed)/i.test(c.status))
+    .filter(c => !c.link || !isBlockedReadingUrl(c.link))
+    .filter(c => !isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`))
+    .filter(c => !isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`));
+}
+
+function sourceSocietyArticleCandidates() {
+  const dataset = loadWorkshopDataset('long-reads.json');
+  const macroRe = /\b(macro|investing|investment|markets|finance|rates|portfolio|sector|qje|akerlof|lynalden|pinebrook|diff|byrne hobart)\b/i;
+  return dataset
+    .filter(read => {
+      const blob = `${read.title} ${read.source} ${read.frame} ${read.thesis} ${read.why} ${(read.tags ?? []).join(' ')}`;
+      return !macroRe.test(blob);
+    })
+    .map((read, idx) => ({
+      id:     `society-curated-${read.id ?? idx}`,
+      title:  read.title,
+      status: 'Queued',
+      source: read.source,
+      link:   read.url,
+      why:    read.thesis || read.why,
+      themes: read.tags ?? [],
+    }))
+    .filter(c => c.title && (!c.link || !isBlockedReadingUrl(c.link)));
 }
 
 function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, projectsText) {
@@ -582,6 +627,17 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     .filter(w => w.length > 4);
   const projectNames = (projectsText.match(/^##\s+\d+\.\s+(.+)$/gm) ?? [])
     .map(l => stripMarkdown(l).replace(/^\d+\.\s+/, '').toLowerCase());
+  const societyTerms = [
+    'religion', 'religious', 'church', 'faith', 'politics', 'political',
+    'society', 'social', 'culture', 'cultural', 'human', 'family',
+    'class', 'community', 'institutions', 'governance', 'cities',
+    'education', 'psychology', 'philosophy', 'moral', 'ethics',
+  ];
+  const macroTechTerms = [
+    'semiconductor', 'chips', 'lithography', 'ai', 'llm', 'machine learning',
+    'startup', 'venture', 'markets', 'investing', 'portfolio', 'crypto',
+    'software', 'developer', 'infrastructure',
+  ];
 
   const scored = candidates.map(c => {
     let score = 1.0;
@@ -600,6 +656,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
     if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
+    if (c.link && isBlockedReadingUrl(c.link)) score -= 100;
     if (isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
     if (isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
     if (c.link && feedbackProfile.avoidHosts.some(h => hostOf(c.link).endsWith(h))) score -= 3;
@@ -612,6 +669,10 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Open-loop keyword overlap.
     score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.65;
+    const societyHits = societyTerms.filter(term => blob.includes(term)).length;
+    score += societyHits * 0.55;
+    if (societyHits === 0) score -= 2.5;
+    if (macroTechTerms.some(term => blob.includes(term)) && societyHits === 0) score -= 4;
     score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
 
     // Project-name overlap.
@@ -669,7 +730,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   }
 
   const article = {
-    kicker:   'Reading',
+    kicker:   'Society & Ideas',
     source:   candidate.source ?? 'Unknown',
     readTime: composed?.readTime ?? fallbackReadTime,
     title:    candidate.title,
@@ -689,6 +750,7 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
     webSourceArticles(feedbackWeights, contextFiles),
   ]);
   const candidates = [
+    ...sourceSocietyArticleCandidates(),
     ...(wsResult.status  === 'fulfilled' ? wsResult.value  : []),
     ...(rssResult.status === 'fulfilled' ? rssResult.value : []),
     ...(webResult.status === 'fulfilled' ? webResult.value : []),
@@ -779,7 +841,11 @@ async function sourceMetMuseum(targetDate) {
       tags:    [obj.department, obj.culture, obj.period].filter(Boolean),
     });
   }
-  return candidates;
+  return candidates.filter(c =>
+    !isBlockedReadingUrl(c.link) &&
+    !isArticleIndexText(`${c.title} ${c.why} ${c.link}`) &&
+    !isReadingBadFormatText(`${c.title} ${c.why} ${c.link}`)
+  );
 }
 
 async function sourceAIC(targetDate) {
@@ -1092,7 +1158,66 @@ function sourceVentureCandidates(contextFiles) {
     } catch {}
   }
 
-  // 4. Derive from build/product-flavored open loops as last resort.
+  // 4. Broad-market prompts prevent the lane from merely mirroring current work.
+  const broadMarkets = [
+    {
+      id: 'taxonomy-healthcare-admin',
+      name: 'Healthcare Admin Relief',
+      description: 'Vertical workflow software for clinics, specialists, and small practices drowning in prior auth, billing, staffing, and patient follow-up.',
+      themes: ['healthcare', 'vertical SaaS', 'local services'],
+      effort: 'Fundable wedge',
+    },
+    {
+      id: 'taxonomy-insurance-ops',
+      name: 'Insurance Ops Copilot',
+      description: 'Claims, underwriting, and broker workflow tools for insurance niches where legacy systems and email still coordinate high-value decisions.',
+      themes: ['insurance', 'workflow', 'fintech infrastructure'],
+      effort: 'Worth studying',
+    },
+    {
+      id: 'taxonomy-home-services-rollup',
+      name: 'Home Services Operating Layer',
+      description: 'Scheduling, quoting, financing, and technician enablement for fragmented HVAC, plumbing, roofing, landscaping, and maintenance operators.',
+      themes: ['local services', 'SMB software', 'real estate operations'],
+      effort: 'Fundable wedge',
+    },
+    {
+      id: 'taxonomy-climate-resilience',
+      name: 'Climate Resilience Ledger',
+      description: 'Risk, compliance, and procurement software for heat, water, wildfire, grid reliability, and insurance adaptation decisions.',
+      themes: ['climate resilience', 'infrastructure', 'risk'],
+      effort: 'Worth studying',
+    },
+    {
+      id: 'taxonomy-logistics-exceptions',
+      name: 'Logistics Exception Desk',
+      description: 'Exception-management and customer communication layer for freight, field service, construction supply, and regional distribution networks.',
+      themes: ['logistics', 'operations', 'B2B SaaS'],
+      effort: 'Fundable wedge',
+    },
+    {
+      id: 'taxonomy-education-career',
+      name: 'Career Mobility OS',
+      description: 'Tools for adults, schools, and employers to translate skills, credentials, apprenticeships, and local labor demand into concrete mobility paths.',
+      themes: ['education', 'labor', 'credentialing'],
+      effort: 'Worth studying',
+    },
+    {
+      id: 'taxonomy-creator-business-services',
+      name: 'Creator Back Office',
+      description: 'Finance, contracts, merchandising, sponsorship, and operations software for creators who have become small media businesses.',
+      themes: ['creator economy', 'business services', 'fintech'],
+      effort: 'Side project',
+    },
+  ];
+  const seed = dateHash(`${targetDate}-venture-taxonomy`);
+  broadMarkets
+    .map((c, i) => ({ ...c, sortKey: (seed + i * 17) % broadMarkets.length }))
+    .sort((a, b) => a.sortKey - b.sortKey)
+    .slice(0, 4)
+    .forEach(({ sortKey, ...candidate }) => add(candidate));
+
+  // 5. Derive from build/product-flavored open loops as last resort.
   if (candidates.length < 2) {
     extractBullets(contextFiles.openLoopsText)
       .filter(l => /build|launch|ship|product|market|revenue|startup|automate|tool|solve|scale/i.test(l))
@@ -1127,7 +1252,8 @@ function rankVentures(candidates, feedbackWeights, recentIds, contextFiles) {
     if ((vw.chipTallies?.['already building'] ?? 0) > 0) score += 0.5;
 
     const blob = `${c.name} ${c.description} ${c.themes.join(' ')}`.toLowerCase();
-    score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.1;
+    score += loopKeywords.filter(kw => blob.includes(kw)).length * 0.03;
+    if (c.id.startsWith('taxonomy-')) score += 1.2;
 
     return { ...c, score };
   });
@@ -1150,7 +1276,8 @@ Generate a complete venture brief. Write concisely and specifically; no filler.
 CRITICAL RULES:
 - All market-size figures (TAM, CAGR) must be labeled as estimates using "est." in the label field. Never state them as confirmed facts.
 - Competitor names must be real, publicly known companies or credibly plausible; do not invent fictional firms.
-- Ground the pitch and "why" in the user's specific open loops and projects.`;
+- Do not overfit to AI tooling or the user's current build loops. Broaden toward large durable markets when the candidate points there.
+- Ground "why" in the user's taste and operating leverage, but make the market stand on its own.`;
 
   const userPrompt =
 `Venture idea: "${candidate.name}"
@@ -1578,10 +1705,10 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
         score -= 6;
       }
       if (/ai\b|artificial intelligence|llm|machine learning|macro|markets|finance|investing/.test(blob)) {
-        score -= 0.9;
+        score += /macro|markets|finance|investing|investment-thesis|secondary-analysis/.test(blob) ? 1.8 : -0.9;
       }
       if (/culture|institutions|housing|cities|public-health|psychology|religion|anthropology|political-economy|governance|software|craft|defense|osint|progress-studies|systems|provocative/.test(blob)) {
-        score += 1.6;
+        score += 0.4;
       }
       if (/secondary macro|macro analysis|single[-\s]?threaded|deep dive|investment thesis|sector|lyn alden|byrne hobart|david cervantes/.test(notes)) {
         if (/lyn alden|byrne hobart|the diff|david cervantes|pinebrook|newsletter|secondary-analysis|deep-dive|investment-thesis|sector/.test(blob)) {
@@ -1654,7 +1781,12 @@ async function tilePoem(feedbackWeights, recentIds) {
 async function tileLongRead(feedbackWeights, recentIds) {
   const dataset = loadWorkshopDataset('long-reads.json');
   if (dataset.length === 0) return null;
-  const best = rankWorkshop(dataset, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why']);
+  const macroPool = dataset.filter(c => {
+    const blob = `${c.title} ${c.source} ${c.frame} ${c.thesis} ${c.why} ${(c.tags ?? []).join(' ')}`.toLowerCase();
+    return /\b(macro|investing|investment|markets|finance|rates|energy|portfolio|capital allocation|sector|economics)\b/.test(blob);
+  });
+  const pool = macroPool.length ? macroPool : dataset;
+  const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why']);
   if (!best) return null;
   const longRead = toEditionItem(best);
   if (!longRead.title || !longRead.source || !longRead.thesis) throw new Error('long read missing title/source/thesis after rank');
@@ -1674,12 +1806,12 @@ async function tileAustinExplore(feedbackWeights, recentIds) {
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
 
 const KNOWN_FEEDS = {
+  'aeon':                'https://aeon.co/feed.rss',
+  'marginal revolution': 'https://marginalrevolution.com/feed',
+  'astral codex ten':    'https://astralcodexten.substack.com/feed',
   'works in progress':   'https://worksinprogress.co/feed',
   'stratechery':         'https://stratechery.com/feed/',
-  'astral codex ten':    'https://astralcodexten.substack.com/feed',
   'the diff':            'https://diff.substack.com/feed',
-  'marginal revolution': 'https://marginalrevolution.com/feed',
-  'aeon':                'https://aeon.co/feed.rss',
 };
 
 function parseRSSItems(xml) {
@@ -1811,14 +1943,15 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
   const prefer = hints.prefer.slice(0, 2);
   const avoidAi = profile.avoidAiFocused ? ' -AI -LLM -GenAI non-AI' : '';
   const queries = [
-    `best long-form essay 2026 ${[...prefer, topics[0]].filter(Boolean).join(' ')}${avoidAi}`.trim(),
-    profile.preferredQuery ? `fresh long-form ${profile.preferredQuery} analysis essay 2026${avoidAi}` : null,
-    topics[1] ? `in-depth article ${topics.slice(0, 2).join(' ')} ${prefer[0] ?? ''}${avoidAi}`.trim() : null,
+    `recent long-form essay politics religion society culture human interest 2026 ${prefer[0] ?? ''}${avoidAi}`.trim(),
+    profile.preferredQuery ? `fresh long-form ${profile.preferredQuery} society culture politics religion essay 2026${avoidAi}` : null,
+    topics[0] ? `in-depth social political cultural essay ${topics[0]} ${prefer[0] ?? ''}${avoidAi}`.trim() : null,
   ].filter(Boolean);
   const results = await webDiscovery.searchMany(queries, { perQuery: 5 });
   return results
     .filter(r => !profile.avoidHosts.some(h => hostOf(r.url).endsWith(h)))
     .filter(r => !isVideoHost(hostOf(r.url)))
+    .filter(r => !isBlockedReadingUrl(r.url))
     .map((r, i) => ({
       id:     `web-article-${hostOf(r.url)}-${i}`,
       title:  r.title,
@@ -2159,36 +2292,10 @@ async function main() {
     warn(`  surprise: ${e.message} — using fixture fallback`);
   }
 
-  // Phase 6 — Curated Investing / AI charts (dataset + LLM note/why)
-  let liveInvestingChart = null;
-  let liveAIChart        = null;
-  let aiChartSuppressed  = false;
-  const chartUsedIds     = youChart ? [`you-chart-${targetDate}`] : [];
-  try {
-    const result = await tileCuratedCharts(feedbackWeights, recentChartIds, contextFiles);
-    if (result) {
-      liveInvestingChart = result.investing ?? null;
-      liveAIChart        = result.ai        ?? null;
-      aiChartSuppressed  = !!result.aiSuppressed;
-      if (result.investingId) chartUsedIds.push(result.investingId);
-      if (result.aiId)        chartUsedIds.push(result.aiId);
-      log(`  curated charts: OK — investing:${!!liveInvestingChart} ai:${!!liveAIChart}${aiChartSuppressed ? ' (AI suppressed by feedback)' : ''}`);
-    }
-  } catch (e) {
-    warn(`  curated charts: ${e.message} — using fixture fallback`);
-  }
-
-  // Assemble charts: prefer live per topic, fall back to fixture.
-  const chartProfile = chartFeedbackProfile(feedbackWeights.chart ?? {});
-  const fixtureInvesting = (fixture.charts ?? []).find(c => c.topic === 'Investing' && !isRejectedChart(c, chartProfile)) ?? null;
-  const fixtureAI        = aiChartSuppressed || chartProfile.avoidAiFocused ? null : ((fixture.charts ?? []).find(c => c.topic === 'AI') ?? null);
-
-  let charts = [
-    liveInvestingChart ?? fixtureInvesting,
-    aiChartSuppressed ? null : (liveAIChart ?? fixtureAI),
-    youChart,
-  ].filter(Boolean);
-  if (charts.length === 0) charts = (fixture.charts ?? []).filter(c => !isRejectedChart(c, chartProfile));
+  // Phase 6 — Signal / chart tile disabled by policy until it earns its space.
+  const chartUsedIds = [];
+  const charts = [];
+  log('  charts: suppressed by Almanac policy');
 
   // Phase 7 — Guitar riff of the day (curated dataset + feedback-weighted rank)
   let riffs       = fixture.riffs ?? [];
@@ -2284,6 +2391,7 @@ async function main() {
     riffs,
     productionClips,
     poems,
+    macroRead: longReads[0] ?? fixture.macroRead ?? fixture.longReads?.[0],
     longReads,
     austinExplores,
   };
@@ -2302,7 +2410,7 @@ async function main() {
   log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
-  log(`  charts: ${edition.charts.length} (You:${youChart ? 'live' : 'fix'} Investing:${liveInvestingChart ? 'live' : 'fix'} AI:${aiChartSuppressed ? 'suppressed' : (liveAIChart ? 'live' : 'fix')})`);
+  log(`  charts: ${edition.charts.length} (suppressed)`);
   log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  poem: ${edition.poems?.[0]?.title?.slice(0, 40) ?? 'none'}${usedPoemIds.length ? ' (live)' : ' (fixture)'}`);

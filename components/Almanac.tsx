@@ -9,7 +9,7 @@ import austinExploreDataset from "@/lib/almanac-datasets/austin-explore.json";
 
 // ── Genre tokens ─────────────────────────────────────────────────────────────
 const GENRE = {
-  article:   { label: "Reading",  color: "oklch(0.55 0.08 70)" },
+  article:   { label: "Society & Ideas",  color: "oklch(0.55 0.08 70)" },
   venture:   { label: "Venture",  color: "oklch(0.55 0.08 150)" },
   image:     { label: "Look",     color: "oklch(0.55 0.09 30)" },
   chart:     { label: "Signal",   color: "oklch(0.55 0.08 250)" },
@@ -17,12 +17,12 @@ const GENRE = {
   riff:      { label: "Riff",     color: "oklch(0.55 0.12 25)" },
   production:{ label: "Studio",   color: "oklch(0.52 0.11 305)" },
   poem:      { label: "Poem",     color: "oklch(0.50 0.08 325)" },
-  longread:  { label: "Long read", color: "oklch(0.48 0.09 215)" },
+  longread:  { label: "Macro / Investing Read", color: "oklch(0.48 0.09 215)" },
   austin:    { label: "Explore Austin", color: "oklch(0.52 0.09 165)" },
 } as const;
 type Genre = keyof typeof GENRE;
 
-const DEFAULT_DEPT_ITEMS: Array<"article" | "venture" | "chart"> = ["article", "venture", "chart"];
+const DEFAULT_DEPT_ITEMS: Array<"article" | "longread-card" | "venture"> = ["article", "longread-card", "venture"];
 
 type AlmanacHeroImage = {
   title: string;
@@ -344,7 +344,7 @@ const NUANCE_CHIPS = ["too long","wrong vibe","seen it","love the source","go de
 const RIFF_CHIPS = ["more blues","more funk","more fingerstyle","too hard","too easy","love this riff"];
 const PRODUCTION_CHIPS = ["more Ableton","more sound design","more arrangement","too advanced","inspiring","not for me"];
 const POEM_CHIPS = ["more modernist","more religious","more political","too familiar","more beautiful"];
-const LONG_READ_CHIPS = ["more macro","more investing","more source-backed","too long","go deeper"];
+const LONG_READ_CHIPS = ["more macro","more investing","more source-backed","too primary-source","go deeper"];
 const AUSTIN_CHIPS = ["more family","more outdoors","more beautiful","closer to home","less obvious"];
 
 function fmtFeedbackTime(ms?: number) {
@@ -641,7 +641,7 @@ interface BlockProps {
 function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
   const lead = size === "lead";
   const item = { id: "article:" + d.article.title, genre: "article" as Genre, title: d.article.title, sub: d.article.source };
-  const disc = () => openThread?.({ type: "digest", id: "daily-article", title: d.article.title, summary: d.article.dek, category: "Daily reading" });
+  const disc = () => openThread?.({ type: "digest", id: "daily-article", title: d.article.title, summary: d.article.dek, category: "Society & Ideas reading" });
   const url = d.article.url;
   return (
     <div className="card-hoverable">
@@ -669,7 +669,7 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
             summary: d.article.dek,
             why: d.article.why,
             date,
-            themes: ["article", "daily reading"],
+            themes: ["society", "ideas", "daily reading"],
           }}
           compact={!lead}
         />
@@ -962,7 +962,7 @@ function LongReadBlock({ read, visibility, date, openThread, compact = false }: 
             summary: read.thesis,
             why: read.why,
             date,
-            themes: ["macro", "investing", "long read"],
+            themes: ["macro", "investing", "macro read"],
           }}
           compact={compact}
         />
@@ -1307,7 +1307,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const resolved: DailyData = {
     ...base,
     ventures: [base.ventures[((Math.floor(dayIdx / 3) % base.ventures.length) + base.ventures.length) % base.ventures.length]],
-    charts: [pick(base.charts, dayIdx)],
+    charts: base.charts?.length ? [pick(base.charts, dayIdx)] : [],
     surprises: [pick(base.surprises, dayIdx)],
   };
 
@@ -1319,14 +1319,14 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const riffPool = base.riffs?.length ? base.riffs : (daily.riffs ?? []);
   const clipPool = base.productionClips?.length ? base.productionClips : (daily.productionClips ?? []);
   const poemPool = base.poems?.length ? base.poems : (daily.poems?.length ? daily.poems : FALLBACK_POEMS);
-  const longReadPool = base.longReads?.length ? base.longReads : (daily.longReads?.length ? daily.longReads : FALLBACK_LONG_READS);
+  const longReadPool = base.macroRead ? [base.macroRead] : (base.longReads?.length ? base.longReads : (daily.longReads?.length ? daily.longReads : FALLBACK_LONG_READS));
   const austinExplorePool = base.austinExplores?.length ? base.austinExplores : (daily.austinExplores?.length ? daily.austinExplores : FALLBACK_AUSTIN_EXPLORES);
   const riff = riffPool.length ? pick(riffPool, dayIdx) : null;
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
   const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
   const austinExplore = enrichAustinExplore(austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null);
-  const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture", "chart"] : rest;
+  const deptItems: Array<"article" | "venture" | "chart" | "longread-card"> = longRead ? ["article", "longread-card", "venture"] : rest;
   const editionNo = resolved.edition || almanacEditionNumber(date);
   const curDate = dateForOffset(offset);
   const heroImage = heroImageForDate(dayIdx);
@@ -1491,12 +1491,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
 
       {/* Lead */}
       <div className={`almanac__content${isMobile ? " almanac__content--mobile" : ""}`}>
-        {austinExplore && (
-          <div className="almanacExploreWrap almanacExploreWrap--top">
-            <AustinExploreBlock explore={austinExplore} visibility={vis} date={date} openThread={openThread} />
-          </div>
-        )}
-
         {!isMobile && (poem || quote || parentQuote) && (
           <div className={`almanacOpeningStack${isMobile ? " almanacOpeningStack--mobile" : ""}`}>
             <QuoteCard quote={quote} label="On the mind" />
@@ -1544,6 +1538,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
               {riff && <RiffBlock riff={riff} visibility={vis} date={date} openThread={openThread} />}
               {clip && <ProductionBlock clip={clip} visibility={vis} date={date} openThread={openThread} />}
             </div>
+          </div>
+        )}
+
+        {austinExplore && (
+          <div className="almanacExploreWrap">
+            <AustinExploreBlock explore={austinExplore} visibility={vis} date={date} openThread={openThread} />
           </div>
         )}
 

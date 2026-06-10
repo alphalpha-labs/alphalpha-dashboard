@@ -1,5 +1,5 @@
 const GENRE_LABELS: Record<string, string> = {
-  article: "Reading",
+  article: "Society & Ideas",
   venture: "Venture",
   image: "Look",
   chart: "Signal",
@@ -7,7 +7,7 @@ const GENRE_LABELS: Record<string, string> = {
   riff: "Riff",
   production: "Studio",
   poem: "Poem",
-  longread: "Long read",
+  longread: "Macro / Investing Read",
   austin: "Explore Austin",
 };
 

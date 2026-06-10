@@ -1,6 +1,6 @@
 export function articleFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
-  const avoidHosts = [];
+  const avoidHosts = [...BLOCKED_READING_HOSTS];
   if (/\bx\.com\b|twitter\.com|twitter as a source/.test(notes)) {
     avoidHosts.push('x.com', 'twitter.com');
   }
@@ -25,6 +25,42 @@ export function articleFeedbackProfile(weights = {}) {
     preferTerms: preferred,
     preferredQuery: preferred.length ? preferred.join(' ') : '',
   };
+}
+
+export const BLOCKED_READING_HOSTS = [
+  'facebook.com',
+  'm.facebook.com',
+  'reddit.com',
+  'x.com',
+  'twitter.com',
+  'tiktok.com',
+  'instagram.com',
+  'threads.net',
+  'linkedin.com',
+  'quora.com',
+  'medium.com',
+  'youtube.com',
+  'youtu.be',
+  'vimeo.com',
+];
+
+export function isBlockedReadingUrl(url = '') {
+  let host = '';
+  let path = '';
+  try {
+    const parsed = new URL(url);
+    host = parsed.hostname.replace(/^www\./, '').toLowerCase();
+    path = parsed.pathname.toLowerCase();
+  } catch {
+    const lower = String(url).toLowerCase();
+    host = lower;
+    path = lower;
+  }
+
+  if (BLOCKED_READING_HOSTS.some(blocked => host === blocked || host.endsWith(`.${blocked}`))) return true;
+  if (/\/(?:groups|events|pages|profile|people)\//.test(path) && /facebook/.test(host)) return true;
+  if (/\.(?:pdf|ppt|pptx|doc|docx)(?:$|[?#])/.test(path)) return true;
+  return false;
 }
 
 export function wantsLessAiFocus(notes = '') {

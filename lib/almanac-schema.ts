@@ -158,6 +158,7 @@ export const DailyDataSchema = z.object({
   riffs:           z.array(DailyRiffSchema).optional(),
   productionClips: z.array(DailyProductionClipSchema).optional(),
   poems:           z.array(DailyPoemSchema).optional(),
+  macroRead:       DailyLongReadSchema.optional(),
   longReads:       z.array(DailyLongReadSchema).optional(),
   austinExplores:  z.array(DailyAustinExploreSchema).optional(),
 });

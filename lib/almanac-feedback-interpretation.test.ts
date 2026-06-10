@@ -35,7 +35,7 @@ describe("buildAlmanacFeedbackInterpretation", () => {
     });
 
     expect(article).toContain("hard avoid");
-    expect(article).toContain("AI-focused Reading");
+    expect(article).toContain("AI-focused Society & Ideas");
     expect(chart).toContain("hard avoid");
     expect(chart).toContain("AI-focused Signal");
   });
