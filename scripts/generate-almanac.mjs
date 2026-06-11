@@ -1848,17 +1848,18 @@ async function tileAustinExplore(feedbackWeights, recentIds) {
 // ── Phase 6 Article sourcer: RSS feeds ────────────────────────────────────────
 
 const KNOWN_FEEDS = {
+  'compact':             'https://www.compactmag.com/rss/',
   'aeon':                'https://aeon.co/feed.rss',
+  'works in progress':   'https://worksinprogress.co/rss.xml',
   'marginal revolution': 'https://marginalrevolution.com/feed',
   'astral codex ten':    'https://astralcodexten.substack.com/feed',
-  'works in progress':   'https://worksinprogress.co/feed',
   'stratechery':         'https://stratechery.com/feed/',
   'the diff':            'https://diff.substack.com/feed',
 };
 
 function parseRSSItems(xml) {
   const items = [];
-  const re = /<(?:item|entry)(?: [^>]*)?>( [\s\S]*?)<\/(?:item|entry)>/g;
+  const re = /<(?:item|entry)(?: [^>]*)?>([\s\S]*?)<\/(?:item|entry)>/g;
   let m;
   while ((m = re.exec(xml)) !== null) {
     const block = m[1];

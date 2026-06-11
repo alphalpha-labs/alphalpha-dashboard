@@ -106,7 +106,8 @@ Paid / rate-limited market-data APIs (FRED, EIA, news APIs, recipe APIs) are
 ### 3.1 Reading (article)
 - **Sourcer:** reuse the workspace **Article Queue** + **article-candidates**
   already parsed by `buildQueues()` in the dashboard generator. (Phase 2: add RSS
-  pulls for kept sources, e.g. Works in Progress.)
+  pulls for kept sources, e.g. Compact Magazine and Works in Progress; Compact is
+  a strong example source for social/political essays, not an exclusive lane.)
 - **Ranker:** overlap with current open loops / projects + source-affinity from
   kept articles; dedup vs. recent editions.
 - **Composer:** LLM writes `dek` + `why` (ties the piece to a *current* loop);
