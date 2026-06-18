@@ -65,6 +65,8 @@ import {
   isAiToolingText,
   isArticleIndexText,
   isReadingBadFormatText,
+  normalizeReadingPublishedDate,
+  readingFreshnessScore,
   isVideoHost,
   wantsLessAiFocus,
   workshopNoteTerms,
@@ -584,6 +586,7 @@ function sourceArticleCandidates() {
         status: fm.status || 'Queued',
         source: fm.source || fm.publication || null,
         link:   fm.url || parseMarkdownLink(text) || null,
+        publishedAt: normalizeReadingPublishedDate(fm.publishedAt || fm.published || fm.date || ''),
         why,
         themes: Array.isArray(fm.themes) ? fm.themes : [],
       };
@@ -609,6 +612,7 @@ function sourceSocietyArticleCandidates() {
       status: 'Queued',
       source: read.source,
       link:   read.url,
+      publishedAt: normalizeReadingPublishedDate(read.publishedAt || read.date || ''),
       why:    read.thesis || read.why,
       themes: read.tags ?? [],
     }))
@@ -655,6 +659,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
+    score += readingFreshnessScore(c, targetDate);
     if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
     if (c.link && isBlockedReadingUrl(c.link)) score -= 100;
     if (isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
@@ -685,6 +690,23 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
   return scored[0].score < -5 ? null : scored[0]; // all deduped → null → fixture
 }
 
+function formatReadingDate(dateIso) {
+  if (!dateIso) return '';
+  const d = new Date(`${dateIso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return '';
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+  }).format(d);
+}
+
+function withReadingDate(readTime, publishedLabel) {
+  const cleanReadTime = String(readTime || '8 min').trim();
+  if (!publishedLabel || cleanReadTime.includes(publishedLabel)) return cleanReadTime;
+  return `${cleanReadTime} · ${publishedLabel}`;
+}
+
 async function composeArticle(candidate, contextFiles) {
   const { openLoopsText, projectsText } = contextFiles;
 
@@ -693,6 +715,8 @@ async function composeArticle(candidate, contextFiles) {
                     'foreign affairs', 'n+1', 'harpers', 'london review'];
   const isLong = longForm.some(s => candidate.source?.toLowerCase().includes(s));
   const fallbackReadTime = isLong ? '12 min' : '8 min';
+  const publishedAt = normalizeReadingPublishedDate(candidate.publishedAt || candidate.date || '');
+  const publishedLabel = formatReadingDate(publishedAt);
 
   const loops    = extractBullets(openLoopsText).slice(0, 8).join('\n') || '(none available)';
   const projects = (projectsText.match(/^##\s+\d+\.\s+(.+)$/gm) ?? [])
@@ -732,7 +756,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   const article = {
     kicker:   'Society & Ideas',
     source:   candidate.source ?? 'Unknown',
-    readTime: composed?.readTime ?? fallbackReadTime,
+    readTime: withReadingDate(composed?.readTime ?? fallbackReadTime, publishedLabel),
     title:    candidate.title,
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
@@ -1877,12 +1901,16 @@ function parseRSSItems(xml) {
     const desc = (
       block.match(/<(?:description|summary|content:encoded)[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/(?:description|summary|content:encoded)>/)?.[1] ?? ''
     ).replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, ' ').slice(0, 300).trim();
+    const publishedAt = normalizeReadingPublishedDate(
+      block.match(/<(?:pubDate|published|updated|dc:date)[^>]*>([\s\S]*?)<\/(?:pubDate|published|updated|dc:date)>/)?.[1] ?? ''
+    );
 
     if (title && link) {
       items.push({
         title: title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<[^>]+>/g, '').trim(),
         link,
         desc,
+        publishedAt,
       });
     }
   }
@@ -1933,6 +1961,7 @@ async function sourceRSSCandidates(feedbackWeights) {
         status: 'Queued',
         source,
         link:   item.link,
+        publishedAt: item.publishedAt,
         why:    item.desc || `Recent piece from ${source}.`,
         themes: [],
       });
@@ -2001,6 +2030,7 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
       status: 'Queued',
       source: hostOf(r.url),
       link:   r.url,
+      publishedAt: normalizeReadingPublishedDate(r.date || ''),
       why:    (r.snippet || '').slice(0, 200) || 'Surfaced via daily web discovery.',
       themes: [],
     }))

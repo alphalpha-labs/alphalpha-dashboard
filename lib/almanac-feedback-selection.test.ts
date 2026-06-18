@@ -8,6 +8,8 @@ import {
   isArticleIndexText,
   isReadingBadFormatText,
   isVideoHost,
+  normalizeReadingPublishedDate,
+  readingFreshnessScore,
   workshopNoteTerms,
 } from "../scripts/lib/almanac-feedback-selection.mjs";
 
@@ -46,6 +48,17 @@ describe("almanac feedback selection gates", () => {
     expect(imageFeedbackProfile({
       notes: ["The sourcing here looks quite off; the caption does not match the image."],
     }).avoidCommons).toBe(true);
+  });
+
+  it("normalizes and scores Reading freshness", () => {
+    expect(normalizeReadingPublishedDate("Tue, 16 Jun 2026 12:00:00 GMT")).toBe("2026-06-16");
+    expect(normalizeReadingPublishedDate("2026-06-01T08:30:00-05:00")).toBe("2026-06-01");
+    expect(normalizeReadingPublishedDate("not a date")).toBeNull();
+
+    expect(readingFreshnessScore({ publishedAt: "2026-06-17" }, "2026-06-18")).toBeGreaterThan(
+      readingFreshnessScore({ publishedAt: "2026-03-01" }, "2026-06-18"),
+    );
+    expect(readingFreshnessScore({ publishedAt: "2024-01-01" }, "2026-06-18")).toBeLessThan(0);
   });
 
   it("extracts simple more/less terms from workshop notes", () => {

@@ -107,6 +107,45 @@ export function isReadingBadFormatText(text = '') {
     || /\.pdf(?:$|[?#])/.test(lower);
 }
 
+export function normalizeReadingPublishedDate(value = '') {
+  const raw = String(value ?? '').trim();
+  if (!raw) return null;
+
+  const parsed = new Date(raw);
+  if (!Number.isNaN(parsed.getTime())) return parsed.toISOString().slice(0, 10);
+
+  const relative = raw.toLowerCase().match(/\b(\d{1,3})\s+(day|week|month|year)s?\s+ago\b/);
+  if (!relative) return null;
+
+  const amount = Number(relative[1]);
+  const unit = relative[2];
+  const days = unit === 'year' ? amount * 365
+    : unit === 'month' ? amount * 30
+    : unit === 'week' ? amount * 7
+    : amount;
+  const d = new Date(Date.now() - days * 86_400_000);
+  return d.toISOString().slice(0, 10);
+}
+
+export function readingFreshnessScore(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
+  const publishedAt = normalizeReadingPublishedDate(candidate.publishedAt ?? candidate.date ?? '');
+  if (!publishedAt) return 0;
+
+  const published = new Date(`${publishedAt}T00:00:00Z`).getTime();
+  const target = new Date(`${targetDate}T00:00:00Z`).getTime();
+  if (Number.isNaN(published) || Number.isNaN(target)) return 0;
+
+  const ageDays = Math.round((target - published) / 86_400_000);
+  if (ageDays < -7) return -1.5;
+  if (ageDays < 0) return 0.3;
+  if (ageDays <= 3) return 1.8;
+  if (ageDays <= 14) return 1.2;
+  if (ageDays <= 45) return 0.6;
+  if (ageDays <= 120) return 0.15;
+  if (ageDays > 540) return -0.8;
+  return 0;
+}
+
 export function imageFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
   return {
