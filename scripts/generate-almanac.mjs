@@ -64,6 +64,7 @@ import {
   isAiFocusedText,
   isAiToolingText,
   isArticleIndexText,
+  isGenericReadingUrl,
   isReadingBadFormatText,
   isReadingAlreadyUsedStatus,
   normalizeReadingPublishedDate,
@@ -262,6 +263,9 @@ function runAlmanacQa(data) {
 
   if (data.article?.url && isBlockedReadingUrl(data.article.url)) {
     failures.push(`Society & Ideas article uses blocked source: ${data.article.url}`);
+  }
+  if (data.article?.url && isGenericReadingUrl(data.article.url)) {
+    failures.push(`Society & Ideas article needs an exact article URL, not a generic publication page: ${data.article.url}`);
   }
   if (macroRead?.url && isBlockedReadingUrl(macroRead.url)) {
     failures.push(`Macro / Investing read uses blocked source: ${macroRead.url}`);
@@ -617,6 +621,7 @@ function sourceArticleCandidates() {
     // Skip anything already read, sent, dismissed, or picked by the weekly recommender.
     .filter(c => !isReadingAlreadyUsedStatus(c.status))
     .filter(c => !c.link || !isBlockedReadingUrl(c.link))
+    .filter(c => !c.link || !isGenericReadingUrl(c.link))
     .filter(c => !isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`))
     .filter(c => !isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`));
 }
@@ -639,7 +644,7 @@ function sourceSocietyArticleCandidates() {
       why:    read.thesis || read.why,
       themes: read.tags ?? [],
     }))
-    .filter(c => c.title && (!c.link || !isBlockedReadingUrl(c.link)));
+    .filter(c => c.title && (!c.link || (!isBlockedReadingUrl(c.link) && !isGenericReadingUrl(c.link))));
 }
 
 function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, projectsText) {
@@ -685,6 +690,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     score += readingFreshnessScore(c, targetDate);
     if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
     if (c.link && isBlockedReadingUrl(c.link)) score -= 100;
+    if (c.link && isGenericReadingUrl(c.link)) score -= 100;
     if (isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
     if (isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`)) score -= 100;
     if (c.link && feedbackProfile.avoidHosts.some(h => hostOf(c.link).endsWith(h))) score -= 3;
@@ -1992,7 +1998,7 @@ async function sourceRSSCandidates(feedbackWeights) {
     }
   }
 
-  return candidates;
+  return candidates.filter(c => !c.link || !isGenericReadingUrl(c.link));
 }
 
 // ── Tile pipeline runner ─────────────────────────────────────────────────────
@@ -2048,6 +2054,7 @@ async function webSourceArticles(feedbackWeights, contextFiles) {
     .filter(r => !profile.avoidHosts.some(h => hostOf(r.url).endsWith(h)))
     .filter(r => !isVideoHost(hostOf(r.url)))
     .filter(r => !isBlockedReadingUrl(r.url))
+    .filter(r => !isGenericReadingUrl(r.url))
     .map((r, i) => ({
       id:     `web-article-${hostOf(r.url)}-${i}`,
       title:  r.title,

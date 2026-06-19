@@ -6,6 +6,7 @@ import {
   imageFeedbackProfile,
   isAiToolingText,
   isArticleIndexText,
+  isGenericReadingUrl,
   isReadingBadFormatText,
   isReadingAlreadyUsedStatus,
   isVideoHost,
@@ -39,6 +40,14 @@ describe("almanac feedback selection gates", () => {
     expect(isBlockedReadingUrl("https://www.facebook.com/groups/austinreadingclub")).toBe(true);
     expect(isBlockedReadingUrl("https://reddit.com/r/PoliticalDiscussion/comments/abc")).toBe(true);
     expect(isBlockedReadingUrl("https://www.theatlantic.com/ideas/archive/example")).toBe(false);
+  });
+
+  it("rejects generic publication pages as Reading source links", () => {
+    expect(isGenericReadingUrl("https://worksinprogress.co/")).toBe(true);
+    expect(isGenericReadingUrl("https://example.com/ideas")).toBe(true);
+    expect(isGenericReadingUrl("https://example.com/tag/politics")).toBe(true);
+    expect(isGenericReadingUrl("https://www.guernicamag.com/rebecca-solnit-men-explain-things-to-me/")).toBe(false);
+    expect(isGenericReadingUrl("https://www.theatlantic.com/ideas/archive/2022/01/scarcity-crisis-college-housing-health-care/621221/")).toBe(false);
   });
 
   it("treats previously delivered Reading statuses as spent inventory", () => {

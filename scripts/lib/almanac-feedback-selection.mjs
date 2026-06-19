@@ -63,6 +63,25 @@ export function isBlockedReadingUrl(url = '') {
   return false;
 }
 
+export function isGenericReadingUrl(url = '') {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return false;
+  }
+
+  const path = parsed.pathname.replace(/\/+/g, '/').replace(/\/$/, '');
+  if (!path) return true;
+
+  const segments = path.split('/').filter(Boolean).map(segment => segment.toLowerCase());
+  if (segments.length === 0) return true;
+  if (/^(category|categories|search|tag|tags|topic|topics)$/.test(segments[0])) return true;
+  if (segments.length > 1) return false;
+
+  return /^(archive|archives|articles?|blog|category|columns?|essays?|features?|ideas|issue|issues|magazine|news|opinion|posts?|search|sections?|tag|tags|topics?)$/.test(segments[0]);
+}
+
 export function wantsLessAiFocus(notes = '') {
   return /\b(less|no|not|avoid|stop)\s+(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric|articles?|signals?|charts?|states?|stuff|content)?\b/.test(notes)
     || (/\b(?:ai|a\.i\.|artificial intelligence|genai|llm|machine learning)[-\s]*(?:focused|centric)\b/.test(notes) && /\b(less|no|not|avoid|stop)\b/.test(notes))
