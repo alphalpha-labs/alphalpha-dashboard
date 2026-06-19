@@ -107,6 +107,10 @@ export function isReadingBadFormatText(text = '') {
     || /\.pdf(?:$|[?#])/.test(lower);
 }
 
+export function isReadingAlreadyUsedStatus(status = '') {
+  return /\b(?:read|done|dismissed|weekly-pick|sent|delivered|kindle packet|instapaper)\b/i.test(String(status ?? ''));
+}
+
 export function normalizeReadingPublishedDate(value = '') {
   const raw = String(value ?? '').trim();
   if (!raw) return null;

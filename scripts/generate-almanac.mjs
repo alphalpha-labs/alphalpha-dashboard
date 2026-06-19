@@ -65,6 +65,7 @@ import {
   isAiToolingText,
   isArticleIndexText,
   isReadingBadFormatText,
+  isReadingAlreadyUsedStatus,
   normalizeReadingPublishedDate,
   readingFreshnessScore,
   isVideoHost,
@@ -352,6 +353,28 @@ function linkKey(url = '') {
   }
 }
 
+function articleQueueHistoryIds() {
+  const rel = path.join('obsidian-vault', 'Alphalpha', 'Syntheses', 'Reading', 'Article Queue.md');
+  let text = '';
+  for (const base of [workspaceRoot, path.dirname(workspaceRoot)]) {
+    const p = path.join(base, rel);
+    if (fs.existsSync(p)) {
+      text = fs.readFileSync(p, 'utf8');
+      break;
+    }
+  }
+  if (!text) return [];
+
+  const ids = new Set();
+  for (const line of text.split(/\r?\n/)) {
+    if (!/weekly-pick|kindle packet|delivery audit|weekly-article-audit/i.test(line)) continue;
+    const wikiTitle = line.match(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/)?.[1];
+    if (wikiTitle) ids.add(`title:${titleKey(wikiTitle)}`);
+    for (const url of line.match(/https?:\/\/[^\s|)]+/g) ?? []) ids.add(linkKey(url));
+  }
+  return [...ids];
+}
+
 async function recordUsed(genre, ids, date) {
   try {
     const key      = `alphalpha:almanac:history:${genre}`;
@@ -591,8 +614,8 @@ function sourceArticleCandidates() {
         themes: Array.isArray(fm.themes) ? fm.themes : [],
       };
     })
-    // Skip anything already read or dismissed.
-    .filter(c => !/^(read|done|dismissed)/i.test(c.status))
+    // Skip anything already read, sent, dismissed, or picked by the weekly recommender.
+    .filter(c => !isReadingAlreadyUsedStatus(c.status))
     .filter(c => !c.link || !isBlockedReadingUrl(c.link))
     .filter(c => !isArticleIndexText(`${c.title} ${c.why} ${c.link ?? ''}`))
     .filter(c => !isReadingBadFormatText(`${c.title} ${c.why} ${c.link ?? ''}`));
@@ -781,8 +804,9 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
   ];
   if (candidates.length === 0) return null;
 
+  const articleRecentIds = [...new Set([...recentIds, ...articleQueueHistoryIds()])];
   const best = rankArticle(
-    candidates, feedbackWeights, recentIds,
+    candidates, feedbackWeights, articleRecentIds,
     contextFiles.openLoopsText, contextFiles.projectsText,
   );
   if (!best) return null;

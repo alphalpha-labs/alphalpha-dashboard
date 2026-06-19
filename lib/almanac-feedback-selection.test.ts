@@ -7,6 +7,7 @@ import {
   isAiToolingText,
   isArticleIndexText,
   isReadingBadFormatText,
+  isReadingAlreadyUsedStatus,
   isVideoHost,
   normalizeReadingPublishedDate,
   readingFreshnessScore,
@@ -38,6 +39,12 @@ describe("almanac feedback selection gates", () => {
     expect(isBlockedReadingUrl("https://www.facebook.com/groups/austinreadingclub")).toBe(true);
     expect(isBlockedReadingUrl("https://reddit.com/r/PoliticalDiscussion/comments/abc")).toBe(true);
     expect(isBlockedReadingUrl("https://www.theatlantic.com/ideas/archive/example")).toBe(false);
+  });
+
+  it("treats previously delivered Reading statuses as spent inventory", () => {
+    expect(isReadingAlreadyUsedStatus("weekly-pick-2026-06-19")).toBe(true);
+    expect(isReadingAlreadyUsedStatus("Kindle packet only")).toBe(true);
+    expect(isReadingAlreadyUsedStatus("Queued")).toBe(false);
   });
 
   it("turns image sourcing complaints into a Commons avoidance signal", () => {
