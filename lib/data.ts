@@ -566,6 +566,8 @@ export type DailyLongRead = {
   frame: string;
   thesis: string;
   why: string;
+  publishedAt?: string;
+  freshnessLabel?: string;
   url?: string;
   sourceLabel?: string;
 };

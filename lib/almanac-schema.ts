@@ -78,6 +78,8 @@ export const DailyLongReadSchema = z.object({
   frame:       z.string().min(1),
   thesis:      z.string().min(1),
   why:         z.string().min(1),
+  publishedAt: z.string().optional(),
+  freshnessLabel: z.string().optional(),
   url:         z.string().url().optional(),
   sourceLabel: z.string().optional(),
 });

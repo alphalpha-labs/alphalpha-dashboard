@@ -939,11 +939,13 @@ function ArticleSaveButton({ itemId, payload, compact = false }: { itemId: strin
 function LongReadBlock({ read, visibility, date, openThread, compact = false }: { read: DailyLongRead; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void; compact?: boolean }) {
   const item = { id: "longread:" + read.title, genre: "longread" as Genre, title: read.title, sub: read.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-longread", title: read.title, summary: read.thesis, category: "Macro / investment thesis" });
+  const meta = [read.freshnessLabel, read.sourceLabel].filter(Boolean).join(" · ");
   return (
     <div className={`card-hoverable${compact ? "" : " almanacShelfCard"}`}>
       <Kicker genre="longread" extra={`${read.source} · ${read.readTime}`} />
       <div className="almanacShelfTitle">{read.title}</div>
       <div className="almanacShelfByline">{read.frame}</div>
+      {meta && <div className="almanacSourceContext">{meta}</div>}
       <p className="almanacShelfThesis">{read.thesis}</p>
       <WhyLine text={read.why} />
       {read.url && (

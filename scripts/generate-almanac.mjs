@@ -1840,6 +1840,18 @@ function toEditionItem(candidate) {
   return item;
 }
 
+function decorateLongReadMetadata(read, candidate) {
+  const publishedAt = normalizeReadingPublishedDate(candidate?.publishedAt || candidate?.date || read.publishedAt || read.date || '');
+  const freshnessLabel = publishedAt
+    ? `Published ${formatReadingDate(publishedAt)}`
+    : 'Evergreen read';
+  return {
+    ...read,
+    ...(publishedAt ? { publishedAt } : {}),
+    freshnessLabel,
+  };
+}
+
 async function tileRiff(feedbackWeights, recentIds) {
   const dataset = loadWorkshopDataset('riffs.json');
   const web = await webSourceRiffs(feedbackWeights).catch(() => []);
@@ -1884,7 +1896,7 @@ async function tileLongRead(feedbackWeights, recentIds) {
   const pool = macroPool.length ? macroPool : dataset;
   const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why']);
   if (!best) return null;
-  const longRead = toEditionItem(best);
+  const longRead = decorateLongReadMetadata(toEditionItem(best), best);
   if (!longRead.title || !longRead.source || !longRead.thesis) throw new Error('long read missing title/source/thesis after rank');
   return { longRead, usedId: `longread-${best.id}` };
 }

@@ -1910,6 +1910,7 @@ input { font-family: inherit; }
   --genre-signal:   oklch(0.55 0.08 250);
   --genre-look:     oklch(0.55 0.09 30);
   --genre-surprise: oklch(0.62 0.10 70);
+  --genre-longread: oklch(0.48 0.09 215);
   --genre-austin:   oklch(0.52 0.09 165);
   --gold:           #c8a23a;
   --gold-light:     #d8b86a;
@@ -2418,7 +2419,22 @@ input { font-family: inherit; }
   margin-bottom: 4px;
   text-wrap: balance;
 }
-.almanacShelfByline { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #b0a080; letter-spacing: .04em; margin-bottom: 12px; }
+.almanacShelfByline { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #b0a080; letter-spacing: .04em; margin-bottom: 8px; }
+.almanacSourceContext {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 12px;
+  padding: 3px 7px;
+  border: 1px solid color-mix(in oklch, var(--genre-longread) 26%, var(--border));
+  border-radius: 999px;
+  color: #625843;
+  background: color-mix(in oklch, var(--genre-longread) 7%, #fffaf1);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  line-height: 1.25;
+  letter-spacing: .03em;
+}
 .almanacPoemExcerpt {
   margin: 0 0 12px;
   font-family: 'Lora', Georgia, serif;
