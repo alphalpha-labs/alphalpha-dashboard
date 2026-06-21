@@ -595,7 +595,7 @@ export type DailyAustinExplore = {
 export type DailyData = {
   edition:         string;
   image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
-  article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string; url?: string };
+  article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string; publishedAt?: string; freshnessLabel?: string; url?: string; sourceLabel?: string };
   ventures:        DailyVenture[];
   charts:          DailyChart[];
   quotes:          { text: string; source: string }[];

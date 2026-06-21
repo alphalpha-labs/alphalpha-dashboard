@@ -789,9 +789,14 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     title:    candidate.title,
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
+    freshnessLabel: publishedAt ? `Published ${publishedLabel}` : 'Evergreen read',
   };
   // Link out to the source so the Reading tile is clickable (RSS/workspace candidates carry a URL).
-  if (candidate.link && /^https?:\/\//.test(candidate.link)) article.url = candidate.link;
+  if (publishedAt) article.publishedAt = publishedAt;
+  if (candidate.link && /^https?:\/\//.test(candidate.link)) {
+    article.url = candidate.link;
+    article.sourceLabel = hostOf(candidate.link);
+  }
   return article;
 }
 

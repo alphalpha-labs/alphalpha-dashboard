@@ -643,6 +643,7 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
   const item = { id: "article:" + d.article.title, genre: "article" as Genre, title: d.article.title, sub: d.article.source };
   const disc = () => openThread?.({ type: "digest", id: "daily-article", title: d.article.title, summary: d.article.dek, category: "Society & Ideas reading" });
   const url = d.article.url;
+  const meta = [d.article.freshnessLabel, d.article.sourceLabel].filter(Boolean).join(" · ");
   return (
     <div className="card-hoverable">
       <Kicker genre="article" extra={lead ? `${d.article.source} · ${d.article.readTime}` : d.article.source} />
@@ -652,6 +653,7 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
         <div className={`almanacHeadline almanacHeadline--${size}`}>{d.article.title}</div>
       )}
       <div className={`almanacDek almanacDek--${size}`}>{d.article.dek}</div>
+      {meta && <div className={`almanacArticleMeta${lead ? "" : " almanacArticleMeta--dept"}`}>{meta}</div>}
       {lead && <WhyLine text={d.article.why} />}
       {url && (
         <a href={url} target="_blank" rel="noopener noreferrer" className={`almanacReadLink${lead ? "" : " almanacReadLink--dept"}`}>

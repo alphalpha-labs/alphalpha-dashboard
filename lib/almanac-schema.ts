@@ -143,7 +143,10 @@ export const DailyArticleSchema = z.object({
   title:    z.string().min(1),
   dek:      z.string().min(1),
   why:      z.string().min(1),
+  publishedAt: z.string().optional(),
+  freshnessLabel: z.string().optional(),
   url:      z.string().url().optional(),
+  sourceLabel: z.string().optional(),
 });
 
 // ── Root schema ──────────────────────────────────────────────────────────────
