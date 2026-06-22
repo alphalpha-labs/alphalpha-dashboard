@@ -882,16 +882,20 @@ function PoemBlock({ poem, visibility, date, openThread }: { poem: DailyPoem; vi
   const item = { id: "poem:" + poem.title, genre: "poem" as Genre, title: poem.title, sub: poem.poet };
   const disc = () => openThread?.({ type: "digest", id: "daily-poem", title: poem.title, summary: poem.note, category: "Poem" });
   const excerpt = <blockquote className="almanacPoemExcerpt">&ldquo;{poem.excerpt}&rdquo;</blockquote>;
+  const meta = [poem.era, poem.sourceLabel].filter(Boolean).join(" · ");
   return (
     <div className="card-hoverable almanacShelfCard almanacShelfCard--poem">
       <Kicker genre="poem" extra={poem.era || poem.poet} />
       <div className="almanacShelfTitle">{poem.title}</div>
       <div className="almanacShelfByline">{poem.poet}</div>
+      {meta && <div className="almanacSourceContext almanacSourceContext--poem">{meta}</div>}
       {poem.sourceUrl ? (
         <a href={poem.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacPoemExcerptLink" aria-label={`Read ${poem.title} by ${poem.poet}`}>
           {excerpt}
         </a>
       ) : excerpt}
+      <p className="almanacPoemNote">{poem.note}</p>
+      <WhyLine label="Why this poem:" text={poem.why} />
       <TuneStrip visibility={visibility} compact item={item} date={date} chips={POEM_CHIPS} onDiscuss={disc} />
     </div>
   );
