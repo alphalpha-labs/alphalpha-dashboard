@@ -1756,7 +1756,7 @@ function loadWorkshopDataset(file) {
 // Feedback-weighted ranker shared by both workshop tiles. Learns toward genres /
 // techniques the reader reacts well to ("more blues", kept items) and away from
 // recently-shown clips. `matchKeys` are the candidate fields prefs are matched against.
-function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) {
+function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys, options = {}) {
   if (candidates.length === 0) return null;
   const w = genreWeights ?? {};
   const chipTallies = w.chipTallies ?? {};
@@ -1827,6 +1827,10 @@ function rankWorkshop(candidates, genreWeights, recentIds, idPrefix, matchKeys) 
       if (levelDrift < 0 && dr === 2) score -= 3;
     }
 
+    if (typeof options.adjustScore === 'function') {
+      score += options.adjustScore(c, { blob, idPrefix });
+    }
+
     // Deterministic daily rotation as the tiebreak.
     score += ((hash + i) % candidates.length) * 0.001;
     return { ...c, score };
@@ -1855,6 +1859,35 @@ function decorateLongReadMetadata(read, candidate) {
     ...(publishedAt ? { publishedAt } : {}),
     freshnessLabel,
   };
+}
+
+function normalizedReadingSourceKey(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/^www\./, '')
+    .replace(/\.(com|org|net|co|io|ai)$/, '')
+    .replace(/[^a-z0-9]+/g, '')
+    .trim();
+}
+
+function readingSourceKeys(read) {
+  const keys = new Set();
+  for (const value of [read?.source, read?.sourceLabel]) {
+    const key = normalizedReadingSourceKey(value);
+    if (key) keys.add(key);
+  }
+  const url = read?.url ?? read?.link;
+  if (url) {
+    const host = normalizedReadingSourceKey(hostOf(url));
+    if (host) keys.add(host);
+  }
+  return keys;
+}
+
+function sharesReadingSource(candidate, selectedRead) {
+  const selectedKeys = readingSourceKeys(selectedRead);
+  if (selectedKeys.size === 0) return false;
+  return [...readingSourceKeys(candidate)].some(key => selectedKeys.has(key));
 }
 
 async function tileRiff(feedbackWeights, recentIds) {
@@ -1891,7 +1924,7 @@ async function tilePoem(feedbackWeights, recentIds) {
   return { poem, usedId: `poem-${best.id}` };
 }
 
-async function tileLongRead(feedbackWeights, recentIds) {
+async function tileLongRead(feedbackWeights, recentIds, selectedArticle = null) {
   const dataset = loadWorkshopDataset('long-reads.json');
   if (dataset.length === 0) return null;
   const macroPool = dataset.filter(c => {
@@ -1899,7 +1932,9 @@ async function tileLongRead(feedbackWeights, recentIds) {
     return /\b(macro|investing|investment|markets|finance|rates|energy|portfolio|capital allocation|sector|economics)\b/.test(blob);
   });
   const pool = macroPool.length ? macroPool : dataset;
-  const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why']);
+  const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why'], {
+    adjustScore: candidate => sharesReadingSource(candidate, selectedArticle) ? -4 : 0,
+  });
   if (!best) return null;
   const longRead = decorateLongReadMetadata(toEditionItem(best), best);
   if (!longRead.title || !longRead.source || !longRead.thesis) throw new Error('long read missing title/source/thesis after rank');
@@ -2470,7 +2505,7 @@ async function main() {
   let longReads       = fixture.longReads ?? [];
   let usedLongReadIds = [];
   try {
-    const result = await tileLongRead(feedbackWeights, recentLongReadIds);
+    const result = await tileLongRead(feedbackWeights, recentLongReadIds, article);
     if (result) {
       longReads = [result.longRead];
       usedLongReadIds = [result.usedId];
