@@ -654,6 +654,7 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
       )}
       <div className={`almanacDek almanacDek--${size}`}>{d.article.dek}</div>
       {meta && <div className={`almanacArticleMeta${lead ? "" : " almanacArticleMeta--dept"}`}>{meta}</div>}
+      {lead && d.article.sourceContext && <div className="almanacSourceContext almanacSourceContext--article">{d.article.sourceContext}</div>}
       {lead && <WhyLine text={d.article.why} />}
       {url && (
         <a href={url} target="_blank" rel="noopener noreferrer" className={`almanacReadLink${lead ? "" : " almanacReadLink--dept"}`}>
@@ -952,6 +953,7 @@ function LongReadBlock({ read, visibility, date, openThread, compact = false }: 
       <div className="almanacShelfTitle">{read.title}</div>
       <div className="almanacShelfByline">{read.frame}</div>
       {meta && <div className="almanacSourceContext">{meta}</div>}
+      {read.sourceContext && <div className="almanacSourceContext almanacSourceContext--context">{read.sourceContext}</div>}
       <p className="almanacShelfThesis">{read.thesis}</p>
       <WhyLine text={read.why} />
       {read.url && (

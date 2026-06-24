@@ -730,6 +730,41 @@ function formatReadingDate(dateIso) {
   }).format(d);
 }
 
+function readingAgeDays(dateIso, relativeDateIso = targetDate) {
+  if (!dateIso || !relativeDateIso) return null;
+  const published = new Date(`${dateIso}T00:00:00Z`);
+  const relative = new Date(`${relativeDateIso}T00:00:00Z`);
+  if (Number.isNaN(published.getTime()) || Number.isNaN(relative.getTime())) return null;
+  return Math.max(0, Math.round((relative - published) / 86_400_000));
+}
+
+function describeReadingAge(publishedAt) {
+  const days = readingAgeDays(publishedAt);
+  if (days === null) return 'evergreen';
+  if (days === 0) return 'published today';
+  if (days === 1) return '1 day old';
+  if (days < 45) return `${days} days old`;
+  const months = Math.max(1, Math.round(days / 30));
+  return `${months} months old`;
+}
+
+function readingProvenanceLabel(candidate) {
+  const id = String(candidate?.id || '');
+  if (id.startsWith('web-article-')) return 'fresh web discovery';
+  if (id.startsWith('rss-')) return 'fresh RSS source';
+  if (id.startsWith('articles-')) return 'saved reading queue';
+  if (id.startsWith('society-curated-')) return 'curated society library';
+  return 'curated source';
+}
+
+function articleSourceContext(candidate, publishedAt) {
+  const age = describeReadingAge(publishedAt);
+  const provenance = readingProvenanceLabel(candidate);
+  const themeHint = (candidate?.themes ?? []).slice(0, 2).join(', ');
+  const suffix = themeHint ? `; themes: ${themeHint}` : '';
+  return `${provenance}; ${age}; ranked for Society & Ideas fit${suffix}.`;
+}
+
 function withReadingDate(readTime, publishedLabel) {
   const cleanReadTime = String(readTime || '8 min').trim();
   if (!publishedLabel || cleanReadTime.includes(publishedLabel)) return cleanReadTime;
@@ -790,6 +825,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
     freshnessLabel: publishedAt ? `Published ${publishedLabel}` : 'Evergreen read',
+    sourceContext: articleSourceContext(candidate, publishedAt),
   };
   // Link out to the source so the Reading tile is clickable (RSS/workspace candidates carry a URL).
   if (publishedAt) article.publishedAt = publishedAt;
@@ -1849,15 +1885,20 @@ function toEditionItem(candidate) {
   return item;
 }
 
-function decorateLongReadMetadata(read, candidate) {
+function decorateLongReadMetadata(read, candidate, selectedArticle = null) {
   const publishedAt = normalizeReadingPublishedDate(candidate?.publishedAt || candidate?.date || read.publishedAt || read.date || '');
   const freshnessLabel = publishedAt
     ? `Published ${formatReadingDate(publishedAt)}`
     : 'Evergreen read';
+  const age = describeReadingAge(publishedAt);
+  const sourceNote = sharesReadingSource(candidate, selectedArticle)
+    ? "source overlaps with today's Reading pick"
+    : "source distinct from today's Reading pick";
   return {
     ...read,
     ...(publishedAt ? { publishedAt } : {}),
     freshnessLabel,
+    sourceContext: `curated macro/investing library; ${age}; ${sourceNote}.`,
   };
 }
 
@@ -1936,7 +1977,7 @@ async function tileLongRead(feedbackWeights, recentIds, selectedArticle = null) 
     adjustScore: candidate => sharesReadingSource(candidate, selectedArticle) ? -4 : 0,
   });
   if (!best) return null;
-  const longRead = decorateLongReadMetadata(toEditionItem(best), best);
+  const longRead = decorateLongReadMetadata(toEditionItem(best), best, selectedArticle);
   if (!longRead.title || !longRead.source || !longRead.thesis) throw new Error('long read missing title/source/thesis after rank');
   return { longRead, usedId: `longread-${best.id}` };
 }

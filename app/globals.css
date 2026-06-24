@@ -2448,6 +2448,20 @@ input { font-family: inherit; }
   border-color: color-mix(in oklch, var(--genre-poem) 26%, var(--border));
   background: color-mix(in oklch, var(--genre-poem) 7%, #fffaf1);
 }
+.almanacSourceContext--article {
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-color: color-mix(in oklch, var(--genre-reading) 24%, var(--border));
+  background: color-mix(in oklch, var(--genre-reading) 6%, #fffaf1);
+}
+.almanacSourceContext--context {
+  display: flex;
+  margin-top: -4px;
+  border-style: dashed;
+  color: #7a6f62;
+  background: rgba(255, 252, 246, .54);
+  white-space: normal;
+}
 .almanacPoemExcerpt {
   margin: 0 0 12px;
   font-family: 'Lora', Georgia, serif;

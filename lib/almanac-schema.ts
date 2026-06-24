@@ -80,6 +80,7 @@ export const DailyLongReadSchema = z.object({
   why:         z.string().min(1),
   publishedAt: z.string().optional(),
   freshnessLabel: z.string().optional(),
+  sourceContext: z.string().optional(),
   url:         z.string().url().optional(),
   sourceLabel: z.string().optional(),
 });
@@ -145,6 +146,7 @@ export const DailyArticleSchema = z.object({
   why:      z.string().min(1),
   publishedAt: z.string().optional(),
   freshnessLabel: z.string().optional(),
+  sourceContext: z.string().optional(),
   url:      z.string().url().optional(),
   sourceLabel: z.string().optional(),
 });
