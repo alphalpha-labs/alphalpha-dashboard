@@ -27,6 +27,32 @@ export function articleFeedbackProfile(weights = {}) {
   };
 }
 
+export function readingSelectionSignalSummary(weights = {}) {
+  const profile = articleFeedbackProfile(weights);
+  const notes = (weights.notes ?? []).join(' ').toLowerCase();
+  const parts = [];
+
+  const preferred = profile.preferTerms
+    .filter(term => !['analysis', 'essay', 'long-form'].includes(term))
+    .slice(0, 3);
+  if (preferred.length) parts.push(`feedback prefers ${preferred.join(', ')}`);
+
+  const avoided = [];
+  if (profile.avoidAiTooling) avoided.push('AI tooling');
+  else if (profile.avoidAiFocused) avoided.push('AI-heavy reads');
+  if (/reddit/.test(notes) && /\b(wouldn'?t|never|avoid|not)\b/.test(notes)) avoided.push('Reddit');
+  if (/\bx\.com\b|twitter\.com|twitter as a source/.test(notes)) avoided.push('X/Twitter');
+  if (avoided.length) parts.push(`avoids ${[...new Set(avoided)].join(', ')}`);
+
+  const topSource = Object.entries(weights.sourceAffinity ?? {})
+    .sort((a, b) => b[1] - a[1])
+    .map(([source]) => source)
+    .find(Boolean);
+  if (topSource) parts.push(`kept-source affinity: ${topSource}`);
+
+  return parts.slice(0, 2).join('; ');
+}
+
 export const BLOCKED_READING_HOSTS = [
   'facebook.com',
   'm.facebook.com',

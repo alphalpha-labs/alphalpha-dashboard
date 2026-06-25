@@ -12,6 +12,7 @@ import {
   isVideoHost,
   normalizeReadingPublishedDate,
   readingFreshnessScore,
+  readingSelectionSignalSummary,
   workshopNoteTerms,
 } from "../scripts/lib/almanac-feedback-selection.mjs";
 
@@ -29,6 +30,23 @@ describe("almanac feedback selection gates", () => {
     expect(profile.avoidHosts).toContain("reddit.com");
     expect(profile.preferTerms).toEqual(expect.arrayContaining(["religious", "political", "social theory", "philosophy"]));
     expect(isAiToolingText("I replaced vector DBs with Google's Memory Agent Pattern in Obsidian")).toBe(true);
+  });
+
+  it("summarizes learned Reading taste signals without raw feedback prose", () => {
+    const summary = readingSelectionSignalSummary({
+      notes: [
+        "This is still too oriented toward AI tooling; make it more about religion, politics, and social theory.",
+        "I would not ever use a Reddit post for this tile.",
+      ],
+      sourceAffinity: { Compact: 2 },
+    });
+
+    expect(summary).toContain("feedback prefers");
+    expect(summary).toContain("religious");
+    expect(summary).toContain("political");
+    expect(summary).toContain("avoids AI tooling");
+    expect(summary).toContain("Reddit");
+    expect(summary).not.toContain("This is still");
   });
 
   it("rejects non-article Reading formats", () => {

@@ -68,6 +68,7 @@ import {
   isReadingBadFormatText,
   isReadingAlreadyUsedStatus,
   normalizeReadingPublishedDate,
+  readingSelectionSignalSummary,
   readingFreshnessScore,
   isVideoHost,
   wantsLessAiFocus,
@@ -757,12 +758,16 @@ function readingProvenanceLabel(candidate) {
   return 'curated source';
 }
 
-function articleSourceContext(candidate, publishedAt) {
+function articleSourceContext(candidate, publishedAt, articleWeights = {}) {
   const age = describeReadingAge(publishedAt);
   const provenance = readingProvenanceLabel(candidate);
   const themeHint = (candidate?.themes ?? []).slice(0, 2).join(', ');
-  const suffix = themeHint ? `; themes: ${themeHint}` : '';
-  return `${provenance}; ${age}; ranked for Society & Ideas fit${suffix}.`;
+  const signals = readingSelectionSignalSummary(articleWeights);
+  const suffix = [
+    themeHint ? `themes: ${themeHint}` : '',
+    signals ? `signals: ${signals}` : '',
+  ].filter(Boolean).join('; ');
+  return `${provenance}; ${age}; ranked for Society & Ideas fit${suffix ? `; ${suffix}` : ''}.`;
 }
 
 function withReadingDate(readTime, publishedLabel) {
@@ -771,7 +776,7 @@ function withReadingDate(readTime, publishedLabel) {
   return `${cleanReadTime} · ${publishedLabel}`;
 }
 
-async function composeArticle(candidate, contextFiles) {
+async function composeArticle(candidate, contextFiles, articleWeights = {}) {
   const { openLoopsText, projectsText } = contextFiles;
 
   // Estimate read time from source type when LLM is unavailable.
@@ -825,7 +830,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     dek:      composed?.dek ?? candidate.why,
     why:      composed?.why ?? 'Relevant to your current open loops and projects.',
     freshnessLabel: publishedAt ? `Published ${publishedLabel}` : 'Evergreen read',
-    sourceContext: articleSourceContext(candidate, publishedAt),
+    sourceContext: articleSourceContext(candidate, publishedAt, articleWeights),
   };
   // Link out to the source so the Reading tile is clickable (RSS/workspace candidates carry a URL).
   if (publishedAt) article.publishedAt = publishedAt;
@@ -858,7 +863,7 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
   );
   if (!best) return null;
 
-  const article = await composeArticle(best, contextFiles);
+  const article = await composeArticle(best, contextFiles, feedbackWeights.article ?? {});
   if (!article.title?.trim()) throw new Error('article missing title after compose');
   if (!article.dek?.trim())   throw new Error('article missing dek after compose');
 
