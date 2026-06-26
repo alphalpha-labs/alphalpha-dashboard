@@ -2454,6 +2454,12 @@ input { font-family: inherit; }
   border-color: color-mix(in oklch, var(--genre-reading) 24%, var(--border));
   background: color-mix(in oklch, var(--genre-reading) 6%, #fffaf1);
 }
+.almanacSourceContext--austin {
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-color: color-mix(in oklch, var(--genre-austin) 26%, var(--border));
+  background: color-mix(in oklch, var(--genre-austin) 7%, #fffaf1);
+}
 .almanacSourceContext--context {
   display: flex;
   margin-top: -4px;

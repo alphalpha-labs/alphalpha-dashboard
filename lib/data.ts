@@ -582,6 +582,7 @@ export type DailyAustinExplore = {
   vibe: string;
   prompt: string;
   why: string;
+  seasonalFit?: string;
   latitude?: number;
   longitude?: number;
   mapUrl?: string;

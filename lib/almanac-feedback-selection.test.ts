@@ -13,6 +13,7 @@ import {
   normalizeReadingPublishedDate,
   readingFreshnessScore,
   readingSelectionSignalSummary,
+  austinExploreSeasonFit,
   workshopNoteTerms,
 } from "../scripts/lib/almanac-feedback-selection.mjs";
 
@@ -93,6 +94,37 @@ describe("almanac feedback selection gates", () => {
       readingFreshnessScore({ publishedAt: "2026-03-01" }, "2026-06-18"),
     );
     expect(readingFreshnessScore({ publishedAt: "2024-01-01" }, "2026-06-18")).toBeLessThan(0);
+  });
+
+  it("nudges Austin Explore picks toward seasonal usefulness", () => {
+    const summerPool = {
+      title: "Deep Eddy Pool",
+      category: "Swim reset",
+      bestTime: "Hot weekday morning",
+      vibe: "Historic pool, cold water, simple Austin ritual.",
+      tags: ["swim", "summer", "family"],
+    };
+    const exposedView = {
+      title: "Covert Park at Mount Bonnell",
+      category: "Viewpoint",
+      bestTime: "Clear evening",
+      vibe: "Stone steps, river bend, classic Austin view.",
+      tags: ["view", "classic", "short"],
+    };
+    const museum = {
+      title: "Blanton Museum of Art",
+      category: "Museum hour",
+      bestTime: "Hot afternoon",
+      vibe: "Quiet galleries, campus energy.",
+      tags: ["museum", "art", "indoors"],
+    };
+
+    expect(austinExploreSeasonFit(summerPool, "2026-06-26").score).toBeGreaterThan(
+      austinExploreSeasonFit(exposedView, "2026-06-26").score,
+    );
+    expect(austinExploreSeasonFit(museum, "2026-07-12").label).toContain("Summer fit");
+    expect(austinExploreSeasonFit({ title: "Side-street wander", tags: ["books"] }, "2026-07-12").label).not.toContain("shade/water");
+    expect(austinExploreSeasonFit({ title: "Zilker Botanical Garden", tags: ["garden", "outdoors"] }, "2026-04-15").label).toContain("Spring fit");
   });
 
   it("extracts simple more/less terms from workshop notes", () => {

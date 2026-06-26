@@ -195,6 +195,57 @@ export function readingFreshnessScore(candidate = {}, targetDate = new Date().to
   return 0;
 }
 
+export function austinExploreSeasonFit(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
+  const month = Number(String(targetDate).slice(5, 7));
+  const blob = [
+    candidate.title,
+    candidate.category,
+    candidate.area,
+    candidate.duration,
+    candidate.bestTime,
+    candidate.vibe,
+    candidate.prompt,
+    candidate.why,
+    ...(Array.isArray(candidate.tags) ? candidate.tags : []),
+  ].join(' ').toLowerCase();
+
+  const has = re => re.test(blob);
+  let score = 0;
+  let label = '';
+
+  if (month >= 6 && month <= 9) {
+    const summerSignals = [
+      has(/\b(?:shade|shaded|tree|trees|creek|water|swim|pool|lake)\b/) ? 'shade/water' : '',
+      has(/\b(?:museum|indoors?|galleries|gallery|bookstore)\b/) ? 'indoor option' : '',
+      has(/\b(?:morning|evening|sunset|golden hour|hot afternoon|cool morning)\b/) ? 'heat-aware timing' : '',
+    ].filter(Boolean);
+    score += summerSignals.length * 0.7;
+    if (has(/\b(?:swim|pool|creek|water|lake)\b/)) score += 0.45;
+    if (has(/\b(?:museum|indoors?|galleries|gallery)\b/)) score += 0.35;
+    if (has(/\b(?:midday|noon)\b/)) score -= 1.2;
+    label = summerSignals.length
+      ? `Summer fit: ${[...new Set(summerSignals)].slice(0, 2).join(' + ')}.`
+      : 'Summer fit: check heat before going.';
+  } else if (month >= 3 && month <= 5) {
+    const springSignals = [
+      has(/\b(?:garden|botanical|greenbelt|preserve|trail|park|outdoors?)\b/) ? 'outdoor season' : '',
+      has(/\b(?:flower|flowers|pond|lake|creek|wildlife|nature)\b/) ? 'spring texture' : '',
+    ].filter(Boolean);
+    score += springSignals.length * 0.45;
+    label = springSignals.length ? `Spring fit: ${[...new Set(springSignals)].join(' + ')}.` : '';
+  } else if (month === 12 || month <= 2) {
+    const winterSignals = [
+      has(/\b(?:museum|indoors?|galleries|gallery|bookstore)\b/) ? 'indoor fallback' : '',
+      has(/\b(?:short|30-60|20-45|45-90)\b/) ? 'short outing' : '',
+      has(/\b(?:trail|walk|park|outdoors?)\b/) ? 'mild-day walk' : '',
+    ].filter(Boolean);
+    score += winterSignals.length * 0.35;
+    label = winterSignals.length ? `Winter fit: ${[...new Set(winterSignals)].slice(0, 2).join(' + ')}.` : '';
+  }
+
+  return { score, label };
+}
+
 export function imageFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
   return {

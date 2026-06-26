@@ -94,6 +94,7 @@ export const DailyAustinExploreSchema = z.object({
   vibe:        z.string().min(1),
   prompt:      z.string().min(1),
   why:         z.string().min(1),
+  seasonalFit: z.string().optional(),
   latitude:    z.number().optional(),
   longitude:   z.number().optional(),
   mapUrl:      z.string().url().optional(),

@@ -1005,6 +1005,7 @@ function AustinExploreBlock({ explore, visibility, date, openThread }: { explore
       <div className="almanacExplore__body">
         <div>
           <div className="almanacExplore__title">{explore.title}</div>
+          {explore.seasonalFit && <div className="almanacSourceContext almanacSourceContext--austin">{explore.seasonalFit}</div>}
           <p className="almanacExplore__vibe">{explore.vibe}</p>
         </div>
         <div className="almanacExplore__prompt">

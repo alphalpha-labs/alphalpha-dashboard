@@ -70,6 +70,7 @@ import {
   normalizeReadingPublishedDate,
   readingSelectionSignalSummary,
   readingFreshnessScore,
+  austinExploreSeasonFit,
   isVideoHost,
   wantsLessAiFocus,
   workshopNoteTerms,
@@ -1990,9 +1991,15 @@ async function tileLongRead(feedbackWeights, recentIds, selectedArticle = null) 
 async function tileAustinExplore(feedbackWeights, recentIds) {
   const dataset = loadWorkshopDataset('austin-explore.json');
   if (dataset.length === 0) return null;
-  const best = rankWorkshop(dataset, feedbackWeights.austin ?? feedbackWeights.explore, recentIds, 'austin', ['category', 'area', 'vibe', 'prompt', 'why']);
+  const best = rankWorkshop(dataset, feedbackWeights.austin ?? feedbackWeights.explore, recentIds, 'austin', ['category', 'area', 'vibe', 'prompt', 'why'], {
+    adjustScore: candidate => austinExploreSeasonFit(candidate, targetDate).score,
+  });
   if (!best) return null;
-  const austinExplore = toEditionItem(best);
+  const seasonalFit = austinExploreSeasonFit(best, targetDate).label;
+  const austinExplore = {
+    ...toEditionItem(best),
+    ...(seasonalFit ? { seasonalFit } : {}),
+  };
   if (!austinExplore.title || !austinExplore.prompt || !austinExplore.why) throw new Error('Austin explore missing title/prompt/why after rank');
   return { austinExplore, usedId: `austin-${best.id}` };
 }
