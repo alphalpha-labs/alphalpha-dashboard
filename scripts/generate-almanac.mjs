@@ -71,6 +71,7 @@ import {
   readingSelectionSignalSummary,
   readingFreshnessScore,
   austinExploreSeasonFit,
+  longReadDayFit,
   isVideoHost,
   wantsLessAiFocus,
   workshopNoteTerms,
@@ -1897,6 +1898,7 @@ function decorateLongReadMetadata(read, candidate, selectedArticle = null) {
     ? `Published ${formatReadingDate(publishedAt)}`
     : 'Evergreen read';
   const age = describeReadingAge(publishedAt);
+  const dayFit = longReadDayFit(candidate, targetDate).label;
   const sourceNote = sharesReadingSource(candidate, selectedArticle)
     ? "source overlaps with today's Reading pick"
     : "source distinct from today's Reading pick";
@@ -1904,7 +1906,7 @@ function decorateLongReadMetadata(read, candidate, selectedArticle = null) {
     ...read,
     ...(publishedAt ? { publishedAt } : {}),
     freshnessLabel,
-    sourceContext: `curated macro/investing library; ${age}; ${sourceNote}.`,
+    sourceContext: `curated macro/investing library; ${age}; ${sourceNote}${dayFit ? `; ${dayFit}` : '.'}`,
   };
 }
 
@@ -1980,7 +1982,7 @@ async function tileLongRead(feedbackWeights, recentIds, selectedArticle = null) 
   });
   const pool = macroPool.length ? macroPool : dataset;
   const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why'], {
-    adjustScore: candidate => sharesReadingSource(candidate, selectedArticle) ? -4 : 0,
+    adjustScore: candidate => (sharesReadingSource(candidate, selectedArticle) ? -4 : 0) + longReadDayFit(candidate, targetDate).score,
   });
   if (!best) return null;
   const longRead = decorateLongReadMetadata(toEditionItem(best), best, selectedArticle);

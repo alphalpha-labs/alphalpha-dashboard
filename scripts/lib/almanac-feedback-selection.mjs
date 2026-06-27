@@ -246,6 +246,45 @@ export function austinExploreSeasonFit(candidate = {}, targetDate = new Date().t
   return { score, label };
 }
 
+export function longReadDayFit(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
+  const day = new Date(`${targetDate}T00:00:00Z`).getUTCDay();
+  const isWeekend = day === 0 || day === 6;
+  const blob = [
+    candidate.title,
+    candidate.source,
+    candidate.frame,
+    candidate.thesis,
+    candidate.why,
+    candidate.readTime,
+    ...(Array.isArray(candidate.tags) ? candidate.tags : []),
+  ].join(' ').toLowerCase();
+
+  const has = re => re.test(blob);
+  const reflectiveSignals = [
+    has(/\b(?:essay|classic|evergreen|systems|institutions|philosophy|anthropology|culture|political-economy)\b/) ? 'evergreen frame' : '',
+    has(/\b(?:deep-dive|worldview|lens|information systems|market failure|state capacity)\b/) ? 'slow-read lens' : '',
+  ].filter(Boolean);
+  const practicalSignals = [
+    has(/\b(?:macro|markets|rates|energy|portfolio|allocation|sector|newsletter|investment-thesis)\b/) ? 'market-relevant' : '',
+    has(/\b(?:jobs data|policy|liquidity|risk appetite|fiscal|geopolitical|stagflation)\b/) ? 'current decision frame' : '',
+  ].filter(Boolean);
+
+  let score = 0;
+  if (isWeekend) {
+    score += reflectiveSignals.length * 0.55;
+    score -= has(/\b(?:newsletter|jobs data|latest|daily|weekly)\b/) ? 0.45 : 0;
+  } else {
+    score += practicalSignals.length * 0.55;
+    score -= has(/\b(?:classic|evergreen)\b/) && !practicalSignals.length ? 0.35 : 0;
+  }
+
+  const labelSignals = isWeekend ? reflectiveSignals : practicalSignals;
+  const label = labelSignals.length
+    ? `${isWeekend ? 'Weekend' : 'Weekday'} fit: ${[...new Set(labelSignals)].slice(0, 2).join(' + ')}.`
+    : '';
+  return { score, label };
+}
+
 export function imageFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
   return {

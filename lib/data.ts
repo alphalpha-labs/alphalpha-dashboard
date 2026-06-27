@@ -347,7 +347,7 @@ export type InvestingDailyMarketBrief = {
   payAttention?: Array<{ id: string; title: string; reason: string; portfolioRelevance?: string; relatedTheses?: string[]; relatedSymbols?: string[] }>;
   thesisImpacts?: Array<{ thesisId?: string; title: string; impact: string; action?: string; confidence?: string }>;
   portfolioRead?: string;
-  sourceNotes?: string[];
+  sourceNotes?: Array<string | { id?: string; title?: string; url?: string; usedFor?: string; trustNote?: string }>;
   discussionPrompt?: string;
 };
 

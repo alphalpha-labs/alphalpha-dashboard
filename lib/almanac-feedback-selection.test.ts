@@ -14,6 +14,7 @@ import {
   readingFreshnessScore,
   readingSelectionSignalSummary,
   austinExploreSeasonFit,
+  longReadDayFit,
   workshopNoteTerms,
 } from "../scripts/lib/almanac-feedback-selection.mjs";
 
@@ -125,6 +126,30 @@ describe("almanac feedback selection gates", () => {
     expect(austinExploreSeasonFit(museum, "2026-07-12").label).toContain("Summer fit");
     expect(austinExploreSeasonFit({ title: "Side-street wander", tags: ["books"] }, "2026-07-12").label).not.toContain("shade/water");
     expect(austinExploreSeasonFit({ title: "Zilker Botanical Garden", tags: ["garden", "outdoors"] }, "2026-04-15").label).toContain("Spring fit");
+  });
+
+  it("nudges long reads toward the day's reading rhythm", () => {
+    const reflectiveEssay = {
+      title: "Finance as a Scale-Invariant Global Computer",
+      frame: "Markets as information systems",
+      thesis: "A conceptual essay about markets, time horizons, and capital allocation.",
+      tags: ["markets", "systems", "essay", "deep-dive"],
+    };
+    const tacticalNote = {
+      title: "A New Trilemma",
+      frame: "Macro policy trilemma",
+      thesis: "Jobs data, geopolitical shock, rates, energy, and risk appetite.",
+      tags: ["macro", "rates", "energy", "investment-thesis"],
+    };
+
+    expect(longReadDayFit(reflectiveEssay, "2026-06-27").score).toBeGreaterThan(
+      longReadDayFit(tacticalNote, "2026-06-27").score,
+    );
+    expect(longReadDayFit(tacticalNote, "2026-06-29").score).toBeGreaterThan(
+      longReadDayFit(reflectiveEssay, "2026-06-29").score,
+    );
+    expect(longReadDayFit(reflectiveEssay, "2026-06-27").label).toContain("Weekend fit");
+    expect(longReadDayFit(tacticalNote, "2026-06-29").label).toContain("Weekday fit");
   });
 
   it("extracts simple more/less terms from workshop notes", () => {

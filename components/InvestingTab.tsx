@@ -515,11 +515,25 @@ function DailyMarketBriefPanel({ brief, onDiscuss, onRegenerate }: { brief: Inve
       {brief.sourceNotes?.length ? (
         <details className="dailySourceTrail">
           <summary>Source trail · {brief.sourceNotes.length} notes</summary>
-          {brief.sourceNotes.map(note => <p key={note}>{note}</p>)}
+          {brief.sourceNotes.map((note, index) => {
+            const rendered = renderMarketSourceNote(note);
+            return <p key={rendered.key || index}>{rendered.title && <b>{rendered.title}</b>}{rendered.text}{rendered.meta && <em>{rendered.meta}</em>}</p>;
+          })}
         </details>
       ) : null}
     </section>
   );
+}
+
+function renderMarketSourceNote(note: NonNullable<InvestingDailyMarketBrief["sourceNotes"]>[number]) {
+  if (typeof note === "string") return { key: note, title: "", text: note, meta: "" };
+  const text = [note.usedFor, note.url].filter(Boolean).join(" · ");
+  return {
+    key: note.id || note.title || text,
+    title: note.title || note.id || "Source note",
+    text: text || note.trustNote || "No source detail exported.",
+    meta: note.trustNote || "",
+  };
 }
 
 function TargetAllocationCockpit({ allocationTargets, basketGovernanceAudit, onDiscuss }: { allocationTargets: InvestingAllocationTargets; basketGovernanceAudit?: InvestingBasketGovernanceAudit | null; onDiscuss: Props["onDiscuss"] }) {
