@@ -105,7 +105,7 @@ export function isGenericReadingUrl(url = '') {
   if (/^(category|categories|search|tag|tags|topic|topics)$/.test(segments[0])) return true;
   if (segments.length > 1) return false;
 
-  return /^(archive|archives|articles?|blog|category|columns?|essays?|features?|ideas|issue|issues|magazine|news|opinion|posts?|search|sections?|tag|tags|topics?)$/.test(segments[0]);
+  return /^(about|archive|archives|articles?|authors?|blog|category|columns?|contributors?|essays?|features?|ideas|issue|issues|login|magazine|newsletter|newsletters|news|opinion|posts?|search|sections?|subscribe|subscription|tag|tags|topics?)$/.test(segments[0]);
 }
 
 export function wantsLessAiFocus(notes = '') {
@@ -148,6 +148,9 @@ export function isReadingBadFormatText(text = '') {
     || /\b(?:internet encyclopedia of philosophy|stanford encyclopedia of philosophy|iep\.utm\.edu|plato\.stanford\.edu)\b/.test(lower)
     || /\b(?:topics?|ideas?)\s+for\s+(?:papers?|essays?)\b/.test(lower)
     || /\b(?:essay examples?|paper examples?|research paper topics?|writing prompts?)\b/.test(lower)
+    || /\b(?:newsletter|newsletters|archive|archives)\s*(?:home|index|landing|signup|sign-up|subscribe|subscription|page)\b/.test(lower)
+    || /\b(?:all|latest|recent|browse|view)\s+(?:articles?|essays?|issues?|newsletters|posts?)\b/.test(lower)
+    || /\b(?:sign up|signup|subscribe)\s+(?:for|to)\s+(?:our|the)?\s*(?:newsletter|updates?)\b/.test(lower)
     || /\b(?:edubirdie|gradesfixer|studycorgi|ivypanda|essaypro|papersowl)\b/.test(lower)
     || /\.pdf(?:$|[?#])/.test(lower);
 }

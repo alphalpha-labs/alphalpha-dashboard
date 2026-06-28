@@ -66,8 +66,18 @@ describe("almanac feedback selection gates", () => {
     expect(isGenericReadingUrl("https://worksinprogress.co/")).toBe(true);
     expect(isGenericReadingUrl("https://example.com/ideas")).toBe(true);
     expect(isGenericReadingUrl("https://example.com/tag/politics")).toBe(true);
+    expect(isGenericReadingUrl("https://example.com/newsletters")).toBe(true);
+    expect(isGenericReadingUrl("https://example.com/subscribe")).toBe(true);
     expect(isGenericReadingUrl("https://www.guernicamag.com/rebecca-solnit-men-explain-things-to-me/")).toBe(false);
     expect(isGenericReadingUrl("https://www.theatlantic.com/ideas/archive/2022/01/scarcity-crisis-college-housing-health-care/621221/")).toBe(false);
+    expect(isGenericReadingUrl("https://example.com/newsletter/the-politics-of-attention")).toBe(false);
+  });
+
+  it("rejects newsletter/archive landing pages without rejecting real essays", () => {
+    expect(isReadingBadFormatText("Subscribe to our newsletter for weekly essays https://example.com/subscribe")).toBe(true);
+    expect(isReadingBadFormatText("Latest newsletters | The Atlantic https://www.theatlantic.com/newsletters/")).toBe(true);
+    expect(isReadingBadFormatText("Archive index page for politics essays https://compactmag.com/archive")).toBe(true);
+    expect(isReadingBadFormatText("The Politics of Attention is a reported essay on family, media, and institutions")).toBe(false);
   });
 
   it("treats previously delivered Reading statuses as spent inventory", () => {
