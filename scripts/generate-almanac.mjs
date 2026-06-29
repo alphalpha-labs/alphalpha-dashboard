@@ -72,6 +72,7 @@ import {
   readingFreshnessScore,
   austinExploreSeasonFit,
   longReadDayFit,
+  readingLaneBalanceFit,
   isVideoHost,
   wantsLessAiFocus,
   workshopNoteTerms,
@@ -1898,15 +1899,17 @@ function decorateLongReadMetadata(read, candidate, selectedArticle = null) {
     ? `Published ${formatReadingDate(publishedAt)}`
     : 'Evergreen read';
   const age = describeReadingAge(publishedAt);
-  const dayFit = longReadDayFit(candidate, targetDate).label;
+  const tidyClause = value => String(value || '').replace(/\.+$/, '');
+  const dayFit = tidyClause(longReadDayFit(candidate, targetDate).label);
   const sourceNote = sharesReadingSource(candidate, selectedArticle)
     ? "source overlaps with today's Reading pick"
     : "source distinct from today's Reading pick";
+  const mixFit = tidyClause(readingLaneBalanceFit(candidate, selectedArticle).label);
   return {
     ...read,
     ...(publishedAt ? { publishedAt } : {}),
     freshnessLabel,
-    sourceContext: `curated macro/investing library; ${age}; ${sourceNote}${dayFit ? `; ${dayFit}` : '.'}`,
+    sourceContext: `curated macro/investing library; ${age}; ${sourceNote}${dayFit ? `; ${dayFit}` : ''}${mixFit ? `; ${mixFit}` : ''}.`,
   };
 }
 
@@ -1982,7 +1985,11 @@ async function tileLongRead(feedbackWeights, recentIds, selectedArticle = null) 
   });
   const pool = macroPool.length ? macroPool : dataset;
   const best = rankWorkshop(pool, feedbackWeights.longread, recentIds, 'longread', ['source', 'frame', 'thesis', 'why'], {
-    adjustScore: candidate => (sharesReadingSource(candidate, selectedArticle) ? -4 : 0) + longReadDayFit(candidate, targetDate).score,
+    adjustScore: candidate => (
+      (sharesReadingSource(candidate, selectedArticle) ? -4 : 0)
+      + longReadDayFit(candidate, targetDate).score
+      + readingLaneBalanceFit(candidate, selectedArticle).score
+    ),
   });
   if (!best) return null;
   const longRead = decorateLongReadMetadata(toEditionItem(best), best, selectedArticle);

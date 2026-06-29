@@ -15,6 +15,7 @@ import {
   readingSelectionSignalSummary,
   austinExploreSeasonFit,
   longReadDayFit,
+  readingLaneBalanceFit,
   workshopNoteTerms,
 } from "../scripts/lib/almanac-feedback-selection.mjs";
 
@@ -160,6 +161,31 @@ describe("almanac feedback selection gates", () => {
     );
     expect(longReadDayFit(reflectiveEssay, "2026-06-27").label).toContain("Weekend fit");
     expect(longReadDayFit(tacticalNote, "2026-06-29").label).toContain("Weekday fit");
+  });
+
+  it("keeps the main Reading and macro read from stacking the same lane", () => {
+    const societyArticle = {
+      title: "Faith and the Future of Civic Life",
+      kicker: "Society & Ideas",
+      dek: "A cultural essay about religion, institutions, and community trust.",
+    };
+    const macroRead = {
+      title: "A New Trilemma",
+      frame: "Macro policy trilemma",
+      thesis: "Jobs data, rates, energy, and risk appetite are creating a harder allocation backdrop.",
+      tags: ["macro", "rates", "energy", "investment-thesis"],
+    };
+    const secondMacroRead = {
+      title: "Markets in the New Rate Regime",
+      frame: "Macro allocation",
+      thesis: "A portfolio note on rates, liquidity, markets, and sector risk.",
+      tags: ["macro", "markets"],
+    };
+
+    expect(readingLaneBalanceFit(macroRead, societyArticle).score).toBeGreaterThan(0);
+    expect(readingLaneBalanceFit(macroRead, societyArticle).label).toContain("adds macro/investing");
+    expect(readingLaneBalanceFit(secondMacroRead, macroRead).score).toBeLessThan(0);
+    expect(readingLaneBalanceFit(secondMacroRead, macroRead).label).toContain("same macro/investing lane");
   });
 
   it("extracts simple more/less terms from workshop notes", () => {

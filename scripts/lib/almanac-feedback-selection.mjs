@@ -288,6 +288,68 @@ export function longReadDayFit(candidate = {}, targetDate = new Date().toISOStri
   return { score, label };
 }
 
+function readingLane(candidate = {}) {
+  const blob = [
+    candidate.kicker,
+    candidate.title,
+    candidate.source,
+    candidate.sourceLabel,
+    candidate.frame,
+    candidate.thesis,
+    candidate.dek,
+    candidate.why,
+    candidate.url,
+    candidate.link,
+    ...(Array.isArray(candidate.tags) ? candidate.tags : []),
+    ...(Array.isArray(candidate.themes) ? candidate.themes : []),
+  ].join(' ').toLowerCase();
+
+  const lanes = [
+    {
+      id: 'ai-tooling',
+      label: 'AI/tooling',
+      re: /\b(?:ai tooling|developer tools?|obsidian|vector dbs?|rag|embeddings?|llms?|frontier models?|machine learning)\b/,
+    },
+    {
+      id: 'macro',
+      label: 'macro/investing',
+      re: /\b(?:macro|markets?|invest(?:ing|ment)?|portfolio|capital allocation|rates?|energy|finance|fiscal|liquidity|risk appetite|sector|crypto|semiconductors?|gold|commodit(?:y|ies))\b/,
+    },
+    {
+      id: 'society',
+      label: 'society/culture',
+      re: /\b(?:society|social|culture|cultural|religion|religious|politics|political|class|community|institutions?|governance|cities|education|psychology|philosophy|moral|ethics)\b/,
+    },
+    {
+      id: 'software',
+      label: 'software/systems',
+      re: /\b(?:software|systems?|infrastructure|engineering|interfaces?|protocols?|operating systems?)\b/,
+    },
+  ];
+
+  return lanes.find(lane => lane.re.test(blob)) ?? { id: '', label: '' };
+}
+
+export function readingLaneBalanceFit(candidate = {}, selectedRead = null) {
+  if (!selectedRead) return { score: 0, label: '' };
+  const candidateLane = readingLane(candidate);
+  const selectedLane = readingLane(selectedRead);
+  if (!candidateLane.id || !selectedLane.id) return { score: 0, label: '' };
+
+  if (candidateLane.id === selectedLane.id) {
+    return {
+      score: -1.25,
+      label: `Reading mix: same ${candidateLane.label} lane as today's Reading pick.`,
+    };
+  }
+
+  const isClassicBalance = candidateLane.id === 'macro' && selectedLane.id === 'society';
+  return {
+    score: isClassicBalance ? 0.45 : 0.25,
+    label: `Reading mix: adds ${candidateLane.label} beside today's ${selectedLane.label} pick.`,
+  };
+}
+
 export function imageFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
   return {
