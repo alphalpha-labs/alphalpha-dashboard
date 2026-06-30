@@ -288,6 +288,50 @@ export function longReadDayFit(candidate = {}, targetDate = new Date().toISOStri
   return { score, label };
 }
 
+export function articleDayFit(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
+  const day = new Date(`${targetDate}T00:00:00Z`).getUTCDay();
+  const isWeekend = day === 0 || day === 6;
+  const blob = [
+    candidate.kicker,
+    candidate.title,
+    candidate.source,
+    candidate.sourceLabel,
+    candidate.frame,
+    candidate.thesis,
+    candidate.dek,
+    candidate.why,
+    candidate.url,
+    candidate.link,
+    ...(Array.isArray(candidate.tags) ? candidate.tags : []),
+    ...(Array.isArray(candidate.themes) ? candidate.themes : []),
+  ].join(' ').toLowerCase();
+
+  const has = re => re.test(blob);
+  const reflectiveSignals = [
+    has(/\b(?:essay|long-form|longform|classic|evergreen|philosophy|religion|religious|culture|cultural|psychology|moral|ethics)\b/) ? 'reflective Society read' : '',
+    has(/\b(?:social theory|community|family|institutions?|civil society|class)\b/) ? 'social lens' : '',
+  ].filter(Boolean);
+  const practicalSignals = [
+    has(/\b(?:cities|housing|education|governance|policy|politics|political|institutions?|state capacity)\b/) ? 'civic decision frame' : '',
+    has(/\b(?:current|today|now|recent|new|reported|analysis)\b/) ? 'fresh analysis' : '',
+  ].filter(Boolean);
+
+  let score = 0;
+  if (isWeekend) {
+    score += reflectiveSignals.length * 0.45;
+    score -= has(/\b(?:breaking|latest|daily|market update|newsletter roundup)\b/) ? 0.35 : 0;
+  } else {
+    score += practicalSignals.length * 0.45;
+    score -= has(/\b(?:classic|evergreen)\b/) && !practicalSignals.length ? 0.25 : 0;
+  }
+
+  const labelSignals = isWeekend ? reflectiveSignals : practicalSignals;
+  const label = labelSignals.length
+    ? `${isWeekend ? 'Weekend' : 'Weekday'} fit: ${[...new Set(labelSignals)].slice(0, 2).join(' + ')}.`
+    : '';
+  return { score, label };
+}
+
 function readingLane(candidate = {}) {
   const blob = [
     candidate.kicker,

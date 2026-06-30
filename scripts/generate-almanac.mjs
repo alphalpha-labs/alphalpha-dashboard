@@ -70,6 +70,7 @@ import {
   normalizeReadingPublishedDate,
   readingSelectionSignalSummary,
   readingFreshnessScore,
+  articleDayFit,
   austinExploreSeasonFit,
   longReadDayFit,
   readingLaneBalanceFit,
@@ -706,6 +707,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     if ((aw.chipTallies?.['go deeper']        ?? 0) > 0) score += 0.1;
 
     // Open-loop keyword overlap.
+    score += articleDayFit(c, targetDate).score;
     score += feedbackProfile.preferTerms.filter(term => blob.includes(term)).length * 0.65;
     const societyHits = societyTerms.filter(term => blob.includes(term)).length;
     score += societyHits * 0.55;
@@ -765,8 +767,10 @@ function articleSourceContext(candidate, publishedAt, articleWeights = {}) {
   const age = describeReadingAge(publishedAt);
   const provenance = readingProvenanceLabel(candidate);
   const themeHint = (candidate?.themes ?? []).slice(0, 2).join(', ');
+  const dayFit = articleDayFit(candidate, targetDate).label.replace(/\.+$/, '');
   const signals = readingSelectionSignalSummary(articleWeights);
   const suffix = [
+    dayFit,
     themeHint ? `themes: ${themeHint}` : '',
     signals ? `signals: ${signals}` : '',
   ].filter(Boolean).join('; ');

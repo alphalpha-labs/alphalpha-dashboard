@@ -13,6 +13,7 @@ import {
   normalizeReadingPublishedDate,
   readingFreshnessScore,
   readingSelectionSignalSummary,
+  articleDayFit,
   austinExploreSeasonFit,
   longReadDayFit,
   readingLaneBalanceFit,
@@ -161,6 +162,28 @@ describe("almanac feedback selection gates", () => {
     );
     expect(longReadDayFit(reflectiveEssay, "2026-06-27").label).toContain("Weekend fit");
     expect(longReadDayFit(tacticalNote, "2026-06-29").label).toContain("Weekday fit");
+  });
+
+  it("nudges Society & Ideas picks toward the day's reading rhythm", () => {
+    const reflectiveEssay = {
+      title: "Faith and the Future of Civic Life",
+      why: "A cultural essay about religion, community, institutions, and moral life.",
+      themes: ["religion", "culture", "social theory"],
+    };
+    const civicAnalysis = {
+      title: "The Housing Governance Trap",
+      why: "A reported policy analysis about cities, housing, governance, and state capacity.",
+      themes: ["cities", "policy", "governance"],
+    };
+
+    expect(articleDayFit(reflectiveEssay, "2026-06-27").score).toBeGreaterThan(
+      articleDayFit(civicAnalysis, "2026-06-27").score,
+    );
+    expect(articleDayFit(civicAnalysis, "2026-06-29").score).toBeGreaterThan(
+      articleDayFit(reflectiveEssay, "2026-06-29").score,
+    );
+    expect(articleDayFit(reflectiveEssay, "2026-06-27").label).toContain("Weekend fit");
+    expect(articleDayFit(civicAnalysis, "2026-06-29").label).toContain("Weekday fit");
   });
 
   it("keeps the main Reading and macro read from stacking the same lane", () => {
