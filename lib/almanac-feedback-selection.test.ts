@@ -13,6 +13,7 @@ import {
   normalizeReadingPublishedDate,
   readingFreshnessScore,
   readingSelectionSignalSummary,
+  readableSourceLabel,
   articleDayFit,
   austinExploreSeasonFit,
   longReadDayFit,
@@ -107,6 +108,23 @@ describe("almanac feedback selection gates", () => {
       readingFreshnessScore({ publishedAt: "2026-03-01" }, "2026-06-18"),
     );
     expect(readingFreshnessScore({ publishedAt: "2024-01-01" }, "2026-06-18")).toBeLessThan(0);
+  });
+
+  it("turns raw Reading hosts into human-readable source labels", () => {
+    expect(readableSourceLabel({
+      source: "worksinprogress.co",
+      link: "https://worksinprogress.co/issue/the-mosquito-strategy/",
+    })).toBe("Works in Progress");
+
+    expect(readableSourceLabel({
+      source: "Derek Thompson / The Atlantic",
+      url: "https://www.theatlantic.com/ideas/archive/example",
+    })).toBe("The Atlantic");
+
+    expect(readableSourceLabel({
+      source: "unknown.example.com",
+      link: "https://unknown.example.com/story",
+    })).toBe("Unknown");
   });
 
   it("nudges Austin Explore picks toward seasonal usefulness", () => {

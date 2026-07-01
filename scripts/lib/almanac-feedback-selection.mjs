@@ -394,6 +394,63 @@ export function readingLaneBalanceFit(candidate = {}, selectedRead = null) {
   };
 }
 
+const SOURCE_LABEL_OVERRIDES = new Map([
+  ['aeon', 'Aeon'],
+  ['aeon.co', 'Aeon'],
+  ['compact', 'Compact'],
+  ['compactmag.com', 'Compact'],
+  ['cato unbound', 'Cato Unbound'],
+  ['cato-unbound.org', 'Cato Unbound'],
+  ['guernica', 'Guernica'],
+  ['guernicamag.com', 'Guernica'],
+  ['new york times', 'The New York Times'],
+  ['nytimes.com', 'The New York Times'],
+  ['the atlantic', 'The Atlantic'],
+  ['theatlantic.com', 'The Atlantic'],
+  ['works in progress', 'Works in Progress'],
+  ['worksinprogress.co', 'Works in Progress'],
+  ['lyn alden', 'Lyn Alden'],
+  ['lynalden.com', 'Lyn Alden'],
+  ['the diff', 'The Diff'],
+  ['thediff.co', 'The Diff'],
+  ['idle words', 'Idle Words'],
+  ['idlewords.com', 'Idle Words'],
+]);
+
+function hostFromUrl(url = '') {
+  try {
+    return new URL(String(url)).hostname.replace(/^www\./, '').toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function titleCaseHost(host = '') {
+  return String(host)
+    .replace(/^www\./, '')
+    .split('.')[0]
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+export function readableSourceLabel(candidate = {}) {
+  const existing = String(candidate.sourceLabel ?? '').trim();
+  if (existing && !existing.includes('.')) return existing;
+
+  const source = String(candidate.source ?? '').trim();
+  const publication = source.includes('/') ? source.split('/').pop().trim() : source;
+  const normalizedPublication = publication.toLowerCase();
+  if (publication && !publication.includes('.')) {
+    return SOURCE_LABEL_OVERRIDES.get(normalizedPublication) ?? publication;
+  }
+
+  const host = hostFromUrl(candidate.url ?? candidate.link ?? '');
+  if (!host) return existing || source || '';
+  return SOURCE_LABEL_OVERRIDES.get(host) ?? titleCaseHost(host);
+}
+
 export function imageFeedbackProfile(weights = {}) {
   const notes = (weights.notes ?? []).join(' ').toLowerCase();
   return {

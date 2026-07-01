@@ -70,6 +70,7 @@ import {
   normalizeReadingPublishedDate,
   readingSelectionSignalSummary,
   readingFreshnessScore,
+  readableSourceLabel,
   articleDayFit,
   austinExploreSeasonFit,
   longReadDayFit,
@@ -843,7 +844,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   if (publishedAt) article.publishedAt = publishedAt;
   if (candidate.link && /^https?:\/\//.test(candidate.link)) {
     article.url = candidate.link;
-    article.sourceLabel = hostOf(candidate.link);
+    article.sourceLabel = readableSourceLabel(candidate);
   }
   return article;
 }
@@ -1913,6 +1914,7 @@ function decorateLongReadMetadata(read, candidate, selectedArticle = null) {
     ...read,
     ...(publishedAt ? { publishedAt } : {}),
     freshnessLabel,
+    sourceLabel: readableSourceLabel({ ...candidate, ...read }),
     sourceContext: `curated macro/investing library; ${age}; ${sourceNote}${dayFit ? `; ${dayFit}` : ''}${mixFit ? `; ${mixFit}` : ''}.`,
   };
 }
