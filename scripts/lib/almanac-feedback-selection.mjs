@@ -198,6 +198,66 @@ export function readingFreshnessScore(candidate = {}, targetDate = new Date().to
   return 0;
 }
 
+export function readingSourceQualityFit(candidate = {}) {
+  const link = String(candidate.url ?? candidate.link ?? '').trim();
+  const source = String(candidate.sourceLabel ?? candidate.source ?? '').trim();
+  const publishedAt = normalizeReadingPublishedDate(candidate.publishedAt ?? candidate.date ?? '');
+  const blob = [
+    candidate.title,
+    candidate.source,
+    candidate.sourceLabel,
+    candidate.frame,
+    candidate.thesis,
+    candidate.dek,
+    candidate.why,
+    ...(Array.isArray(candidate.tags) ? candidate.tags : []),
+    ...(Array.isArray(candidate.themes) ? candidate.themes : []),
+  ].join(' ').toLowerCase();
+
+  let score = 0;
+  const signals = [];
+
+  if (link) {
+    try {
+      const parsed = new URL(link);
+      const segments = parsed.pathname.split('/').filter(Boolean);
+      const articleLikePath = segments.length >= 2
+        || segments.some(segment => segment.length >= 18 || /\b\d{4}\b/.test(segment));
+      if (articleLikePath) {
+        score += 0.55;
+        signals.push('specific link');
+      } else {
+        score -= 0.25;
+        signals.push('shallow link');
+      }
+    } catch {
+      score -= 0.25;
+      signals.push('unparsed link');
+    }
+  } else {
+    score -= 0.7;
+    signals.push('no link');
+  }
+
+  if (publishedAt) {
+    score += 0.25;
+    signals.push('dated');
+  }
+  if (source && !/^(unknown|source)$/i.test(source)) {
+    score += 0.2;
+    signals.push('named source');
+  }
+  if (/\b(?:roundup|links worth reading|some thoughts|reflections on|notes on|interesting article|good piece|worth reading|latest links)\b/.test(blob)) {
+    score -= 0.55;
+    signals.push('generic framing');
+  }
+
+  const label = signals.length
+    ? `Source quality: ${[...new Set(signals)].slice(0, 3).join(' + ')}.`
+    : '';
+  return { score, label };
+}
+
 export function austinExploreSeasonFit(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
   const month = Number(String(targetDate).slice(5, 7));
   const blob = [

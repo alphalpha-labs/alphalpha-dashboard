@@ -12,6 +12,7 @@ import {
   isVideoHost,
   normalizeReadingPublishedDate,
   readingFreshnessScore,
+  readingSourceQualityFit,
   readingSelectionSignalSummary,
   readableSourceLabel,
   articleDayFit,
@@ -108,6 +109,26 @@ describe("almanac feedback selection gates", () => {
       readingFreshnessScore({ publishedAt: "2026-03-01" }, "2026-06-18"),
     );
     expect(readingFreshnessScore({ publishedAt: "2024-01-01" }, "2026-06-18")).toBeLessThan(0);
+  });
+
+  it("prefers source-backed Reading candidates over vague linkless notes", () => {
+    const sourced = readingSourceQualityFit({
+      title: "The Housing Governance Trap",
+      source: "The Atlantic",
+      link: "https://www.theatlantic.com/ideas/archive/2026/06/housing-governance-trap/123456/",
+      publishedAt: "2026-06-12",
+      why: "A reported policy analysis about cities, housing, governance, and state capacity.",
+    });
+    const vague = readingSourceQualityFit({
+      title: "Some thoughts on politics",
+      why: "Interesting article worth reading about society and institutions.",
+    });
+
+    expect(sourced.score).toBeGreaterThan(vague.score);
+    expect(sourced.label).toContain("specific link");
+    expect(sourced.label).toContain("dated");
+    expect(vague.label).toContain("no link");
+    expect(vague.label).toContain("generic framing");
   });
 
   it("turns raw Reading hosts into human-readable source labels", () => {

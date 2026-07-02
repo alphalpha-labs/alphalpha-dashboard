@@ -70,6 +70,7 @@ import {
   normalizeReadingPublishedDate,
   readingSelectionSignalSummary,
   readingFreshnessScore,
+  readingSourceQualityFit,
   readableSourceLabel,
   articleDayFit,
   austinExploreSeasonFit,
@@ -694,6 +695,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
     score += readingFreshnessScore(c, targetDate);
+    score += readingSourceQualityFit(c).score;
     if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
     if (c.link && isBlockedReadingUrl(c.link)) score -= 100;
     if (c.link && isGenericReadingUrl(c.link)) score -= 100;
@@ -769,9 +771,11 @@ function articleSourceContext(candidate, publishedAt, articleWeights = {}) {
   const provenance = readingProvenanceLabel(candidate);
   const themeHint = (candidate?.themes ?? []).slice(0, 2).join(', ');
   const dayFit = articleDayFit(candidate, targetDate).label.replace(/\.+$/, '');
+  const sourceQuality = readingSourceQualityFit(candidate).label.replace(/\.+$/, '');
   const signals = readingSelectionSignalSummary(articleWeights);
   const suffix = [
     dayFit,
+    sourceQuality,
     themeHint ? `themes: ${themeHint}` : '',
     signals ? `signals: ${signals}` : '',
   ].filter(Boolean).join('; ');
