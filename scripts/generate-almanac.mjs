@@ -71,6 +71,7 @@ import {
   readingSelectionSignalSummary,
   readingFreshnessScore,
   readingSourceQualityFit,
+  readingProvenanceFit,
   readableSourceLabel,
   articleDayFit,
   austinExploreSeasonFit,
@@ -694,6 +695,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
 
     // Source affinity learned from kept articles.
     if (c.source) score += (aw.sourceAffinity?.[c.source] ?? 0) * 0.2;
+    score += readingProvenanceFit(c).score;
     score += readingFreshnessScore(c, targetDate);
     score += readingSourceQualityFit(c).score;
     if (c.link && isVideoHost(hostOf(c.link))) score -= 100;
@@ -758,12 +760,7 @@ function describeReadingAge(publishedAt) {
 }
 
 function readingProvenanceLabel(candidate) {
-  const id = String(candidate?.id || '');
-  if (id.startsWith('web-article-')) return 'fresh web discovery';
-  if (id.startsWith('rss-')) return 'fresh RSS source';
-  if (id.startsWith('articles-')) return 'saved reading queue';
-  if (id.startsWith('society-curated-')) return 'curated society library';
-  return 'curated source';
+  return readingProvenanceFit(candidate).label;
 }
 
 function articleSourceContext(candidate, publishedAt, articleWeights = {}) {

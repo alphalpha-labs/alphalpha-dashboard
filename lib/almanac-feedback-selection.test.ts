@@ -13,6 +13,7 @@ import {
   normalizeReadingPublishedDate,
   readingFreshnessScore,
   readingSourceQualityFit,
+  readingProvenanceFit,
   readingSelectionSignalSummary,
   readableSourceLabel,
   articleDayFit,
@@ -129,6 +130,19 @@ describe("almanac feedback selection gates", () => {
     expect(sourced.label).toContain("dated");
     expect(vague.label).toContain("no link");
     expect(vague.label).toContain("generic framing");
+  });
+
+  it("gives fresh Reading discoveries a modest provenance nudge", () => {
+    const freshWeb = readingProvenanceFit({ id: "web-article-example.com-0" });
+    const freshRss = readingProvenanceFit({ id: "rss-3-housing-governance" });
+    const savedQueue = readingProvenanceFit({ id: "articles-4-civic-life" });
+    const curated = readingProvenanceFit({ id: "society-curated-urbanism" });
+
+    expect(freshWeb.score).toBeGreaterThan(freshRss.score);
+    expect(freshRss.score).toBeGreaterThan(savedQueue.score);
+    expect(savedQueue.score).toBeGreaterThan(curated.score);
+    expect(freshWeb.score).toBeLessThan(1);
+    expect(freshRss.label).toContain("fresh RSS");
   });
 
   it("turns raw Reading hosts into human-readable source labels", () => {

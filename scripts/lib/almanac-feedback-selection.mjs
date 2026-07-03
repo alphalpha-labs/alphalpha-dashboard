@@ -258,6 +258,23 @@ export function readingSourceQualityFit(candidate = {}) {
   return { score, label };
 }
 
+export function readingProvenanceFit(candidate = {}) {
+  const id = String(candidate?.id || '');
+  if (id.startsWith('web-article-')) {
+    return { score: 0.7, label: 'fresh web discovery' };
+  }
+  if (id.startsWith('rss-')) {
+    return { score: 0.55, label: 'fresh RSS source' };
+  }
+  if (id.startsWith('articles-')) {
+    return { score: 0.25, label: 'saved reading queue' };
+  }
+  if (id.startsWith('society-curated-')) {
+    return { score: 0, label: 'curated society library' };
+  }
+  return { score: 0, label: 'curated source' };
+}
+
 export function austinExploreSeasonFit(candidate = {}, targetDate = new Date().toISOString().slice(0, 10)) {
   const month = Number(String(targetDate).slice(5, 7));
   const blob = [
