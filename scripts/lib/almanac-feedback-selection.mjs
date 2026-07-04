@@ -189,7 +189,7 @@ export function readingFreshnessScore(candidate = {}, targetDate = new Date().to
 
   const ageDays = Math.round((target - published) / 86_400_000);
   if (ageDays < -7) return -1.5;
-  if (ageDays < 0) return 0.3;
+  if (ageDays < 0) return -0.6;
   if (ageDays <= 3) return 1.8;
   if (ageDays <= 14) return 1.2;
   if (ageDays <= 45) return 0.6;

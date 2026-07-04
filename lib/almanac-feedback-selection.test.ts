@@ -110,6 +110,7 @@ describe("almanac feedback selection gates", () => {
       readingFreshnessScore({ publishedAt: "2026-03-01" }, "2026-06-18"),
     );
     expect(readingFreshnessScore({ publishedAt: "2024-01-01" }, "2026-06-18")).toBeLessThan(0);
+    expect(readingFreshnessScore({ publishedAt: "2026-06-20" }, "2026-06-18")).toBeLessThan(0);
   });
 
   it("prefers source-backed Reading candidates over vague linkless notes", () => {
