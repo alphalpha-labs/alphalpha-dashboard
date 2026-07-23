@@ -91,6 +91,10 @@ import {
   selectReadingPortfolio,
   toReadingRecommendation,
 } from './lib/almanac-reading-portfolio.mjs';
+import {
+  buildInvestmentLensCandidates,
+  selectInvestmentLens,
+} from './lib/almanac-investment-lens.mjs';
 
 // Feedback-honed web discovery, initialised in main(). null until then; tile
 // sourcers check `webDiscovery?.available` and fall back to curated sources.
@@ -280,6 +284,14 @@ function validateDailyData(data) {
     if (data.readingPortfolio?.status === 'healthy') {
       const minutes = data.reading.reduce((sum, item) => sum + Number(item.readMinutes || 0), 0);
       if (minutes < 20 || minutes > 45) throw new Error(`healthy reading portfolio outside 20–45 minute budget: ${minutes}`);
+    }
+  }
+  if (data.investmentLens) {
+    for (const field of ['id', 'kind', 'title', 'observation', 'interpretation', 'openQuestion', 'nextResearchAction', 'posture', 'asOf']) {
+      if (!String(data.investmentLens[field] || '').trim()) throw new Error(`investment lens missing ${field}`);
+    }
+    if (!/no trade|no allocation|research|observation/i.test(data.investmentLens.posture)) {
+      throw new Error('investment lens must state its non-execution boundary');
     }
   }
   for (const c of data.charts) validateChart(c);
@@ -476,6 +488,12 @@ function loadQuotesDataset() {
   const p = path.join(repoRoot, 'lib', 'almanac-datasets', 'quotes.json');
   if (!fs.existsSync(p)) return [];
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+function loadWorkspaceJson(relativePath) {
+  const p = path.join(workspaceRoot, relativePath);
+  if (!fs.existsSync(p)) return null;
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
 }
 
 // ── Markdown parsing helpers ──────────────────────────────────────────────────
@@ -2724,12 +2742,19 @@ async function main() {
 
   // ── Assemble & validate ───────────────────────────────────────────────────
 
+  const investmentLens = selectInvestmentLens(buildInvestmentLensCandidates({
+    marketBrief: loadWorkspaceJson('memory/investing/daily-market-brief/latest.json'),
+    ideaFarm: loadWorkspaceJson('memory/investing/idea-farm/latest.json'),
+    thesisReview: loadWorkspaceJson('memory/investing/portfolio-thesis-review/latest.json'),
+  }), targetDate) ?? fixture.investmentLens;
+
   const edition = {
     edition: editionNumber(targetDate),
     image,
     article,
     reading,
     readingPortfolio,
+    investmentLens,
     ventures,
     charts,
     quotes,
@@ -2755,6 +2780,7 @@ async function main() {
   log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
   log(`  article: ${article.source}${usedArticleIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  reading portfolio: ${reading.length || 1} item(s)${readingPortfolio ? ` · ${readingPortfolio.totalMinutes} min · ${readingPortfolio.status}` : ' · legacy'}`);
+  log(`  investment lens: ${edition.investmentLens?.kind ?? 'none'} · ${edition.investmentLens?.title?.slice(0, 50) ?? 'none'}`);
   log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);

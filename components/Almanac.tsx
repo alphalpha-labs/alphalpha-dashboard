@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore, DailyReadingRecommendation } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore, DailyReadingRecommendation, DailyInvestmentLens } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 import { almanacEditionNumber, almanacIsoForOffset, daysSinceAlmanacEpoch, localDateFromIso } from "@/lib/almanac-date";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
@@ -346,13 +346,14 @@ type AlmanacSavedItem = {
   source: string;
   url?: string;
   summary?: string;
+  lane?: "reading" | "investing";
   mode: "automatic" | "manual";
   destination: string;
   savedAt: string;
 };
 
 async function persistReadingSave(
-  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[] },
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing" },
   date: string,
   mode: "automatic" | "manual",
   remove = false,
@@ -369,6 +370,7 @@ async function persistReadingSave(
       summary: item.summary,
       role: item.role,
       topics: item.topics,
+      lane: item.lane ?? "reading",
       mode,
       remove,
     }),
@@ -385,7 +387,7 @@ function V2FeedbackBar({
   autoSave,
   onSavesChanged,
 }: {
-  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; genre: string; sub?: string };
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing"; genre: string; sub?: string };
   date: string;
   onDiscuss?: () => void;
   autoSave: boolean;
@@ -474,7 +476,7 @@ function V2FeedbackBar({
 function ContinueExploring({ refreshKey, date }: { refreshKey: number; date: string }) {
   const [items, setItems] = useState<AlmanacSavedItem[]>([]);
   useEffect(() => {
-    fetch(`/api/almanac/saves?limit=3&excludeDate=${encodeURIComponent(date)}&t=${refreshKey}`)
+    fetch(`/api/almanac/saves?limit=3&lane=reading&excludeDate=${encodeURIComponent(date)}&t=${refreshKey}`)
       .then(res => res.ok ? res.json() : { saves: [] })
       .then(data => setItems(data.saves ?? []))
       .catch(() => setItems([]));
@@ -930,6 +932,75 @@ function ReadingPortfolio({
         <p className="almanacReadingPortfolio__health">This edition used the strongest available set, but one or more portfolio constraints were relaxed.</p>
       )}
       <ContinueExploring refreshKey={savesVersion} date={date} />
+    </section>
+  );
+}
+
+function InvestmentLens({
+  lens,
+  date,
+  visibility,
+  openThread,
+}: {
+  lens: DailyInvestmentLens;
+  date: string;
+  visibility: BlockProps["visibility"];
+  openThread?: (ctx: ThreadContext) => void;
+}) {
+  const discuss = () => openThread?.({
+    type: "daily-market-brief",
+    id: `investment-lens-${lens.id}`,
+    title: lens.title,
+    summary: `${lens.observation}\n\nInterpretation: ${lens.interpretation}\n\nOpen question: ${lens.openQuestion}`,
+    category: "Daily investment lens",
+  });
+  return (
+    <section className="almanacInvestmentLens" aria-labelledby="investment-lens-title">
+      <div className="almanacInvestmentLens__kicker">
+        <span>Investment lens</span>
+        <span>{lens.kicker}</span>
+      </div>
+      <h2 id="investment-lens-title">{lens.title}</h2>
+      <div className="almanacInvestmentLens__section">
+        <span>Observation</span>
+        <p>{lens.observation}</p>
+      </div>
+      <div className="almanacInvestmentLens__section">
+        <span>Interpretation</span>
+        <p>{lens.interpretation}</p>
+      </div>
+      <div className="almanacInvestmentLens__question">
+        <span>Question worth answering</span>
+        <p>{lens.openQuestion}</p>
+        <strong>Next research move: {lens.nextResearchAction}</strong>
+      </div>
+      {!!lens.provenance.length && (
+        <div className="almanacInvestmentLens__sources">
+          <span>As of {new Date(lens.asOf).toLocaleDateString()}</span>
+          {lens.provenance.map(source => source.url
+            ? <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a>
+            : <span key={source.label}>{source.label}</span>)}
+        </div>
+      )}
+      <p className="almanacInvestmentLens__boundary">{lens.posture}</p>
+      <V2FeedbackBar
+        item={{
+          id: `investing:${lens.id}`,
+          genre: "longread",
+          title: lens.title,
+          sub: lens.kind,
+          source: lens.provenance[0]?.label || "Alphalpha investing system",
+          url: lens.provenance[0]?.url,
+          summary: lens.observation,
+          role: lens.kind,
+          topics: [...lens.relatedTheses, ...lens.relatedSymbols],
+          lane: "investing",
+        }}
+        date={date}
+        onDiscuss={discuss}
+        autoSave={visibility !== "readonly"}
+        onSavesChanged={() => {}}
+      />
     </section>
   );
 }
@@ -1767,7 +1838,9 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <>
             <ReadingPortfolio reads={resolved.reading} portfolio={resolved.readingPortfolio} visibility={vis} date={date} openThread={openThread} />
             <div className="almanacV2Secondary">
-              {longRead && <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact />}
+              {resolved.investmentLens
+                ? <InvestmentLens lens={resolved.investmentLens} visibility={vis} date={date} openThread={openThread} />
+                : (longRead && <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact />)}
               {renderBlock("venture", "dept")}
             </div>
           </>

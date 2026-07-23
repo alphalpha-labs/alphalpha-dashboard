@@ -594,6 +594,23 @@ export type DailyReadingRecommendation = {
   novelty?: { score: number; reason: string; closestTitle?: string };
 };
 
+export type DailyInvestmentLens = {
+  id: string;
+  kind: "thesis-update" | "new-idea" | "invalidation-check" | "valuation-watch";
+  kicker: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  openQuestion: string;
+  nextResearchAction: string;
+  posture: string;
+  asOf: string;
+  freshness: string;
+  relatedSymbols: string[];
+  relatedTheses: string[];
+  provenance: Array<{ label: string; url?: string; observedAt: string }>;
+};
+
 export type DailyAustinExplore = {
   title: string;
   category: string;
@@ -621,6 +638,7 @@ export type DailyData = {
   article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string; publishedAt?: string; freshnessLabel?: string; sourceContext?: string; url?: string; sourceLabel?: string };
   reading?:        DailyReadingRecommendation[];
   readingPortfolio?: { status: "healthy" | "degraded"; totalMinutes: number; minimumMinutes: number; maximumMinutes: number; candidateCount: number; uniqueSources: number; reason: string };
+  investmentLens?: DailyInvestmentLens;
   ventures:        DailyVenture[];
   charts:          DailyChart[];
   quotes:          { text: string; source: string }[];

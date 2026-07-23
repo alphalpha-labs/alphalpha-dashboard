@@ -2782,6 +2782,30 @@ input { font-family: inherit; }
 }
 .almanacContinue__grid a:hover { color: #714a22; }
 .almanacContinue__grid p { margin: 0; color: var(--ink-muted); font: 12px/1.45 'DM Sans', sans-serif; }
+.almanacInvestmentLens { background: rgba(40,63,60,.035); }
+.almanacInvestmentLens__kicker {
+  display: flex; justify-content: space-between; gap: 12px; color: #46645f;
+  font: 700 9px/1.3 'DM Sans', sans-serif; letter-spacing: .09em; text-transform: uppercase;
+}
+.almanacInvestmentLens__kicker span + span { color: var(--ink-muted); text-align: right; }
+.almanacInvestmentLens h2 {
+  margin: 10px 0 18px; color: var(--ink); font: 600 clamp(23px,2.5vw,32px)/1.02 'Cormorant Garamond', serif;
+}
+.almanacInvestmentLens__section { display: grid; grid-template-columns: 78px 1fr; gap: 12px; margin-top: 12px; }
+.almanacInvestmentLens__section > span,
+.almanacInvestmentLens__question > span {
+  color: #67807a; font: 700 9px/1.4 'DM Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase;
+}
+.almanacInvestmentLens__section p { margin: 0; color: var(--ink-muted); font: 12px/1.55 'DM Sans', sans-serif; }
+.almanacInvestmentLens__question {
+  margin-top: 18px; padding: 13px 14px; border-left: 3px solid #6f8a83; background: rgba(255,255,255,.4);
+}
+.almanacInvestmentLens__question p { margin: 5px 0 8px; color: var(--ink); font: 600 15px/1.35 'Cormorant Garamond', serif; }
+.almanacInvestmentLens__question strong { color: var(--ink-muted); font: 600 10px/1.45 'DM Sans', sans-serif; }
+.almanacInvestmentLens__sources { display: flex; flex-wrap: wrap; gap: 6px 10px; margin-top: 13px; font: 600 9px/1.35 'DM Sans', sans-serif; }
+.almanacInvestmentLens__sources span { color: var(--ink-muted); }
+.almanacInvestmentLens__sources a { color: #46645f; }
+.almanacInvestmentLens__boundary { margin: 12px 0 0; color: #806c56; font: 600 9px/1.4 'DM Sans', sans-serif; }
 .almanacReadingPortfolio__health {
   margin: 10px 0 0;
   color: var(--accent-med);
@@ -2807,6 +2831,7 @@ input { font-family: inherit; }
   .almanacReadingCard:last-child { border-bottom: 0; }
   .almanacContinue__grid { grid-template-columns: 1fr; }
   .almanacV2Feedback__receipt { grid-template-columns: 1fr; gap: 3px; }
+  .almanacInvestmentLens__section { grid-template-columns: 1fr; gap: 4px; }
   .almanacV2Secondary { grid-template-columns: 1fr; }
   .almanacV2Secondary > * + * { border-left: 0; border-top: 1px solid var(--border); }
 }

@@ -1,6 +1,6 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved; Phase 0–3 shipped 2026-07-23
+Status: approved; Phase 0–4 shipped 2026-07-23
 Owner: Alex
 Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
@@ -579,6 +579,15 @@ Acceptance gate:
 ### Phase 4 — Investment lens
 
 Goal: turn investing data into one daily decision-relevant editorial item.
+
+Implementation status: complete. The generator now normalizes fresh daily-market
+changes, Idea Farm research, and portfolio-thesis reviews into a single editorial
+contract: observation, interpretation, open question, next research action,
+freshness, provenance, and a non-execution posture. Selection alternates new
+ideas and existing-thesis developments over the rolling calendar, while still
+requiring an eligible source-backed candidate. The magazine renders the lane
+with one-click feedback, discussion, and automatic duplicate-safe saving to the
+Investment research queue.
 
 Deliverables:
 
