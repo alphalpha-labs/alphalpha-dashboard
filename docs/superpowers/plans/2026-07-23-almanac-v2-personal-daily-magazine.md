@@ -1,6 +1,6 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved; Phase 0–2 shipped 2026-07-23
+Status: approved; Phase 0–3 shipped 2026-07-23
 Owner: Alex
 Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
@@ -549,6 +549,14 @@ Rollout:
 ### Phase 3 — Feedback, automatic saves, and continuation
 
 Goal: close the learning loop with minimal effort.
+
+Implementation status: complete for the V2 Reading portfolio. Every reading card
+now exposes the agreed one-click actions, direct feedback writes explain how
+future ranking changes, the Anchor is automatically saved to a bounded Almanac
+reading queue, manual/automatic saves share duplicate-safe idempotency keys, save
+receipts name their destination, and saves can be removed. The latest three saves
+form a bounded `Continue exploring` shelf. Automatic saves are disabled when
+browsing readonly archived editions.
 
 Deliverables:
 

@@ -338,6 +338,167 @@ function KeepBtn({ kept, onClick }: { kept: boolean; onClick: () => void }) {
   );
 }
 
+type AlmanacSavedItem = {
+  id: string;
+  recommendationId: string;
+  editionDate: string;
+  title: string;
+  source: string;
+  url?: string;
+  summary?: string;
+  mode: "automatic" | "manual";
+  destination: string;
+  savedAt: string;
+};
+
+async function persistReadingSave(
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[] },
+  date: string,
+  mode: "automatic" | "manual",
+  remove = false,
+) {
+  const res = await fetch("/api/almanac/saves", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      recommendationId: item.id,
+      editionDate: date,
+      title: item.title,
+      source: item.source,
+      url: item.url,
+      summary: item.summary,
+      role: item.role,
+      topics: item.topics,
+      mode,
+      remove,
+    }),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(json?.error || "Save failed");
+  return json as { receipt: string; save?: AlmanacSavedItem; removed?: boolean };
+}
+
+function V2FeedbackBar({
+  item,
+  date,
+  onDiscuss,
+  autoSave,
+  onSavesChanged,
+}: {
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; genre: string; sub?: string };
+  date: string;
+  onDiscuss?: () => void;
+  autoSave: boolean;
+  onSavesChanged: () => void;
+}) {
+  const feedback = useFeedback(date);
+  const savedTune = feedback.tunes[item.id];
+  const [save, setSave] = useState<AlmanacSavedItem | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<string | null>(null);
+
+  const react = async (reaction: "more" | "less") => {
+    setBusy(reaction);
+    const ok = await saveTune(date, {
+      itemId: item.id,
+      reaction,
+      chips: [],
+      note: "",
+      at: Date.now(),
+      date,
+    }, item);
+    setBusy(null);
+    if (!ok) return showToast("Feedback was not saved. Try again.");
+    const message = reaction === "more"
+      ? "Saved. Similar topics and sources will rank higher."
+      : "Saved. Similar items will rank lower and repetition penalties will increase.";
+    setReceipt(message);
+    showToast(message);
+  };
+
+  const toggleSave = async (mode: "automatic" | "manual" = "manual") => {
+    setBusy("save");
+    try {
+      const result = await persistReadingSave(item, date, mode, !!save);
+      setSave(result.removed ? null : (result.save ?? save));
+      setReceipt(result.receipt);
+      showToast(result.receipt);
+      onSavesChanged();
+    } catch {
+      showToast("Could not update the reading queue. Try again.");
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!autoSave || save || busy === "save") return;
+    void toggleSave("automatic");
+    // One automatic attempt per mounted recommendation; server idempotency handles retries.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoSave, item.id, date]);
+
+  const goDeeper = async () => {
+    setBusy("deeper");
+    await saveTune(date, {
+      itemId: item.id,
+      reaction: "more",
+      chips: ["go deeper"],
+      note: "",
+      at: Date.now(),
+      date,
+    }, item);
+    setBusy(null);
+    setReceipt("Saved. Future editions will favor deeper treatments of this subject.");
+    onDiscuss?.();
+  };
+
+  return (
+    <div className="almanacV2Feedback">
+      <div className="almanacV2Feedback__actions" aria-label={`Actions for ${item.title}`}>
+        <button className={savedTune?.reaction === "more" ? "is-active" : ""} disabled={!!busy} onClick={() => void react("more")}>↑ More like this</button>
+        <button className={savedTune?.reaction === "less" ? "is-active" : ""} disabled={!!busy} onClick={() => void react("less")}>↓ Not for me</button>
+        <button className={save ? "is-active" : ""} disabled={!!busy} onClick={() => void toggleSave()}>{save ? "✓ Saved" : "＋ Save"}</button>
+        <button disabled={!!busy || !onDiscuss} onClick={() => void goDeeper()}><span aria-hidden="true">α</span> Go deeper</button>
+      </div>
+      {(receipt || save?.mode === "automatic") && (
+        <div className="almanacV2Feedback__receipt">
+          <span>Receipt</span>
+          <p>{receipt ?? `Automatically saved to ${save?.destination}. You can remove it with Saved.`}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ContinueExploring({ refreshKey, date }: { refreshKey: number; date: string }) {
+  const [items, setItems] = useState<AlmanacSavedItem[]>([]);
+  useEffect(() => {
+    fetch(`/api/almanac/saves?limit=3&excludeDate=${encodeURIComponent(date)}&t=${refreshKey}`)
+      .then(res => res.ok ? res.json() : { saves: [] })
+      .then(data => setItems(data.saves ?? []))
+      .catch(() => setItems([]));
+  }, [date, refreshKey]);
+  if (!items.length) return null;
+  return (
+    <section className="almanacContinue" aria-labelledby="continue-exploring-title">
+      <div className="almanacContinue__head">
+        <span>From your reading queue</span>
+        <h2 id="continue-exploring-title">Continue exploring</h2>
+      </div>
+      <div className="almanacContinue__grid">
+        {items.map(item => (
+          <article key={item.id}>
+            <div>{item.mode === "automatic" ? "Chosen for you" : "Saved by you"} · {item.source}</div>
+            {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a> : <h3>{item.title}</h3>}
+            {item.summary && <p>{item.summary}</p>}
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ── TuneStrip ────────────────────────────────────────────────────────────────
 const NUANCE_CHIPS = ["too long","wrong vibe","seen it","love the source","go deeper","more practical","more beautiful"];
 // Genre-specific tuning vocab — these steer tomorrow's pick via almanac-feedback-weights.
@@ -695,6 +856,7 @@ function ReadingPortfolio({
   date: string;
   openThread?: (ctx: ThreadContext) => void;
 }) {
+  const [savesVersion, setSavesVersion] = useState(0);
   return (
     <section className="almanacReadingPortfolio" aria-labelledby="three-worth-title">
       <div className="almanacReadingPortfolio__head">
@@ -743,27 +905,23 @@ function ReadingPortfolio({
               {read.sourceContext && <p className="almanacReadingCard__context">{read.sourceContext}</p>}
               <div className="almanacReadingCard__actions">
                 {read.url && (
-                  <>
-                    <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Read →</a>
-                    <ArticleSaveButton
-                      itemId={item.id}
-                      payload={{
-                        kind: "almanac-article",
-                        title: read.title,
-                        url: read.url,
-                        source: read.source,
-                        summary: read.dek,
-                        why: read.why,
-                        date,
-                        themes: read.topics,
-                        editorialRole: read.role,
-                      }}
-                      compact
-                    />
-                  </>
+                  <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Read →</a>
                 )}
               </div>
-              <TuneStrip visibility={visibility} compact item={item} date={date} onDiscuss={disc} />
+              <V2FeedbackBar
+                item={{
+                  ...item,
+                  source: read.source,
+                  url: read.url,
+                  summary: read.dek,
+                  role: read.role,
+                  topics: read.topics,
+                }}
+                date={date}
+                onDiscuss={disc}
+                autoSave={visibility !== "readonly" && read.role === "anchor"}
+                onSavesChanged={() => setSavesVersion(version => version + 1)}
+              />
             </article>
           );
         })}
@@ -771,6 +929,7 @@ function ReadingPortfolio({
       {portfolio?.status === "degraded" && (
         <p className="almanacReadingPortfolio__health">This edition used the strongest available set, but one or more portfolio constraints were relaxed.</p>
       )}
+      <ContinueExploring refreshKey={savesVersion} date={date} />
     </section>
   );
 }
