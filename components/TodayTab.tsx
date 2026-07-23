@@ -5,8 +5,9 @@ import type { ThreadContext } from "./Dashboard";
 import FocusCard from "./FocusCard";
 import ContextColumn from "./ContextColumn";
 import Almanac from "./Almanac";
+import DailyBriefing from "./DailyBriefing";
 
-const STORAGE_KEY = "alphalpha.todayView.v1";
+const STORAGE_KEY = "alphalpha.todayView.v2";
 
 interface Props {
   data:            DashboardData;
@@ -27,15 +28,15 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
   const current = activeActions[focusIdx % Math.max(activeActions.length, 1)];
   const highCount = activeActions.filter(a => a.priority === "HIGH").length;
 
-  const [view, setView] = useState<"edition" | "desk">(() => {
+  const [view, setView] = useState<"briefing" | "desk" | "edition">(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === "desk" || saved === "edition") return saved;
+      if (saved === "briefing" || saved === "desk" || saved === "edition") return saved;
     }
-    return "edition";
+    return "briefing";
   });
 
-  const switchView = (v: "edition" | "desk") => {
+  const switchView = (v: "briefing" | "desk" | "edition") => {
     setView(v);
     if (typeof window !== "undefined") localStorage.setItem(STORAGE_KEY, v);
   };
@@ -46,11 +47,11 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
       {/* Edition / Desk toggle */}
       <div className="todayToggleBar">
         <div className="todayToggle">
-          {(["edition", "desk"] as const).map(v => {
+          {(["briefing", "desk", "edition"] as const).map(v => {
             const on = view === v;
             return (
               <button key={v} onClick={() => switchView(v)} className={`todayToggle__btn${on ? " todayToggle__btn--on" : ""}`}>
-                {v === "edition" ? "Edition" : "Desk"}
+                {v === "briefing" ? "Briefing" : v === "edition" ? "Almanac" : "Focus"}
                 {v === "desk" && highCount > 0 && (
                   <span className={`todayToggle__badge${on ? " todayToggle__badge--on" : ""}`}>{highCount}</span>
                 )}
@@ -59,6 +60,20 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
           })}
         </div>
       </div>
+
+      {view === "briefing" && (
+        <div className="todayScroll">
+          <DailyBriefing
+            data={data}
+            actions={activeActions}
+            loops={loops}
+            onDone={onDone}
+            onAdd={onAdd}
+            onDiscuss={onDiscuss}
+            onOpenDesk={() => switchView("desk")}
+          />
+        </div>
+      )}
 
       {/* Edition — The Almanac */}
       {view === "edition" && (
