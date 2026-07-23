@@ -1,8 +1,8 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved product direction; implementation not started  
-Owner: Alex  
-Implementation home: `alphalpha-labs/alphalpha-dashboard`  
+Status: approved; Phase 0–1 foundation shipped 2026-07-23
+Owner: Alex
+Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
 Primary generation path: `scripts/generate-almanac.mjs`
 
@@ -444,6 +444,12 @@ If the destination is ambiguous, use `suggest` instead of `automatic`.
 
 Goal: make quality measurable before changing selection behavior.
 
+Implementation status: foundation complete. `npm run almanac:evaluate` now produces
+a deterministic candidate/exposure report, and the novelty fixture suite covers
+canonical URLs, title fingerprints, near-duplicates, source saturation, exposure
+compaction, and rejection summaries. Broader 14-day replay comparison remains part
+of the Phase 2 pre-release gate.
+
 Deliverables:
 
 - Capture a representative fixture corpus from recent candidates and editions.
@@ -468,6 +474,13 @@ Acceptance gate:
 ### Phase 1 — Exposure ledger and novelty defenses
 
 Goal: prevent the most important failure modes before expanding content.
+
+Implementation status: complete for the current Reading lane. The generator seeds
+a compact exposure ledger from recent immutable editions, rejects exact URL/title
+and cross-source near-duplicate exposures, penalizes repeated sources, records
+shown Reading/Long Read items after publication, and adds bounded novelty results
+to run receipts. These controls become shared inputs to the three-read selector in
+Phase 2.
 
 Deliverables:
 
@@ -798,4 +811,3 @@ Almanac V2 is complete when:
 - interests can evolve through explainable signals;
 - stale, repeated, or obvious recommendations are exceptional and diagnosable;
 - production operation is reliable, bounded, and recoverable.
-

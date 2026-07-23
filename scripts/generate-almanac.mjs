@@ -81,6 +81,12 @@ import {
   wantsLessAiFocus,
   workshopNoteTerms,
 } from './lib/almanac-feedback-selection.mjs';
+import {
+  assessCandidateNovelty,
+  buildExposureEvent,
+  compactExposureLedger,
+  evaluateNoveltyPool,
+} from './lib/almanac-novelty.mjs';
 
 // Feedback-honed web discovery, initialised in main(). null until then; tile
 // sourcers check `webDiscovery?.available` and fall back to curated sources.
@@ -402,6 +408,53 @@ async function recordUsed(genre, ids, date) {
   }
 }
 
+const exposureLedgerKey = 'alphalpha:almanac:exposure:v2';
+
+async function loadExposureLedger() {
+  const stored = (await kvGet(exposureLedgerKey)) ?? [];
+  if (!redis) return compactExposureLedger(Array.isArray(stored) ? stored : []);
+
+  // Seed/mend the compact ledger from recent immutable editions. This makes the
+  // novelty layer useful on its first live run without requiring a separate migration.
+  const editionKeys = (await kvScan('alphalpha:almanac:edition:*'))
+    .sort()
+    .slice(-90);
+  const editions = await Promise.all(editionKeys.map(key => kvGet(key)));
+  const seeded = [];
+  for (let index = 0; index < editions.length; index += 1) {
+    const edition = editions[index];
+    if (!edition || typeof edition !== 'object') continue;
+    const editionDate = edition.date
+      || editionKeys[index]?.split(':').pop()
+      || '';
+    const readingItems = [
+      edition.article,
+      edition.macroRead,
+      ...(edition.longReads ?? []),
+      ...(edition.reading ?? []),
+    ].filter(Boolean);
+    for (const item of readingItems) seeded.push(buildExposureEvent(item, editionDate));
+  }
+  return compactExposureLedger([
+    ...(Array.isArray(stored) ? stored : []),
+    ...seeded,
+  ]);
+}
+
+async function recordExposures(items, date) {
+  if (!redis || !items.length) return;
+  try {
+    const existing = (await kvGet(exposureLedgerKey)) ?? [];
+    const fresh = items.map(item => buildExposureEvent(item, date));
+    await kvSet(exposureLedgerKey, compactExposureLedger([
+      ...(Array.isArray(existing) ? existing : []),
+      ...fresh,
+    ]));
+  } catch (e) {
+    warn(`recordExposures failed: ${e.message}`);
+  }
+}
+
 // ── Dataset loader ────────────────────────────────────────────────────────────
 
 function loadQuotesDataset() {
@@ -655,11 +708,13 @@ function sourceSocietyArticleCandidates() {
     .filter(c => c.title && (!c.link || (!isBlockedReadingUrl(c.link) && !isGenericReadingUrl(c.link))));
 }
 
-function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, projectsText) {
-  if (candidates.length === 0) return null;
+function rankArticle(candidates, feedbackWeights, recentIds, exposureLedger, openLoopsText, projectsText) {
+  if (candidates.length === 0) return { best: null, report: evaluateNoveltyPool([], exposureLedger, { targetDate }) };
 
   const aw = feedbackWeights.article ?? {};
   const feedbackProfile = articleFeedbackProfile(aw);
+  const report = evaluateNoveltyPool(candidates, exposureLedger, { targetDate });
+  const assessments = new Map(report.assessments.map(item => [item.id, item]));
 
   // Keywords from open loops and project names for overlap scoring.
   const loopKeywords = extractBullets(openLoopsText)
@@ -684,10 +739,14 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     const candidateTitleKey = `title:${titleKey(c.title)}`;
     const candidateLinkKey = c.link ? linkKey(c.link) : null;
     const blob = `${c.title} ${c.why} ${c.themes.join(' ')}`.toLowerCase();
+    const novelty = assessments.get(c.id)
+      ?? assessCandidateNovelty(c, exposureLedger, { targetDate });
 
     // Dedup: reject anything seen in the last 14 days by id, canonical link, or normalized title.
     if (recentIds.includes(c.id) || recentIds.includes(candidateTitleKey) || (candidateLinkKey && recentIds.includes(candidateLinkKey)))
       score -= 100;
+    if (!novelty.eligible) score -= 100;
+    else score += novelty.noveltyScore - novelty.penalty;
 
     // Hard user preference: when feedback says less/no AI-focused Reading, AI/ML/LLM pieces are out.
     if (feedbackProfile.avoidAiFocused && isAiFocusedText(blob)) score -= 100;
@@ -723,11 +782,18 @@ function rankArticle(candidates, feedbackWeights, recentIds, openLoopsText, proj
     // Project-name overlap.
     score += projectNames.filter(pn => blob.includes(pn)).length * 0.15;
 
-    return { ...c, score };
+    return { ...c, score, novelty };
   });
 
   scored.sort((a, b) => b.score - a.score);
-  return scored[0].score < -5 ? null : scored[0]; // all deduped → null → fixture
+  return {
+    best: scored[0].score < -5 ? null : scored[0],
+    report: {
+      ...report,
+      selectedId: scored[0].score < -5 ? null : scored[0].id,
+      selectedNovelty: scored[0].score < -5 ? null : scored[0].novelty,
+    },
+  };
 }
 
 function formatReadingDate(dateIso) {
@@ -850,7 +916,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
   return article;
 }
 
-async function tileArticle(feedbackWeights, recentIds, contextFiles) {
+async function tileArticle(feedbackWeights, recentIds, exposureLedger, contextFiles) {
   // Merge workspace candidates (primary), RSS, and feedback-honed web discovery.
   const [wsResult, rssResult, webResult] = await Promise.allSettled([
     Promise.resolve(sourceArticleCandidates()),
@@ -866,11 +932,12 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
   if (candidates.length === 0) return null;
 
   const articleRecentIds = [...new Set([...recentIds, ...articleQueueHistoryIds()])];
-  const best = rankArticle(
-    candidates, feedbackWeights, articleRecentIds,
+  const { best, report } = rankArticle(
+    candidates, feedbackWeights, articleRecentIds, exposureLedger,
     contextFiles.openLoopsText, contextFiles.projectsText,
   );
-  if (!best) return null;
+  log(`  article novelty: ${report.eligibleCount}/${report.candidateCount} eligible; rejected=${report.rejectedCount}; reasons=${JSON.stringify(report.rejectionReasons)}`);
+  if (!best) return { article: null, sourceIds: [], noveltyReport: report };
 
   const article = await composeArticle(best, contextFiles, feedbackWeights.article ?? {});
   if (!article.title?.trim()) throw new Error('article missing title after compose');
@@ -882,7 +949,7 @@ async function tileArticle(feedbackWeights, recentIds, contextFiles) {
     `title:${titleKey(best.title)}`,
     best.link ? linkKey(best.link) : null,
   ].filter(Boolean);
-  return { article, sourceIds };
+  return { article, sourceIds, noveltyReport: report, selectedCandidate: best };
 }
 
 // ── Phase 3 Tile: Look (image) ────────────────────────────────────────────────
@@ -2399,10 +2466,11 @@ async function main() {
   }
 
   // Load everything that's needed synchronously / in parallel.
-  const [feedbackWeights, allQuotes, fixture] = await Promise.all([
+  const [feedbackWeights, allQuotes, fixture, exposureLedger] = await Promise.all([
     loadFeedbackWeights(),
     Promise.resolve(loadQuotesDataset()),
     Promise.resolve(loadFixture()),
+    loadExposureLedger(),
   ]);
 
   if (!fixture) {
@@ -2434,6 +2502,7 @@ async function main() {
 
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
+  log(`Reading exposure ledger: ${exposureLedger.length} compact events`);
   log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length} riff:${recentRiffIds.length} production:${recentProductionIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
@@ -2458,9 +2527,11 @@ async function main() {
   // Phase 2 — Article (Sourcer → Ranker → Composer; returns {article, sourceId} or null)
   let article       = fixture.article;
   let usedArticleIds = [];
+  let articleNoveltyReport = null;
   try {
-    const result = await tileArticle(feedbackWeights, recentArticleIds, contextFiles);
-    if (result) {
+    const result = await tileArticle(feedbackWeights, recentArticleIds, exposureLedger, contextFiles);
+    articleNoveltyReport = result?.noveltyReport ?? null;
+    if (result?.article) {
       article = result.article;
       usedArticleIds = result.sourceIds ?? [];
       log(`  article: OK — "${article.title.slice(0, 60)}…"`);
@@ -2681,10 +2752,22 @@ async function main() {
     usedPoemIds.length > 0         ? recordUsed('poem', usedPoemIds, targetDate) : Promise.resolve(),
     usedLongReadIds.length > 0     ? recordUsed('longread', usedLongReadIds, targetDate) : Promise.resolve(),
     usedAustinExploreIds.length > 0 ? recordUsed('austin', usedAustinExploreIds, targetDate) : Promise.resolve(),
+    recordExposures([
+      article,
+      ...longReads,
+    ].filter(Boolean), targetDate),
   ]);
 
   log('History updated. Done.');
-  await setRunStatus('done', 'Complete', { completedAt: new Date().toISOString() });
+  await setRunStatus('done', 'Complete', {
+    completedAt: new Date().toISOString(),
+    novelty: articleNoveltyReport ? {
+      candidates: articleNoveltyReport.candidateCount,
+      eligible: articleNoveltyReport.eligibleCount,
+      rejected: articleNoveltyReport.rejectedCount,
+      reasons: articleNoveltyReport.rejectionReasons,
+    } : null,
+  });
 }
 
 main().catch(async e => {
