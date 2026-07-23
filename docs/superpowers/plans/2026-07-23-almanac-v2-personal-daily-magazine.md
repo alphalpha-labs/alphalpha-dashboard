@@ -1,6 +1,6 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved; Phase 0–1 foundation shipped 2026-07-23
+Status: approved; Phase 0–2 shipped 2026-07-23
 Owner: Alex
 Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
@@ -512,6 +512,13 @@ Acceptance gate:
 ### Phase 2 — Three-read editorial portfolio
 
 Goal: ship the first visible V2 improvement.
+
+Implementation status: complete. The live candidate pipeline now selects a
+portfolio with Anchor/Lens/Frontier roles, a 20–45 minute target, source/topic
+diversity, and one explicitly exploratory pick. V2 editions carry typed reading
+and portfolio metadata; the Almanac renders a magazine-style “Three worth your
+time” opening while archived V1 editions retain their legacy layout. The first
+KV-backed dry-run produced a healthy 30-minute portfolio across three sources.
 
 Deliverables:
 

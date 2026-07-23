@@ -573,6 +573,27 @@ export type DailyLongRead = {
   sourceLabel?: string;
 };
 
+export type DailyReadingRecommendation = {
+  id: string;
+  role: "anchor" | "lens" | "frontier";
+  exploration: boolean;
+  readMinutes: number;
+  kicker: string;
+  source: string;
+  readTime: string;
+  title: string;
+  dek: string;
+  why: string;
+  whyNow: string;
+  publishedAt?: string;
+  freshnessLabel?: string;
+  sourceContext?: string;
+  url?: string;
+  sourceLabel?: string;
+  topics: string[];
+  novelty?: { score: number; reason: string; closestTitle?: string };
+};
+
 export type DailyAustinExplore = {
   title: string;
   category: string;
@@ -598,6 +619,8 @@ export type DailyData = {
   edition:         string;
   image:           { kicker: string; title: string; caption: string; credit: string; curator: string; url?: string; srcLink?: string; tags?: string[] };
   article:         { kicker: string; source: string; readTime: string; title: string; dek: string; why: string; publishedAt?: string; freshnessLabel?: string; sourceContext?: string; url?: string; sourceLabel?: string };
+  reading?:        DailyReadingRecommendation[];
+  readingPortfolio?: { status: "healthy" | "degraded"; totalMinutes: number; minimumMinutes: number; maximumMinutes: number; candidateCount: number; uniqueSources: number; reason: string };
   ventures:        DailyVenture[];
   charts:          DailyChart[];
   quotes:          { text: string; source: string }[];

@@ -152,12 +152,38 @@ export const DailyArticleSchema = z.object({
   sourceLabel: z.string().optional(),
 });
 
+export const DailyReadingRecommendationSchema = DailyArticleSchema.extend({
+  id:          z.string().min(1),
+  role:        z.enum(["anchor", "lens", "frontier"]),
+  exploration: z.boolean(),
+  readMinutes: z.number().int().positive(),
+  whyNow:      z.string().min(1),
+  topics:      z.array(z.string()).default([]),
+  novelty:     z.object({
+    score:        z.number(),
+    reason:       z.string(),
+    closestTitle: z.string().optional(),
+  }).optional(),
+});
+
+export const DailyReadingPortfolioSchema = z.object({
+  status:         z.enum(["healthy", "degraded"]),
+  totalMinutes:   z.number().nonnegative(),
+  minimumMinutes: z.number().nonnegative(),
+  maximumMinutes: z.number().positive(),
+  candidateCount: z.number().int().nonnegative(),
+  uniqueSources:  z.number().int().nonnegative(),
+  reason:         z.string(),
+});
+
 // ── Root schema ──────────────────────────────────────────────────────────────
 
 export const DailyDataSchema = z.object({
   edition:         z.string().min(1),
   image:           DailyImageSchema,
   article:         DailyArticleSchema,
+  reading:         z.array(DailyReadingRecommendationSchema).max(3).optional(),
+  readingPortfolio: DailyReadingPortfolioSchema.optional(),
   ventures:        z.array(DailyVentureSchema),
   charts:          z.array(DailyChartSchema),
   quotes:          z.array(QuoteSchema).min(1),

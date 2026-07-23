@@ -87,6 +87,10 @@ import {
   compactExposureLedger,
   evaluateNoveltyPool,
 } from './lib/almanac-novelty.mjs';
+import {
+  selectReadingPortfolio,
+  toReadingRecommendation,
+} from './lib/almanac-reading-portfolio.mjs';
 
 // Feedback-honed web discovery, initialised in main(). null until then; tile
 // sourcers check `webDiscovery?.available` and fall back to curated sources.
@@ -267,6 +271,17 @@ function validateDailyData(data) {
   if (data.productionClips && !Array.isArray(data.productionClips)) throw new Error('productionClips must be array');
   validateQuotes(data.quotes);
   validateQuotes(data.parentingQuotes);
+  if (data.reading?.length) {
+    if (data.reading.length !== 3) throw new Error('reading portfolio must contain exactly three items when present');
+    const roles = data.reading.map(item => item.role);
+    if (new Set(roles).size !== 3 || !['anchor', 'lens', 'frontier'].every(role => roles.includes(role))) {
+      throw new Error('reading portfolio must contain anchor, lens, and frontier roles');
+    }
+    if (data.readingPortfolio?.status === 'healthy') {
+      const minutes = data.reading.reduce((sum, item) => sum + Number(item.readMinutes || 0), 0);
+      if (minutes < 20 || minutes > 45) throw new Error(`healthy reading portfolio outside 20–45 minute budget: ${minutes}`);
+    }
+  }
   for (const c of data.charts) validateChart(c);
   runAlmanacQa(data);
 }
@@ -709,7 +724,7 @@ function sourceSocietyArticleCandidates() {
 }
 
 function rankArticle(candidates, feedbackWeights, recentIds, exposureLedger, openLoopsText, projectsText) {
-  if (candidates.length === 0) return { best: null, report: evaluateNoveltyPool([], exposureLedger, { targetDate }) };
+  if (candidates.length === 0) return { best: null, rankedCandidates: [], report: evaluateNoveltyPool([], exposureLedger, { targetDate }) };
 
   const aw = feedbackWeights.article ?? {};
   const feedbackProfile = articleFeedbackProfile(aw);
@@ -788,6 +803,7 @@ function rankArticle(candidates, feedbackWeights, recentIds, exposureLedger, ope
   scored.sort((a, b) => b.score - a.score);
   return {
     best: scored[0].score < -5 ? null : scored[0],
+    rankedCandidates: scored.filter(candidate => candidate.score >= -5),
     report: {
       ...report,
       selectedId: scored[0].score < -5 ? null : scored[0].id,
@@ -932,24 +948,53 @@ async function tileArticle(feedbackWeights, recentIds, exposureLedger, contextFi
   if (candidates.length === 0) return null;
 
   const articleRecentIds = [...new Set([...recentIds, ...articleQueueHistoryIds()])];
-  const { best, report } = rankArticle(
+  const { best, rankedCandidates, report } = rankArticle(
     candidates, feedbackWeights, articleRecentIds, exposureLedger,
     contextFiles.openLoopsText, contextFiles.projectsText,
   );
   log(`  article novelty: ${report.eligibleCount}/${report.candidateCount} eligible; rejected=${report.rejectedCount}; reasons=${JSON.stringify(report.rejectionReasons)}`);
   if (!best) return { article: null, sourceIds: [], noveltyReport: report };
 
-  const article = await composeArticle(best, contextFiles, feedbackWeights.article ?? {});
+  const portfolio = selectReadingPortfolio(rankedCandidates, {
+    minMinutes: 20,
+    maxMinutes: 45,
+  });
+  const selectedCandidates = portfolio.selected.length >= 3
+    ? portfolio.selected
+    : [{ ...best, role: 'anchor', exploration: false, readMinutes: 10 }];
+  const composedArticles = await Promise.all(
+    selectedCandidates.map(candidate => composeArticle(candidate, contextFiles, feedbackWeights.article ?? {})),
+  );
+  const article = composedArticles[0];
   if (!article.title?.trim()) throw new Error('article missing title after compose');
   if (!article.dek?.trim())   throw new Error('article missing dek after compose');
+  const reading = portfolio.selected.length >= 3
+    ? selectedCandidates.map((candidate, index) => toReadingRecommendation(candidate, composedArticles[index]))
+    : [];
+  log(`  reading portfolio: ${portfolio.status}; ${portfolio.totalMinutes} min; ${portfolio.uniqueSources ?? 0} sources; roles=${reading.map(item => item.role).join('/') || 'legacy-anchor'}`);
 
   // Prefer stable link over file-based ID for dedup — links survive renames.
-  const sourceIds = [
-    best.id,
-    `title:${titleKey(best.title)}`,
-    best.link ? linkKey(best.link) : null,
-  ].filter(Boolean);
-  return { article, sourceIds, noveltyReport: report, selectedCandidate: best };
+  const sourceIds = selectedCandidates.flatMap(candidate => [
+    candidate.id,
+    `title:${titleKey(candidate.title)}`,
+    candidate.link ? linkKey(candidate.link) : null,
+  ]).filter(Boolean);
+  return {
+    article,
+    reading,
+    readingPortfolio: {
+      status: portfolio.status,
+      totalMinutes: portfolio.totalMinutes,
+      minimumMinutes: 20,
+      maximumMinutes: 45,
+      candidateCount: portfolio.candidateCount,
+      uniqueSources: portfolio.uniqueSources ?? 0,
+      reason: portfolio.reason,
+    },
+    sourceIds,
+    noveltyReport: report,
+    selectedCandidates,
+  };
 }
 
 // ── Phase 3 Tile: Look (image) ────────────────────────────────────────────────
@@ -2528,11 +2573,15 @@ async function main() {
   let article       = fixture.article;
   let usedArticleIds = [];
   let articleNoveltyReport = null;
+  let reading = [];
+  let readingPortfolio = null;
   try {
     const result = await tileArticle(feedbackWeights, recentArticleIds, exposureLedger, contextFiles);
     articleNoveltyReport = result?.noveltyReport ?? null;
     if (result?.article) {
       article = result.article;
+      reading = result.reading ?? [];
+      readingPortfolio = result.readingPortfolio ?? null;
       usedArticleIds = result.sourceIds ?? [];
       log(`  article: OK — "${article.title.slice(0, 60)}…"`);
     } else {
@@ -2679,6 +2728,8 @@ async function main() {
     edition: editionNumber(targetDate),
     image,
     article,
+    reading,
+    readingPortfolio,
     ventures,
     charts,
     quotes,
@@ -2703,6 +2754,7 @@ async function main() {
   log(`Edition assembled: ${edition.edition}`);
   log(`  image: ${image.title}${usedImageId ? ' (live)' : ' (fixture)'}`);
   log(`  article: ${article.source}${usedArticleIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  reading portfolio: ${reading.length || 1} item(s)${readingPortfolio ? ` · ${readingPortfolio.totalMinutes} min · ${readingPortfolio.status}` : ' · legacy'}`);
   log(`  ventures: ${edition.ventures.length}${usedVentureIds.length ? ` live (${usedVentureIds.join(', ')})` : ' (fixture)'}`);
   log(`  surprise: form=${edition.surprises[0]?.form ?? 'none'}${usedSurpriseIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  quotes: ${edition.quotes.length} mind, ${edition.parentingQuotes.length} parenting`);
@@ -2753,7 +2805,7 @@ async function main() {
     usedLongReadIds.length > 0     ? recordUsed('longread', usedLongReadIds, targetDate) : Promise.resolve(),
     usedAustinExploreIds.length > 0 ? recordUsed('austin', usedAustinExploreIds, targetDate) : Promise.resolve(),
     recordExposures([
-      article,
+      ...(reading.length ? reading : [article]),
       ...longReads,
     ].filter(Boolean), targetDate),
   ]);

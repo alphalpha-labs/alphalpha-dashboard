@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore, DailyReadingRecommendation } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 import { almanacEditionNumber, almanacIsoForOffset, daysSinceAlmanacEpoch, localDateFromIso } from "@/lib/almanac-date";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
@@ -679,6 +679,99 @@ function ArticleBlock({ d, size, visibility, date, openThread }: BlockProps) {
       )}
       <TuneStrip visibility={visibility} compact={!lead} item={item} date={date} onDiscuss={lead ? disc : undefined} />
     </div>
+  );
+}
+
+function ReadingPortfolio({
+  reads,
+  portfolio,
+  visibility,
+  date,
+  openThread,
+}: {
+  reads: DailyReadingRecommendation[];
+  portfolio: DailyData["readingPortfolio"];
+  visibility: BlockProps["visibility"];
+  date: string;
+  openThread?: (ctx: ThreadContext) => void;
+}) {
+  return (
+    <section className="almanacReadingPortfolio" aria-labelledby="three-worth-title">
+      <div className="almanacReadingPortfolio__head">
+        <div>
+          <span className="almanacReadingPortfolio__eyebrow">Your morning reading</span>
+          <h2 id="three-worth-title">Three worth your time</h2>
+          <p>Different doors into the day—not three versions of the same idea.</p>
+        </div>
+        <div className="almanacReadingPortfolio__budget">
+          <strong>{portfolio?.totalMinutes ?? reads.reduce((sum, read) => sum + read.readMinutes, 0)} min</strong>
+          <span>20–45 minute edition</span>
+        </div>
+      </div>
+      <div className="almanacReadingPortfolio__grid">
+        {reads.map((read, index) => {
+          const item = { id: `article:${read.id}`, genre: "article" as Genre, title: read.title, sub: read.source };
+          const disc = () => openThread?.({
+            type: "digest",
+            id: `daily-reading-${read.id}`,
+            title: read.title,
+            summary: read.dek,
+            category: `${read.role} reading`,
+          });
+          return (
+            <article className={`almanacReadingCard almanacReadingCard--${read.role}`} key={read.id}>
+              <div className="almanacReadingCard__number">{String(index + 1).padStart(2, "0")}</div>
+              <div className="almanacReadingCard__role">
+                {read.kicker}
+                {read.exploration && <span>25% exploration</span>}
+              </div>
+              <div className="almanacReadingCard__meta">
+                <span>{read.sourceLabel || read.source}</span>
+                <span>{read.readMinutes} min</span>
+                {read.freshnessLabel && <span>{read.freshnessLabel}</span>}
+              </div>
+              {read.url ? (
+                <a className="almanacReadingCard__title" href={read.url} target="_blank" rel="noopener noreferrer">{read.title}</a>
+              ) : (
+                <h3 className="almanacReadingCard__title">{read.title}</h3>
+              )}
+              <p className="almanacReadingCard__dek">{read.dek}</p>
+              <div className="almanacReadingCard__why">
+                <span>Why today</span>
+                <p>{read.why}</p>
+              </div>
+              {read.sourceContext && <p className="almanacReadingCard__context">{read.sourceContext}</p>}
+              <div className="almanacReadingCard__actions">
+                {read.url && (
+                  <>
+                    <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Read →</a>
+                    <ArticleSaveButton
+                      itemId={item.id}
+                      payload={{
+                        kind: "almanac-article",
+                        title: read.title,
+                        url: read.url,
+                        source: read.source,
+                        summary: read.dek,
+                        why: read.why,
+                        date,
+                        themes: read.topics,
+                        editorialRole: read.role,
+                      }}
+                      compact
+                    />
+                  </>
+                )}
+              </div>
+              <TuneStrip visibility={visibility} compact item={item} date={date} onDiscuss={disc} />
+            </article>
+          );
+        })}
+      </div>
+      {portfolio?.status === "degraded" && (
+        <p className="almanacReadingPortfolio__health">This edition used the strongest available set, but one or more portfolio constraints were relaxed.</p>
+      )}
+    </section>
   );
 }
 
@@ -1510,16 +1603,26 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           </div>
         )}
 
-        {/* Departments */}
-        <div className={`almanac__depts${longRead ? " almanac__depts--withLongRead" : ""}${isMobile ? " almanac__depts--mobile" : ""}`}>
-          {deptItems.map((t, i) => (
-            <div key={t} className={`almanac__dept${!isMobile && i > 0 ? " almanac__dept--divided" : ""}`}>
-              {t === "longread-card"
-                ? (longRead ? <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact /> : null)
-                : renderBlock(t, "dept")}
+        {/* V2 reading portfolio; archived V1 editions keep the legacy departments. */}
+        {resolved.reading?.length === 3 ? (
+          <>
+            <ReadingPortfolio reads={resolved.reading} portfolio={resolved.readingPortfolio} visibility={vis} date={date} openThread={openThread} />
+            <div className="almanacV2Secondary">
+              {longRead && <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact />}
+              {renderBlock("venture", "dept")}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          <div className={`almanac__depts${longRead ? " almanac__depts--withLongRead" : ""}${isMobile ? " almanac__depts--mobile" : ""}`}>
+            {deptItems.map((t, i) => (
+              <div key={t} className={`almanac__dept${!isMobile && i > 0 ? " almanac__dept--divided" : ""}`}>
+                {t === "longread-card"
+                  ? (longRead ? <LongReadBlock read={longRead} visibility={vis} date={date} openThread={openThread} compact /> : null)
+                  : renderBlock(t, "dept")}
+              </div>
+            ))}
+          </div>
+        )}
 
         {isMobile && (poem || quote || parentQuote) && (
           <div className="almanacOpeningStack almanacOpeningStack--mobile">
