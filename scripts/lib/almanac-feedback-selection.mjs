@@ -145,6 +145,7 @@ export function isArticleIndexText(text = '') {
 export function isReadingBadFormatText(text = '') {
   const lower = String(text).toLowerCase();
   return /\b(?:pdf|textbook|worksheet|syllabus|course packet|lecture notes|contemporary introduction|encyclopedia entry)\b/.test(lower)
+    || /\b(?:dictionary|definition|meaning of|thesaurus)\b/.test(lower)
     || /\b(?:internet encyclopedia of philosophy|stanford encyclopedia of philosophy|iep\.utm\.edu|plato\.stanford\.edu)\b/.test(lower)
     || /\b(?:topics?|ideas?)\s+for\s+(?:papers?|essays?)\b/.test(lower)
     || /\b(?:essay examples?|paper examples?|research paper topics?|writing prompts?)\b/.test(lower)

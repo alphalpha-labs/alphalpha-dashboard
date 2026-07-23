@@ -60,6 +60,21 @@ export const DailyProductionClipSchema = z.object({
   sourceUrl:  z.string().url().optional(),
 });
 
+export const DailyMusicSparkSchema = z.object({
+  id: z.string().min(1),
+  format: z.enum(["riff", "production-breakdown", "sound-experiment", "creative-constraint", "short-exercise"]),
+  kicker: z.string().min(1),
+  title: z.string().min(1),
+  creator: z.string().min(1),
+  why: z.string().min(1),
+  tryThisNow: z.string().min(1),
+  durationMinutes: z.number().int().min(5).max(15),
+  videoId: z.string().optional(),
+  start: z.number().int().nonnegative().optional(),
+  sourceUrl: z.string().url().optional(),
+  tags: z.array(z.string()),
+});
+
 export const DailyPoemSchema = z.object({
   title:       z.string().min(1),
   poet:        z.string().min(1),
@@ -213,6 +228,7 @@ export const DailyDataSchema = z.object({
   surprises:       z.array(SurpriseSchema),
   riffs:           z.array(DailyRiffSchema).optional(),
   productionClips: z.array(DailyProductionClipSchema).optional(),
+  musicSpark:      DailyMusicSparkSchema.optional(),
   poems:           z.array(DailyPoemSchema).optional(),
   macroRead:       DailyLongReadSchema.optional(),
   longReads:       z.array(DailyLongReadSchema).optional(),

@@ -95,6 +95,10 @@ import {
   buildInvestmentLensCandidates,
   selectInvestmentLens,
 } from './lib/almanac-investment-lens.mjs';
+import {
+  buildMusicSparkCandidates,
+  selectMusicSpark,
+} from './lib/almanac-music-spark.mjs';
 
 // Feedback-honed web discovery, initialised in main(). null until then; tile
 // sourcers check `webDiscovery?.available` and fall back to curated sources.
@@ -293,6 +297,10 @@ function validateDailyData(data) {
     if (!/no trade|no allocation|research|observation/i.test(data.investmentLens.posture)) {
       throw new Error('investment lens must state its non-execution boundary');
     }
+  }
+  if (data.musicSpark) {
+    if (!data.musicSpark.title?.trim() || !data.musicSpark.tryThisNow?.trim()) throw new Error('music spark missing title or action');
+    if (data.musicSpark.durationMinutes < 5 || data.musicSpark.durationMinutes > 15) throw new Error('music spark action must take 5–15 minutes');
   }
   for (const c of data.charts) validateChart(c);
   runAlmanacQa(data);
@@ -2548,7 +2556,7 @@ async function main() {
   log(`Web discovery: ${webDiscovery.provider}${webDiscovery.available ? ' (active)' : ' (fallback — curated sources)'}`);
   await setRunStatus('running', `Discovery via ${webDiscovery.provider}`);
 
-  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds, recentPoemIds, recentLongReadIds, recentAustinExploreIds] = await Promise.all([
+  const [recentMindIds, recentParentingIds, recentChartIds, recentArticleIds, recentImageIds, recentVentureIds, recentSurpriseIds, recentRiffIds, recentProductionIds, recentMusicSparkIds, recentPoemIds, recentLongReadIds, recentAustinExploreIds] = await Promise.all([
     getRecentIds('quote-mind'),
     getRecentIds('quote-parenting'),
     getRecentIds('chart'),
@@ -2558,6 +2566,7 @@ async function main() {
     getRecentIds('surprise', 7),  // 7-day window — 3 forms cycle in ~3 days each
     getRecentIds('riff', 7),      // riff pool rotates daily; 7-day no-repeat window
     getRecentIds('production', 4),// smaller pool; 4-day no-repeat window
+    getRecentIds('music-spark', 10),
     getRecentIds('poem', 14),
     getRecentIds('longread', 14),
     getRecentIds('austin', 14),
@@ -2566,7 +2575,7 @@ async function main() {
   log(`Feedback genres with signal: ${Object.keys(feedbackWeights).join(', ') || 'none yet'}`);
   log(`Context files: loops=${contextFiles.openLoopsText.length}b projects=${contextFiles.projectsText.length}b`);
   log(`Reading exposure ledger: ${exposureLedger.length} compact events`);
-  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length} riff:${recentRiffIds.length} production:${recentProductionIds.length}`);
+  log(`Recent IDs — mind:${recentMindIds.length} parenting:${recentParentingIds.length} article:${recentArticleIds.length} image:${recentImageIds.length} venture:${recentVentureIds.length} surprise:${recentSurpriseIds.length} riff:${recentRiffIds.length} production:${recentProductionIds.length} music:${recentMusicSparkIds.length}`);
 
   // ── Tile pipeline ────────────────────────────────────────────────────────
 
@@ -2692,6 +2701,15 @@ async function main() {
     warn(`  production: ${e.message} — using fixture fallback`);
   }
 
+  const musicSpark = selectMusicSpark(buildMusicSparkCandidates({
+    riff: riffs[0],
+    production: productionClips[0],
+  }), {
+    recentIds: recentMusicSparkIds,
+    feedback: feedbackWeights.music,
+  }) ?? fixture.musicSpark;
+  if (musicSpark) log(`  music spark: OK — ${musicSpark.format} · "${musicSpark.title.slice(0, 50)}"`);
+
   // Phase 9 — Poem of the day (curated source-backed dataset)
   let poems       = fixture.poems ?? [];
   let usedPoemIds = [];
@@ -2762,6 +2780,7 @@ async function main() {
     surprises,
     riffs,
     productionClips,
+    musicSpark,
     poems,
     macroRead: longReads[0] ?? fixture.macroRead ?? fixture.longReads?.[0],
     longReads,
@@ -2787,6 +2806,7 @@ async function main() {
   log(`  charts: ${edition.charts.length} (suppressed)`);
   log(`  riff: ${edition.riffs[0]?.title?.slice(0, 40) ?? 'none'}${usedRiffIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  production: ${edition.productionClips[0]?.title?.slice(0, 40) ?? 'none'}${usedProductionIds.length ? ' (live)' : ' (fixture)'}`);
+  log(`  music spark: ${edition.musicSpark?.format ?? 'none'} · ${edition.musicSpark?.title?.slice(0, 40) ?? 'none'}`);
   log(`  poem: ${edition.poems?.[0]?.title?.slice(0, 40) ?? 'none'}${usedPoemIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  long read: ${edition.longReads?.[0]?.title?.slice(0, 40) ?? 'none'}${usedLongReadIds.length ? ' (live)' : ' (fixture)'}`);
   log(`  Austin explore: ${edition.austinExplores?.[0]?.title?.slice(0, 40) ?? 'none'}${usedAustinExploreIds.length ? ' (live)' : ' (fixture)'}`);
@@ -2827,6 +2847,7 @@ async function main() {
     usedSurpriseIds.length > 0     ? recordUsed('surprise', usedSurpriseIds, targetDate) : Promise.resolve(),
     usedRiffIds.length > 0         ? recordUsed('riff',     usedRiffIds,     targetDate) : Promise.resolve(),
     usedProductionIds.length > 0   ? recordUsed('production', usedProductionIds, targetDate) : Promise.resolve(),
+    edition.musicSpark ? recordUsed('music-spark', [`${edition.musicSpark.format}:${edition.musicSpark.id}`], targetDate) : Promise.resolve(),
     usedPoemIds.length > 0         ? recordUsed('poem', usedPoemIds, targetDate) : Promise.resolve(),
     usedLongReadIds.length > 0     ? recordUsed('longread', usedLongReadIds, targetDate) : Promise.resolve(),
     usedAustinExploreIds.length > 0 ? recordUsed('austin', usedAustinExploreIds, targetDate) : Promise.resolve(),

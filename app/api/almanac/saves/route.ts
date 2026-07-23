@@ -21,9 +21,9 @@ export type AlmanacSave = {
   summary?: string;
   role?: string;
   topics: string[];
-  lane: "reading" | "investing";
+  lane: "reading" | "investing" | "music";
   mode: "automatic" | "manual";
-  destination: "Almanac reading queue" | "Investment research queue";
+  destination: "Almanac reading queue" | "Investment research queue" | "Music inspiration queue";
   savedAt: string;
 };
 
@@ -101,9 +101,13 @@ export async function POST(req: NextRequest) {
     summary: body.summary,
     role: body.role,
     topics: Array.isArray(body.topics) ? body.topics.slice(0, 12) : [],
-    lane: body.lane === "investing" ? "investing" : "reading",
+    lane: body.lane === "investing" ? "investing" : body.lane === "music" ? "music" : "reading",
     mode: body.mode === "automatic" ? "automatic" : "manual",
-    destination: body.lane === "investing" ? "Investment research queue" : "Almanac reading queue",
+    destination: body.lane === "investing"
+      ? "Investment research queue"
+      : body.lane === "music"
+        ? "Music inspiration queue"
+        : "Almanac reading queue",
     savedAt,
   };
   saves[idempotencyKey] = save;

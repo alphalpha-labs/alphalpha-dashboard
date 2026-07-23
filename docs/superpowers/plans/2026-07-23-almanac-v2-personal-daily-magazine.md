@@ -1,6 +1,6 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved; Phase 0–4 shipped 2026-07-23
+Status: approved; Phase 0–5 shipped 2026-07-23
 Owner: Alex
 Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
@@ -612,6 +612,14 @@ Acceptance gate:
 ### Phase 5 — Music inspiration engine
 
 Goal: produce a daily prompt that makes starting music easier.
+
+Implementation status: complete. The generator now turns the strongest available
+riff and production sources into five actionable candidate formats—riff,
+production breakdown, sound experiment, creative constraint, and short exercise.
+Selection penalizes recently used formats and exact items, then applies learned
+music feedback rather than following a fixed calendar. The magazine renders one
+focused spark with its source, rationale, and a concrete 5–15 minute action, and
+automatically saves it to the Music inspiration queue with reversible receipts.
 
 Deliverables:
 

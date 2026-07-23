@@ -548,6 +548,21 @@ export type DailyProductionClip = {
   sourceUrl?: string;
 };
 
+export type DailyMusicSpark = {
+  id: string;
+  format: "riff" | "production-breakdown" | "sound-experiment" | "creative-constraint" | "short-exercise";
+  kicker: string;
+  title: string;
+  creator: string;
+  why: string;
+  tryThisNow: string;
+  durationMinutes: number;
+  videoId?: string;
+  start?: number;
+  sourceUrl?: string;
+  tags: string[];
+};
+
 export type DailyPoem = {
   title: string;
   poet: string;
@@ -646,6 +661,7 @@ export type DailyData = {
   surprises:       { form: string; title: string; body: string; note: string; sourceUrl?: string; sourceLabel?: string }[];
   riffs?:          DailyRiff[];
   productionClips?: DailyProductionClip[];
+  musicSpark?:     DailyMusicSpark;
   poems?:          DailyPoem[];
   macroRead?:      DailyLongRead;
   longReads?:      DailyLongRead[];

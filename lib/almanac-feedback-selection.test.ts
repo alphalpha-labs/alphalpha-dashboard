@@ -62,6 +62,7 @@ describe("almanac feedback selection gates", () => {
     expect(isReadingBadFormatText("[PDF] Social and Political Philosophy: A Contemporary Introduction")).toBe(true);
     expect(isReadingBadFormatText("250+ Political Science Topics for 2025: Ideas for Papers & Essays edubirdie.com")).toBe(true);
     expect(isReadingBadFormatText("Religion and Politics | Internet Encyclopedia of Philosophy iep.utm.edu")).toBe(true);
+    expect(isReadingBadFormatText("RECENT | definition in the Cambridge English Dictionary")).toBe(true);
     expect(isBlockedReadingUrl("https://www.facebook.com/groups/austinreadingclub")).toBe(true);
     expect(isBlockedReadingUrl("https://reddit.com/r/PoliticalDiscussion/comments/abc")).toBe(true);
     expect(isBlockedReadingUrl("https://www.theatlantic.com/ideas/archive/example")).toBe(false);

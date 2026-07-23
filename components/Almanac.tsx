@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore, DailyReadingRecommendation, DailyInvestmentLens } from "@/lib/data";
+import type { DailyData, DailyVenture, DailyRiff, DailyProductionClip, DailyPoem, DailyLongRead, DailyAustinExplore, DailyReadingRecommendation, DailyInvestmentLens, DailyMusicSpark } from "@/lib/data";
 import type { ThreadContext } from "./Dashboard";
 import { almanacEditionNumber, almanacIsoForOffset, daysSinceAlmanacEpoch, localDateFromIso } from "@/lib/almanac-date";
 import { buildAlmanacFeedbackInterpretation } from "@/lib/almanac-feedback-interpretation";
@@ -346,14 +346,14 @@ type AlmanacSavedItem = {
   source: string;
   url?: string;
   summary?: string;
-  lane?: "reading" | "investing";
+  lane?: "reading" | "investing" | "music";
   mode: "automatic" | "manual";
   destination: string;
   savedAt: string;
 };
 
 async function persistReadingSave(
-  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing" },
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing" | "music" },
   date: string,
   mode: "automatic" | "manual",
   remove = false,
@@ -387,7 +387,7 @@ function V2FeedbackBar({
   autoSave,
   onSavesChanged,
 }: {
-  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing"; genre: string; sub?: string };
+  item: { id: string; title: string; source: string; url?: string; summary: string; role: string; topics: string[]; lane?: "reading" | "investing" | "music"; genre: string; sub?: string };
   date: string;
   onDiscuss?: () => void;
   autoSave: boolean;
@@ -1202,6 +1202,57 @@ function ProductionBlock({ clip, visibility, date, openThread }: { clip: DailyPr
   );
 }
 
+function MusicSparkBlock({ spark, visibility, date, openThread }: { spark: DailyMusicSpark; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
+  const discuss = () => openThread?.({
+    type: "digest",
+    id: `music-spark-${spark.id}`,
+    title: spark.title,
+    summary: `${spark.why}\n\nTry this now: ${spark.tryThisNow}`,
+    category: "Daily music spark",
+  });
+  return (
+    <section className={`almanacMusicSpark almanacMusicSpark--${spark.format}`} aria-labelledby="music-spark-title">
+      <div className="almanacMusicSpark__kicker">
+        <span>Make something</span>
+        <span>{spark.kicker} · {spark.durationMinutes} min</span>
+      </div>
+      <div className="almanacMusicSpark__layout">
+        <div>
+          <h2 id="music-spark-title">{spark.title}</h2>
+          <p className="almanacMusicSpark__creator">{spark.creator}</p>
+          <WhyLine text={spark.why} />
+          <div className="almanacMusicSpark__action">
+            <span>Try this now</span>
+            <p>{spark.tryThisNow}</p>
+          </div>
+          {spark.sourceUrl && (
+            <a href={spark.sourceUrl} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Open the source →</a>
+          )}
+        </div>
+        {spark.videoId && <YouTubeEmbed videoId={spark.videoId} start={spark.start} title={spark.title} />}
+      </div>
+      <V2FeedbackBar
+        item={{
+          id: `music:${spark.id}`,
+          genre: "music",
+          title: spark.title,
+          sub: spark.format,
+          source: spark.creator,
+          url: spark.sourceUrl,
+          summary: spark.tryThisNow,
+          role: spark.format,
+          topics: spark.tags,
+          lane: "music",
+        }}
+        date={date}
+        onDiscuss={discuss}
+        autoSave={visibility !== "readonly"}
+        onSavesChanged={() => {}}
+      />
+    </section>
+  );
+}
+
 function PoemBlock({ poem, visibility, date, openThread }: { poem: DailyPoem; visibility: BlockProps["visibility"]; date: string; openThread?: (ctx: ThreadContext) => void }) {
   const item = { id: "poem:" + poem.title, genre: "poem" as Genre, title: poem.title, sub: poem.poet };
   const disc = () => openThread?.({ type: "digest", id: "daily-poem", title: poem.title, summary: poem.note, category: "Poem" });
@@ -1657,6 +1708,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const austinExplorePool = base.austinExplores?.length ? base.austinExplores : (daily.austinExplores?.length ? daily.austinExplores : FALLBACK_AUSTIN_EXPLORES);
   const riff = riffPool.length ? pick(riffPool, dayIdx) : null;
   const clip = clipPool.length ? pick(clipPool, dayIdx) : null;
+  const musicSpark = base.musicSpark ?? null;
   const poem = poemPool.length ? pick(poemPool, dayIdx) : null;
   const longRead = longReadPool.length ? pick(longReadPool, dayIdx) : null;
   const austinExplore = enrichAustinExplore(austinExplorePool.length ? pick(austinExplorePool, dayIdx) : null);
@@ -1873,8 +1925,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <SurpriseBand s={surprise} visibility={vis} date={date} isMobile={isMobile} openThread={openThread} />
         </div>
 
-        {/* Workshop — guitar riff + production clip of the day */}
-        {(riff || clip) && (
+        {/* One focused, actionable music spark replaces the old two-card workshop. */}
+        {musicSpark ? (
+          <div className="almanac__workshopWrap">
+            <MusicSparkBlock spark={musicSpark} visibility={vis} date={date} openThread={openThread} />
+          </div>
+        ) : (riff || clip) && (
           <div className="almanac__workshopWrap">
             <div className="almanac__workshopHead">
               <span className="almanac__workshopKicker">The Workshop</span>
