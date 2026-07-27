@@ -875,6 +875,11 @@ function ReadingPortfolio({
       <div className="almanacReadingPortfolio__grid">
         {reads.map((read, index) => {
           const item = { id: `article:${read.id}`, genre: "article" as Genre, title: read.title, sub: read.source };
+          const noveltyLabel = read.novelty?.reason === "repeated-source-penalty"
+            ? "Fresh angle · familiar source"
+            : read.novelty
+              ? "Fresh pick"
+              : null;
           const disc = () => openThread?.({
             type: "digest",
             id: `daily-reading-${read.id}`,
@@ -893,6 +898,7 @@ function ReadingPortfolio({
                 <span>{read.sourceLabel || read.source}</span>
                 <span>{read.readMinutes} min</span>
                 {read.freshnessLabel && <span>{read.freshnessLabel}</span>}
+                {noveltyLabel && <span className="almanacReadingCard__novelty">{noveltyLabel}</span>}
               </div>
               {read.url ? (
                 <a className="almanacReadingCard__title" href={read.url} target="_blank" rel="noopener noreferrer">{read.title}</a>

@@ -2808,6 +2808,10 @@ input { font-family: inherit; }
   text-transform: uppercase;
 }
 .almanacReadingCard__meta span + span::before { content: "·"; margin-right: 10px; color: var(--border-strong); }
+.almanacReadingCard__meta .almanacReadingCard__novelty {
+  color: #6b4f28;
+  font-weight: 800;
+}
 .almanacReadingCard__title {
   margin: 0;
   color: var(--ink);
