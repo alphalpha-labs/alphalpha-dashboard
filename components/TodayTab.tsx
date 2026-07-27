@@ -22,36 +22,50 @@ interface Props {
   onAdd:           (input: import("./QuickAdd").CaptureInput) => void;
   onEventFeedback: (eventId: string, feedbackType: string, payload: object) => void;
   onDiscuss:       (ctx: ThreadContext) => void;
+  mode?:           "almanac" | "workspace";
 }
 
-export default function TodayTab({ data, activeActions, snoozedActions, loops, focusIdx, onDone, onSnooze, onSkip, onWake, onAdd, onEventFeedback, onDiscuss }: Props) {
+export default function TodayTab({ data, activeActions, snoozedActions, loops, focusIdx, onDone, onSnooze, onSkip, onWake, onAdd, onEventFeedback, onDiscuss, mode = "almanac" }: Props) {
   const current = activeActions[focusIdx % Math.max(activeActions.length, 1)];
   const highCount = activeActions.filter(a => a.priority === "HIGH").length;
 
-  const [view, setView] = useState<"briefing" | "desk" | "edition">(() => {
+  const [view, setView] = useState<"briefing" | "desk">(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === "briefing" || saved === "desk" || saved === "edition") return saved;
+      if (saved === "briefing" || saved === "desk") return saved;
     }
     return "briefing";
   });
 
-  const switchView = (v: "briefing" | "desk" | "edition") => {
+  const switchView = (v: "briefing" | "desk") => {
     setView(v);
     if (typeof window !== "undefined") localStorage.setItem(STORAGE_KEY, v);
   };
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", width: "100%" }}>
+      {mode === "almanac" ? (
+        <div style={{ flex: 1, overflowY: "auto", width: "100%" }}>
+          {data.daily
+            ? <Almanac daily={data.daily} openThread={onDiscuss} />
+            : (
+              <div className="almanacState almanacState--empty" role="status">
+                <span className="almanacState__kicker">Edition unavailable</span>
+                <h1>There is no Almanac to open yet.</h1>
+                <p>The previous dashboard data remains safe. Open System to regenerate the edition.</p>
+              </div>
+            )}
+        </div>
+      ) : (
+        <>
 
-      {/* Edition / Desk toggle */}
       <div className="todayToggleBar">
         <div className="todayToggle">
-          {(["briefing", "desk", "edition"] as const).map(v => {
+          {(["briefing", "desk"] as const).map(v => {
             const on = view === v;
             return (
               <button key={v} onClick={() => switchView(v)} className={`todayToggle__btn${on ? " todayToggle__btn--on" : ""}`}>
-                {v === "briefing" ? "Briefing" : v === "edition" ? "Almanac" : "Focus"}
+                {v === "briefing" ? "Briefing" : "Focus"}
                 {v === "desk" && highCount > 0 && (
                   <span className={`todayToggle__badge${on ? " todayToggle__badge--on" : ""}`}>{highCount}</span>
                 )}
@@ -72,20 +86,6 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
             onDiscuss={onDiscuss}
             onOpenDesk={() => switchView("desk")}
           />
-        </div>
-      )}
-
-      {/* Edition — The Almanac */}
-      {view === "edition" && (
-        <div style={{ flex: 1, overflowY: "auto", width: "100%" }}>
-          {data.daily
-            ? <Almanac daily={data.daily} openThread={onDiscuss} />
-            : (
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontFamily: "'Lora',serif", fontStyle: "italic", color: "#9a8f7a", fontSize: 15 }}>
-                No edition data — run <code style={{ fontStyle: "normal", fontSize: 13, background: "#ede8de", padding: "2px 6px", borderRadius: 4 }}>npm run generate:data</code> to populate.
-              </div>
-            )
-          }
         </div>
       )}
 
@@ -113,6 +113,8 @@ export default function TodayTab({ data, activeActions, snoozedActions, loops, f
             onDiscuss={onDiscuss}
           />
         </div>
+      )}
+        </>
       )}
     </div>
   );

@@ -49,8 +49,9 @@ export type ThreadContext = {
 };
 
 const TABS = [
-  { id: "today",     label: "Today", href: "/" },
+  { id: "today",     label: "Almanac", href: "/" },
   { id: "investing", label: "Investing", href: "/investing" },
+  { id: "workspace", label: "Workspace", href: "/workspace" },
   { id: "loops",     label: "Open loops", href: "/open-loops" },
   { id: "projects",  label: "Projects", href: "/projects" },
   { id: "digests",   label: "Digests", href: "/digests" },
@@ -62,11 +63,11 @@ const TABS = [
 ] as const;
 
 export type DashboardTab = typeof TABS[number]["id"];
-const PRIMARY_TAB_IDS = new Set<DashboardTab>(["today", "loops", "projects", "investing", "system"]);
+const PRIMARY_TAB_IDS = new Set<DashboardTab>(["today", "investing", "workspace", "system"]);
 const SYSTEM_TAB_IDS = new Set<DashboardTab>(["system", "digests", "outing-oracle", "queues", "review", "automations"]);
 const primaryTabs = TABS.filter(tab => PRIMARY_TAB_IDS.has(tab.id));
 const systemTabs = TABS.filter(tab => SYSTEM_TAB_IDS.has(tab.id));
-const mobileMainTabs = TABS.filter(tab => ["today", "investing", "loops", "projects"].includes(tab.id));
+const mobileMainTabs = TABS.filter(tab => ["today", "investing", "workspace"].includes(tab.id));
 
 // OPENCLAW: This helper posts action signals to /api/signal (currently a stub).
 // When OpenClaw wires up the real endpoint, no changes needed here —
@@ -288,15 +289,17 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
           </label>
         </nav>
         <div className="mastheadTools">
-          <button
-            className={`refreshBtn${signalBusy ? " refreshBtn--busy" : ""}`}
-            onClick={() => void dispatchSignal("refresh-dashboard", "dashboard", { requestedAction: "regenerate-manifests-and-deploy" }, "Refresh requested").catch(() => {})}
-            disabled={signalBusy}
-            title="Ask OpenClaw to regenerate dashboard data and deploy"
-          >
-            {signalBusy ? "Working…" : "Refresh"}
-          </button>
-          {receipt && (
+          {activeTab !== "today" && (
+            <button
+              className={`refreshBtn${signalBusy ? " refreshBtn--busy" : ""}`}
+              onClick={() => void dispatchSignal("refresh-dashboard", "dashboard", { requestedAction: "regenerate-manifests-and-deploy" }, "Refresh requested").catch(() => {})}
+              disabled={signalBusy}
+              title="Ask OpenClaw to regenerate dashboard data and deploy"
+            >
+              {signalBusy ? "Working…" : "Refresh"}
+            </button>
+          )}
+          {activeTab !== "today" && receipt && (
             receipt.errorDetail ? (
               <div role="status" aria-live="polite">
                 <button
@@ -345,6 +348,24 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
               onAdd={handleAdd}
               onEventFeedback={handleEventFeedback}
               onDiscuss={openThread}
+              mode="almanac"
+            />
+          )}
+          {activeTab === "workspace" && (
+            <TodayTab
+              data={data}
+              activeActions={activeActions}
+              snoozedActions={snoozedActions}
+              loops={loops}
+              focusIdx={focusIdx}
+              onDone={handleDone}
+              onSnooze={handleSnooze}
+              onSkip={handleSkip}
+              onWake={handleWake}
+              onAdd={handleAdd}
+              onEventFeedback={handleEventFeedback}
+              onDiscuss={openThread}
+              mode="workspace"
             />
           )}
           {activeTab === "loops" && (
@@ -452,7 +473,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
             onClick={() => navigateTab(tab)}
             type="button"
           >
-            {tab.id === "loops" ? "Loops" : tab.label}
+            {tab.label}
           </button>
         ))}
         <label className={`mobileBottomNav__more${SYSTEM_TAB_IDS.has(activeTab as DashboardTab) ? " mobileBottomNav__more--active" : ""}`}>
@@ -472,7 +493,7 @@ export default function Dashboard({ data, initialTab = "today" }: { data: Dashbo
       </nav>
 
       <ThreadDrawer thread={thread} onClose={closeThread} />
-      <StatusBar stats={data.stats} generatedAt={data.meta.generatedAt} drawerOpen={drawerOpen} />
+      {activeTab !== "today" && <StatusBar stats={data.stats} generatedAt={data.meta.generatedAt} drawerOpen={drawerOpen} />}
     </div>
   );
 }

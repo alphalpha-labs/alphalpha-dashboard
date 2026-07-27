@@ -2398,6 +2398,69 @@ input { font-family: inherit; }
   letter-spacing: 0.04em;
 }
 
+.almanacHealthAlert {
+  display: flex;
+  gap: 8px 14px;
+  align-items: baseline;
+  margin: -12px 0 26px;
+  padding: 11px 14px;
+  border: 1px solid #d7a68d;
+  border-radius: 6px;
+  background: #fff3eb;
+  color: #6f3e2d;
+  font: 12px/1.45 'DM Sans', sans-serif;
+}
+.almanacHealthAlert strong { flex-shrink: 0; }
+
+.almanacState {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: min(72vh, 640px);
+  padding: 48px 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(200, 162, 58, .07), transparent 30%),
+    var(--bg);
+}
+.almanacState__kicker {
+  color: #9a7b36;
+  font: 700 9px/1 'DM Sans', sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.almanacState h1 {
+  max-width: 620px;
+  margin: 14px 0 8px;
+  color: var(--ink);
+  font: 600 clamp(28px, 5vw, 48px)/1.08 'Playfair Display', Georgia, serif;
+}
+.almanacState p {
+  max-width: 540px;
+  margin: 0;
+  color: var(--ink-warm);
+  font: 14px/1.6 'Lora', Georgia, serif;
+}
+.almanacState button {
+  margin-top: 22px;
+  border: 1px solid var(--border-strong);
+  border-radius: 99px;
+  padding: 9px 15px;
+  background: transparent;
+  color: var(--ink);
+  font: 700 11px/1 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+.almanacState__spinner {
+  width: 22px;
+  height: 22px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(111, 96, 73, .18);
+  border-top-color: #9a7b36;
+  border-radius: 50%;
+  animation: almanacSpin .8s linear infinite;
+}
+
 /* ── Content areas ────────────────────────────────────────────────────────── */
 .almanac__content {
   max-width: 1080px;
@@ -2475,6 +2538,44 @@ input { font-family: inherit; }
 }
 .almanacExploreWrap { margin-top: 34px; }
 .almanac__surpriseWrap { margin-top: 44px; }
+
+.almanacHealthFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 54px 0 28px;
+  padding: 14px 0 0;
+  border-top: 1px solid color-mix(in oklch, var(--border) 78%, transparent);
+  color: #9a8f7a;
+  font: 10px/1.4 'DM Sans', sans-serif;
+}
+.almanacHealthFooter__dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #b8aa90;
+}
+.almanacHealthFooter__dot--live { background: #6c9471; }
+.almanacHealthFooter__dot--fallback { background: #b66f5b; }
+.almanacHealthFooter strong { color: #8a3b2d; }
+.almanacHealthFooter .almanacRecrawlBtn { margin-left: auto; min-width: auto; }
+
+@media (max-width: 640px) {
+  .almanacHealthAlert {
+    display: grid;
+    margin-top: -8px;
+  }
+  .almanacHealthFooter {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 42px;
+  }
+  .almanacHealthFooter .almanacRecrawlBtn {
+    width: 100%;
+    margin: 6px 0 0;
+  }
+}
 
 /* ── Colophon ─────────────────────────────────────────────────────────────── */
 .almanac__colophon {

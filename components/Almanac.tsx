@@ -1635,7 +1635,10 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const [offset, setOffset] = useState(0);
   const [archiveEdition, setArchiveEdition] = useState<DailyData | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
+  const [archiveMissing, setArchiveMissing] = useState(false);
   const [liveEdition, setLiveEdition] = useState<DailyData | null>(null);
+  const [editionLoadState, setEditionLoadState] = useState<"loading" | "live" | "fallback">("loading");
+  const [runInfo, setRunInfo] = useState<AlmanacRunStatus | null>(null);
   const [recrawlStatus, setRecrawlStatus] = useState<RecrawlStatus>("idle");
   const [recrawlPhase, setRecrawlPhase] = useState<string>("");
 
@@ -1644,27 +1647,34 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
     const res = await fetch(`/api/almanac/editions?date=${today}&t=${Date.now()}`);
     if (!res.ok) throw new Error(`Edition fetch failed (${res.status})`);
     const data = await res.json();
-    if (data?.edition) setLiveEdition(data.edition);
+    if (!data?.edition) throw new Error("Edition payload missing");
+    setLiveEdition(data.edition);
+    setEditionLoadState("live");
   }, []);
 
   // Fetch live KV edition for today — supersedes the static fixture when the generator has run
   useEffect(() => {
     loadTodayEdition()
-      .catch(() => {});
+      .catch(() => setEditionLoadState("fallback"));
   }, [loadTodayEdition]);
 
   // Fetch stored immutable snapshot when navigating to a past date
   useEffect(() => {
     if (offset >= 0) {
       setArchiveEdition(null);
+      setArchiveMissing(false);
       return;
     }
     const d = fmtIso(dateForOffset(offset));
     setArchiveLoading(true);
+    setArchiveMissing(false);
     fetch(`/api/almanac/editions?date=${d}`)
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(data => { if (data?.edition) setArchiveEdition(data.edition); })
-      .catch(() => {})
+      .catch(() => {
+        setArchiveEdition(null);
+        setArchiveMissing(true);
+      })
       .finally(() => setArchiveLoading(false));
   }, [offset]);
 
@@ -1718,6 +1728,7 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   const heroImage = heroImageForDate(dayIdx);
 
   const applyRunStatus = useCallback(async (run: AlmanacRunStatus, announceDone = false) => {
+    setRunInfo(run);
     const providerSuffix = run.provider ? ` · ${run.provider}` : "";
     if (run.status === "queued" || run.status === "running") {
       setRecrawlStatus("working");
@@ -1812,8 +1823,23 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
   if (archiveLoading) {
     return (
       <div className="almanac">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 240, fontFamily: "'Lora',serif", fontStyle: "italic", color: "#9a8f7a", fontSize: 15 }}>
-          Loading edition…
+        <div className="almanacState almanacState--loading" role="status" aria-live="polite">
+          <span className="almanacState__spinner" aria-hidden="true" />
+          <span className="almanacState__kicker">Opening the archive</span>
+          <h1>Loading edition…</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isToday && archiveMissing) {
+    return (
+      <div className="almanac">
+        <div className="almanacState almanacState--empty" role="status">
+          <span className="almanacState__kicker">Archive</span>
+          <h1>No edition was published for this date.</h1>
+          <p>Choose another day or return to today’s Almanac.</p>
+          <button type="button" onClick={() => setOffset(0)}>Return to today</button>
         </div>
       </div>
     );
@@ -1851,21 +1877,6 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <div className="almanac__titleGroup">
             <span className={`almanac__title${isMobile ? " almanac__title--mobile" : ""}`}>The Almanac</span>
             <span className="almanac__eyebrow">{isToday ? "Curated for you · today's edition" : "From the archive"}</span>
-            {isToday && (
-              <button
-                type="button"
-                className={`almanacRecrawlBtn almanacRecrawlBtn--${recrawlStatus}`}
-                onClick={recrawlToday}
-                disabled={recrawlStatus === "working"}
-                title="Ask OpenClaw to recrawl and regenerate today's Almanac"
-                aria-live="polite"
-              >
-                {recrawlStatus === "working" && <span className="almanacRecrawlBtn__spinner" aria-hidden="true" />}
-                <span>
-                  {recrawlStatus === "working" ? (recrawlPhase || "Recrawling...") : recrawlStatus === "done" ? "Recrawl updated" : recrawlStatus === "error" ? "Retry recrawl" : "Recrawl today"}
-                </span>
-              </button>
-            )}
           </div>
           <EditionNav offset={offset} setOffset={setOffset} isMobile={isMobile} />
         </div>
@@ -1873,6 +1884,12 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           <span className="almanac__edition">{editionNo} · {fmtLong(curDate)}</span>
           {!isToday && <span className="almanac__archiveNote">↩ a past edition — feedback is closed</span>}
         </div>
+        {isToday && editionLoadState === "fallback" && (
+          <div className="almanacHealthAlert" role="alert">
+            <strong>Showing the last safe edition.</strong>
+            <span>Today’s live edition could not be loaded. It cannot be mistaken for a fresh generation.</span>
+          </div>
+        )}
       </div>
 
       {/* Lead */}
@@ -1949,6 +1966,36 @@ export default function Almanac({ daily, openThread }: AlmanacProps) {
           </div>
         )}
 
+        <footer className="almanacHealthFooter" aria-label="Edition health">
+          <span className={`almanacHealthFooter__dot almanacHealthFooter__dot--${editionLoadState}`} aria-hidden="true" />
+          <span>
+            {editionLoadState === "loading"
+              ? "Checking today’s edition"
+              : editionLoadState === "live"
+                ? "Live edition"
+                : "Safe fallback"}
+            {runInfo?.provider ? ` · ${runInfo.provider}` : ""}
+            {runInfo?.completedAt || runInfo?.updatedAt
+              ? ` · generated ${new Date(runInfo.completedAt || runInfo.updatedAt || "").toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`
+              : ""}
+          </span>
+          {runInfo?.status === "error" && <strong>Generation needs attention: {runInfo.error || runInfo.phase || "unknown failure"}</strong>}
+          {isToday && (
+            <button
+              type="button"
+              className={`almanacRecrawlBtn almanacRecrawlBtn--${recrawlStatus}`}
+              onClick={recrawlToday}
+              disabled={recrawlStatus === "working"}
+              title="Ask OpenClaw to recrawl and regenerate today's Almanac"
+              aria-live="polite"
+            >
+              {recrawlStatus === "working" && <span className="almanacRecrawlBtn__spinner" aria-hidden="true" />}
+              <span>
+                {recrawlStatus === "working" ? (recrawlPhase || "Recrawling…") : recrawlStatus === "done" ? "Updated" : recrawlStatus === "error" ? "Retry generation" : "Regenerate"}
+              </span>
+            </button>
+          )}
+        </footer>
       </div>
 
       <VentureModal venture={venture} date={date} readonly={!isToday} onClose={() => setVenture(null)} openThread={openThread} />

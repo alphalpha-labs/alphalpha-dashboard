@@ -1,6 +1,6 @@
 # Almanac V2 — Personal Daily Magazine
 
-Status: approved; Phase 0–5 shipped 2026-07-23
+Status: approved; Phase 0–6 shipped 2026-07-27
 Owner: Alex
 Implementation home: `alphalpha-labs/alphalpha-dashboard`
 Primary route: `/`  
@@ -642,7 +642,7 @@ Acceptance gate:
 - Exercises are specific, short, and feasible.
 - Rotation remains flexible enough to choose the best available material.
 
-### Phase 6 — Magazine-first home and operational quieting
+### Phase 6 — Magazine-first home and operational quieting ✅
 
 Goal: make the finished product feel like a daily magazine and interactive
 workspace.
