@@ -875,6 +875,7 @@ function ReadingPortfolio({
       <div className="almanacReadingPortfolio__grid">
         {reads.map((read, index) => {
           const item = { id: `article:${read.id}`, genre: "article" as Genre, title: read.title, sub: read.source };
+          const whyToday = read.whyNow || read.why;
           const noveltyLabel = read.novelty?.reason === "repeated-source-penalty"
             ? "Fresh angle · familiar source"
             : read.novelty
@@ -908,9 +909,9 @@ function ReadingPortfolio({
               <p className="almanacReadingCard__dek">{read.dek}</p>
               <div className="almanacReadingCard__why">
                 <span>Why today</span>
-                <p>{read.why}</p>
+                <p>{whyToday}</p>
               </div>
-              {read.sourceContext && <p className="almanacReadingCard__context">{read.sourceContext}</p>}
+              {read.sourceContext && read.sourceContext !== whyToday && <p className="almanacReadingCard__context">{read.sourceContext}</p>}
               <div className="almanacReadingCard__actions">
                 {read.url && (
                   <a href={read.url} target="_blank" rel="noopener noreferrer" className="almanacReadLink">Read →</a>
