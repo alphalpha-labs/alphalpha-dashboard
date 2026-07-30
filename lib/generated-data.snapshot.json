@@ -1,25 +1,25 @@
 {
   "meta": {
-    "generatedAt": "2026-07-29T17:02:49.285Z",
+    "generatedAt": "2026-07-30T17:02:59.648Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "1e97684",
+      "commit": "cb811bd",
       "branch": "main",
-      "generatedAt": "2026-07-29T17:02:49.306Z",
+      "generatedAt": "2026-07-30T17:02:59.664Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-07-29T13:15:11.901Z",
+      "generatedAt": "2026-07-30T13:15:10.551Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
-      "words": 60056,
-      "estimatedTokens": 78094,
+      "words": 60539,
+      "estimatedTokens": 78721,
       "activeFiles": 42,
-      "activeWords": 50651,
-      "activeEstimatedTokens": 65865,
+      "activeWords": 51134,
+      "activeEstimatedTokens": 66492,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -31,8 +31,8 @@
         },
         {
           "path": "context/STANDING_ORDERS.md",
-          "words": 7947,
-          "estimatedTokens": 10332,
+          "words": 8430,
+          "estimatedTokens": 10959,
           "readPolicy": "large: read targeted sections or use this manifest first"
         },
         {
@@ -61,7 +61,7 @@
         "label": "Context index",
         "status": "OK",
         "age": "4h old",
-        "summary": "42 active files / 50651 words",
+        "summary": "42 active files / 51134 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "details": [
@@ -71,7 +71,7 @@
           },
           {
             "label": "context/STANDING_ORDERS.md",
-            "value": "7947 words · large: read targeted sections or use this manifest first"
+            "value": "8430 words · large: read targeted sections or use this manifest first"
           },
           {
             "label": "context/investment-operating-system-plan.md",
@@ -92,8 +92,8 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "OK",
-        "age": "1d old",
+        "status": "STALE",
+        "age": "2d old",
         "summary": "16 family / 64 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "2d old",
+        "age": "3d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -201,10 +201,14 @@
         "label": "Automations",
         "status": "OK",
         "age": "4h old",
-        "summary": "17 enabled / 5 paused",
-        "detail": "22 cron jobs indexed",
+        "summary": "18 enabled / 5 paused",
+        "detail": "23 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
+          {
+            "label": "sync-obsidian-snipd-to-thesis-baskets",
+            "value": "enabled · error · next 2026-07-31T11:20:16.390Z"
+          },
           {
             "label": "agentic-os-question-cadence",
             "value": "paused · error · next n/a"
@@ -235,7 +239,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 112 dirty · Alphalpha dashboard: main@1e97684 · Obsidian vault: main@e268cd9 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 112 dirty · Alphalpha dashboard: main@cb811bd · Obsidian vault: main@e268cd9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -244,7 +248,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@1e97684 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@cb811bd · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -262,7 +266,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "64d old",
+        "age": "65d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -44933,12 +44937,172 @@
     },
     "investingWeeklyTrades": {
       "schema_version": "2026-05-12.1",
-      "generated_at": "2026-07-28T14:00:28.432Z",
-      "start_date": "2026-07-21",
-      "end_date": "2026-07-28",
+      "generated_at": "2026-07-29T23:31:17.631Z",
+      "start_date": "2026-07-22",
+      "end_date": "2026-07-29",
       "source": "snaptrade",
       "user_id": "primary",
       "trades": [
+        {
+          "id": "f562e0ff-c418-455f-80fd-b7b8780484f0",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "GEV",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 0.106541 shares of GE Vernova for $938.60 each",
+          "trade_date": "2026-07-28T18:42:55Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 0.106541,
+          "price": 938.6,
+          "amount": -99.999,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "140f31e9-38bc-4104-88be-c3d401b6002d",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "PAVE",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.741250 shares of Global X US Infrastructure Development ETF for $57.43 each",
+          "trade_date": "2026-07-28T15:50:09Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.74125,
+          "price": 57.43,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "c5cb6592-7070-4e9c-be79-e1f49be58eab",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "MLPX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.347799 shares of Global X MLP & Energy Infrastructure ETF for $74.20 each",
+          "trade_date": "2026-07-28T15:48:36Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.347799,
+          "price": 74.195,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "c31a32aa-69d7-435f-8a1d-49bc5615bc0f",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": null,
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $300 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-28T15:48:23Z",
+          "settlement_date": "2026-07-29T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 300,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "cceb21fe-44f6-4de9-91d7-90a0efed461e",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "RAAX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 2.558853 shares of RAAX for $39.08 each",
+          "trade_date": "2026-07-28T14:54:23Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 2.558853,
+          "price": 39.08,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "9300bba4-ff58-47b5-8cba-91ec7d1d5bc5",
+          "account_id": "c13246c2-2701-451c-8261-06cee33f8ec8",
+          "account_label": "Robinhood Individual",
+          "symbol": "DRAM",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.791480 shares of DRAM for $48.00 each",
+          "trade_date": "2026-07-28T14:53:10Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.79148,
+          "price": 48.005,
+          "amount": -86,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "dc038fc6-c19b-40af-9ca2-6cb0a4996fb9",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "RAAX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 2.522386 shares of RAAX for $39.64 each",
+          "trade_date": "2026-07-27T18:06:36Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 2.522386,
+          "price": 39.645,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "64a43b18-e0b4-474a-9837-e8e6ea37c035",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "MLPX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.996539 shares of Global X MLP & Energy Infrastructure ETF for $75.13 each",
+          "trade_date": "2026-07-27T18:05:59Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 1.996539,
+          "price": 75.13,
+          "amount": -150,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "024f2bab-41da-425d-9aef-975797df472c",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": null,
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $400 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-27T18:05:00Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 400,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "8245b88c-040b-4b1b-a16c-7779c8b88ad2",
+          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
+          "account_label": "Robinhood Individual",
+          "symbol": "XLE",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.710571 shares of XLE for $58.46 each",
+          "trade_date": "2026-07-27T00:11:44Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 1.710571,
+          "price": 58.46,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
         {
           "id": "0758060f-bf2e-43af-82e5-c6c5e91f4cd2",
           "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
@@ -44988,6 +45152,22 @@
           "source": "snaptrade"
         },
         {
+          "id": "45dbbc28-e587-4490-b449-d26928397ece",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": null,
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $500 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-25T20:43:49Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 500,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
           "id": "f18d5c15-cfa3-4afd-9cd7-e4c1b9d57b0c",
           "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
           "account_label": "Robinhood Individual",
@@ -45016,6 +45196,22 @@
           "quantity": 1.725327,
           "price": 57.96,
           "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade"
+        },
+        {
+          "id": "51e2527d-9d71-48ad-adae-1215404b5e5d",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": null,
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $100 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-25T03:54:28Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 100,
           "currency": "USD",
           "source": "snaptrade"
         },
@@ -45434,56 +45630,26 @@
           "amount": 1.83,
           "currency": "USD",
           "source": "snaptrade"
-        },
-        {
-          "id": "7f796904-3cf0-42dd-9345-cb94cad64891",
-          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
-          "account_label": "Robinhood Individual",
-          "symbol": "CAT",
-          "action": "dividend",
-          "raw_type": "DIVIDEND",
-          "description": "Cash dividend of $0.07 from CAT",
-          "trade_date": "2026-07-21T00:00:00Z",
-          "settlement_date": "2026-07-22T00:00:00Z",
-          "quantity": 0,
-          "price": 0,
-          "amount": 0.07,
-          "currency": "USD",
-          "source": "snaptrade"
-        },
-        {
-          "id": "17aef002-2114-4536-8913-c42e39319d88",
-          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
-          "account_label": "Robinhood Individual",
-          "symbol": "CAT",
-          "action": "buy",
-          "raw_type": "REI",
-          "description": "Dividend reinvestment purchase of 0.000 shares of CAT for $0.07 total.",
-          "trade_date": "2026-07-21T00:00:00Z",
-          "settlement_date": "2026-07-22T00:00:00Z",
-          "quantity": 0.000077,
-          "price": 909.09,
-          "amount": -0.07,
-          "currency": "USD",
-          "source": "snaptrade"
         }
       ],
       "summary": {
-        "trade_count": 33,
-        "buy_count": 28,
+        "trade_count": 43,
+        "buy_count": 35,
         "sell_count": 0,
         "symbols": [
           "AVGO",
           "BOT",
-          "CAT",
           "CRAK",
           "DELL",
+          "DRAM",
           "EMET",
           "EWZ",
           "GAA",
           "GDX",
+          "GEV",
           "GOOGL",
           "GRID",
+          "MLPX",
           "NVDA",
           "PAVE",
           "PICK",
@@ -45499,28 +45665,247 @@
           "URA",
           "URNM",
           "VHT",
-          "XAR"
+          "XAR",
+          "XLE"
         ],
-        "total_buy_amount": -2744.4650000000006,
+        "total_buy_amount": -3580.3940000000002,
         "total_sell_amount": null,
         "warnings": []
       },
       "path": "/home/node/.openclaw/workspace/memory/investing/weekly-trades/latest.json"
     },
     "investingTradeReview": {
-      "generatedAt": "2026-07-28T14:00:28.472Z",
-      "startDate": "2026-07-21",
-      "endDate": "2026-07-28",
+      "generatedAt": "2026-07-29T23:31:17.678Z",
+      "startDate": "2026-07-22",
+      "endDate": "2026-07-29",
       "summary": {
-        "tradeCount": 33,
+        "tradeCount": 43,
         "byAlignment": {
-          "outside-plan": 30,
-          "watchlist-pullback": 1,
+          "outside-plan": 37,
+          "watchlist-pullback": 4,
           "plan-aligned": 2
         },
-        "needsDiscussion": 30
+        "needsDiscussion": 37
       },
       "trades": [
+        {
+          "id": "f562e0ff-c418-455f-80fd-b7b8780484f0",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "GEV",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 0.106541 shares of GE Vernova for $938.60 each",
+          "trade_date": "2026-07-28T18:42:55Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 0.106541,
+          "price": 938.6,
+          "amount": -99.999,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "auto-expanded-watchlist",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought GEV outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "140f31e9-38bc-4104-88be-c3d401b6002d",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "PAVE",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.741250 shares of Global X US Infrastructure Development ETF for $57.43 each",
+          "trade_date": "2026-07-28T15:50:09Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.74125,
+          "price": 57.43,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought PAVE outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "c5cb6592-7070-4e9c-be79-e1f49be58eab",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "MLPX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.347799 shares of Global X MLP & Energy Infrastructure ETF for $74.20 each",
+          "trade_date": "2026-07-28T15:48:36Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.347799,
+          "price": 74.195,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": "energy-demand-infrastructure-tollbooths",
+          "thesisTitle": "Energy demand growth and infrastructure toll booths",
+          "planStatus": "owned-monitor-needs-sizing-rules",
+          "valuationState": "auto-expanded-watchlist",
+          "alignment": "watchlist-pullback",
+          "prompt": null
+        },
+        {
+          "id": "c31a32aa-69d7-435f-8a1d-49bc5615bc0f",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $300 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-28T15:48:23Z",
+          "settlement_date": "2026-07-29T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 300,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": null
+        },
+        {
+          "id": "cceb21fe-44f6-4de9-91d7-90a0efed461e",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "RAAX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 2.558853 shares of RAAX for $39.08 each",
+          "trade_date": "2026-07-28T14:54:23Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 2.558853,
+          "price": 39.08,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "9300bba4-ff58-47b5-8cba-91ec7d1d5bc5",
+          "account_id": "c13246c2-2701-451c-8261-06cee33f8ec8",
+          "account_label": "Robinhood Individual",
+          "symbol": "DRAM",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.791480 shares of DRAM for $48.00 each",
+          "trade_date": "2026-07-28T14:53:10Z",
+          "settlement_date": "2026-07-29T00:00:00Z",
+          "quantity": 1.79148,
+          "price": 48.005,
+          "amount": -86,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought DRAM outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "dc038fc6-c19b-40af-9ca2-6cb0a4996fb9",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "RAAX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 2.522386 shares of RAAX for $39.64 each",
+          "trade_date": "2026-07-27T18:06:36Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 2.522386,
+          "price": 39.645,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "64a43b18-e0b4-474a-9837-e8e6ea37c035",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "symbol": "MLPX",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.996539 shares of Global X MLP & Energy Infrastructure ETF for $75.13 each",
+          "trade_date": "2026-07-27T18:05:59Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 1.996539,
+          "price": 75.13,
+          "amount": -150,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": "energy-demand-infrastructure-tollbooths",
+          "thesisTitle": "Energy demand growth and infrastructure toll booths",
+          "planStatus": "owned-monitor-needs-sizing-rules",
+          "valuationState": "auto-expanded-watchlist",
+          "alignment": "watchlist-pullback",
+          "prompt": null
+        },
+        {
+          "id": "024f2bab-41da-425d-9aef-975797df472c",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $400 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-27T18:05:00Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 400,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": null
+        },
+        {
+          "id": "8245b88c-040b-4b1b-a16c-7779c8b88ad2",
+          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
+          "account_label": "Robinhood Individual",
+          "symbol": "XLE",
+          "action": "buy",
+          "raw_type": "BUY",
+          "description": "buy 1.710571 shares of XLE for $58.46 each",
+          "trade_date": "2026-07-27T00:11:44Z",
+          "settlement_date": "2026-07-28T00:00:00Z",
+          "quantity": 1.710571,
+          "price": 58.46,
+          "amount": -100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": "energy-demand-infrastructure-tollbooths",
+          "thesisTitle": "Energy demand growth and infrastructure toll booths",
+          "planStatus": "owned-monitor-needs-sizing-rules",
+          "valuationState": "auto-expanded-watchlist",
+          "alignment": "watchlist-pullback",
+          "prompt": null
+        },
         {
           "id": "0758060f-bf2e-43af-82e5-c6c5e91f4cd2",
           "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
@@ -45588,6 +45973,27 @@
           "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
         },
         {
+          "id": "45dbbc28-e587-4490-b449-d26928397ece",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $500 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-25T20:43:49Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 500,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": null
+        },
+        {
           "id": "f18d5c15-cfa3-4afd-9cd7-e4c1b9d57b0c",
           "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
           "account_label": "Robinhood Individual",
@@ -45630,6 +46036,27 @@
           "valuationState": "unknown",
           "alignment": "outside-plan",
           "prompt": "It looks like you bought PAVE outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "51e2527d-9d71-48ad-adae-1215404b5e5d",
+          "account_id": "a3ead2f6-b2b2-4f63-a4e4-2a6368079e33",
+          "account_label": "Robinhood Individual",
+          "action": "deposit",
+          "raw_type": "CONTRIBUTION",
+          "description": "ACH deposit of $100 into Robinhood Brokerage account ending in 4576",
+          "trade_date": "2026-07-25T03:54:28Z",
+          "settlement_date": "2026-07-28T13:00:00Z",
+          "quantity": 0,
+          "price": 0,
+          "amount": 100,
+          "currency": "USD",
+          "source": "snaptrade",
+          "thesisId": null,
+          "thesisTitle": null,
+          "planStatus": null,
+          "valuationState": "unknown",
+          "alignment": "outside-plan",
+          "prompt": null
         },
         {
           "id": "89e7d01c-bedd-4bf4-9ba5-afd06e975631",
@@ -46199,53 +46626,39 @@
           "valuationState": "unknown",
           "alignment": "outside-plan",
           "prompt": null
-        },
-        {
-          "id": "7f796904-3cf0-42dd-9345-cb94cad64891",
-          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
-          "account_label": "Robinhood Individual",
-          "symbol": "CAT",
-          "action": "dividend",
-          "raw_type": "DIVIDEND",
-          "description": "Cash dividend of $0.07 from CAT",
-          "trade_date": "2026-07-21T00:00:00Z",
-          "settlement_date": "2026-07-22T00:00:00Z",
-          "quantity": 0,
-          "price": 0,
-          "amount": 0.07,
-          "currency": "USD",
-          "source": "snaptrade",
-          "thesisId": null,
-          "thesisTitle": null,
-          "planStatus": null,
-          "valuationState": "unknown",
-          "alignment": "outside-plan",
-          "prompt": null
-        },
-        {
-          "id": "17aef002-2114-4536-8913-c42e39319d88",
-          "account_id": "7a94061e-92eb-497d-a042-dd7db77ba098",
-          "account_label": "Robinhood Individual",
-          "symbol": "CAT",
-          "action": "buy",
-          "raw_type": "REI",
-          "description": "Dividend reinvestment purchase of 0.000 shares of CAT for $0.07 total.",
-          "trade_date": "2026-07-21T00:00:00Z",
-          "settlement_date": "2026-07-22T00:00:00Z",
-          "quantity": 0.000077,
-          "price": 909.09,
-          "amount": -0.07,
-          "currency": "USD",
-          "source": "snaptrade",
-          "thesisId": null,
-          "thesisTitle": null,
-          "planStatus": null,
-          "valuationState": "unknown",
-          "alignment": "outside-plan",
-          "prompt": "It looks like you bought CAT outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
         }
       ],
       "prompts": [
+        {
+          "id": "f562e0ff-c418-455f-80fd-b7b8780484f0",
+          "symbol": "GEV",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought GEV outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "140f31e9-38bc-4104-88be-c3d401b6002d",
+          "symbol": "PAVE",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought PAVE outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "cceb21fe-44f6-4de9-91d7-90a0efed461e",
+          "symbol": "RAAX",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "9300bba4-ff58-47b5-8cba-91ec7d1d5bc5",
+          "symbol": "DRAM",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought DRAM outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
+        {
+          "id": "dc038fc6-c19b-40af-9ca2-6cb0a4996fb9",
+          "symbol": "RAAX",
+          "alignment": "outside-plan",
+          "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+        },
         {
           "id": "0758060f-bf2e-43af-82e5-c6c5e91f4cd2",
           "symbol": "SPGI",
@@ -46389,19 +46802,103 @@
           "symbol": "URA",
           "alignment": "outside-plan",
           "prompt": "It looks like you bought URA outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
-        },
-        {
-          "id": "17aef002-2114-4536-8913-c42e39319d88",
-          "symbol": "CAT",
-          "alignment": "outside-plan",
-          "prompt": "It looks like you bought CAT outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
         }
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/trade-review/latest.json"
     },
     "investingTradeJournal": {
-      "generatedAt": "2026-07-28T14:00:28.472Z",
+      "generatedAt": "2026-07-29T23:31:17.678Z",
       "entries": [
+        {
+          "id": "weekly-trade-review-2026-07-29",
+          "createdAt": "2026-07-29T23:31:17.678Z",
+          "startDate": "2026-07-22",
+          "endDate": "2026-07-29",
+          "summary": {
+            "tradeCount": 43,
+            "byAlignment": {
+              "outside-plan": 37,
+              "watchlist-pullback": 4,
+              "plan-aligned": 2
+            },
+            "needsDiscussion": 37
+          },
+          "prompts": [
+            {
+              "id": "f562e0ff-c418-455f-80fd-b7b8780484f0",
+              "symbol": "GEV",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought GEV outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "140f31e9-38bc-4104-88be-c3d401b6002d",
+              "symbol": "PAVE",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought PAVE outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "cceb21fe-44f6-4de9-91d7-90a0efed461e",
+              "symbol": "RAAX",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "9300bba4-ff58-47b5-8cba-91ec7d1d5bc5",
+              "symbol": "DRAM",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought DRAM outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "dc038fc6-c19b-40af-9ca2-6cb0a4996fb9",
+              "symbol": "RAAX",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "0758060f-bf2e-43af-82e5-c6c5e91f4cd2",
+              "symbol": "SPGI",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought SPGI outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "c981a4bc-6286-4a3d-b27f-c252993470b8",
+              "symbol": "EWZ",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought EWZ outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "0bf78872-ab9a-4c9e-a169-8000f2b957a8",
+              "symbol": "RAAX",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought RAAX outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "f18d5c15-cfa3-4afd-9cd7-e4c1b9d57b0c",
+              "symbol": "GRID",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought GRID outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "dbd0f598-594b-4d37-9deb-96f204ee7666",
+              "symbol": "PAVE",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought PAVE outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "89e7d01c-bedd-4bf4-9ba5-afd06e975631",
+              "symbol": "CRAK",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought CRAK outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            },
+            {
+              "id": "1a0e50d1-27d4-4d0c-9518-b66a6f9e08ed",
+              "symbol": "PPA",
+              "alignment": "outside-plan",
+              "prompt": "It looks like you bought PPA outside the current thesis registry/watchlist. Is there a thesis we should capture, or was this a one-off trade?"
+            }
+          ],
+          "status": "needs-review"
+        },
         {
           "id": "weekly-trade-review-2026-07-28",
           "createdAt": "2026-07-28T14:00:28.472Z",
@@ -47102,13 +47599,13 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/feedback-calibration.json"
     },
     "investingInputHealth": {
-      "generatedAt": "2026-07-28T14:00:28.606Z",
+      "generatedAt": "2026-07-30T01:59:35.742Z",
       "source": "thesis-baskets-supabase",
       "available": true,
       "status": "watch",
       "summary": {
-        "investorPosts7d": 368,
-        "investorPosts30d": 568,
+        "investorPosts7d": 372,
+        "investorPosts30d": 576,
         "highRelevanceInvestorPosts7d": 34,
         "newsItems7d": 0,
         "newsItems30d": 0,
@@ -47132,8 +47629,8 @@
             "source": "Lance Roberts",
             "platform": "rss",
             "source_class": "trusted_media",
-            "posts": 55,
-            "latest": "2026-07-28 09:08:58.647+00",
+            "posts": 56,
+            "latest": "2026-07-29 09:08:58.509+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
@@ -47142,7 +47639,7 @@
             "platform": "substack",
             "source_class": "first_party",
             "posts": 54,
-            "latest": "2026-07-28 08:42:26.941+00",
+            "latest": "2026-07-29 08:42:26.626+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
@@ -47151,7 +47648,7 @@
             "platform": "substack",
             "source_class": "first_party",
             "posts": 46,
-            "latest": "2026-07-28 08:42:28.95+00",
+            "latest": "2026-07-29 08:42:28.783+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
@@ -47160,7 +47657,7 @@
             "platform": "podcast",
             "source_class": "first_party",
             "posts": 45,
-            "latest": "2026-07-28 08:55:59.979+00",
+            "latest": "2026-07-29 08:55:59.846+00",
             "avg_thesis": 0.104444444444444,
             "avg_macro": 0.119333333333333
           },
@@ -47168,17 +47665,17 @@
             "source": "Capital Flows Research",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 44,
-            "latest": "2026-07-28 08:42:21.395+00",
-            "avg_thesis": 0.0318181818181818,
-            "avg_macro": 0.0793181818181818
+            "posts": 43,
+            "latest": "2026-07-29 08:42:21.048+00",
+            "avg_thesis": 0.0197674418604651,
+            "avg_macro": 0.0630232558139535
           },
           {
             "source": "Ryan Detrick",
             "platform": "rss",
             "source_class": "trusted_media",
-            "posts": 40,
-            "latest": "2026-07-28 09:08:58.65+00",
+            "posts": 43,
+            "latest": "2026-07-29 09:08:58.512+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
@@ -47186,8 +47683,8 @@
             "source": "Dana Lyons",
             "platform": "rss",
             "source_class": "trusted_media",
-            "posts": 37,
-            "latest": "2026-07-28 09:08:58.661+00",
+            "posts": 39,
+            "latest": "2026-07-29 09:08:58.515+00",
             "avg_thesis": 0,
             "avg_macro": 0
           },
@@ -47195,53 +47692,53 @@
             "source": "MacroEdge",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 33,
-            "latest": "2026-07-28 08:42:22.329+00",
-            "avg_thesis": 0.0684848484848485,
-            "avg_macro": 0.100909090909091
+            "posts": 34,
+            "latest": "2026-07-29 08:42:21.95+00",
+            "avg_thesis": 0.0664705882352941,
+            "avg_macro": 0.0979411764705883
           },
           {
             "source": "David Cervantes",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 29,
-            "latest": "2026-07-28 08:42:27.494+00",
-            "avg_thesis": 0.0351724137931035,
-            "avg_macro": 0.0775862068965517
-          },
-          {
-            "source": "Doomberg",
-            "platform": "substack",
-            "source_class": "first_party",
-            "posts": 28,
-            "latest": "2026-07-28 08:42:23.251+00",
-            "avg_thesis": 0.280714285714286,
-            "avg_macro": 0.296428571428571
+            "posts": 30,
+            "latest": "2026-07-29 08:42:27.388+00",
+            "avg_thesis": 0.034,
+            "avg_macro": 0.075
           },
           {
             "source": "Quinn Thompson",
             "platform": "substack",
             "source_class": "first_party",
+            "posts": 28,
+            "latest": "2026-07-29 08:42:25.727+00",
+            "avg_thesis": 0.00535714285714286,
+            "avg_macro": 0.0564285714285714
+          },
+          {
+            "source": "Doomberg",
+            "platform": "substack",
+            "source_class": "first_party",
             "posts": 27,
-            "latest": "2026-07-28 08:42:26.081+00",
-            "avg_thesis": 0.00555555555555556,
-            "avg_macro": 0.0585185185185185
+            "latest": "2026-07-29 08:42:23.056+00",
+            "avg_thesis": 0.258518518518519,
+            "avg_macro": 0.275555555555556
           },
           {
             "source": "Notes on the Crises",
             "platform": "substack",
             "source_class": "first_party",
-            "posts": 24,
-            "latest": "2026-07-28 08:42:23.918+00",
-            "avg_thesis": 0.00208333333333333,
-            "avg_macro": 0.0520833333333333
+            "posts": 25,
+            "latest": "2026-07-29 08:42:23.674+00",
+            "avg_thesis": 0.002,
+            "avg_macro": 0.05
           },
           {
             "source": "Jordi Visser",
             "platform": "substack",
             "source_class": "first_party",
             "posts": 23,
-            "latest": "2026-07-28 08:42:30.985+00",
+            "latest": "2026-07-29 08:42:31.016+00",
             "avg_thesis": 0.19304347826087,
             "avg_macro": 0.298695652173913
           },
@@ -47250,7 +47747,7 @@
             "platform": "substack",
             "source_class": "first_party",
             "posts": 21,
-            "latest": "2026-07-28 08:42:22.791+00",
+            "latest": "2026-07-29 08:42:22.556+00",
             "avg_thesis": 0.401428571428571,
             "avg_macro": 0.429047619047619
           },
@@ -47259,7 +47756,7 @@
             "platform": "substack",
             "source_class": "first_party",
             "posts": 21,
-            "latest": "2026-07-28 08:42:19.229+00",
+            "latest": "2026-07-29 08:42:18.943+00",
             "avg_thesis": 0.0452380952380952,
             "avg_macro": 0.369047619047619
           },
@@ -47268,7 +47765,7 @@
             "platform": "substack",
             "source_class": "first_party",
             "posts": 20,
-            "latest": "2026-07-28 08:42:25.172+00",
+            "latest": "2026-07-29 08:42:24.934+00",
             "avg_thesis": 0.361,
             "avg_macro": 0.4935
           },
@@ -47295,9 +47792,24 @@
           {
             "investor_name": "Jordi Visser",
             "source_label": "JordiVisser Substack",
+            "title": "How AI, Inflation, and Scarcity Are Driving Bitcoin Into Its Strongest Regime",
+            "url": "https://visserlabs.substack.com/p/how-ai-inflation-and-scarcity-are",
+            "event_time": "2026-07-29 08:42:31.016+00",
+            "thesis_relevance_score": "0.85",
+            "macro_relevance_score": 0.8,
+            "themes_detected": [
+              "bitcoin decoupling",
+              "store of value",
+              "risk regime shift"
+            ],
+            "ai_summary": "The post argues Bitcoin may be entering a new phase where it no longer trades purely like a tech risk asset, strengthening the thesis for BTC as a non-sovereign store of value."
+          },
+          {
+            "investor_name": "Jordi Visser",
+            "source_label": "JordiVisser Substack",
             "title": "When Buffett’s Tide Goes Out in Private Credit, Bitcoin Wins the Rescue",
             "url": "https://visserlabs.substack.com/p/when-buffetts-tide-goes-out-in-private",
-            "event_time": "2026-07-28 08:42:30.985+00",
+            "event_time": "2026-07-29 08:42:31.016+00",
             "thesis_relevance_score": "0.84",
             "macro_relevance_score": 0.83,
             "themes_detected": [
@@ -47312,7 +47824,7 @@
             "source_label": "JordiVisser Substack",
             "title": "Killing the Float: Programmable Money and the New Financial Guardrails",
             "url": "https://visserlabs.substack.com/p/killing-the-float-programmable-money",
-            "event_time": "2026-07-28 08:42:30.985+00",
+            "event_time": "2026-07-29 08:42:31.016+00",
             "thesis_relevance_score": "0.1",
             "macro_relevance_score": 0.7,
             "themes_detected": [
@@ -47325,24 +47837,9 @@
           {
             "investor_name": "Jordi Visser",
             "source_label": "JordiVisser Substack",
-            "title": "How AI, Inflation, and Scarcity Are Driving Bitcoin Into Its Strongest Regime",
-            "url": "https://visserlabs.substack.com/p/how-ai-inflation-and-scarcity-are",
-            "event_time": "2026-07-28 08:42:30.985+00",
-            "thesis_relevance_score": "0.85",
-            "macro_relevance_score": 0.8,
-            "themes_detected": [
-              "bitcoin decoupling",
-              "store of value",
-              "risk regime shift"
-            ],
-            "ai_summary": "The post argues Bitcoin may be entering a new phase where it no longer trades purely like a tech risk asset, strengthening the thesis for BTC as a non-sovereign store of value."
-          },
-          {
-            "investor_name": "Jordi Visser",
-            "source_label": "JordiVisser Substack",
             "title": "The SaaS Panic Is Just the Beginning of a Bigger Story",
             "url": "https://visserlabs.substack.com/p/the-saas-panic-is-just-the-beginning",
-            "event_time": "2026-07-28 08:42:30.985+00",
+            "event_time": "2026-07-29 08:42:31.016+00",
             "thesis_relevance_score": "0.12",
             "macro_relevance_score": 0.74,
             "themes_detected": [
@@ -47355,27 +47852,9 @@
           {
             "investor_name": "Alexander Campbell",
             "source_label": "Alexander Campbell Substack",
-            "title": "The Return of Rimland",
-            "url": "https://www.campbellramble.ai/p/the-return-of-rimland",
-            "event_time": "2026-07-28 08:42:25.172+00",
-            "thesis_relevance_score": "0.75",
-            "macro_relevance_score": 0.85,
-            "themes_detected": [
-              "geopolitical tension",
-              "Iran nuclear proliferation",
-              "Strait of Hormuz control",
-              "supply constraint",
-              "energy security",
-              "Middle East conflict escalation"
-            ],
-            "ai_summary": "Iran-Trump nuclear standoff and Strait of Hormuz control tensions create irreconcilable conflict positions, directly impacting energy supply constraints and agricultural commodity logistics critical for multiple tracked investment theses."
-          },
-          {
-            "investor_name": "Alexander Campbell",
-            "source_label": "Alexander Campbell Substack",
             "title": "THE CASCADE",
             "url": "https://www.campbellramble.ai/p/the-cascade",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.85",
             "macro_relevance_score": 0.9,
             "themes_detected": [
@@ -47393,7 +47872,7 @@
             "source_label": "Alexander Campbell Substack",
             "title": "A Trade as Sweet as Ethanol",
             "url": "https://www.campbellramble.ai/p/a-trade-as-sweet-as-sugar",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.93",
             "macro_relevance_score": 0.9,
             "themes_detected": [
@@ -47406,24 +47885,9 @@
           {
             "investor_name": "Alexander Campbell",
             "source_label": "Alexander Campbell Substack",
-            "title": "A New Oil Era",
-            "url": "https://www.campbellramble.ai/p/a-new-oil-era",
-            "event_time": "2026-07-28 08:42:25.172+00",
-            "thesis_relevance_score": "0.81",
-            "macro_relevance_score": 0.76,
-            "themes_detected": [
-              "crude oil bullish",
-              "energy supply risk",
-              "risk-on positioning"
-            ],
-            "ai_summary": "The post expresses a clear bullish tactical position in crude via options, supporting energy exposure tied to oil and broader supply-constraint themes."
-          },
-          {
-            "investor_name": "Alexander Campbell",
-            "source_label": "Alexander Campbell Substack",
             "title": "The Cascade Trade",
             "url": "https://www.campbellramble.ai/p/the-cascade-trade",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.85",
             "macro_relevance_score": 0.9,
             "themes_detected": [
@@ -47437,9 +47901,42 @@
           {
             "investor_name": "Alexander Campbell",
             "source_label": "Alexander Campbell Substack",
+            "title": "A New Oil Era",
+            "url": "https://www.campbellramble.ai/p/a-new-oil-era",
+            "event_time": "2026-07-29 08:42:24.934+00",
+            "thesis_relevance_score": "0.81",
+            "macro_relevance_score": 0.76,
+            "themes_detected": [
+              "crude oil bullish",
+              "energy supply risk",
+              "risk-on positioning"
+            ],
+            "ai_summary": "The post expresses a clear bullish tactical position in crude via options, supporting energy exposure tied to oil and broader supply-constraint themes."
+          },
+          {
+            "investor_name": "Alexander Campbell",
+            "source_label": "Alexander Campbell Substack",
+            "title": "The Return of Rimland",
+            "url": "https://www.campbellramble.ai/p/the-return-of-rimland",
+            "event_time": "2026-07-29 08:42:24.934+00",
+            "thesis_relevance_score": "0.75",
+            "macro_relevance_score": 0.85,
+            "themes_detected": [
+              "geopolitical tension",
+              "Iran nuclear proliferation",
+              "Strait of Hormuz control",
+              "supply constraint",
+              "energy security",
+              "Middle East conflict escalation"
+            ],
+            "ai_summary": "Iran-Trump nuclear standoff and Strait of Hormuz control tensions create irreconcilable conflict positions, directly impacting energy supply constraints and agricultural commodity logistics critical for multiple tracked investment theses."
+          },
+          {
+            "investor_name": "Alexander Campbell",
+            "source_label": "Alexander Campbell Substack",
             "title": "Out of Oil",
             "url": "https://www.campbellramble.ai/p/out-of-oil",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.73",
             "macro_relevance_score": 0.76,
             "themes_detected": [
@@ -47454,7 +47951,7 @@
             "source_label": "Alexander Campbell Substack",
             "title": "The Fragile Peace",
             "url": "https://www.campbellramble.ai/p/the-fragile-peace",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.36",
             "macro_relevance_score": 0.72,
             "themes_detected": [
@@ -47469,7 +47966,7 @@
             "source_label": "Alexander Campbell Substack",
             "title": "The Cascade: What Oil Feeds",
             "url": "https://www.campbellramble.ai/p/the-cascade-what-oil-feeds",
-            "event_time": "2026-07-28 08:42:25.172+00",
+            "event_time": "2026-07-29 08:42:24.934+00",
             "thesis_relevance_score": "0.83",
             "macro_relevance_score": 0.87,
             "themes_detected": [
@@ -47490,15 +47987,15 @@
             "status": "completed",
             "runs": 223,
             "items_seen": 3705,
-            "items_inserted": 117,
-            "latest": "2026-07-28 09:09:04.354+00"
+            "items_inserted": 118,
+            "latest": "2026-07-29 09:09:02.713+00"
           },
           {
             "status": "partial",
             "runs": 14,
             "items_seen": 90,
             "items_inserted": 10,
-            "latest": "2026-07-28 08:56:15.475+00"
+            "latest": "2026-07-29 08:56:19.409+00"
           },
           {
             "status": "failed",
@@ -47514,7 +48011,7 @@
             "status": "partial",
             "error": "",
             "runs": 14,
-            "latest": "2026-07-28 08:56:15.475+00"
+            "latest": "2026-07-29 08:56:19.409+00"
           },
           {
             "platform": "rss",
@@ -47529,7 +48026,7 @@
           {
             "source": "The Macro Compass",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:19.296+00",
+            "latest": "2026-07-29 08:42:19.065+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47540,7 +48037,7 @@
           {
             "source": "Capital Flows Research",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:21.455+00",
+            "latest": "2026-07-29 08:42:21.152+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47551,7 +48048,7 @@
           {
             "source": "MacroEdge",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:22.386+00",
+            "latest": "2026-07-29 08:42:22.005+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47562,7 +48059,7 @@
           {
             "source": "Citrini Research",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:22.835+00",
+            "latest": "2026-07-29 08:42:22.603+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47573,7 +48070,7 @@
           {
             "source": "Doomberg",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:23.325+00",
+            "latest": "2026-07-29 08:42:23.137+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47584,18 +48081,18 @@
           {
             "source": "Notes on the Crises",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:24.614+00",
+            "latest": "2026-07-29 08:42:24.291+00",
             "latest_status": "completed",
             "runs": 30,
-            "seen": 315,
-            "inserted": 9,
-            "updated": 306,
+            "seen": 330,
+            "inserted": 10,
+            "updated": 320,
             "failures": 0
           },
           {
             "source": "Alexander Campbell",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:25.311+00",
+            "latest": "2026-07-29 08:42:25.049+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47606,18 +48103,18 @@
           {
             "source": "Quinn Thompson",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:26.114+00",
+            "latest": "2026-07-29 08:42:25.766+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
-            "inserted": 7,
-            "updated": 593,
+            "inserted": 8,
+            "updated": 592,
             "failures": 0
           },
           {
             "source": "Robin J Brooks",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:26.968+00",
+            "latest": "2026-07-29 08:42:26.661+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47628,18 +48125,18 @@
           {
             "source": "David Cervantes",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:27.583+00",
+            "latest": "2026-07-29 08:42:27.499+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
-            "inserted": 9,
-            "updated": 591,
+            "inserted": 10,
+            "updated": 590,
             "failures": 0
           },
           {
             "source": "Bob Elliot",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:28.982+00",
+            "latest": "2026-07-29 08:42:28.813+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47650,7 +48147,7 @@
           {
             "source": "Jordi Visser",
             "platform": "substack",
-            "latest": "2026-07-28 08:42:31.02+00",
+            "latest": "2026-07-29 08:42:31.045+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 600,
@@ -47661,7 +48158,7 @@
           {
             "source": "Macro Voices",
             "platform": "podcast",
-            "latest": "2026-07-28 08:56:15.475+00",
+            "latest": "2026-07-29 08:56:19.409+00",
             "latest_status": "partial",
             "runs": 30,
             "seen": 192,
@@ -47672,7 +48169,7 @@
           {
             "source": "Lyn Alden",
             "platform": "rss",
-            "latest": "2026-07-28 09:08:59.345+00",
+            "latest": "2026-07-29 09:08:59.164+00",
             "latest_status": "completed",
             "runs": 30,
             "seen": 50,
@@ -47683,34 +48180,34 @@
           {
             "source": "Ryan Detrick",
             "platform": "rss",
-            "latest": "2026-07-28 09:09:00.535+00",
+            "latest": "2026-07-29 09:09:00.542+00",
             "latest_status": "completed",
             "runs": 30,
-            "seen": 200,
-            "inserted": 32,
-            "updated": 168,
+            "seen": 210,
+            "inserted": 35,
+            "updated": 175,
             "failures": 0
           },
           {
             "source": "Lance Roberts",
             "platform": "rss",
-            "latest": "2026-07-28 09:09:01.766+00",
+            "latest": "2026-07-29 09:09:01.377+00",
             "latest_status": "completed",
             "runs": 30,
-            "seen": 480,
-            "inserted": 37,
-            "updated": 443,
+            "seen": 500,
+            "inserted": 38,
+            "updated": 462,
             "failures": 0
           },
           {
             "source": "Dana Lyons",
             "platform": "rss",
-            "latest": "2026-07-28 09:09:04.354+00",
+            "latest": "2026-07-29 09:09:02.713+00",
             "latest_status": "completed",
             "runs": 30,
-            "seen": 180,
-            "inserted": 29,
-            "updated": 151,
+            "seen": 190,
+            "inserted": 31,
+            "updated": 159,
             "failures": 0
           }
         ]
@@ -60185,103 +60682,71 @@
     },
     "investingDailyMarketBrief": {
       "schemaVersion": 1,
-      "generatedAt": "2026-07-29T17:00:00.000Z",
-      "publishedAt": "2026-07-29T17:00:00.000Z",
+      "generatedAt": "2026-07-30T17:00:00.000Z",
+      "publishedAt": "2026-07-30T17:00:00.000Z",
       "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / await Fed decision and after-hours megacap earnings / no trade recommendation",
-      "mainDriver": "Tuesday's oil de-escalation reversed abruptly: Brent jumped about 6.7% to $87.60 by late morning in New York after renewed Iran-related fighting, while the S&P 500 fell 0.9%, the Dow 1.6%, and the Nasdaq 1.2% ahead of the Federal Reserve decision.",
-      "portfolioImplication": "The portfolio's large energy, defense, critical-resource, and precious-metals complex receives renewed event support, but today's whipsaw strengthens the case for judging those sleeves on durable cash flows and diversification rather than geopolitical beta. Simultaneous AI weakness keeps the earnings-conversion hurdle high, while the stale underweight in bonds/cash limits ballast if oil pressure reaches inflation and rates.",
+      "actionPosture": "observe / distinguish AI monetization from spending / no trade recommendation",
+      "mainDriver": "Microsoft's earnings converted part of the AI-capex debate into measurable cloud and profit evidence, lifting U.S. equities, while Meta's weaker profit and sharply compressed free cash flow showed that the same infrastructure demand can produce very different owner economics.",
+      "portfolioImplication": "The AI compute, optical-networking, and power-infrastructure theses receive stronger demand evidence, but the holding-level test is now monetization, margins, free cash flow, and financing rather than capex alone. Long yields near recent highs and Brent around the upper-$80s keep the portfolio's large macro-security/real-assets overlay relevant but correlated, while limited cash/bond ballast remains a portfolio-level constraint.",
       "changedSincePrevious": [
-        "Oil reversed from Tuesday's two-week low: Brent rose about 6.7% to $87.60 after renewed fighting, replacing cautious de-escalation as the day's dominant impulse.",
-        "Broad breadth deteriorated: the S&P 500, Dow, and Nasdaq were all lower by late morning, rather than Tuesday's pattern of a rising broad market alongside weak chips.",
-        "Iran reportedly rejected Oman's joint traffic-management proposal, weakening the prior diplomatic path and raising the evidentiary value of actual Hormuz flows.",
-        "The Fed decision remains pending at this publication time; policy interpretation and megacap earnings are still event risk, not confirmed evidence."
+        "The Federal Reserve event is no longer pending: it held rates unchanged and offered little forward guidance, after which long Treasury yields remained elevated.",
+        "Microsoft supplied positive AI-capex conversion evidence through 43% Azure growth, strong profit, and unchanged practical spending expectations; the S&P 500 and Nasdaq rebounded sharply by late morning.",
+        "Meta supplied the counterexample: higher investment guidance, weaker profit, and only $784 million of quarterly free cash flow drove a large share-price decline.",
+        "Oil eased modestly rather than extending Wednesday's surge, but Brent near $87 and unresolved U.S.-Iran shipping risk keep the inflation and physical-flow questions active."
       ],
-      "headline": "Oil whipsaws higher as Iran fighting resumes; stocks and AI leadership weaken before the Fed",
-      "summary": "This is an observation layer, not a trade signal. The material change is the speed with which Tuesday's oil relief reversed: renewed attacks pushed Brent back toward $88 and pulled all three major U.S. indexes lower. Iran's reported rejection of the Omani shipping proposal means the physical-flow problem has not been resolved by diplomacy. The move supports the portfolio's energy-security and defense theses at the margin, but it also exposes concentration: roughly 62.5% of the latest portfolio review sits in the broad macro-security/real-assets overlay, and precious metals alone remain a lower-conviction overweight. Look past one-day oil direction and pre-decision market noise. Pay attention to verified shipping and refinery flows, the Fed's reaction to energy-driven inflation risk, credit and Treasury yields after the statement, and whether upcoming megacap results show AI capex converting into revenue, margins, and free cash flow.",
+      "headline": "Microsoft validates selective AI monetization; long yields and oil keep the hurdle high",
+      "summary": "This is an observation layer, not a trade signal. Thursday's rebound does not resolve the AI-capex debate; it makes the debate more selective. Microsoft paired 43% Azure growth and stronger-than-expected profit with essentially unchanged practical 2026 investment expectations, while Meta's spending burden compressed quarterly free cash flow to $784 million. That divergence supports continued demand for compute, networking, and power infrastructure but raises the importance of customer returns and funding quality. Look past the index bounce as a blanket thesis verdict and one day's oil reversal. Pay attention to company-level revenue, margin and cash-flow conversion; long-end Treasury yields and credit conditions; verified Gulf energy flows; and whether the portfolio's roughly 62.5% macro-security/real-assets overlay behaves as distinct cash-flow engines rather than one geopolitical factor.",
       "marketDrivers": [
         {
-          "id": "oil-reescalation-reversal",
-          "title": "Renewed fighting reversed the oil de-escalation move",
-          "summary": "Brent rose about 6.7% to $87.60 per barrel by late morning in New York after renewed Iran-related attacks, reversing much of Tuesday's decline.",
-          "direction": "supportive-energy-and-inflation-hedges / negative-broad-risk-and-duration",
-          "urgency": "pay-attention",
+          "id": "selective-ai-monetization",
+          "title": "Microsoft turns AI infrastructure spending into visible cloud growth",
+          "summary": "Microsoft reported $90 billion of quarterly revenue, 43% Azure and other cloud-services growth, and no practical increase to its 2026 capital-spending expectations; its shares led a broad rebound.",
+          "direction": "supportive-for-ai-demand-selective-for-owners",
           "evidenceQuality": "high",
           "sourceCount": 2,
           "relatedTheses": [
-            "energy-demand-infrastructure-tollbooths",
-            "macro-security-real-assets-pillar",
-            "rearmament-aerospace-defense",
-            "broad-market-cash-bonds-allocation-wrappers"
+            "ai-platforms-compute-semiconductors",
+            "optical-networking-ai-bandwidth",
+            "ai-power-infrastructure"
           ],
           "relatedSymbols": [
-            "XLE",
-            "MLPX",
-            "IXC",
-            "XAR",
-            "SPY",
-            "TLT"
+            "MSFT",
+            "QQQ",
+            "CIEN",
+            "PWR",
+            "EME"
           ]
         },
         {
-          "id": "hormuz-diplomacy-setback",
-          "title": "Iran reportedly rejected the Omani traffic proposal",
-          "summary": "Current reporting says Iran rejected Oman's proposal to jointly manage ship traffic, leaving verified vessel flows and alternate export routes as the decision-quality evidence.",
-          "direction": "persistent-energy-security-and-logistics-risk",
-          "urgency": "pay-attention",
-          "evidenceQuality": "medium-high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "energy-demand-infrastructure-tollbooths",
-            "rearmament-aerospace-defense",
-            "agricultural-commodities-hormuz"
-          ],
-          "relatedSymbols": [
-            "XLE",
-            "MLPX",
-            "XAR",
-            "RTX",
-            "DBA"
-          ]
-        },
-        {
-          "id": "broad-risk-off-ai-weakness",
-          "title": "AI weakness broadened into a major-index decline",
-          "summary": "At about 11:45 a.m. ET, the S&P 500 was down 0.9%, the Dow 1.6%, and the Nasdaq 1.2%, with sinking technology shares compounding the oil shock.",
-          "direction": "negative-risk-assets / negative-ai-momentum",
-          "urgency": "pay-attention",
+          "id": "meta-cash-flow-warning",
+          "title": "Meta shows that demand growth and owner returns can diverge",
+          "summary": "Meta raised the lower end of its investment forecast and reported only $784 million of quarterly free cash flow after heavy property, equipment, and lease spending.",
+          "direction": "caution-on-capex-conversion",
           "evidenceQuality": "high",
-          "sourceCount": 1,
+          "sourceCount": 2,
           "relatedTheses": [
             "ai-platforms-compute-semiconductors",
-            "ai-power-infrastructure",
-            "optical-networking-ai-bandwidth"
+            "ai-power-infrastructure"
           ],
           "relatedSymbols": [
-            "QQQ",
-            "SOXX",
-            "MSFT",
-            "MU",
-            "GOOGL"
+            "META",
+            "QQQ"
           ]
         },
         {
-          "id": "fomc-pending",
-          "title": "The July FOMC decision is still pending",
-          "summary": "The official calendar confirms the July 28-29 meeting. At the brief's 17:00 UTC publication time, the decision had not yet supplied a new policy signal.",
-          "direction": "policy-and-rate-uncertainty",
-          "urgency": "pay-attention",
+          "id": "fed-long-end-pressure",
+          "title": "The Fed hold leaves inflation credibility and the long end doing the work",
+          "summary": "The Fed held rates unchanged and gave little forward guidance; the 10-year Treasury was near 4.66% and the 30-year near 5.21% late Thursday morning after Wednesday's sharp rise.",
+          "direction": "higher-discount-rate-and-financing-risk",
           "evidenceQuality": "high",
           "sourceCount": 2,
           "relatedTheses": [
             "broad-market-cash-bonds-allocation-wrappers",
-            "precious-metals-currency-debasement-hedge",
-            "japanese-financial-reflation",
-            "ai-platforms-compute-semiconductors"
+            "ai-power-infrastructure",
+            "precious-metals-currency-debasement-hedge"
           ],
           "relatedSymbols": [
-            "SPY",
             "TLT",
             "BND",
             "GLDM",
@@ -60289,17 +60754,34 @@
           ]
         },
         {
+          "id": "oil-risk-persists",
+          "title": "Oil gives back little of the conflict premium",
+          "summary": "Brent eased about 0.9% to $87.28 after Wednesday's surge, remaining far above its early-July low as U.S.-Iran tensions and tanker-flow uncertainty persist.",
+          "direction": "supports-energy-cash-flows-but-adds-inflation-risk",
+          "evidenceQuality": "medium-high",
+          "sourceCount": 1,
+          "relatedTheses": [
+            "energy-demand-infrastructure-tollbooths",
+            "macro-security-real-assets-pillar",
+            "rearmament-aerospace-defense"
+          ],
+          "relatedSymbols": [
+            "XLE",
+            "MLPX",
+            "IXC",
+            "XAR"
+          ]
+        },
+        {
           "id": "portfolio-concentration-test",
-          "title": "The oil whipsaw tests concentration more than thesis direction",
+          "title": "A technology rebound does not remove portfolio concentration risk",
           "summary": "The latest internal review assigns about 62.5% of portfolio equity to the macro-security/real-assets overlay and flags precious metals at 14.33% as a lower-conviction overweight.",
           "direction": "concentration-and-correlation-risk",
-          "urgency": "monitor",
           "evidenceQuality": "high",
           "sourceCount": 2,
           "relatedTheses": [
             "macro-security-real-assets-pillar",
-            "precious-metals-currency-debasement-hedge",
-            "energy-demand-infrastructure-tollbooths"
+            "precious-metals-currency-debasement-hedge"
           ],
           "relatedSymbols": [
             "GLDM",
@@ -60312,104 +60794,109 @@
       ],
       "lookPast": [
         {
+          "id": "index-rebound-as-validation",
+          "title": "The broad rebound as validation of every AI exposure",
+          "reason": "Microsoft and Meta produced opposite owner outcomes from the same infrastructure cycle; revenue, margins, cash flow, and financing distinguish beneficiaries."
+        },
+        {
           "id": "one-day-oil-direction",
-          "title": "One day's oil move as a thesis verdict",
-          "reason": "A roughly 17% three-day decline followed by a 6.7% rebound shows event-driven volatility; physical flows, inventories, insurance, and durable cash flows matter more."
+          "title": "A modest oil decline as geopolitical resolution",
+          "reason": "Brent remains near $87 and actual tanker, insurance, refinery, inventory, and alternate-route data matter more than one session."
         },
         {
-          "id": "intraday-index-levels",
-          "title": "Intraday index losses as a completed market signal",
-          "reason": "The Fed decision and major after-hours technology earnings remain pending and can change rates, breadth, and leadership."
-        },
-        {
-          "id": "geopolitical-beta-as-diversification",
-          "title": "Renewed gains in real assets as proof of diversification",
-          "reason": "The portfolio's real-asset sleeves are large and may share the same oil, dollar, rate, and conflict factors."
+          "id": "capex-as-end-demand",
+          "title": "Hyperscaler capex as sufficient proof of durable returns",
+          "reason": "Capital spending supports suppliers, but rapid depreciation, funding costs, customer economics, and free-cash-flow conversion determine durability."
         }
       ],
       "payAttention": [
         {
+          "id": "ai-conversion-scorecard",
+          "title": "Revenue, margin, free cash flow, and capex conversion by hyperscaler",
+          "reason": "Microsoft's and Meta's divergent results show why aggregate AI spending is less informative than company-level returns."
+        },
+        {
+          "id": "supplier-demand-quality",
+          "title": "Backlog quality and customer concentration in grid, optical, and semiconductor suppliers",
+          "reason": "The infrastructure thesis improves when orders convert to profitable revenue without excessive working capital, leverage, or single-customer dependence."
+        },
+        {
+          "id": "long-end-and-credit",
+          "title": "The 10-year, 30-year, real yields, and credit spreads",
+          "reason": "A high long end raises discount rates and financing costs even without a Fed hike, directly testing capital-intensive AI and grid projects."
+        },
+        {
           "id": "physical-energy-flows",
           "title": "Verified Hormuz and alternate-route flows",
-          "reason": "Vessel traffic, insurance, refinery utilization, inventories, and Saudi/UAE bypass volumes can distinguish physical scarcity from headline premium."
-        },
-        {
-          "id": "fed-reaction-function",
-          "title": "The Fed statement, vote, and market reaction",
-          "reason": "Oil's reversal complicates the inflation outlook; watch the two-year and ten-year yields, dollar, credit spreads, and real rates after the decision."
-        },
-        {
-          "id": "ai-capex-conversion",
-          "title": "Megacap AI revenue, margins, free cash flow, and capex conversion",
-          "reason": "Technology leadership is already weak, so spending growth without measurable returns would pressure the AI, grid, and optical-networking theses differently."
+          "reason": "Physical flows, insurance, inventories, and refinery utilization distinguish durable scarcity from conflict premium."
         },
         {
           "id": "real-asset-correlation",
           "title": "Cross-sleeve correlation in the macro-security overlay",
-          "reason": "Energy, defense, critical resources, and precious metals together dominate the latest portfolio review; differentiated behavior is the real diversification test."
+          "reason": "Energy, defense, critical resources, and precious metals dominate the latest portfolio review; differentiated cash flows are the diversification test."
         }
       ],
       "thesisImpacts": [
         {
-          "thesisId": "energy-demand-infrastructure-tollbooths",
-          "impact": "event support restored; durable infrastructure case still requires physical evidence",
-          "summary": "Higher oil and failed diplomacy support near-term pricing, but cash-flow resilience, throughput, and contract structure remain more useful than conflict beta."
-        },
-        {
-          "thesisId": "rearmament-aerospace-defense",
-          "impact": "renewed operational demand signal",
-          "summary": "Resumed strikes and missile activity reinforce capacity and replenishment needs, while valuation and execution still determine holding-level outcomes."
-        },
-        {
           "thesisId": "ai-platforms-compute-semiconductors",
-          "impact": "risk-off pressure and weak leadership raise the earnings hurdle",
-          "summary": "Oil-driven inflation risk can pressure duration, while sinking technology shares make revenue, margins, and free-cash-flow conversion the decisive evidence."
+          "impact": "demand evidence improves but becomes more selective",
+          "summary": "Azure growth and Microsoft's profit conversion validate enterprise demand, while Meta's cash-flow compression raises the hurdle for platforms whose spending outpaces monetization."
+        },
+        {
+          "thesisId": "optical-networking-ai-bandwidth",
+          "impact": "stronger end-demand signal with valuation and order-quality caveats",
+          "summary": "Cloud growth and persistent infrastructure demand support bandwidth intensity, but channel pull-forward, customer concentration, and margins remain the invalidator tests."
         },
         {
           "thesisId": "ai-power-infrastructure",
-          "impact": "rate sensitivity increases; physical demand thesis awaits project conversion",
-          "summary": "The grid buildout remains structurally relevant, but financing costs, backlog quality, permitting, and customer cost allocation matter more if yields rise after the Fed."
+          "impact": "physical demand supported; financing sensitivity rises",
+          "summary": "Large data-center investment supports power and grid demand, while elevated long yields make permitting, backlog conversion, project financing, and customer cost allocation more important."
+        },
+        {
+          "thesisId": "energy-demand-infrastructure-tollbooths",
+          "impact": "near-term pricing support persists without resolving durability",
+          "summary": "Brent near the upper-$80s supports energy cash flows, but contracted throughput and infrastructure economics remain more useful than conflict beta."
         },
         {
           "thesisId": "precious-metals-currency-debasement-hedge",
-          "impact": "hedge rationale strengthened tactically; sizing constraint unchanged",
-          "summary": "Geopolitical and inflation uncertainty can support the hedge role, but the latest internal review still labels the 14.33% sleeve a lower-conviction overweight."
+          "impact": "inflation-credibility rationale remains; sizing constraint unchanged",
+          "summary": "High long yields and policy uncertainty preserve the hedge rationale, but the latest internal review still labels the 14.33% sleeve a lower-conviction overweight."
         },
         {
           "thesisId": "broad-market-cash-bonds-allocation-wrappers",
-          "impact": "ballast value rises while rate direction remains unresolved",
-          "summary": "Broad risk-off conditions increase the value of ballast, but an oil-driven inflation shock could pressure longer-duration bonds; the stale internal allocation artifact flags this sleeve underweight."
+          "impact": "ballast need remains despite duration pressure",
+          "summary": "A high long end can pressure longer bonds, yet the stale internal allocation artifact's cash/bond underweight still matters when portfolio risk is concentrated."
         }
       ],
-      "portfolioRead": "No allocation instruction follows from today's reversal. The useful test is whether the portfolio's dominant macro-security/real-assets overlay behaves as several distinct cash-flow engines or as one concentrated geopolitical trade. Energy and defense receive renewed support, but the precious-metals sizing mismatch remains. AI and grid exposures face separate tests: company-level monetization and project conversion, respectively. The next decision-quality evidence is the Fed reaction across yields, the dollar, and credit; verified energy flows; and after-hours megacap earnings.",
+      "portfolioRead": "No allocation instruction follows from Thursday's rebound. The useful change is that AI demand now has both a positive conversion case and a negative cash-flow case in the same reporting window. That supports infrastructure demand while arguing against treating all platforms or suppliers alike. Separately, the portfolio's dominant macro-security/real-assets overlay remains exposed to shared oil, inflation, dollar, rate, and conflict factors. Decision-quality evidence is company-level AI monetization, supplier backlog conversion, the long end and credit spreads, verified energy flows, and cross-sleeve correlation.",
       "sourceNotes": [
         {
-          "id": "ap-markets-2026-07-29",
-          "title": "AP: Oil prices jump following fighting with Iran, while sinking AI stocks drag Wall Street lower",
-          "url": "https://apnews.com/article/b8bfaf782877957bbaa7196b70a4d725",
-          "usedFor": "Intraday Brent move, U.S. index levels, renewed fighting, and technology weakness.",
+          "id": "ap-markets-2026-07-30",
+          "title": "AP: Microsoft leads a rally on Wall Street, while worries about inflation remain in the bond market",
+          "url": "https://apnews.com/article/stock-markets-rates-korea-ai-oil-99b5702d93a2b5c6e513fb952ccdcc92",
+          "usedFor": "Late-morning equity levels, Microsoft and Meta reactions, Treasury yields, Fed interpretation, and Brent price.",
           "trustNote": "Independent current reporting; intraday values can change and external content is treated as untrusted research input."
         },
         {
-          "id": "ap-iran-2026-07-29",
-          "title": "AP: Iran launches renewed missile attacks as U.S. and Saudis strike Tehran-backed militias in Iraq",
-          "url": "https://apnews.com/article/e31d249ba6443decdd3e63cd00f0fb84",
-          "usedFor": "Conflict escalation, Iran's reported rejection of the Omani proposal, and alternate-route risk.",
-          "trustNote": "Independent current reporting; official claims are treated as claims rather than verified outcomes."
+          "id": "ap-microsoft-earnings-2026-07-29",
+          "title": "AP: Microsoft beats Wall Street expectations with $90B in revenue",
+          "url": "https://apnews.com/article/microsoft-earnings-results-ai-f7dff4fb9d51a2bdec56a13e5da1053d",
+          "usedFor": "Microsoft revenue, Azure growth, capex context, and AI monetization evidence.",
+          "trustNote": "Independent reporting based on company results; company statements remain management claims."
+        },
+        {
+          "id": "axios-meta-fcf-2026-07-30",
+          "title": "Axios: Meta's free cash flow sinks",
+          "url": "https://www.axios.com/2026/07/30/meta-ai-spending-cash",
+          "usedFor": "Meta property and equipment spending, lease payments, operating cash, and quarterly free cash flow.",
+          "trustNote": "Current secondary analysis using reported company figures; external content is treated as untrusted research input."
         },
         {
           "id": "federal-reserve-2026-calendar",
-          "title": "Federal Reserve: 2026 FOMC meeting calendar",
+          "title": "Federal Reserve: FOMC meeting calendars and information",
           "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
           "usedFor": "Primary confirmation of the July 28-29 FOMC meeting.",
           "trustNote": "Primary central-bank source."
-        },
-        {
-          "id": "ap-fed-preview-2026-07-28",
-          "title": "AP: The Federal Reserve is expected to keep rates unchanged for now despite high prices",
-          "url": "https://apnews.com/article/ad10c177cb8d96f9e3ed122e12352a74",
-          "usedFor": "Pre-decision policy context and the interaction between inflation concerns and Iran-related energy risk.",
-          "trustNote": "Pre-decision reporting, not a substitute for the forthcoming official statement."
         },
         {
           "id": "internal-portfolio-review-2026-07-28",
@@ -60426,14 +60913,14 @@
           "trustNote": "Internal artifact reused per standing order."
         },
         {
-          "id": "internal-input-health-2026-07-28",
+          "id": "internal-input-health-2026-07-29",
           "title": "Internal investing input health",
           "url": "memory/investing/input-health.json",
-          "usedFor": "Input warning that internal news flow is thin.",
+          "usedFor": "Input-health warnings and source availability.",
           "trustNote": "Internal artifact reused per standing order."
         }
       ],
-      "discussionPrompt": "If the Fed reaction lifts yields while oil remains volatile and AI earnings disappoint, which assumption should be reviewed first: the diversification of the 62.5% macro-security overlay, the AI capex-conversion path, or the portfolio's limited bond/cash ballast?",
+      "discussionPrompt": "Does the Microsoft-Meta divergence change which evidence should carry the most weight in AI-related theses: platform free-cash-flow conversion, supplier backlog quality, or financing sensitivity at long yields above 5%?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -79962,7 +80449,7 @@
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 42,
-    "contextActiveWords": 50651,
+    "contextActiveWords": 51134,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -80318,16 +80805,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-07-29T13:15:00.000Z",
-      "lastRunAt": "2026-07-28T13:15:00.020Z",
+      "nextRunAt": "2026-07-30T13:15:00.000Z",
+      "lastRunAt": "2026-07-29T13:15:00.028Z",
       "lastStatus": "ok",
-      "lastDuration": "14s",
+      "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-07-28T13:15:13.768Z"
+      "updatedAt": "2026-07-29T13:15:16.313Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -80345,16 +80832,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-07-29T14:00:00.000Z",
-      "lastRunAt": "2026-07-28T14:00:00.040Z",
+      "nextRunAt": "2026-07-30T14:00:00.000Z",
+      "lastRunAt": "2026-07-29T14:00:00.023Z",
       "lastStatus": "ok",
-      "lastDuration": "1m",
+      "lastDuration": "21s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-07-28T14:01:12.409Z"
+      "updatedAt": "2026-07-29T14:00:21.138Z"
     },
     {
       "id": "b3228297-f56f-4724-90fc-636706d80e4c",
@@ -80372,16 +80859,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-07-29T14:00:00.000Z",
-      "lastRunAt": null,
-      "lastStatus": null,
-      "lastDuration": null,
+      "nextRunAt": "2026-07-30T14:00:00.000Z",
+      "lastRunAt": "2026-07-29T14:00:00.025Z",
+      "lastStatus": "ok",
+      "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Remind Alex daily until stopped to finish production relay configuration and synthesis verification.",
-      "updatedAt": "2026-07-29T03:23:55.612Z"
+      "updatedAt": "2026-07-29T14:00:16.516Z"
     },
     {
       "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
@@ -80399,43 +80886,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-07-29T16:00:00.000Z",
-      "lastRunAt": "2026-07-28T16:00:00.016Z",
+      "nextRunAt": "2026-07-30T16:00:00.000Z",
+      "lastRunAt": "2026-07-29T16:00:00.031Z",
       "lastStatus": "ok",
-      "lastDuration": "6ms",
+      "lastDuration": "13ms",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-07-28T16:00:00.022Z"
-    },
-    {
-      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
-      "name": "alphalpha-dashboard-weekly-improvement",
-      "description": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 11 * * 3",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-07-29T16:30:00.000Z",
-      "lastRunAt": "2026-07-27T13:35:06.685Z",
-      "lastStatus": "ok",
-      "lastDuration": "5m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
-      "updatedAt": "2026-07-27T13:40:14.684Z"
+      "updatedAt": "2026-07-29T16:00:00.044Z"
     },
     {
       "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
@@ -80453,8 +80913,8 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-07-29T17:00:00.000Z",
-      "lastRunAt": "2026-07-28T17:00:00.035Z",
+      "nextRunAt": "2026-07-30T17:00:00.000Z",
+      "lastRunAt": "2026-07-29T17:00:00.018Z",
       "lastStatus": "ok",
       "lastDuration": "4m",
       "consecutiveErrors": 0,
@@ -80462,7 +80922,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-07-28T17:04:08.399Z"
+      "updatedAt": "2026-07-29T17:03:57.409Z"
     },
     {
       "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
@@ -80481,16 +80941,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-07-29T17:19:54.973Z",
-      "lastRunAt": "2026-07-29T11:19:55.002Z",
+      "nextRunAt": "2026-07-30T17:19:54.973Z",
+      "lastRunAt": "2026-07-30T11:19:55.008Z",
       "lastStatus": "ok",
-      "lastDuration": "21s",
+      "lastDuration": "24s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-07-29T11:20:16.075Z"
+      "updatedAt": "2026-07-30T11:20:18.969Z"
     },
     {
       "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
@@ -80509,16 +80969,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-07-30T11:20:16.390Z",
-      "lastRunAt": "2026-07-29T11:20:16.413Z",
-      "lastStatus": "ok",
-      "lastDuration": "22s",
-      "consecutiveErrors": 0,
+      "nextRunAt": "2026-07-31T11:20:16.390Z",
+      "lastRunAt": "2026-07-30T11:20:21.021Z",
+      "lastStatus": "error",
+      "lastDuration": "20s",
+      "consecutiveErrors": 1,
       "consecutiveSkipped": 0,
-      "pendingValidation": false,
+      "pendingValidation": true,
       "deleteAfterRun": false,
       "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-07-29T11:20:38.814Z"
+      "updatedAt": "2026-07-30T11:20:41.191Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
@@ -80785,6 +81245,63 @@
       "updatedAt": "2026-07-27T15:01:28.872Z"
     },
     {
+      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
+      "name": "alphalpha-dashboard-weekly-improvement",
+      "description": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 11 * * 3",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-08-05T16:30:00.000Z",
+      "lastRunAt": "2026-07-29T16:30:00.030Z",
+      "lastStatus": "ok",
+      "lastDuration": "6m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
+      "updatedAt": "2026-07-29T16:35:34.990Z"
+    },
+    {
+      "id": "911f5285-0182-4bb4-9f95-6b71c6742bd0",
+      "name": "Investing OS 60–90 day trade lookback",
+      "description": "Monthly review of trade outcomes and decision-process patterns after 60–90 days.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 15 * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 15 * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-08-15T14:00:00.000Z",
+      "lastRunAt": "2026-07-29T23:30:44.835Z",
+      "lastStatus": "ok",
+      "lastDuration": "3m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Monthly review of trade outcomes and decision-process patterns after 60–90 days.",
+      "updatedAt": "2026-07-29T23:33:27.462Z"
+    },
+    {
       "id": "32d1156d-65fd-403b-9f77-a673621984c3",
       "name": "agentic-os-question-cadence",
       "description": "Every couple of days, ask Alex one high-leverage question to improve the shared Agentic OS",
@@ -80974,7 +81491,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-07-29T13:15:12.028Z",
+      "generatedAt": "2026-07-30T13:15:10.690Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81005,7 +81522,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-07-29T13:15:12.028Z",
+      "generatedAt": "2026-07-30T13:15:10.690Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81036,7 +81553,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-07-29T13:15:12.028Z",
+      "generatedAt": "2026-07-30T13:15:10.690Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81067,7 +81584,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-07-29T13:15:12.028Z",
+      "generatedAt": "2026-07-30T13:15:10.690Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81563,10 +82080,10 @@
     },
     {
       "id": "d6",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "42 active context files / 50651 active words; 9405 words archived.",
+      "summary": "42 active context files / 51134 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -81574,10 +82091,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "Austin events: 16 family / 64 music latest",
-      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 2d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81585,7 +82102,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -81596,7 +82113,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -81607,10 +82124,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 2d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 3d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81618,10 +82135,10 @@
     },
     {
       "id": "source-5",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
-      "title": "Automations: 17 enabled / 5 paused",
-      "summary": "22 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
+      "title": "Automations: 18 enabled / 5 paused",
+      "summary": "23 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81629,10 +82146,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 112 dirty · Alphalpha dashboard: main@1e97684 · Obsidian vault: main@e268cd9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 112 dirty · Alphalpha dashboard: main@cb811bd · Obsidian vault: main@e268cd9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81640,10 +82157,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 64d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 65d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81651,7 +82168,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-07-29",
+      "date": "2026-07-30",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
