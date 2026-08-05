@@ -424,6 +424,48 @@ export type InvestingReceiptOutcomes = { generatedAt?: string; summary?: Record<
 export type InvestingConvictionResetPolicy = { generatedAt?: string; status?: string; resetAt?: string; neutralScore?: number; neutralLabel?: string; reason?: string; scope?: { thesisIds?: string[]; appliesTo?: string[]; doesNotMutate?: string[] }; reEarnRule?: { eligibleEvidenceAfter?: string; requiredEvidenceTypes?: string[]; ignoredForScoring?: string[]; promotionPath?: string }; audit?: Record<string, unknown> };
 export type InvestingExecutionBoundaryPolicy = { generatedAt?: string; status?: string; title?: string; purpose?: string; allowedWithoutAdditionalApproval?: string[]; requiresExplicitAlexConfirmation?: string[]; recommendationLevels?: Array<{ id: string; meaning: string }>; dashboardReceiptRule?: string; defaultTradePosture?: string };
 export type InvestingRankedActionQueue = { generatedAt?: string; purpose?: string; summary?: Record<string, number | string | null>; sourceHealth?: { status?: string; actionableFailedRuns14?: number | null; penalty?: number }; actions?: Array<{ rank: number; id: string; title: string; rankScore: number; recommendation: string; allowedActionLevel: string; explicitTradeConfirmationRequired?: boolean; rationale: string; tickers?: string[]; blockers?: string[]; scoreComponents?: Record<string, unknown> }> };
+export type InvestingConsolidationState = "KEEP_CORE" | "KEEP_SATELLITE" | "EXPAND_ELIGIBLE" | "NO_ADD" | "REDUCE_ELIGIBLE" | "CONSOLIDATE_ELIGIBLE" | "EXIT_ELIGIBLE" | "WAIT_TAX" | "WAIT_WASH_SALE" | "WAIT_VALUATION" | "WAIT_THESIS" | "WAIT_DIVERSIFICATION" | "WAIT_POLICY";
+export type InvestingConsolidationHolding = {
+  symbol: string;
+  name?: string;
+  weightPct: number;
+  equityUsd?: number;
+  quantity?: number;
+  account: string;
+  accountRef?: string | null;
+  accountType?: "taxable" | "tax-advantaged" | "unknown";
+  cluster?: string;
+  provisionalStatus?: string;
+  preferredDestination?: string | null;
+  state: InvestingConsolidationState;
+  blockers?: string[];
+  rationale?: string;
+  timingGate?: string;
+  currentMarketTrigger?: { generatedAt?: string; actionCategory?: string; trigger?: string; stale?: boolean } | null;
+  taxLotProxy?: { authoritative?: boolean; taxableRows?: number; shortTermQuantity?: number; minimumCoveragePct?: number } | null;
+};
+export type InvestingConsolidationInbox = {
+  schemaVersion?: string;
+  generatedAt?: string;
+  mode?: string;
+  notificationsEnabled?: boolean;
+  tradeExecutionEnabled?: boolean;
+  sourceFreshness?: Record<string, { generatedAt?: string | null; ageDays?: number; staleAfterDays?: number; authoritative?: boolean }>;
+  summary?: {
+    ledgerSymbols?: number;
+    accountHoldingRows?: number;
+    stateCounts?: Record<string, number>;
+    actionableCount?: number;
+    blockedCount?: number;
+    contradictionCount?: number;
+    topCardsShown?: number;
+  };
+  topCards?: InvestingConsolidationHolding[];
+  actionable?: InvestingConsolidationHolding[];
+  blocked?: InvestingConsolidationHolding[];
+  contradictions?: Array<{ symbol: string; alertGeneratedAt?: string; alertAction?: string; consolidationStatus?: string; resolution?: string }>;
+  guardrails?: string[];
+};
 export type InvestingSourceReliabilityPlan = { generatedAt?: string; status?: string; summary?: Record<string, number>; actionableFailures?: Array<{ id: string; platform: string; runs: number; error: string; recommendedAction: string; priority: string }>; recommendations?: string[] };
 export type InvestingThesisInvalidationReviewItem = { id: string; title: string; stage?: string; priority: string; challengeScore: number; recommendedAction: string; exposurePct: number; symbols?: string[]; coreClaim?: string | null; currentAction?: string | null; conviction?: string | number | null; daysSinceUpdate?: number | null; invalidators?: string[]; mustBeTrue?: string[]; probes?: string[]; killCriteria?: string[]; missingEvidence?: string[]; whyNow?: string; sourceArtifacts?: string[] };
 export type InvestingThesisInvalidationNotification = { id: string; thesisId: string; title: string; priority: string; cadence: string; channel?: string; channelId?: string; changeReasons?: string[]; previous?: { priority?: string; challengeScore?: number; exposurePct?: number; generatedAt?: string | null } | null; review: InvestingThesisInvalidationReviewItem; guardrails?: string[]; discordDraft?: string };
@@ -714,6 +756,7 @@ export type DashboardData = {
     investingManualDecisions?: InvestingManualDecisions | null;
     investingExecutionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
     investingRankedActionQueue?: InvestingRankedActionQueue | null;
+    investingConsolidationInbox?: InvestingConsolidationInbox | null;
     investingSourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
     investingBasketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
     investingThesisUniverse?: InvestingThesisUniverse | null;

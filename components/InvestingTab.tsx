@@ -34,6 +34,8 @@ import type {
   InvestingConvictionResetPolicy,
   InvestingExecutionBoundaryPolicy,
   InvestingRankedActionQueue,
+  InvestingConsolidationInbox,
+  InvestingConsolidationHolding,
   InvestingSourceReliabilityPlan,
   InvestingBasketGovernanceAudit,
   InvestingThesisUniverse,
@@ -81,6 +83,7 @@ interface Props {
   manualDecisions?: InvestingManualDecisions | null;
   executionBoundaryPolicy?: InvestingExecutionBoundaryPolicy | null;
   rankedActionQueue?: InvestingRankedActionQueue | null;
+  consolidationInbox?: InvestingConsolidationInbox | null;
   sourceReliabilityPlan?: InvestingSourceReliabilityPlan | null;
   basketGovernanceAudit?: InvestingBasketGovernanceAudit | null;
   thesisUniverse?: InvestingThesisUniverse | null;
@@ -91,7 +94,7 @@ interface Props {
   onRegenerateMarketBrief?: () => void | Promise<void>;
 }
 
-export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, dailyMarketBrief, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction, onRegenerateMarketBrief }: Props) {
+export default function InvestingTab({ investing, digest, changes, preflight, journal, researchActions, crawlPlan, thesisRegistry, convictionLedger, accumulationPlan, trustedSources, priceAlerts, accumulationOpportunities, proposedTheses, proposedThesisConfig, weeklyTrades, tradeReview, tradeJournal, feedbackCalibration, inputHealth, portfolioContextMap, allocationTargets, dailyTradeAnalysis, dailyMarketBrief, taxonomyDecisionSheet, taxonomyDecisionWorkflow, taxonomyDecisions, manualDecisionWorkflow, holdingRoleDecisionWorkflow, decisionPipeline, weeklyDecisionReview, layerIntegrity, receiptOutcomes, convictionResetPolicy, manualDecisions, executionBoundaryPolicy, rankedActionQueue, consolidationInbox, sourceReliabilityPlan, basketGovernanceAudit, thesisUniverse, thesisInvalidationReview, thesisInvalidationEvidence, onDiscuss, onAction, onRegenerateMarketBrief }: Props) {
   const decisions = digest?.top_decisions ?? [];
   const contradictions = digest?.contradictions ?? [];
   const research = digest?.research_queue ?? [];
@@ -108,6 +111,8 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
     <div className="investingPage">
       <h1 className="tabTitle">Investing decision layer</h1>
       <p className="tabSubtitle">5–10 year accumulation focus · {decisions.length || investing.length} current signals</p>
+
+      {consolidationInbox && <ConsolidationCockpit inbox={consolidationInbox} onDiscuss={onDiscuss} />}
 
       {dailyMarketBrief && <DailyMarketBriefPanel brief={dailyMarketBrief} onDiscuss={onDiscuss} onRegenerate={onRegenerateMarketBrief} />}
 
@@ -456,6 +461,136 @@ export default function InvestingTab({ investing, digest, changes, preflight, jo
       </details>
     </div>
   );
+}
+
+type ConsolidationFilter = "review" | "tax" | "thesis" | "diversification" | "policy";
+
+function ConsolidationCockpit({ inbox, onDiscuss }: { inbox: InvestingConsolidationInbox; onDiscuss: Props["onDiscuss"] }) {
+  const [filter, setFilter] = useState<ConsolidationFilter>("review");
+  const summary = inbox.summary ?? {};
+  const counts = summary.stateCounts ?? {};
+  const actionable = inbox.actionable ?? inbox.topCards ?? [];
+  const blocked = inbox.blocked ?? [];
+  const cardsByFilter: Record<ConsolidationFilter, InvestingConsolidationHolding[]> = {
+    review: actionable,
+    tax: blocked.filter(item => item.state === "WAIT_TAX" || item.state === "WAIT_WASH_SALE"),
+    thesis: blocked.filter(item => item.state === "WAIT_THESIS"),
+    diversification: blocked.filter(item => item.state === "WAIT_DIVERSIFICATION"),
+    policy: blocked.filter(item => item.state === "WAIT_POLICY" || item.state === "WAIT_VALUATION"),
+  };
+  const cards = cardsByFilter[filter].slice(0, filter === "review" ? 8 : 12);
+  const filterCounts: Record<ConsolidationFilter, number> = {
+    review: summary.actionableCount ?? actionable.length,
+    tax: (counts.WAIT_TAX ?? 0) + (counts.WAIT_WASH_SALE ?? 0),
+    thesis: counts.WAIT_THESIS ?? 0,
+    diversification: counts.WAIT_DIVERSIFICATION ?? 0,
+    policy: (counts.WAIT_POLICY ?? 0) + (counts.WAIT_VALUATION ?? 0),
+  };
+  const freshness = inbox.sourceFreshness?.opportunities;
+  const generated = inbox.generatedAt ? formatDate(inbox.generatedAt) : "unknown";
+
+  return (
+    <section className="consolidationCockpit" aria-labelledby="consolidation-title">
+      <div className="consolidationHero">
+        <div>
+          <span className="digestEyebrow">Portfolio compression · review only</span>
+          <h2 id="consolidation-title">Consolidation action inbox</h2>
+          <p>Account-aware decisions that preserve distinct exposures while suppressing contradictory add alerts.</p>
+        </div>
+        <div className="consolidationBoundary">
+          <span>Silent mode</span>
+          <strong>No trades · no notifications</strong>
+          <small>Updated {generated}</small>
+        </div>
+      </div>
+
+      <div className="consolidationKpis" aria-label="Consolidation status">
+        <div><span>Symbols</span><strong>{summary.ledgerSymbols ?? "—"}</strong><small>target 30–50</small></div>
+        <div><span>Account positions</span><strong>{summary.accountHoldingRows ?? "—"}</strong><small>classified separately</small></div>
+        <div className="is-ready"><span>Review-ready</span><strong>{summary.actionableCount ?? 0}</strong><small>tax-advantaged now</small></div>
+        <div className="is-waiting"><span>Waiting on lots</span><strong>{counts.WAIT_TAX ?? 0}</strong><small>taxable positions</small></div>
+        <div className="is-risk"><span>Conflicting alerts</span><strong>{summary.contradictionCount ?? 0}</strong><small>suppressed here</small></div>
+      </div>
+
+      <div className="consolidationFunnel" aria-label="Decision gate funnel">
+        <span><b>{summary.accountHoldingRows ?? 0}</b> classified</span>
+        <i aria-hidden="true">→</i>
+        <span><b>{summary.blockedCount ?? 0}</b> gated</span>
+        <i aria-hidden="true">→</i>
+        <span><b>{summary.actionableCount ?? 0}</b> review-ready</span>
+        <em>{freshness?.ageDays != null ? `Market inputs ${freshness.ageDays.toFixed(1)}d old` : "Freshness unavailable"}</em>
+      </div>
+
+      <div className="consolidationFilters" role="tablist" aria-label="Inbox filters">
+        {(["review", "tax", "thesis", "diversification", "policy"] as ConsolidationFilter[]).map(key => (
+          <button key={key} type="button" role="tab" aria-selected={filter === key} className={filter === key ? "is-active" : ""} onClick={() => setFilter(key)}>
+            {consolidationFilterLabel(key)} <span>{filterCounts[key]}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="consolidationList" role="tabpanel">
+        <div className="consolidationListHeader">
+          <div><h3>{consolidationFilterLabel(filter)}</h3><p>{consolidationFilterDescription(filter)}</p></div>
+          <span>Showing {cards.length} of {filterCounts[filter]}</span>
+        </div>
+        {cards.length ? cards.map(item => (
+          <article className="consolidationCard" key={`${item.symbol}-${item.account}-${item.accountRef || "account"}`}>
+            <div className="consolidationTicker">
+              <strong>{item.symbol}</strong>
+              <span>{item.weightPct.toFixed(2)}%</span>
+              <small>{item.account.replace("Robinhood ", "")} {item.accountRef || ""}</small>
+            </div>
+            <div className="consolidationCardBody">
+              <div className="consolidationCardTop">
+                <span className={`consolidationState consolidationState--${consolidationTone(item.state)}`}>{consolidationStateLabel(item.state)}</span>
+                {item.preferredDestination && <span className="consolidationDestination">→ {item.preferredDestination.replaceAll("_", " ")}</span>}
+              </div>
+              <p>{item.rationale || "Awaiting a concise rationale."}</p>
+              <small>{item.blockers?.length ? item.blockers.map(formatBlocker).join(" · ") : "All current structural gates cleared"}</small>
+            </div>
+            <button className="btnAlphaDiscuss" onClick={() => onDiscuss({ id: `consolidation-${item.symbol}-${item.accountRef || item.account}`, type: "ticker", title: `${item.symbol} consolidation review`, theme: item.cluster || "portfolio consolidation", stance: item.state, summary: `${item.rationale || ""} Destination: ${item.preferredDestination || "none"}. Blockers: ${(item.blockers || []).join(", ") || "none"}.` })}>
+              <span className="alphaGlyph">α</span> Discuss
+            </button>
+          </article>
+        )) : <p className="consolidationEmpty">No positions in this view. The inbox will populate it when a holding crosses the required gates.</p>}
+      </div>
+    </section>
+  );
+}
+
+function consolidationFilterLabel(filter: ConsolidationFilter) {
+  return ({ review: "Review now", tax: "Tax lots needed", thesis: "Thesis decision", diversification: "Diversification gate", policy: "Policy / valuation" })[filter];
+}
+
+function consolidationFilterDescription(filter: ConsolidationFilter) {
+  return ({
+    review: "Structurally cleared account positions. These are reviews—not orders.",
+    tax: "Taxable positions waiting for authoritative lots, holding periods, or wash-sale checks.",
+    thesis: "Positions that still need a winner, role, or invalidation decision.",
+    diversification: "Distinct return drivers that cannot be removed until replacement coverage is proven.",
+    policy: "Positions waiting for an approved sleeve range or refreshed valuation authority.",
+  })[filter];
+}
+
+function consolidationStateLabel(state: InvestingConsolidationHolding["state"]) {
+  return ({
+    KEEP_CORE: "Keep core", KEEP_SATELLITE: "Keep satellite", EXPAND_ELIGIBLE: "Expansion review", NO_ADD: "No add",
+    REDUCE_ELIGIBLE: "Reduction review", CONSOLIDATE_ELIGIBLE: "Consolidation review", EXIT_ELIGIBLE: "Exit review",
+    WAIT_TAX: "Waiting on tax lots", WAIT_WASH_SALE: "Wash-sale gate", WAIT_VALUATION: "Valuation gate",
+    WAIT_THESIS: "Thesis decision", WAIT_DIVERSIFICATION: "Diversification gate", WAIT_POLICY: "Policy gate",
+  })[state] || state.replaceAll("_", " ").toLowerCase();
+}
+
+function consolidationTone(state: InvestingConsolidationHolding["state"]) {
+  if (["EXIT_ELIGIBLE", "REDUCE_ELIGIBLE"].includes(state)) return "risk";
+  if (["CONSOLIDATE_ELIGIBLE", "EXPAND_ELIGIBLE"].includes(state)) return "ready";
+  if (state.startsWith("WAIT_")) return "waiting";
+  return "neutral";
+}
+
+function formatBlocker(value: string) {
+  return value.replaceAll("-", " ").replace("exact tax lots missing", "authoritative lots needed");
 }
 
 function DailyMarketBriefPanel({ brief, onDiscuss, onRegenerate }: { brief: InvestingDailyMarketBrief; onDiscuss: Props["onDiscuss"]; onRegenerate?: Props["onRegenerateMarketBrief"] }) {
