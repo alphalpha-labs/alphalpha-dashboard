@@ -893,6 +893,22 @@ function withReadingDate(readTime, publishedLabel) {
   return `${cleanReadTime} · ${publishedLabel}`;
 }
 
+function fallbackArticleWhy(candidate) {
+  const themes = (candidate?.themes ?? [])
+    .map(theme => String(theme).trim().toLowerCase())
+    .filter(Boolean)
+    .slice(0, 2);
+  if (themes.length > 0) {
+    return `A timely ${themes.join(' + ')} angle for today's Society & Ideas mix.`;
+  }
+
+  const dayFit = articleDayFit(candidate, targetDate).label.replace(/\.+$/, '').trim();
+  if (dayFit && !/^balanced/i.test(dayFit)) return `${dayFit}.`;
+
+  const source = candidate?.source ? ` from ${candidate.source}` : '';
+  return `A distinct Society & Ideas perspective${source}, selected on fit and novelty.`;
+}
+
 async function composeArticle(candidate, contextFiles, articleWeights = {}) {
   const { openLoopsText, projectsText } = contextFiles;
 
@@ -945,7 +961,7 @@ Respond with ONLY valid JSON — no markdown fences, no extra keys:
     readTime: withReadingDate(composed?.readTime ?? fallbackReadTime, publishedLabel),
     title:    candidate.title,
     dek:      composed?.dek ?? candidate.why,
-    why:      composed?.why ?? 'Relevant to your current open loops and projects.',
+    why:      composed?.why ?? fallbackArticleWhy(candidate),
     freshnessLabel: publishedAt ? `Published ${publishedLabel}` : 'Evergreen read',
     sourceContext: articleSourceContext(candidate, publishedAt, articleWeights),
   };
