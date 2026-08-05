@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-08-05T17:03:31.609Z",
+    "generatedAt": "2026-08-05T17:36:05.150Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "32c0dee",
+      "commit": "047dd87",
       "branch": "main",
-      "generatedAt": "2026-08-05T17:03:31.622Z",
+      "generatedAt": "2026-08-05T17:36:05.171Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "5h old",
+        "age": "6h old",
         "summary": "15 family / 68 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -163,7 +163,7 @@
         "id": "investing",
         "label": "Investing watchlist",
         "status": "OK",
-        "age": "0h old",
+        "age": "1h old",
         "summary": "164 tickers / 65 themes",
         "detail": "4 high-priority research candidates",
         "path": "memory/investing/latest-watchlist.json",
@@ -239,7 +239,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@32c0dee · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@047dd87 · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,7 +248,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@32c0dee · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@047dd87 · 0 dirty · 1 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -61542,6 +61542,2314 @@
       ],
       "path": "/home/node/.openclaw/workspace/memory/investing/ranked-action-queue/latest.json"
     },
+    "investingConsolidationInbox": {
+      "schemaVersion": "2026-08-04.1",
+      "generatedAt": "2026-08-05T16:53:04.824Z",
+      "mode": "silent-local-prototype",
+      "notificationsEnabled": false,
+      "tradeExecutionEnabled": false,
+      "sourceFreshness": {
+        "portfolio": {
+          "generatedAt": "2026-08-03T14:01:20.622Z",
+          "ageDays": 2.1,
+          "staleAfterDays": 3
+        },
+        "opportunities": {
+          "generatedAt": "2026-08-05T16:52:39.745Z",
+          "ageDays": 0,
+          "staleAfterDays": 4
+        },
+        "allocationTargets": {
+          "generatedAt": "2026-06-06T17:15:24.322Z",
+          "ageDays": 60,
+          "staleAfterDays": 30
+        },
+        "taxLotProxy": {
+          "generatedAt": "2026-08-04T17:42:01.069Z",
+          "authoritative": false,
+          "activityWindow": {
+            "startDate": "2025-08-04",
+            "endDate": "2026-08-04",
+            "trades": 1930
+          }
+        }
+      },
+      "summary": {
+        "ledgerSymbols": 276,
+        "accountHoldingRows": 335,
+        "stateCounts": {
+          "CONSOLIDATE_ELIGIBLE": 10,
+          "EXIT_ELIGIBLE": 1,
+          "KEEP_CORE": 29,
+          "WAIT_DIVERSIFICATION": 2,
+          "WAIT_POLICY": 3,
+          "WAIT_TAX": 219,
+          "WAIT_THESIS": 71
+        },
+        "actionableCount": 11,
+        "blockedCount": 295,
+        "contradictionCount": 32,
+        "topCardsShown": 5
+      },
+      "topCards": [
+        {
+          "symbol": "SIL",
+          "name": "Global X Silver Miners UCITS ETF USD Accumulating",
+          "weightPct": 0.0877,
+          "equityUsd": 250.39553256000002,
+          "quantity": 3.405352,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "precious_metals",
+          "provisionalStatus": "EXIT",
+          "preferredDestination": "none_or_single_miner_slot",
+          "state": "EXIT_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second miners wrapper adds complexity and high-beta silver exposure",
+          "timingGate": "Check wash-sale window across accounts; Roth first if appropriate",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:37.992Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -28.8% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "IXC",
+          "name": "iShares Global Energy ETF",
+          "weightPct": 0.1589,
+          "equityUsd": 453.69012584999996,
+          "quantity": 8.268455,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_GLOBAL_ROLE",
+          "preferredDestination": "XLE",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Substantial overlap with XLE; global exposure is the only plausible differentiator",
+          "timingGate": "Measure holdings overlap and foreign-energy need; Roth reduction first, taxable lots second",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "GUNR",
+          "name": "FlexShares Morningstar Global Upstream Natural Resources Index Fund",
+          "weightPct": 0.1423,
+          "equityUsd": 406.231820325,
+          "quantity": 7.862805,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_EQUITY_ROLE",
+          "preferredDestination": "COMB_or_XLB",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Broad upstream-resource equities overlap XLB, PICK, GNR, energy, and miners",
+          "timingGate": "Overlap review; Roth reduction first if role is redundant",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "SHLD",
+          "name": "Global X Defense Tech ETF",
+          "weightPct": 0.1278,
+          "equityUsd": 364.94572415999994,
+          "quantity": 5.67232,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "XAR",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second defense ETF substantially duplicates the anchor",
+          "timingGate": "Roth first; taxable loss/wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "COMT",
+          "name": "iShares GSCI Commodity Dynamic Strategy ETF",
+          "weightPct": 0.1108,
+          "equityUsd": 316.31796329469995,
+          "quantity": 9.791701,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "commodities",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "COMB",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second broad commodity strategy duplicates the proposed COMB anchor",
+          "timingGate": "Roth first; taxable loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        }
+      ],
+      "actionable": [
+        {
+          "symbol": "SIL",
+          "name": "Global X Silver Miners UCITS ETF USD Accumulating",
+          "weightPct": 0.0877,
+          "equityUsd": 250.39553256000002,
+          "quantity": 3.405352,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "precious_metals",
+          "provisionalStatus": "EXIT",
+          "preferredDestination": "none_or_single_miner_slot",
+          "state": "EXIT_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second miners wrapper adds complexity and high-beta silver exposure",
+          "timingGate": "Check wash-sale window across accounts; Roth first if appropriate",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:37.992Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -28.8% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "IXC",
+          "name": "iShares Global Energy ETF",
+          "weightPct": 0.1589,
+          "equityUsd": 453.69012584999996,
+          "quantity": 8.268455,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_GLOBAL_ROLE",
+          "preferredDestination": "XLE",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Substantial overlap with XLE; global exposure is the only plausible differentiator",
+          "timingGate": "Measure holdings overlap and foreign-energy need; Roth reduction first, taxable lots second",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "GUNR",
+          "name": "FlexShares Morningstar Global Upstream Natural Resources Index Fund",
+          "weightPct": 0.1423,
+          "equityUsd": 406.231820325,
+          "quantity": 7.862805,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_EQUITY_ROLE",
+          "preferredDestination": "COMB_or_XLB",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Broad upstream-resource equities overlap XLB, PICK, GNR, energy, and miners",
+          "timingGate": "Overlap review; Roth reduction first if role is redundant",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "SHLD",
+          "name": "Global X Defense Tech ETF",
+          "weightPct": 0.1278,
+          "equityUsd": 364.94572415999994,
+          "quantity": 5.67232,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "XAR",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second defense ETF substantially duplicates the anchor",
+          "timingGate": "Roth first; taxable loss/wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "COMT",
+          "name": "iShares GSCI Commodity Dynamic Strategy ETF",
+          "weightPct": 0.1108,
+          "equityUsd": 316.31796329469995,
+          "quantity": 9.791701,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "commodities",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "COMB",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second broad commodity strategy duplicates the proposed COMB anchor",
+          "timingGate": "Roth first; taxable loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "ROBO",
+          "name": "ROBO Global Robotics & Automation Index ETF",
+          "weightPct": 0.11,
+          "equityUsd": 314.2030519,
+          "quantity": 3.914815,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "ai_compute",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "selected_AI_holdings",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Duplicates BOTZ and direct automation holdings",
+          "timingGate": "Roth first; taxable gain review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "XLI",
+          "name": "Industrial Select Sector SPDR Fund",
+          "weightPct": 0.1065,
+          "equityUsd": 304.04225625,
+          "quantity": 1.67171,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "clean_infrastructure",
+          "provisionalStatus": "KEEP_TAX_AWARE_BRIDGE_THEN_CONSOLIDATE",
+          "preferredDestination": "VTI_or_cash",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Broad industrial exposure substantially duplicates VTI defense grid and resource sleeves",
+          "timingGate": "Roth first; inspect long-term taxable lots and embedded gain; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "VYM",
+          "name": "Vanguard High Dividend Yield ETF",
+          "weightPct": 0.1024,
+          "equityUsd": 292.37088319699996,
+          "quantity": 1.804018,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "SCHD",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Second dividend ETF duplicates the chosen anchor",
+          "timingGate": "Roth first; inspect taxable gains before consolidation",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "GRID",
+          "name": "First Trust NASDAQ Clean Edge Smart Grid Infrastructure Index Fund",
+          "weightPct": 0.0991,
+          "equityUsd": 282.928758,
+          "quantity": 1.573925,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "power_grid",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "GEV_ETN_or_infrastructure_anchor",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Thematic grid ETF overlaps direct equipment and infrastructure holdings",
+          "timingGate": "Tax-loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "PAVE",
+          "name": "Global X U.S. Infrastructure Development ETF",
+          "weightPct": 0.0707,
+          "equityUsd": 201.85132575,
+          "quantity": 3.550595,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "power_grid",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "FIW_or_cash",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Targeted infrastructure label still overlaps industrial materials transport grid and defense holdings",
+          "timingGate": "Review modest taxable gain and Roth placement; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        },
+        {
+          "symbol": "BCD",
+          "name": "abrdn Bloomberg All Commodity Longer Dated Strategy K-1 Free ETF",
+          "weightPct": 0.0668,
+          "equityUsd": 190.8236583312,
+          "quantity": 5.359056,
+          "account": "Robinhood Roth Ira",
+          "accountRef": "…0803",
+          "accountType": "tax-advantaged",
+          "cluster": "commodities",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "COMB",
+          "state": "CONSOLIDATE_ELIGIBLE",
+          "blockers": [],
+          "rationale": "Third broad commodity wrapper obscures a simple allocation",
+          "timingGate": "Roth first; taxable loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": null
+        }
+      ],
+      "blocked": [
+        {
+          "symbol": "GLDM",
+          "name": "SPDR Gold MiniShares Trust",
+          "weightPct": 6.821,
+          "equityUsd": 19474.628094869997,
+          "quantity": 244.379823,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "KEEP_ANCHOR_AND_REDUCE_TO_RANGE",
+          "preferredDestination": "GLDM",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "target-range-required",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Best current single bullion anchor; position and total sleeve are oversized versus conviction",
+          "timingGate": "Set metals target range; sell Roth duplicate/excess first; inspect taxable lots before reduction",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:37.895Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -20.5% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 11.62
+          }
+        },
+        {
+          "symbol": "IXC",
+          "name": "iShares Global Energy ETF",
+          "weightPct": 2.4661,
+          "equityUsd": 7040.8946961599995,
+          "quantity": 128.319568,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_GLOBAL_ROLE",
+          "preferredDestination": "XLE",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Substantial overlap with XLE; global exposure is the only plausible differentiator",
+          "timingGate": "Measure holdings overlap and foreign-energy need; Roth reduction first, taxable lots second",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 49.64
+          }
+        },
+        {
+          "symbol": "XLB",
+          "name": "Materials Select Sector SPDR Fund",
+          "weightPct": 2.1818,
+          "equityUsd": 6229.38363624,
+          "quantity": 123.159028,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "JUSTIFY_OR_REDUCE",
+          "preferredDestination": "XLB_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "US materials equities are not the same as commodities but overlap mining/resource satellites",
+          "timingGate": "Keep only if broad materials-sector exposure has a target separate from critical minerals",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 32.52
+          }
+        },
+        {
+          "symbol": "VYM",
+          "name": "Vanguard High Dividend Yield ETF",
+          "weightPct": 1.9192,
+          "equityUsd": 5479.44191415,
+          "quantity": 33.804935,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "SCHD",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Second dividend ETF duplicates the chosen anchor",
+          "timingGate": "Roth first; inspect taxable gains before consolidation",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0
+          }
+        },
+        {
+          "symbol": "FCG",
+          "name": "First Trust Natural Gas ETF",
+          "weightPct": 1.8941,
+          "equityUsd": 5407.922491529999,
+          "quantity": 187.579691,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "XLE_or_MLPX",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Holdings overlap broad producers and midstream; fund is not a clean natural-gas-price expression",
+          "timingGate": "Inspect long-term lots and tax cost; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 123.1715,
+            "minimumCoveragePct": 82.83
+          }
+        },
+        {
+          "symbol": "COPX",
+          "name": "Global X Copper Miners ETF",
+          "weightPct": 1.55,
+          "equityUsd": 4425.354631169999,
+          "quantity": 56.582977,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "RESEARCH_SATELLITE",
+          "preferredDestination": "COPX_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Copper miners can uniquely express grid/electrification scarcity if the thesis remains strong",
+          "timingGate": "Retain only with target/max and valuation case; otherwise harvest tax-aware loss",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 45.209,
+            "minimumCoveragePct": 89.95
+          }
+        },
+        {
+          "symbol": "REMX",
+          "name": "VanEck Rare Earth and Strategic Metals ETF",
+          "weightPct": 1.5251,
+          "equityUsd": 4354.27127414,
+          "quantity": 65.448238,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "RESEARCH_SATELLITE",
+          "preferredDestination": "REMX_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Potential differentiated rare-earth thesis, but large loss and three account positions require rigorous underwriting",
+          "timingGate": "Check thesis evidence and wash-sale window; do not average solely because it is down",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:31.354Z",
+            "actionCategory": "owned-thesis-classification-needed",
+            "trigger": "pullback -33.4% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 2,
+            "shortTermQuantity": 15.8951,
+            "minimumCoveragePct": 61.34
+          }
+        },
+        {
+          "symbol": "XOP",
+          "name": "SPDR S&P Oil & Gas Exploration & Production ETF",
+          "weightPct": 1.4163,
+          "equityUsd": 4043.7511107000005,
+          "quantity": 23.199949,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "XLE",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Equal-weight E&P/refining exposure is narrower but still substantially duplicates XLE and direct holdings",
+          "timingGate": "Inspect long-term lots and tax cost; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 21.2724,
+            "minimumCoveragePct": 95.85
+          }
+        },
+        {
+          "symbol": "SIVR",
+          "name": "abrdn Physical Silver Shares ETF",
+          "weightPct": 1.2978,
+          "equityUsd": 3705.25834395,
+          "quantity": 68.331182,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "RESEARCH_ONE_SILVER_SLOT",
+          "preferredDestination": "SIVR_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Only retain if silver has a distinct hedge thesis and target separate from gold",
+          "timingGate": "Decide silver role and cap; otherwise consolidate",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:37.935Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -33.9% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 39.14
+          }
+        },
+        {
+          "symbol": "URA",
+          "name": "Global X Uranium ETF",
+          "weightPct": 1.2884,
+          "equityUsd": 3678.4559526,
+          "quantity": 92.773164,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "power_grid",
+          "provisionalStatus": "KEEP_NUCLEAR_ANCHOR",
+          "preferredDestination": "URA",
+          "state": "WAIT_POLICY",
+          "blockers": [
+            "stale-allocation-targets"
+          ],
+          "rationale": "Best current broad nuclear-fuel-chain anchor",
+          "timingGate": "Set nuclear target/max; do not average merely because down",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:29.618Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -26.5% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 43.44
+          }
+        },
+        {
+          "symbol": "INFL",
+          "name": "Horizon Kinetics Inflation Beneficiaries ETF",
+          "weightPct": 1.2134,
+          "equityUsd": 3464.4560042640005,
+          "quantity": 67.89736,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "JUSTIFY_OR_CONSOLIDATE",
+          "preferredDestination": "COMB_or_ballast",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Inflation-beneficiary equities may duplicate energy/resources and do not act like bullion",
+          "timingGate": "Run overlap review; prefer Roth reduction first if role fails",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 11.81
+          }
+        },
+        {
+          "symbol": "GUNR",
+          "name": "FlexShares Morningstar Global Upstream Natural Resources Index Fund",
+          "weightPct": 1.1777,
+          "equityUsd": 3362.58480269,
+          "quantity": 65.084386,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFEND_EQUITY_ROLE",
+          "preferredDestination": "COMB_or_XLB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Broad upstream-resource equities overlap XLB, PICK, GNR, energy, and miners",
+          "timingGate": "Overlap review; Roth reduction first if role is redundant",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 19.4728,
+            "minimumCoveragePct": 64.96
+          }
+        },
+        {
+          "symbol": "XLI",
+          "name": "Industrial Select Sector SPDR Fund",
+          "weightPct": 1.0286,
+          "equityUsd": 2936.896220625,
+          "quantity": 16.147883,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "clean_infrastructure",
+          "provisionalStatus": "KEEP_TAX_AWARE_BRIDGE_THEN_CONSOLIDATE",
+          "preferredDestination": "VTI_or_cash",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Broad industrial exposure substantially duplicates VTI defense grid and resource sleeves",
+          "timingGate": "Roth first; inspect long-term taxable lots and embedded gain; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 4.07
+          }
+        },
+        {
+          "symbol": "DBA",
+          "name": "Invesco DB Agriculture Fund",
+          "weightPct": 0.9955,
+          "equityUsd": 2842.318760355,
+          "quantity": 103.038563,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "RESEARCH_UNIQUE_AGRICULTURE_SLOT",
+          "preferredDestination": "DBA_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Agriculture is differentiated from metals and energy but needs an explicit allocation role",
+          "timingGate": "Keep only if agriculture earns a target; otherwise consolidate",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 103.0386,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "SHLD",
+          "name": "Global X Defense Tech ETF",
+          "weightPct": 0.9796,
+          "equityUsd": 2796.8157734459996,
+          "quantity": 43.470667,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "XAR",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Second defense ETF substantially duplicates the anchor",
+          "timingGate": "Roth first; taxable loss/wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 31.37
+          }
+        },
+        {
+          "symbol": "XME",
+          "name": "SPDR S&P Metals & Mining ETF",
+          "weightPct": 0.9292,
+          "equityUsd": 2652.9584718899996,
+          "quantity": 26.511027,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE_OR_SELECT_AS_ONE_MINING_SLOT",
+          "preferredDestination": "XME_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Broad metals/mining overlaps PICK, XLB, REMX, COPX, and precious-metal miners",
+          "timingGate": "Compare exposure quality; check wash-sale window if realizing loss",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:31.458Z",
+            "actionCategory": "owned-thesis-classification-needed",
+            "trigger": "pullback -16.1% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 6.63
+          }
+        },
+        {
+          "symbol": "GDX",
+          "name": "VanEck Gold Miners ETF",
+          "weightPct": 0.9185,
+          "equityUsd": 2622.28020795,
+          "quantity": 35.222031,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "REDUCE_OR_EXIT",
+          "preferredDestination": "GLDM_or_single_miner_slot",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Miner equity risk is not a bullion hedge and overlaps SIL/WPM/resources",
+          "timingGate": "Check 30-day purchases and account-specific lots before harvesting taxable losses",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:36.343Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -28.0% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 2,
+            "shortTermQuantity": 23.7453,
+            "minimumCoveragePct": 79.65
+          }
+        },
+        {
+          "symbol": "DIA",
+          "name": "SPDR Dow Jones Industrial Average ETF Trust",
+          "weightPct": 0.78,
+          "equityUsd": 2227.13071079,
+          "quantity": 4.196314,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "VTI_or_BRK.B",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Large-cap value/quality exposure overlaps broad beta and quality sleeve",
+          "timingGate": "Taxable gain and holding period determine timing",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0.37
+          }
+        },
+        {
+          "symbol": "GAA",
+          "name": "Cambria Global Asset Allocation Fund",
+          "weightPct": 0.7404,
+          "equityUsd": 2113.7973580999997,
+          "quantity": 60.54991,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "broad_ballast",
+          "provisionalStatus": "EXIT_OR_DEFEND_ALLOCATION_WRAPPER",
+          "preferredDestination": "VTI_VXUS_IEF_cash",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Multi-asset wrapper duplicates exposures and obscures allocation control",
+          "timingGate": "Roth first; taxable gain review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 15.05
+          }
+        },
+        {
+          "symbol": "PICK",
+          "name": "iShares MSCI Global Metals & Mining Producers ETF",
+          "weightPct": 0.7221,
+          "equityUsd": 2061.6585444,
+          "quantity": 35.26614,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "chosen_mining_satellite",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Another broad global mining wrapper with insufficient unique role",
+          "timingGate": "Near-flat tax position makes it an early simplification candidate",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 35.2661,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "WEAT",
+          "name": "Teucrium Commodity Trust - Teucrium Wheat Fund",
+          "weightPct": 0.6751,
+          "equityUsd": 1927.4683889599999,
+          "quantity": 80.884112,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "agriculture",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "DBA_or_COMB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Single-crop futures position adds tactical complexity without a separate wheat allocation policy",
+          "timingGate": "Taxable gain; confirm contract-tax treatment and holding period",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 80.8841,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "MU",
+          "name": "Micron Technology, Inc.",
+          "weightPct": 0.6528,
+          "equityUsd": 1863.8662036,
+          "quantity": 2.345666,
+          "account": "Robinhood Individual",
+          "accountRef": "…3991",
+          "accountType": "taxable",
+          "cluster": "ai_compute",
+          "provisionalStatus": "RESEARCH_MEMORY_SATELLITE",
+          "preferredDestination": "MU_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Memory cycle can be a differentiated AI bottleneck expression",
+          "timingGate": "Retain only with cycle-aware valuation and max size",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 2,
+            "shortTermQuantity": 1.0229,
+            "minimumCoveragePct": 69.21
+          }
+        },
+        {
+          "symbol": "GNR",
+          "name": "SPDR S&P Global Natural Resources ETF",
+          "weightPct": 0.6237,
+          "equityUsd": 1780.8013331099999,
+          "quantity": 24.779814,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "resources",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "COMB_or_XLB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Broad natural-resources wrapper overlaps GUNR, energy, materials, and mining positions",
+          "timingGate": "Taxable gain and holding period determine timing",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 19.4442,
+            "minimumCoveragePct": 89.23
+          }
+        },
+        {
+          "symbol": "CORN",
+          "name": "Teucrium Corn Fund",
+          "weightPct": 0.616,
+          "equityUsd": 1758.8842981649998,
+          "quantity": 99.965007,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "agriculture",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "DBA_or_COMB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Single-crop futures position duplicates the broader agriculture/commodity sleeve",
+          "timingGate": "Tax-loss and substantially-identical exposure review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 99.965,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "VDE",
+          "name": "Vanguard Energy ETF",
+          "weightPct": 0.6112,
+          "equityUsd": 1745.1044296349999,
+          "quantity": 10.547943,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "XLE",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Broad US energy exposure duplicates XLE without a necessary second wrapper",
+          "timingGate": "Taxable gain and holding period determine timing",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 7.6967,
+            "minimumCoveragePct": 86.48
+          }
+        },
+        {
+          "symbol": "XLP",
+          "name": "Consumer Staples Select Sector SPDR Fund",
+          "weightPct": 0.5974,
+          "equityUsd": 1705.56681516,
+          "quantity": 19.934161,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "CONSOLIDATE_OR_DEFENSIVE_SLOT",
+          "preferredDestination": "VTI_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Sector ballast must justify a separate target; otherwise broad beta already supplies staples",
+          "timingGate": "Confirm defensive-sector role before sale",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0
+          }
+        },
+        {
+          "symbol": "GLTR",
+          "name": "abrdn Physical Precious Metals Basket Shares ETF",
+          "weightPct": 0.5861,
+          "equityUsd": 1673.3768341218001,
+          "quantity": 9.318291,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "GLDM",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Duplicates gold and other metals already owned; no unique role",
+          "timingGate": "Taxable gain: compare long-term status and tax cost; no new adds",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:35.904Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -25.2% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 4.23
+          }
+        },
+        {
+          "symbol": "EWZ",
+          "name": "iShares MSCI Brazil ETF",
+          "weightPct": 0.5571,
+          "equityUsd": 1590.643696015,
+          "quantity": 43.753093,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "international",
+          "provisionalStatus": "RESEARCH_COUNTRY_SATELLITE",
+          "preferredDestination": "EWZ_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Brazil may express a differentiated commodity/value thesis but cannot be default diversification",
+          "timingGate": "Near-flat basis makes this an early decision candidate",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 18.0018,
+            "minimumCoveragePct": 70.57
+          }
+        },
+        {
+          "symbol": "CANE",
+          "name": "Teucrium Sugar Fund",
+          "weightPct": 0.537,
+          "equityUsd": 1533.1096439000003,
+          "quantity": 156.121145,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "agriculture",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "DBA_or_COMB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Single-crop futures position lacks a unique strategic allocation role",
+          "timingGate": "Tax-loss and contract-tax review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 156.1211,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "HII",
+          "name": "Huntington Ingalls Industries Inc.",
+          "weightPct": 0.531,
+          "equityUsd": 1516.09245696,
+          "quantity": 4.538112,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "XAR_or_GD",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Pure shipbuilding exposure is strategically relevant but lower-margin and already covered by XAR/GD",
+          "timingGate": "Consolidate when lots are long-term or tax cost is favorable",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:32.455Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -29.1% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 33.05
+          }
+        },
+        {
+          "symbol": "ITA",
+          "name": "iShares U.S. Aerospace & Defense ETF",
+          "weightPct": 0.5309,
+          "equityUsd": 1515.83924856,
+          "quantity": 6.186089,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "XAR",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Another broad US aerospace/defense wrapper",
+          "timingGate": "Taxable gain and holding period determine timing",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 3.0476,
+            "minimumCoveragePct": 74.63
+          }
+        },
+        {
+          "symbol": "SOYB",
+          "name": "Teucrium Soybean Fund",
+          "weightPct": 0.4873,
+          "equityUsd": 1391.2278429138,
+          "quantity": 55.565987,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "agriculture",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "DBA_or_COMB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Single-crop futures position duplicates the broader agriculture/commodity sleeve",
+          "timingGate": "Taxable gain and contract-tax review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 55.566,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "BOTZ",
+          "name": "Global X Robotics & Artificial Intelligence ETF",
+          "weightPct": 0.4759,
+          "equityUsd": 1358.855297,
+          "quantity": 38.277614,
+          "account": "Robinhood Individual",
+          "accountRef": "…3991",
+          "accountType": "taxable",
+          "cluster": "ai_compute",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "selected_AI_holdings",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Thematic automation ETF overlaps direct holdings and ROBO",
+          "timingGate": "Taxable gain and holding period determine timing",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 20.05
+          }
+        },
+        {
+          "symbol": "ILF",
+          "name": "iShares Latin America 40 ETF",
+          "weightPct": 0.4659,
+          "equityUsd": 1330.26187833,
+          "quantity": 37.931619,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "international",
+          "provisionalStatus": "CONSOLIDATE_OR_ONE_LATAM_SLOT",
+          "preferredDestination": "EWZ_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Broad Latin America overlaps EWZ and commodity exposures",
+          "timingGate": "Near-flat loss; check wash-sale overlap before consolidation",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 2,
+            "shortTermQuantity": 40.9534,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "ICLN",
+          "name": "iShares Global Clean Energy ETF",
+          "weightPct": 0.4557,
+          "equityUsd": 1301.0999951059,
+          "quantity": 73.508059,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "clean_infrastructure",
+          "provisionalStatus": "EXIT_OR_REUNDERWRITE",
+          "preferredDestination": "none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Paused/low-conviction clean-energy thesis and overlapping holdings",
+          "timingGate": "Near-flat loss; check wash-sale window",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:29.976Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -23.6% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 59.3899,
+            "minimumCoveragePct": 90.4
+          }
+        },
+        {
+          "symbol": "SIL",
+          "name": "Global X Silver Miners UCITS ETF USD Accumulating",
+          "weightPct": 0.4542,
+          "equityUsd": 1296.70772652,
+          "quantity": 17.635084,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "EXIT",
+          "preferredDestination": "none_or_single_miner_slot",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Second miners wrapper adds complexity and high-beta silver exposure",
+          "timingGate": "Check wash-sale window across accounts; Roth first if appropriate",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:37.992Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "pullback -28.8% from six-month high",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 10.7469,
+            "minimumCoveragePct": 80.47
+          }
+        },
+        {
+          "symbol": "CRAK",
+          "name": "VANECK OIL REFINERS ETF",
+          "weightPct": 0.4512,
+          "equityUsd": 1288.23019696,
+          "quantity": 23.715578,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "EXIT_UNLESS_REFINING_THESIS",
+          "preferredDestination": "none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Refiners require a differentiated margin-cycle thesis; otherwise position is thematic clutter",
+          "timingGate": "No adds; exit after holding-period/tax check if thesis is absent",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 21.0659,
+            "minimumCoveragePct": 94.41
+          }
+        },
+        {
+          "symbol": "SLB",
+          "name": "Schlumberger Limited",
+          "weightPct": 0.4402,
+          "equityUsd": 1256.75924564,
+          "quantity": 25.853924,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "EXIT_OR_ONE_SERVICES_SLOT",
+          "preferredDestination": "SLB_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Oil-services company is distinct but too small to matter unless it wins an explicit satellite slot",
+          "timingGate": "Near-flat basis makes this an early structural decision",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 25.8539,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "RAAX",
+          "name": "VanEck Real Assets ETF",
+          "weightPct": 0.4377,
+          "equityUsd": 1249.770798975,
+          "quantity": 32.057735,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "unmapped",
+          "provisionalStatus": "EXIT_OR_MAP",
+          "preferredDestination": "defined_sleeve_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Allocation wrapper is currently roleless and likely duplicates real assets",
+          "timingGate": "Tax-loss and overlap review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 32.0577,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "ACMR",
+          "name": "Acm Research Inc.",
+          "weightPct": 0.4228,
+          "equityUsd": 1207.052184825,
+          "quantity": 15.918921,
+          "account": "Robinhood Individual",
+          "accountRef": "…3991",
+          "accountType": "taxable",
+          "cluster": "ai_compute",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "ASML",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Equipment exposure is real but ASML is the more differentiated survivor with less direct China concentration",
+          "timingGate": "Verify holding period and tax cost; no add",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 15.9189,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "MPLX",
+          "name": "MPLX LP",
+          "weightPct": 0.4154,
+          "equityUsd": 1186.07390556,
+          "quantity": 20.260914,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "midstream",
+          "provisionalStatus": "CONSOLIDATE_OR_ONE_PARTNERSHIP_SLOT",
+          "preferredDestination": "MLPX",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Direct partnership exposure overlaps the MLPX anchor and adds tax complexity",
+          "timingGate": "Large embedded gain and partnership tax treatment require tax review before sale",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 1.94
+          }
+        },
+        {
+          "symbol": "WPM",
+          "name": "Wheaton Precious Metals Corp.",
+          "weightPct": 0.4089,
+          "equityUsd": 1167.32052594,
+          "quantity": 10.723628,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "precious_metals",
+          "provisionalStatus": "EXIT_UNLESS_BEST_MINER",
+          "preferredDestination": "WPM_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "unresolved-unique-driver",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Single-company streaming exposure only survives if it clearly beats the chosen miners alternative",
+          "timingGate": "Underwrite company; otherwise use tax-aware loss exit",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:36.183Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "below very-attractive zone 127",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 46.09
+          }
+        },
+        {
+          "symbol": "DELL",
+          "name": "Dell Technologies Inc.",
+          "weightPct": 0.4082,
+          "equityUsd": 1165.53457804,
+          "quantity": 2.901794,
+          "account": "Robinhood Individual",
+          "accountRef": "…3991",
+          "accountType": "taxable",
+          "cluster": "ai_compute",
+          "provisionalStatus": "REDUCE_OR_EXIT",
+          "preferredDestination": "platform_or_infrastructure_survivor",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Large gain and hardware exposure must beat stronger AI infrastructure alternatives",
+          "timingGate": "Check long-term gain status; no add pending underwriting",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0.5015,
+            "minimumCoveragePct": 58.64
+          }
+        },
+        {
+          "symbol": "LIN",
+          "name": "Linde plc",
+          "weightPct": 0.4058,
+          "equityUsd": 1158.69756738,
+          "quantity": 2.415614,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "materials_quality",
+          "provisionalStatus": "RESEARCH_QUALITY_SATELLITE",
+          "preferredDestination": "LIN_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "High-quality industrial-gas company may earn a distinct compounder slot beyond commodity beta",
+          "timingGate": "Underwrite valuation and compare with XLB/ECL before retaining",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 2,
+            "shortTermQuantity": 2.0778,
+            "minimumCoveragePct": 88.69
+          }
+        },
+        {
+          "symbol": "LNG",
+          "name": "Cheniere Energy Inc.",
+          "weightPct": 0.3979,
+          "equityUsd": 1136.1412386399998,
+          "quantity": 4.387408,
+          "account": "Robinhood Individual",
+          "accountRef": "…8122",
+          "accountType": "taxable",
+          "cluster": "energy",
+          "provisionalStatus": "RESEARCH_LNG_SATELLITE",
+          "preferredDestination": "LNG_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "LNG export exposure can be distinct from XLE/MLPX but must beat the producer satellite alternatives",
+          "timingGate": "Underwrite contracts, leverage, valuation, and tax loss",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:33.339Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "below starter zone 267",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 4.3874,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "COMT",
+          "name": "iShares GSCI Commodity Dynamic Strategy ETF",
+          "weightPct": 0.3901,
+          "equityUsd": 1113.6620841242,
+          "quantity": 34.473686,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "commodities",
+          "provisionalStatus": "CONSOLIDATE",
+          "preferredDestination": "COMB",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "proxy-shows-short-term-exposure"
+          ],
+          "rationale": "Second broad commodity strategy duplicates the proposed COMB anchor",
+          "timingGate": "Roth first; taxable loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 34.4737,
+            "minimumCoveragePct": 100
+          }
+        },
+        {
+          "symbol": "JPM",
+          "name": "JPMorgan Chase & Co.",
+          "weightPct": 0.3833,
+          "equityUsd": 1094.31785346,
+          "quantity": 3.096717,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "RESEARCH_COMPANY_SLOT",
+          "preferredDestination": "JPM_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Quality financial candidate but small and partly duplicated by broad funds",
+          "timingGate": "Large embedded gain; sell only after long-term/tax review if role fails",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0.48
+          }
+        },
+        {
+          "symbol": "NOC",
+          "name": "Northrop Grumman Corporation",
+          "weightPct": 0.3769,
+          "equityUsd": 1076.1841744499998,
+          "quantity": 1.935409,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "defense",
+          "provisionalStatus": "CONSOLIDATE_TAX_AWARE",
+          "preferredDestination": "XAR",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "Strong strategic/space franchise but insufficient incremental role beside XAR and selected satellites",
+          "timingGate": "Consolidate when lots are long-term or tax cost is favorable",
+          "currentMarketTrigger": {
+            "generatedAt": "2026-08-05T16:52:32.528Z",
+            "actionCategory": "owned-add-review",
+            "trigger": "below starter zone 557",
+            "stale": false
+          },
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0.77
+          }
+        },
+        {
+          "symbol": "PM",
+          "name": "Philip Morris International Inc.",
+          "weightPct": 0.3763,
+          "equityUsd": 1074.3860510000002,
+          "quantity": 5.6897,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "quality_ballast",
+          "provisionalStatus": "RESEARCH_INCOME_SLOT",
+          "preferredDestination": "PM_or_none",
+          "state": "WAIT_THESIS",
+          "blockers": [
+            "structural-classification-unresolved"
+          ],
+          "rationale": "Income and defensive cash flow may be differentiated but company risk is material",
+          "timingGate": "Large embedded gain; role and tax cost drive decision",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 0.92
+          }
+        },
+        {
+          "symbol": "MCHI",
+          "name": "iShares MSCI China ETF",
+          "weightPct": 0.3724,
+          "equityUsd": 1063.328202335,
+          "quantity": 19.023673,
+          "account": "Robinhood Individual",
+          "accountRef": "…4576",
+          "accountType": "taxable",
+          "cluster": "international",
+          "provisionalStatus": "EXIT_OR_CHINA_SATELLITE",
+          "preferredDestination": "MCHI_or_none",
+          "state": "WAIT_TAX",
+          "blockers": [
+            "selection-or-thesis-condition",
+            "exact-tax-lots-missing",
+            "tax-proxy-incomplete"
+          ],
+          "rationale": "China country risk requires explicit thesis and cap; not needed for broad diversification",
+          "timingGate": "Tax-loss and wash-sale review",
+          "currentMarketTrigger": null,
+          "taxLotProxy": {
+            "authoritative": false,
+            "taxableRows": 1,
+            "shortTermQuantity": 0,
+            "minimumCoveragePct": 9.56
+          }
+        }
+      ],
+      "contradictions": [
+        {
+          "symbol": "BEPC",
+          "alertGeneratedAt": "2026-08-05T16:52:29.902Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_TAX_AWARE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "ICLN",
+          "alertGeneratedAt": "2026-08-05T16:52:29.976Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_REUNDERWRITE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "UUUU",
+          "alertGeneratedAt": "2026-08-05T16:52:31.013Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_TARGET_SURVIVOR",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "XME",
+          "alertGeneratedAt": "2026-08-05T16:52:31.458Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_OR_SELECT_AS_ONE_MINING_SLOT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "HII",
+          "alertGeneratedAt": "2026-08-05T16:52:32.455Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_TAX_AWARE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "NOC",
+          "alertGeneratedAt": "2026-08-05T16:52:32.528Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_TAX_AWARE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "BA",
+          "alertGeneratedAt": "2026-08-05T16:52:32.875Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "ET",
+          "alertGeneratedAt": "2026-08-05T16:52:33.301Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "RESEARCH_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "DVN",
+          "alertGeneratedAt": "2026-08-05T16:52:34.174Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "RESEARCH_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "BNO",
+          "alertGeneratedAt": "2026-08-05T16:52:34.246Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "EQT",
+          "alertGeneratedAt": "2026-08-05T16:52:34.374Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "RESEARCH_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "XES",
+          "alertGeneratedAt": "2026-08-05T16:52:34.459Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_OR_ONE_SERVICES_SLOT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "VNOM",
+          "alertGeneratedAt": "2026-08-05T16:52:34.508Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "RESEARCH_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "OXY",
+          "alertGeneratedAt": "2026-08-05T16:52:34.702Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "PBR",
+          "alertGeneratedAt": "2026-08-05T16:52:34.883Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Roth Ira",
+              "accountRef": "…0803",
+              "state": "WAIT_THESIS"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "EXE",
+          "alertGeneratedAt": "2026-08-05T16:52:34.925Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "AR",
+          "alertGeneratedAt": "2026-08-05T16:52:35.025Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "FANG",
+          "alertGeneratedAt": "2026-08-05T16:52:35.074Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "GLTR",
+          "alertGeneratedAt": "2026-08-05T16:52:35.904Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "XME",
+          "alertGeneratedAt": "2026-08-05T16:52:31.458Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE_OR_SELECT_AS_ONE_MINING_SLOT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "NEM",
+          "alertGeneratedAt": "2026-08-05T16:52:36.126Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_SINGLE_MINER_SLOT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "WPM",
+          "alertGeneratedAt": "2026-08-05T16:52:36.183Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_BEST_MINER",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Roth Ira",
+              "accountRef": "…0803",
+              "state": "WAIT_DIVERSIFICATION"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "SGOL",
+          "alertGeneratedAt": "2026-08-05T16:52:36.277Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "CONSOLIDATE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "GDX",
+          "alertGeneratedAt": "2026-08-05T16:52:36.343Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "REDUCE_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Roth Ira",
+              "accountRef": "…0803",
+              "state": "WAIT_DIVERSIFICATION"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "DOW",
+          "alertGeneratedAt": "2026-08-05T16:52:36.525Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "RESEARCH_OR_EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "IPX",
+          "alertGeneratedAt": "2026-08-05T16:52:36.954Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_OR_MAP",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "CC",
+          "alertGeneratedAt": "2026-08-05T16:52:37.398Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_TARGET_SURVIVOR",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "UAMY",
+          "alertGeneratedAt": "2026-08-05T16:52:37.606Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_TARGET_SURVIVOR",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "MP",
+          "alertGeneratedAt": "2026-08-05T16:52:37.713Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_TARGET_SURVIVOR",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "APD",
+          "alertGeneratedAt": "2026-08-05T16:52:37.819Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT_UNLESS_TARGET_SURVIVOR",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "GLDM",
+          "alertGeneratedAt": "2026-08-05T16:52:37.895Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "KEEP_ANCHOR_AND_REDUCE_TO_RANGE",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…4576",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Roth Ira",
+              "accountRef": "…0803",
+              "state": "WAIT_POLICY"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        },
+        {
+          "symbol": "SIL",
+          "alertGeneratedAt": "2026-08-05T16:52:37.992Z",
+          "alertAction": "owned-add-review",
+          "consolidationStatus": "EXIT",
+          "accountStates": [
+            {
+              "account": "Robinhood Individual",
+              "accountRef": "…8122",
+              "state": "WAIT_TAX"
+            },
+            {
+              "account": "Robinhood Roth Ira",
+              "accountRef": "…0803",
+              "state": "EXIT_ELIGIBLE"
+            }
+          ],
+          "resolution": "suppress-add-alert-until-consolidation-state-changes"
+        }
+      ],
+      "guardrails": [
+        "No trades or notifications are authorized.",
+        "Taxable reductions remain WAIT_TAX until exact lots and holding periods are available.",
+        "A stale price trigger cannot create EXPAND_ELIGIBLE.",
+        "The consolidation inbox suppresses add eligibility when the ledger says exit, consolidate, or reduce."
+      ],
+      "path": "/home/node/.openclaw/workspace/memory/investing/consolidation-action-inbox/latest.json"
+    },
     "investingSourceReliabilityPlan": {
       "generatedAt": "2026-05-27T03:01:58.967Z",
       "schemaVersion": "2026-05-19.1",
@@ -78579,7 +80887,7 @@
       "date": "2026-08-05",
       "category": "Source health",
       "title": "Austin events: 15 family / 68 music latest",
-      "summary": "2 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 6h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78601,7 +80909,7 @@
       "date": "2026-08-05",
       "category": "Source health",
       "title": "Investing watchlist: 164 tickers / 65 themes",
-      "summary": "4 high-priority research candidates · 0h old · memory/investing/latest-watchlist.json",
+      "summary": "4 high-priority research candidates · 1h old · memory/investing/latest-watchlist.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -78634,7 +80942,7 @@
       "date": "2026-08-05",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@32c0dee · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@047dd87 · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
