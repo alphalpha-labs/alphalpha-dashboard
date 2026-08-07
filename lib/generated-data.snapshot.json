@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-08-06T17:02:26.291Z",
+    "generatedAt": "2026-08-07T17:02:52.348Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "9bc8be7",
+      "commit": "fa1f1f1",
       "branch": "main",
-      "generatedAt": "2026-08-06T17:02:26.303Z",
+      "generatedAt": "2026-08-07T17:02:52.365Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-08-06T13:15:10.569Z",
+      "generatedAt": "2026-08-07T13:15:09.937Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 60732,
@@ -92,8 +92,8 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "OK",
-        "age": "1d old",
+        "status": "STALE",
+        "age": "2d old",
         "summary": "15 family / 68 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "10d old",
+        "age": "11d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -235,7 +235,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@9bc8be7 · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@fa1f1f1 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -244,11 +244,11 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@9bc8be7 · 0 dirty · 2 ahead · 0 behind"
+            "value": "main@fa1f1f1 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@b5f7065 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@111ddcc · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -262,7 +262,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "72d old",
+        "age": "73d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -57154,29 +57154,107 @@
     },
     "investingDailyMarketBrief": {
       "schemaVersion": 1,
-      "generatedAt": "2026-08-06T17:00:00.000Z",
-      "publishedAt": "2026-08-06T17:00:00.000Z",
+      "generatedAt": "2026-08-07T17:00:00.000Z",
+      "publishedAt": "2026-08-07T17:00:00.000Z",
       "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / test oil, long-yield, and earnings-conversion follow-through / no trade recommendation",
-      "mainDriver": "Oil and long yields reasserted themselves Thursday: Brent rose 4.3% to $82.88 and the 10-year Treasury yield reached 4.67%, pushing major indexes modestly lower even as aggregate earnings remained strong.",
-      "portfolioImplication": "The renewed oil-rate linkage is more consequential than a 0.2% index decline because it pressures duration valuations and capital-intensive buildouts while reinforcing energy and real-asset cash flows. It also increases correlation risk in a portfolio whose macro-security/real-assets overlay is 61.72% and whose cash balance is only $160.09.",
+      "actionPosture": "observe / test whether labor weakness broadens and rate relief persists / no trade recommendation",
+      "mainDriver": "July payrolls unexpectedly fell by 23,000 and May-June gains were revised down by more than 100,000, sending stocks higher and Treasury yields lower as markets emphasized easier-rate potential over the immediate growth warning.",
+      "portfolioImplication": "Falling yields relieve some pressure on duration-sensitive AI, grid, healthcare, and bond exposures, but the labor deterioration is not cleanly bullish: weaker demand could eventually challenge earnings and commodity throughput. The portfolio's 61.72% macro-security/real-assets overlay and $160.09 cash balance remain the controlling resilience constraints.",
       "changedSincePrevious": [
-        "Oil's one-day pause ended: Brent rose 4.3% to $82.88 as uncertainty around the U.S.-Iran conflict and Strait of Hormuz persisted.",
-        "The 10-year Treasury yield rose to 4.67% from 4.63%, reversing Wednesday's modest yield relief and restoring a valuation and financing headwind.",
-        "All three major indexes were down about 0.2%-0.7% by 12:27 p.m. ET, a broader but still modest retreat from records.",
-        "Earnings evidence strengthened in aggregate—about 85% of the S&P 500 had reported and growth was shaping up as the strongest since 2021—but sharp company-level misses show that conversion remains uneven.",
-        "Friday's July jobs report is now the next high-value macro test because easing hiring and sticky inflation pull policy risk in opposite directions."
+        "The anticipated jobs test delivered a clear downside surprise: payrolls fell 23,000 in July rather than merely slowing.",
+        "May and June payrolls were revised down by more than 100,000 in total, weakening the recent trend rather than only the latest month.",
+        "Treasury yields fell and stocks rose, reversing Thursday's oil-and-long-yield pressure at the margin.",
+        "The unemployment rate declined to 4.1%, but that headline conflicts with payroll weakness and reported labor-force exit, making participation and revisions more informative than the rate alone.",
+        "The key tension shifted from strong earnings versus high rates to rate relief versus a potentially broader growth and consumer slowdown."
       ],
-      "headline": "Oil and the 10-year yield rebound; strong earnings meet a tighter valuation test",
-      "summary": "This is an observation layer, not a trade signal. Look past the modest index decline and single-company earnings swings. Pay attention to whether Brent's rebound persists, whether the 10-year yield holds above 4.6%, and whether Friday's jobs data reinforces stagflation risk or financing relief. Strong aggregate earnings and continued AI-infrastructure demand remain constructive, but they do not erase the cost-of-capital test, project-execution risk, or the portfolio's dominant macro-security/real-assets overlap and minimal cash buffer.",
+      "headline": "Payrolls turn negative; rate relief helps duration but raises a growth-quality test",
+      "summary": "This is an observation layer, not a trade signal. Look past the first-order stock rally and the lower unemployment headline. Pay attention to the negative payroll print, large downward revisions, participation, wages versus inflation, and whether lower Treasury yields persist without a sharper earnings slowdown. Rate relief is constructive for valuation-sensitive AI, power, healthcare, and bond exposures, while a weakening labor trend could pressure demand and complicate the energy/real-assets thesis. Hormuz remains a separate physical-supply risk whose shipping evidence matters more than negotiating headlines.",
       "marketDrivers": [
         {
-          "id": "oil-rebounds-on-hormuz-uncertainty",
-          "title": "Oil rebound restores the inflation impulse",
-          "summary": "Brent rose 4.3% to $82.88 as a potential Strait of Hormuz agreement remained uncertain; the conflict has repeatedly produced starts and stops, so physical-flow confirmation matters more than negotiation headlines.",
-          "direction": "supportive-for-energy-cash-flows-but-inflationary",
+          "id": "payrolls-contract",
+          "title": "July payrolls unexpectedly contract",
+          "summary": "Employers shed 23,000 jobs in July, the first decline since February, while expectations had called for a gain; this is a material cooling signal rather than ordinary month-to-month noise.",
+          "direction": "growth-warning-and-rate-relief",
           "evidenceQuality": "high",
+          "sourceCount": 3,
+          "relatedTheses": [
+            "broad-market-cash-bonds-allocation-wrappers",
+            "medical-tools-specialty-device-compounders",
+            "energy-demand-infrastructure-tollbooths"
+          ],
+          "relatedSymbols": [
+            "BND",
+            "DHR",
+            "BSX",
+            "XLE",
+            "MLPX"
+          ]
+        },
+        {
+          "id": "revisions-weaken-trend",
+          "title": "Downward revisions make the labor slowdown broader",
+          "summary": "May and June payroll estimates were revised down by more than 100,000 combined, reducing confidence that the July decline is isolated.",
+          "direction": "negative-for-cyclical-demand",
+          "evidenceQuality": "high",
+          "sourceCount": 2,
+          "relatedTheses": [
+            "energy-demand-infrastructure-tollbooths",
+            "critical-materials-defense-infrastructure",
+            "broad-market-cash-bonds-allocation-wrappers"
+          ],
+          "relatedSymbols": [
+            "XLE",
+            "MLPX",
+            "GUNR",
+            "BND"
+          ]
+        },
+        {
+          "id": "yields-fall-stocks-rise",
+          "title": "Markets price policy relief before growth damage",
+          "summary": "Stocks rose and Treasury yields fell after the report as investors judged that weaker hiring gives the Federal Reserve more room to avoid tighter policy; the two-year yield fell to about 4.20% from 4.22% immediately before the release.",
+          "direction": "near-term-duration-relief",
+          "evidenceQuality": "high",
+          "sourceCount": 1,
+          "relatedTheses": [
+            "ai-power-infrastructure",
+            "optical-networking-ai-bandwidth",
+            "broad-market-cash-bonds-allocation-wrappers",
+            "medical-tools-specialty-device-compounders"
+          ],
+          "relatedSymbols": [
+            "PWR",
+            "EME",
+            "COHR",
+            "BND",
+            "DHR",
+            "BSX"
+          ]
+        },
+        {
+          "id": "unemployment-participation-divergence",
+          "title": "A lower unemployment rate does not erase labor weakness",
+          "summary": "Unemployment fell to 4.1%, but reporting attributes part of the decline to workers leaving the labor force; participation and future revisions are necessary cross-checks.",
+          "direction": "mixed-headline-underlying-weakness",
+          "evidenceQuality": "medium-high",
+          "sourceCount": 2,
+          "relatedTheses": [
+            "broad-market-cash-bonds-allocation-wrappers",
+            "medical-tools-specialty-device-compounders"
+          ],
+          "relatedSymbols": [
+            "BND",
+            "DHR",
+            "BSX"
+          ]
+        },
+        {
+          "id": "oil-inflation-policy-conflict",
+          "title": "Oil inflation keeps the policy signal two-sided",
+          "summary": "The Federal Reserve still faces hotter inflation linked to elevated oil prices and the U.S.-Iran conflict, so weaker labor data may prevent tightening without guaranteeing rapid easing.",
+          "direction": "stagflation-and-policy-risk",
+          "evidenceQuality": "medium-high",
           "sourceCount": 2,
           "relatedTheses": [
             "energy-demand-infrastructure-tollbooths",
@@ -57186,97 +57264,14 @@
           "relatedSymbols": [
             "XLE",
             "MLPX",
-            "IXC",
+            "GLDM",
             "BND"
-          ]
-        },
-        {
-          "id": "long-yields-rise",
-          "title": "The long-end financing constraint tightens again",
-          "summary": "The 10-year Treasury yield rose to 4.67% from 4.63%, reinforcing the higher discount-rate and project-financing hurdle for duration-sensitive equities and capital-intensive infrastructure.",
-          "direction": "valuation-and-financing-headwind",
-          "evidenceQuality": "high",
-          "sourceCount": 2,
-          "relatedTheses": [
-            "ai-power-infrastructure",
-            "optical-networking-ai-bandwidth",
-            "broad-market-cash-bonds-allocation-wrappers",
-            "japanese-financial-reflation"
-          ],
-          "relatedSymbols": [
-            "PWR",
-            "EME",
-            "COHR",
-            "BND",
-            "MUFG"
-          ]
-        },
-        {
-          "id": "earnings-strong-but-dispersed",
-          "title": "Aggregate earnings are strong; company outcomes are dispersed",
-          "summary": "About 85% of the S&P 500 had reported and overall growth was shaping up as the strongest since 2021, yet large post-report declines in individual names underscored the importance of guidance, margins, and execution.",
-          "direction": "fundamentally-supportive-with-selection-risk",
-          "evidenceQuality": "high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "ai-platform-compute-semiconductors",
-            "ai-power-infrastructure",
-            "critical-materials-defense-infrastructure",
-            "medical-tools-specialty-device-compounders"
-          ],
-          "relatedSymbols": [
-            "AMZN",
-            "GOOGL",
-            "MU",
-            "PWR",
-            "DHR",
-            "BSX"
-          ]
-        },
-        {
-          "id": "ai-power-demand-conversion",
-          "title": "AI buildout continues to reach physical infrastructure",
-          "summary": "Recent company reporting showed large AI-infrastructure spending and strong data-center generator and turbine demand, supporting the physical-buildout thesis while raising the burden on spenders to convert capex into returns.",
-          "direction": "constructive-for-picks-and-shovels-cautious-for-capex-payers",
-          "evidenceQuality": "medium-high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "ai-power-infrastructure",
-            "ai-platform-compute-semiconductors",
-            "optical-networking-ai-bandwidth"
-          ],
-          "relatedSymbols": [
-            "PWR",
-            "EME",
-            "CAT",
-            "AMZN",
-            "GOOGL",
-            "MU"
-          ]
-        },
-        {
-          "id": "jobs-report-next-test",
-          "title": "Labor resilience and sticky inflation create two-sided policy risk",
-          "summary": "Weekly claims rose but remained historically healthy, June hiring slowed to 57,000, and Friday's July report will test whether growth is cooling enough to offset oil-driven inflation pressure.",
-          "direction": "two-sided-macro-risk",
-          "evidenceQuality": "medium-high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "broad-market-cash-bonds-allocation-wrappers",
-            "japanese-financial-reflation",
-            "medical-tools-specialty-device-compounders"
-          ],
-          "relatedSymbols": [
-            "BND",
-            "MUFG",
-            "DHR",
-            "BSX"
           ]
         },
         {
           "id": "portfolio-concentration-boundary",
           "title": "Internal concentration remains the controlling boundary",
-          "summary": "The latest internal review reports $285,511.34 of equity, $160.09 of cash, and a 61.72% macro-security/real-assets overlay; an oil rebound can help sleeve earnings while increasing cross-holding correlation and liquidity risk.",
+          "summary": "The latest internal review reports $285,511.34 of equity, $160.09 of cash, and a 61.72% macro-security/real-assets overlay; macro factor reversals can therefore transmit across many nominally separate holdings.",
           "direction": "concentration-and-liquidity-risk",
           "evidenceQuality": "high",
           "sourceCount": 2,
@@ -57296,114 +57291,133 @@
       ],
       "lookPast": [
         {
-          "id": "small-index-decline",
-          "title": "A modest one-day index decline",
-          "reason": "The oil-yield linkage and earnings dispersion carry more thesis information than moves of a few tenths of a percent."
+          "id": "risk-rally-as-all-clear",
+          "title": "The immediate risk rally as an all-clear",
+          "reason": "Lower yields help valuations, but negative payrolls and large revisions can become an earnings and demand problem if confirmed."
         },
         {
-          "id": "deal-is-close-headlines",
-          "title": "Repeated Hormuz deal-is-close headlines",
-          "reason": "Physical flows, shipping insurance, inventories, and an implemented agreement matter more than negotiating rhetoric."
+          "id": "lower-unemployment-alone",
+          "title": "The 4.1% unemployment rate in isolation",
+          "reason": "Labor-force participation, payroll levels, revisions, hours, and real wage growth provide the necessary context."
         },
         {
-          "id": "aggregate-earnings-proof",
-          "title": "Strong index earnings as proof for every holding",
-          "reason": "Aggregate results can conceal large differences in backlog, margins, guidance, and free-cash-flow conversion."
+          "id": "one-month-certainty",
+          "title": "One month as proof of recession or policy easing",
+          "reason": "The surprise is material, but confirmation from claims, spending, inflation, and subsequent payroll revisions is still required."
         },
         {
-          "id": "one-beneficiary-quarter",
-          "title": "One quarter of data-center beneficiary strength",
-          "reason": "Durability requires repeat orders, capacity execution, pricing discipline, and acceptable returns on capital."
+          "id": "hormuz-rhetoric",
+          "title": "Hormuz negotiation headlines without implementation",
+          "reason": "Physical flows, vessel safety, insurance, inventories, and an implemented agreement remain the higher-quality evidence."
         }
       ],
       "payAttention": [
         {
-          "id": "oil-physical-confirmation",
+          "id": "labor-confirmation",
+          "title": "Claims, participation, hours, revisions, and consumer spending",
+          "reason": "They will show whether July is a narrow payroll shock or a broader demand slowdown."
+        },
+        {
+          "id": "yield-follow-through",
+          "title": "Two-year and long-end Treasury yield follow-through",
+          "reason": "Durable relief requires weaker growth to lower rates without destabilizing inflation expectations or earnings."
+        },
+        {
+          "id": "real-wages",
+          "title": "Wage growth relative to inflation",
+          "reason": "Reporting indicates wages are failing to keep pace with inflation, a direct pressure on household demand."
+        },
+        {
+          "id": "oil-physical-flows",
           "title": "Brent, Hormuz flows, shipping insurance, and inventories",
-          "reason": "They determine whether Thursday's oil rebound becomes a renewed inflation regime or another short-lived reversal."
-        },
-        {
-          "id": "long-end-follow-through",
-          "title": "10-year and 30-year yield follow-through",
-          "reason": "Sustained yields above recent relief levels raise financing and valuation hurdles across AI, grid, industrial, and bond exposures."
-        },
-        {
-          "id": "july-jobs",
-          "title": "Friday's July jobs report",
-          "reason": "A cooling or resilient labor market will change the balance between growth concerns and rate-hike risk."
+          "reason": "Oil can keep inflation sticky even as labor weakens, limiting the policy benefit of softer growth."
         },
         {
           "id": "earnings-conversion",
-          "title": "Orders, backlog, margins, guidance, and free cash flow",
-          "reason": "These separate durable demand beneficiaries from holdings dependent on multiple expansion or spending narratives."
+          "title": "Backlog, margins, guidance, and free-cash-flow conversion",
+          "reason": "These distinguish beneficiaries of rate relief from businesses exposed to slowing final demand."
         },
         {
           "id": "portfolio-overlap",
-          "title": "Cross-sleeve correlation and cash availability",
-          "reason": "The 61.72% overlay and $160.09 cash balance dominate short-term portfolio resilience."
+          "title": "Cross-sleeve correlation and available cash",
+          "reason": "The 61.72% overlay and $160.09 cash balance remain more consequential than a single day's market direction."
         }
       ],
       "thesisImpacts": [
         {
+          "thesisId": "broad-market-cash-bonds-allocation-wrappers",
+          "impact": "rate pressure eases while growth risk rises",
+          "summary": "Falling yields support duration, but inflation and weak labor data create a less benign macro mix than simple disinflation."
+        },
+        {
           "thesisId": "ai-power-infrastructure",
-          "impact": "demand evidence improves while financing risk rises",
-          "summary": "Physical data-center power demand remains constructive, but higher long yields, project execution, margins, grid access, and capex returns remain decisive."
+          "impact": "valuation relief improves while project-demand scrutiny rises",
+          "summary": "Lower yields ease financing and discount-rate pressure, but a broader slowdown would raise the hurdle for backlog conversion and capex returns."
         },
         {
           "thesisId": "ai-platform-compute-semiconductors",
-          "impact": "capex demand persists but valuation and return-on-spend tests tighten",
-          "summary": "AI infrastructure spending supports compute demand while higher yields and uneven post-earnings reactions increase the burden of cash-flow proof."
+          "impact": "duration relief is constructive but does not replace return-on-spend proof",
+          "summary": "AI demand remains structurally supported; weaker macro demand and high capex still require cash-flow evidence."
         },
         {
           "thesisId": "energy-demand-infrastructure-tollbooths",
-          "impact": "near-term pricing backdrop improves without resolving physical-flow risk",
-          "summary": "Higher oil can support energy cash flows, but the thesis still depends more on contracted volumes, infrastructure economics, and durable throughput than spot-price beta."
+          "impact": "supply support and demand risk pull in opposite directions",
+          "summary": "Hormuz risk can support pricing, while weaker employment raises questions about end-demand and throughput if the slowdown broadens."
         },
         {
           "thesisId": "macro-security-real-assets-pillar",
-          "impact": "macro support and concentration risk rise together",
-          "summary": "Oil and geopolitical uncertainty reinforce the sleeve's rationale while also increasing correlation across an already 61.72% overlay."
+          "impact": "geopolitical rationale persists but cyclical and concentration risks rise",
+          "summary": "Security and scarcity remain supportive, yet weak growth can pressure commodity demand and expose the portfolio's high cross-sleeve correlation."
         },
         {
-          "thesisId": "rearmament-aerospace-defense",
-          "impact": "demand thesis unchanged; execution evidence remains differentiating",
-          "summary": "Conflict uncertainty supports the strategic backdrop, but budgets, backlog conversion, program execution, margins, and valuation still determine capture."
-        },
-        {
-          "thesisId": "broad-market-cash-bonds-allocation-wrappers",
-          "impact": "long-yield pressure returns and liquidity remains minimal",
-          "summary": "The 10-year yield at 4.67% increases bond-duration and equity-valuation sensitivity, while internal cash remains $160.09."
+          "thesisId": "medical-tools-specialty-device-compounders",
+          "impact": "rate relief helps valuation while execution stays decisive",
+          "summary": "Lower yields are constructive for quality growth, but DHR and BSX still require company-specific recovery, product-cycle, margin, and guidance evidence."
         }
       ],
-      "portfolioRead": "No allocation instruction follows from Thursday's modest selloff. The material change is the renewed coupling of oil and long yields: it can strengthen cash-flow evidence for energy and real-assets holdings while weakening duration valuations and increasing portfolio correlation. Continue separating contracted or backlog-backed economics from spot-price and multiple exposure. The 61.72% macro-security/real-assets overlay and $160.09 cash balance remain the dominant portfolio constraints.",
+      "portfolioRead": "No allocation instruction follows from Friday's rally. The material change is a weaker labor trend and lower yields: that combination relieves duration pressure but can become an earnings and commodity-demand headwind if it broadens. Continue distinguishing contracted or backlog-backed economics from multiple expansion, spot-price beta, and consumer sensitivity. The 61.72% macro-security/real-assets overlay and $160.09 cash balance remain the dominant portfolio constraints.",
       "sourceNotes": [
         {
-          "id": "ap-markets-2026-08-06",
-          "title": "AP: US stocks edge lower as oil prices rise, more earnings reports roll in",
-          "url": "https://apnews.com/article/stocks-markets-ai-spacex-hynix-bonds-2f4f2638cb8430bb7c8e5d59a7b50731",
-          "usedFor": "Midday index moves, Brent, 10-year yield, earnings breadth, labor context, and the next jobs report.",
-          "trustNote": "Independent current reporting; intraday figures may change and external content is treated as untrusted research input."
+          "id": "ap-markets-2026-08-07",
+          "title": "AP: US stocks jump as employers unexpectedly cut 23,000 jobs, raising hopes for easier rate policy",
+          "url": "https://apnews.com/article/9636095906bbb689a1f612bce9a07343",
+          "usedFor": "Payroll surprise, market reaction, two-year Treasury move, Fed-policy framing, and oil-inflation context.",
+          "trustNote": "Independent current reporting; intraday prices may change and external content is treated as untrusted research input."
         },
         {
-          "id": "fed-mpr-2026-07",
-          "title": "Federal Reserve Monetary Policy Report — July 2026",
-          "url": "https://www.federalreserve.gov/monetarypolicy/2026-07-mpr-part1.htm",
-          "usedFor": "Official inflation, energy-price, AI-component-demand, and market-implied policy-path context.",
-          "trustNote": "Primary source; underlying observations have different data cutoffs and are used as regime context, not live prices."
+          "id": "axios-jobs-2026-08-07",
+          "title": "Axios: U.S. economy surprisingly lost 23,000 jobs in July",
+          "url": "https://www.axios.com/2026/08/07/july-jobs-report-employment-losses",
+          "usedFor": "Payroll decline, unemployment rate, first negative month since February, and downward-revision context.",
+          "trustNote": "Current secondary reporting of government data; treated as untrusted research input pending durable official archive availability."
         },
         {
-          "id": "axios-ai-infrastructure-2026-08-04",
-          "title": "Axios Closer: SpaceX, Caterpillar and AI",
-          "url": "https://www.axios.com/newsletters/axios-closer-f8186890-7ddf-4084-b60d-d84a9e794345",
-          "usedFor": "Recent company-reported AI infrastructure spending and physical power-generation demand evidence.",
-          "trustNote": "Recent secondary reporting based on company results; figures are treated as untrusted research input and not generalized beyond the cited companies."
+          "id": "axios-labor-detail-2026-08-07",
+          "title": "Axios: Summertime job market remains muggy",
+          "url": "https://www.axios.com/2026/08/07/bls-jobs-report-rates-july",
+          "usedFor": "Revision scale, unemployment context, labor-force interpretation, and wage-versus-inflation signal.",
+          "trustNote": "Current secondary analysis; interpretation is separated from the reported figures."
+        },
+        {
+          "id": "bls-release-calendar-2026",
+          "title": "BLS schedule: Employment Situation for July 2026",
+          "url": "https://www.bls.gov/schedule/news_release/empsit.htm",
+          "usedFor": "Official confirmation of the August 7 release date and data reference month.",
+          "trustNote": "Primary-source release calendar; the current release body was not reliably indexed at generation time."
+        },
+        {
+          "id": "ap-hormuz-2026-08-07",
+          "title": "AP: A deal with Iran over the Strait of Hormuz may require a compromise",
+          "url": "https://apnews.com/article/0220ceb7904e16c30869c8fe4cf2a3db",
+          "usedFor": "Current Hormuz negotiation uncertainty and the strait's role in global oil flows.",
+          "trustNote": "Independent current reporting; negotiation claims require implementation and physical-flow confirmation."
         },
         {
           "id": "internal-portfolio-review-2026-08-05",
           "title": "Internal portfolio thesis review",
           "url": "memory/investing/portfolio-thesis-review/latest.json",
           "usedFor": "Equity, cash, overlay weight, rankings, and holdings context.",
-          "trustNote": "Internal artifact refreshed 2026-08-05T16:52:44.376Z; underlying portfolio snapshot is dated 2026-08-03."
+          "trustNote": "Internal artifact refreshed 2026-08-05; underlying portfolio snapshot is dated 2026-08-03."
         },
         {
           "id": "internal-input-health-2026-08-03",
@@ -57417,10 +57431,10 @@
           "title": "Internal allocation targets",
           "url": "memory/investing/allocation-targets/latest.json",
           "usedFor": "Sleeve and ballast context.",
-          "trustNote": "Internal artifact includes stale target flags and is used cautiously."
+          "trustNote": "Internal artifact includes four stale target flags and is used cautiously."
         }
       ],
-      "discussionPrompt": "If oil and long yields stay elevated while earnings remain strong, which holdings have enough backlog, pricing power, and cash-flow conversion to absorb the higher cost of capital—and which are mostly benefiting from the macro factor itself?",
+      "discussionPrompt": "If lower yields persist because labor is weakening, which holdings benefit from the discount-rate relief while retaining backlog, pricing power, and cash-flow durability—and which depend on growth staying stronger than the jobs data now imply?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -78898,7 +78912,7 @@
         "label": "Article queue",
         "kind": "articles",
         "path": "obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md",
-        "updatedAt": "2026-07-31T13:02:09.096Z",
+        "updatedAt": "2026-08-07T13:02:36.075Z",
         "items": [
           {
             "id": "articles-1-a-subway-company-solved-ai-s-business-model",
@@ -78934,7 +78948,7 @@
           {
             "id": "articles-3-ending-airborne-transmission",
             "title": "Ending Airborne Transmission",
-            "status": "queued",
+            "status": "weekly-pick-2026-08-07",
             "priority": "4",
             "creator": "\"Jassi Pannu, via Dwarkesh Patel\"",
             "source": "\"Dwarkesh Podcast\"",
@@ -79626,207 +79640,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-06T13:15:00.000Z",
-      "lastRunAt": "2026-08-05T13:15:00.022Z",
+      "nextRunAt": "2026-08-07T13:15:00.000Z",
+      "lastRunAt": "2026-08-06T13:15:00.023Z",
       "lastStatus": "ok",
-      "lastDuration": "14s",
+      "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-08-05T13:15:14.458Z"
-    },
-    {
-      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
-      "name": "Investing OS thesis/price watch",
-      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 2-6",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 2-6 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-08-06T14:00:00.000Z",
-      "lastRunAt": "2026-08-05T14:00:00.019Z",
-      "lastStatus": "ok",
-      "lastDuration": "25s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-08-05T14:00:25.403Z"
-    },
-    {
-      "id": "b3228297-f56f-4724-90fc-636706d80e4c",
-      "name": "Thesis Baskets Codex relay daily reminder",
-      "description": "Remind Alex daily until stopped to finish production relay configuration and synthesis verification.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-08-06T14:00:00.000Z",
-      "lastRunAt": "2026-08-05T14:00:00.022Z",
-      "lastStatus": "ok",
-      "lastDuration": "18s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Remind Alex daily until stopped to finish production relay configuration and synthesis verification.",
-      "updatedAt": "2026-08-05T14:00:17.978Z"
-    },
-    {
-      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
-      "name": "almanac-generator",
-      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 11 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 11 * * * (America/Chicago)",
-      "sessionTarget": "main",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-06T16:00:00.000Z",
-      "lastRunAt": "2026-08-05T16:00:00.019Z",
-      "lastStatus": "ok",
-      "lastDuration": "7ms",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-08-05T16:00:00.026Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-06T17:00:00.000Z",
-      "lastRunAt": "2026-08-05T17:00:00.018Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-08-05T17:04:27.394Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-06T17:19:54.973Z",
-      "lastRunAt": "2026-08-06T11:19:55.008Z",
-      "lastStatus": "ok",
-      "lastDuration": "21s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-08-06T11:20:15.895Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-07T11:20:16.390Z",
-      "lastRunAt": "2026-08-06T11:20:16.404Z",
-      "lastStatus": "ok",
-      "lastDuration": "30s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-08-06T11:20:46.142Z"
-    },
-    {
-      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-      "name": "weekly-recommended-article",
-      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * 5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-08-07T13:00:00.000Z",
-      "lastRunAt": "2026-07-31T13:00:00.019Z",
-      "lastStatus": "ok",
-      "lastDuration": "3m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-07-31T13:03:11.963Z"
+      "updatedAt": "2026-08-06T13:15:15.679Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
@@ -79854,6 +79677,170 @@
       "deleteAfterRun": false,
       "summary": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
       "updatedAt": "2026-07-31T13:32:22.850Z"
+    },
+    {
+      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
+      "name": "Investing OS thesis/price watch",
+      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 2-6",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-08-07T14:00:00.000Z",
+      "lastRunAt": "2026-08-06T14:00:00.018Z",
+      "lastStatus": "ok",
+      "lastDuration": "24s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "updatedAt": "2026-08-06T14:00:24.356Z"
+    },
+    {
+      "id": "b3228297-f56f-4724-90fc-636706d80e4c",
+      "name": "Thesis Baskets Codex relay daily reminder",
+      "description": "Remind Alex daily until stopped to finish production relay configuration and synthesis verification.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-08-07T14:00:00.000Z",
+      "lastRunAt": "2026-08-06T14:00:00.021Z",
+      "lastStatus": "ok",
+      "lastDuration": "16s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Remind Alex daily until stopped to finish production relay configuration and synthesis verification.",
+      "updatedAt": "2026-08-06T14:00:16.258Z"
+    },
+    {
+      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
+      "name": "almanac-generator",
+      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 11 * * * (America/Chicago)",
+      "sessionTarget": "main",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-07T16:00:00.000Z",
+      "lastRunAt": "2026-08-06T16:00:00.028Z",
+      "lastStatus": "ok",
+      "lastDuration": "5ms",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
+      "updatedAt": "2026-08-06T16:00:00.033Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-07T17:00:00.000Z",
+      "lastRunAt": "2026-08-06T17:00:00.029Z",
+      "lastStatus": "ok",
+      "lastDuration": "3m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-08-06T17:03:26.738Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-07T17:19:54.973Z",
+      "lastRunAt": "2026-08-07T11:19:54.998Z",
+      "lastStatus": "ok",
+      "lastDuration": "20s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-08-07T11:20:14.567Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-08T11:20:16.390Z",
+      "lastRunAt": "2026-08-07T11:20:16.405Z",
+      "lastStatus": "ok",
+      "lastDuration": "27s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-08-07T11:20:43.759Z"
     },
     {
       "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
@@ -80064,6 +80051,33 @@
       "deleteAfterRun": false,
       "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
       "updatedAt": "2026-08-05T16:33:27.958Z"
+    },
+    {
+      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
+      "name": "weekly-recommended-article",
+      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-08-14T13:00:00.000Z",
+      "lastRunAt": "2026-08-07T13:00:00.022Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "updatedAt": "2026-08-07T13:03:47.526Z"
     },
     {
       "id": "911f5285-0182-4bb4-9f95-6b71c6742bd0",
@@ -80312,7 +80326,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-06T13:15:10.695Z",
+      "generatedAt": "2026-08-07T13:15:10.061Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80343,7 +80357,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-06T13:15:10.695Z",
+      "generatedAt": "2026-08-07T13:15:10.061Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80374,7 +80388,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-06T13:15:10.695Z",
+      "generatedAt": "2026-08-07T13:15:10.061Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80405,7 +80419,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-06T13:15:10.695Z",
+      "generatedAt": "2026-08-07T13:15:10.061Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80901,7 +80915,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 51327 active words; 9405 words archived.",
@@ -80912,10 +80926,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Austin events: 15 family / 68 music latest",
-      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 2d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -80923,7 +80937,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -80934,7 +80948,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -80945,10 +80959,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 10d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 11d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -80956,7 +80970,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Automations: 18 enabled / 5 paused",
       "summary": "23 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -80967,10 +80981,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@9bc8be7 · Obsidian vault: main@b5f7065 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@fa1f1f1 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -80978,10 +80992,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 72d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 73d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -80989,7 +81003,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-08-06",
+      "date": "2026-08-07",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
