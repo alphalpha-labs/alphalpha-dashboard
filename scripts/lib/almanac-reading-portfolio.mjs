@@ -47,6 +47,10 @@ function pairDiversity(items) {
   return score;
 }
 
+function datedReadingCount(items) {
+  return items.filter(item => item.publishedAt || item.date).length;
+}
+
 function combinations(items, size) {
   const out = [];
   const visit = (start, selected) => {
@@ -90,12 +94,15 @@ export function selectReadingPortfolio(candidates = [], options = {}) {
     .map(items => {
       const totalMinutes = items.reduce((sum, item) => sum + item.readMinutes, 0);
       const uniqueSources = new Set(items.map(sourceKey).filter(Boolean)).size;
+      const datedReads = datedReadingCount(items);
       const score = items.reduce((sum, item) => sum + Number(item.score ?? 0), 0)
         + pairDiversity(items)
         + uniqueSources * 0.5
+        + datedReads * 0.75
+        - (datedReads === 0 ? 2 : 0)
         - (totalMinutes < minMinutes ? (minMinutes - totalMinutes) * 2 : 0)
         - (totalMinutes > maxMinutes ? (totalMinutes - maxMinutes) * 2 : 0);
-      return { items, totalMinutes, uniqueSources, score };
+      return { items, totalMinutes, uniqueSources, datedReads, score };
     })
     .sort((a, b) => b.score - a.score);
 
@@ -127,6 +134,7 @@ export function selectReadingPortfolio(candidates = [], options = {}) {
     totalMinutes: choice.totalMinutes,
     candidateCount: eligible.length,
     uniqueSources: choice.uniqueSources,
+    datedReads: choice.datedReads,
   };
 }
 

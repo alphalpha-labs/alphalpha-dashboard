@@ -56,6 +56,19 @@ describe("Almanac three-read portfolio", () => {
     expect(result.selected).toHaveLength(2);
   });
 
+  it("prefers a timely portfolio over an all-evergreen mix when quality is close", () => {
+    const result = selectReadingPortfolio([
+      candidate("evergreen-a", 10, 10, "Civic Review", ["politics"]),
+      candidate("evergreen-b", 10, 10, "Culture Journal", ["culture"]),
+      candidate("evergreen-c", 10, 10, "Science Notes", ["science"]),
+      { ...candidate("dated-a", 9.5, 10, "City Journal", ["cities"]), publishedAt: "2026-08-10" },
+      { ...candidate("dated-b", 9.5, 10, "Public Square", ["religion"]), publishedAt: "2026-08-09" },
+    ]);
+
+    expect(result.status).toBe("healthy");
+    expect(result.datedReads).toBeGreaterThanOrEqual(2);
+  });
+
   it("maps selected candidates into a stable UI recommendation", () => {
     const mapped = toReadingRecommendation(
       { ...candidate("a", 10, 9, "Review", ["cities"]), role: "anchor", exploration: false },
