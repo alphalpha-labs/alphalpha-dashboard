@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-08-12T17:03:36.728Z",
+    "generatedAt": "2026-08-13T17:03:20.569Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "eba3ea6",
+      "commit": "82c5482",
       "branch": "main",
-      "generatedAt": "2026-08-12T17:03:36.741Z",
+      "generatedAt": "2026-08-13T17:03:20.585Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-08-12T13:15:11.858Z",
+      "generatedAt": "2026-08-13T13:15:10.671Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 60732,
@@ -92,35 +92,35 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "FAILING",
-        "age": "3d old",
-        "summary": "13 family / 83 music latest",
+        "status": "OK",
+        "age": "5h old",
+        "summary": "8 family / 71 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
         "details": [
-          {
-            "label": "Community Volunteer Workday!",
-            "value": "family · Zilker Botanical Garden · 1.6 mi"
-          },
-          {
-            "label": "Lost Words in the Garden",
-            "value": "family · Zilker Botanical Garden · 1.6 mi"
-          },
           {
             "label": "Guided Garden Tour!",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
-            "label": "Quicksand + BANE",
-            "value": "music · Mohawk"
+            "label": "Evening Serenity: Weekend Wind-Down Fridays with Jené",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
+          },
+          {
+            "label": "Cocktails with the Curator featuring Carabuena Tequila",
+            "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
             "label": "Soul Man Sam",
             "value": "music · Songkick Austin"
           },
           {
-            "label": "Quicksand and Soul Blind Bane",
-            "value": "music · Songkick Austin"
+            "label": "Willow Avalon: Pink Pocket Pistol Tour",
+            "value": "music · Scoot Inn"
+          },
+          {
+            "label": "BRENN! - AMATEUR AT BEST WORLD TOUR",
+            "value": "music · Scoot Inn"
           }
         ],
         "staleAfterHours": 36,
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "16d old",
+        "age": "17d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -205,10 +205,6 @@
         "detail": "23 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
-          {
-            "label": "sync-obsidian-snipd-to-thesis-baskets",
-            "value": "enabled · error · next 2026-08-13T11:20:16.390Z"
-          },
           {
             "label": "agentic-os-question-cadence",
             "value": "paused · error · next n/a"
@@ -243,7 +239,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@eba3ea6 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@82c5482 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -252,7 +248,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@eba3ea6 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@82c5482 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -270,7 +266,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "78d old",
+        "age": "79d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -339,32 +335,6 @@
     ],
     "eventCandidates": [
       {
-        "title": "Community Volunteer Workday!",
-        "source": "Zilker Botanical Garden",
-        "sourceId": "zilker-botanical",
-        "date": "2026-08-12T09:00:00-05:00",
-        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
-        "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/community-volunteer-workday/",
-        "summary": "Come get your hands dirty and help care for one of Austin’s most treasured green spaces! Whether you’re a seasoned gardener or have never picked up a trowel before, everyone is welcome at our Community […]",
-        "score": 6.7,
-        "id": "family-1",
-        "kind": "family"
-      },
-      {
-        "title": "Lost Words in the Garden",
-        "source": "Zilker Botanical Garden",
-        "sourceId": "zilker-botanical",
-        "date": "2026-08-15T08:30:00-05:00",
-        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
-        "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/lost-words-in-the-garden/",
-        "summary": "About ten years ago the Oxford Junior Dictionary (OJD) removed words from nature like acorn, buttercup, fern, heron, to make room for technology words like analogue, chatroom, and voicemail. They claimed the dictionary m",
-        "score": 6.7,
-        "id": "family-2",
-        "kind": "family"
-      },
-      {
         "title": "Guided Garden Tour!",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
@@ -374,45 +344,71 @@
         "link": "https://zilkergarden.org/event/guided-garden-tour/",
         "summary": "Join Docent Kevin on the third Sunday of every month for a free guided tour of Zilker Botanical Garden, included with regular garden admission. Explore the garden's diverse collections, seasonal highlights, and hidden ge",
         "score": 6.7,
-        "id": "family-3",
+        "id": "family-1",
         "kind": "family"
       },
       {
-        "title": "Quicksand + BANE",
-        "source": "Mohawk",
-        "sourceId": "mohawk",
-        "date": "Aug 9, 2026 - 7:00 PM",
-        "venue": "Mohawk Outdoor",
-        "distanceMiles": null,
-        "link": "https://www.etix.com/ticket/p/36256652/quicksand-bane-austin-resound-presents",
-        "summary": "Resound Presents • Soul Blind, Mugger • All Ages",
-        "score": 3,
-        "id": "music-1",
-        "kind": "music"
+        "title": "Evening Serenity: Weekend Wind-Down Fridays with Jené",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-08-21T17:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/evening-serenity-weekend-wind-down-fridays-with-jene/",
+        "summary": "Transition seamlessly from the busy work week into a restful weekend with a soothing evening practice at Zilker Botanical Garden. Held indoors within the peaceful, historic Greene Room, this hour-long session helps you d",
+        "score": 6.7,
+        "id": "family-2",
+        "kind": "family"
+      },
+      {
+        "title": "Cocktails with the Curator featuring Carabuena Tequila",
+        "source": "Zilker Botanical Garden",
+        "sourceId": "zilker-botanical",
+        "date": "2026-08-21T18:00:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
+        "distanceMiles": 1.6,
+        "link": "https://zilkergarden.org/event/cocktails-with-the-curator-featuring-carabuena/",
+        "summary": "Join us for a cocktail tasting featuring Carabuena Tequila and a tour of the Cactus and Succulent Collection! Enjoy cocktails made from plants that can be found right here in the Garden while learning more […]",
+        "score": 6.7,
+        "id": "family-3",
+        "kind": "family"
       },
       {
         "title": "Soul Man Sam",
         "source": "Songkick Austin",
         "sourceId": "songkick",
-        "date": "Monday 10 August 2026",
+        "date": "Monday 17 August 2026",
         "venue": "Antone's Nightclub, Austin, TX, US",
         "distanceMiles": null,
-        "link": "https://www.songkick.com/concerts/43334054-soul-man-sam-at-antones-nightclub",
+        "link": "https://www.songkick.com/concerts/43334562-soul-man-sam-at-antones-nightclub",
         "summary": "Antone's Nightclub, Austin, TX, US",
         "score": 3,
+        "id": "music-1",
+        "kind": "music"
+      },
+      {
+        "title": "Willow Avalon: Pink Pocket Pistol Tour",
+        "source": "Scoot Inn",
+        "sourceId": "scoot-inn",
+        "date": "2026-08-18 17:00:00 America/Chicago",
+        "venue": "Scoot Inn",
+        "distanceMiles": null,
+        "link": "https://www.ticketmaster.com/willow-avalon-pink-pocket-pistol-tour-austin-texas-08-18-2026/event/3A006495E572E6A1",
+        "summary": "Rock • onsale",
+        "score": 2,
         "id": "music-2",
         "kind": "music"
       },
       {
-        "title": "Quicksand and Soul Blind Bane",
-        "source": "Songkick Austin",
-        "sourceId": "songkick",
-        "date": "Sunday 09 August 2026",
-        "venue": "Mohawk - Outdoor, Austin, TX, US",
+        "title": "BRENN! - AMATEUR AT BEST WORLD TOUR",
+        "source": "Scoot Inn",
+        "sourceId": "scoot-inn",
+        "date": "2026-08-21 18:00:00 America/Chicago",
+        "venue": "Scoot Inn",
         "distanceMiles": null,
-        "link": "https://www.songkick.com/concerts/43250070-quicksand-at-mohawk-outdoor",
-        "summary": "Mohawk - Outdoor, Austin, TX, US",
-        "score": 3,
+        "link": "https://www.ticketmaster.com/brenn-amateur-at-best-world-tour-austin-texas-08-21-2026/event/3A00649DC5387FD5",
+        "summary": "Pop • onsale",
+        "score": 2,
         "id": "music-3",
         "kind": "music"
       }
@@ -57697,28 +57693,28 @@
     },
     "investingDailyMarketBrief": {
       "schemaVersion": 1,
-      "generatedAt": "2026-08-12T17:00:00.000Z",
-      "publishedAt": "2026-08-12T17:00:00.000Z",
+      "generatedAt": "2026-08-13T17:00:00.000Z",
+      "publishedAt": "2026-08-13T17:00:00.000Z",
       "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / CPI matched the disinflation path but verify yield and oil follow-through / no trade recommendation",
-      "mainDriver": "Official July CPI cooled slightly to 0.1% month over month and 3.4% year over year, with core at 0.2% and 2.5%; the release removes an immediate upside inflation surprise, but energy remains 14.7% higher year over year and oil-shipping risk remains unresolved.",
-      "portfolioImplication": "The CPI composition offers modest duration relief to AI, grid, healthcare, and bond sleeves, but it does not neutralize the portfolio's 61.86% macro-security/real-assets concentration. Energy exposures still face a two-sided setup: July energy prices fell 1.5% in CPI while the year-over-year energy index remains elevated and current Brent pricing still carries geopolitical risk.",
+      "actionPosture": "observe / PPI headline relief is real but underlying services and construction pressure needs confirmation / no trade recommendation",
+      "mainDriver": "Official July PPI was unchanged month over month and slowed to 4.7% year over year as energy goods fell, but the less-food-energy-trade measure accelerated 0.4% in July and also stood at 4.7% year over year.",
+      "portfolioImplication": "Headline PPI and falling oil support rate-sensitive AI, grid, healthcare, and bond sleeves at the margin, but firm core producer prices, a 2.2% construction jump, and the portfolio's 61.86% macro-security/real-assets concentration argue against treating the relief as a broad valuation reset.",
       "changedSincePrevious": [
-        "The CPI event risk is now observed rather than pending: headline CPI rose 0.1% in July and 3.4% year over year, while core rose 0.2% and 2.5% year over year.",
-        "Shelter increased only 0.1% and accounted for roughly two-thirds of the monthly headline rise, strengthening the gradual-disinflation reading.",
-        "July energy CPI fell 1.5% month over month but remained 14.7% higher year over year, so the report is benign at the margin without erasing the oil-driven inflation risk.",
-        "The immediate focus moves from CPI forecasts to Treasury follow-through, physical Hormuz and Red Sea flows, and whether oil sustains its risk premium.",
-        "AI power scarcity gained a more explicit policy boundary: Virginia shifted dedicated upstream grid costs toward data centers, supporting infrastructure demand while increasing hyperscaler project-cost and permitting risk."
+        "July PPI is now observed: final demand was unchanged month over month and slowed to 4.7% year over year, extending the headline relief from CPI.",
+        "The inflation composition is less benign than the headline: PPI less foods, energy, and trade services rose 0.4% after 0.1% in June and remained 4.7% higher year over year.",
+        "Producer energy prices fell 3.1%, led by a 5.7% gasoline decline, while services rose 0.2% and construction rose 2.2%.",
+        "Equities moved toward records and oil eased after the release, but the confirmation test shifts to yields, services inflation, construction costs, and whether lower energy prices persist.",
+        "The internal portfolio and allocation boundaries are unchanged: $297,443.70 equity, $913 cash, and 61.86% in the macro-security/real-assets overlay."
       ],
-      "headline": "CPI cools as expected; oil persistence and grid-cost allocation become the next tests",
-      "summary": "This is an observation layer, not a trade signal. Look past the idea that an in-line CPI report resolves the macro regime: headline and core inflation cooled, but the 10-year yield remains restrictive, energy is still sharply higher from a year ago, and physical shipping conditions remain uncertain. Pay attention to Treasury follow-through, realized oil flows and insurance availability, and whether grid bottlenecks convert into contracted earnings without shifting too much infrastructure cost onto AI customers. Internally, the dominant boundary remains $297,443.70 of equity, only $913 of cash, and 61.86% in the macro-security/real-assets overlay.",
+      "headline": "PPI headline cools, but core services and construction keep the inflation test open",
+      "summary": "This is an observation layer, not a trade signal. Look past the unchanged headline PPI as proof that pipeline inflation has cleared: lower energy and food prices masked a 0.4% rise in the less-food-energy-trade measure, 0.2% services inflation, and a 2.2% construction increase. Pay attention to Treasury follow-through, sustained oil and freight relief, and whether construction and service costs pressure AI, grid, industrial, defense, and healthcare project economics. Internally, the controlling boundary remains $297,443.70 of equity, only $913 of cash, and 61.86% in the macro-security/real-assets overlay.",
       "marketDrivers": [
         {
-          "id": "july-cpi-in-line",
-          "title": "July CPI cools without a new upside surprise",
-          "summary": "BLS reported headline CPI at 0.1% month over month and 3.4% year over year; core was 0.2% and 2.5%. Shelter rose 0.1%, while energy declined 1.5% in July.",
-          "direction": "modest-duration-relief-with-residual-inflation-risk",
+          "id": "july-ppi-mixed-disinflation",
+          "title": "Headline PPI relief masks firmer underlying pressure",
+          "summary": "BLS reported final-demand PPI unchanged in July and up 4.7% year over year, while the less-food-energy-trade measure rose 0.4% month over month and 4.7% year over year.",
+          "direction": "modest-duration-relief-with-core-inflation-caveat",
           "evidenceQuality": "high",
           "sourceCount": 1,
           "relatedTheses": [
@@ -57738,10 +57734,10 @@
           ]
         },
         {
-          "id": "energy-disinflation-versus-spot-risk",
-          "title": "July energy disinflation conflicts with current oil scarcity risk",
-          "summary": "The July CPI energy index fell 1.5% month over month, including a 2.9% gasoline decline, but energy remained 14.7% higher year over year and Tuesday Brent closed at $88.91 amid uncertain crude flows.",
-          "direction": "two-sided-energy-and-inflation-risk",
+          "id": "energy-goods-relief",
+          "title": "Producer energy prices provide near-term inflation relief",
+          "summary": "Final-demand energy fell 3.1% in July, with gasoline down 5.7%; current market reporting also showed oil easing, though geopolitical flow risk remains unresolved.",
+          "direction": "near-term-disinflation-and-two-sided-energy-beta",
           "evidenceQuality": "high",
           "sourceCount": 2,
           "relatedTheses": [
@@ -57753,34 +57749,35 @@
             "MLPX",
             "IXC",
             "FCG",
-            "XOP"
+            "XOP",
+            "BNO"
           ]
         },
         {
-          "id": "grid-cost-allocation",
-          "title": "Grid scarcity is becoming a cost-allocation and permitting issue",
-          "summary": "Virginia ordered data centers to fund transmission infrastructure dedicated to their projects. This supports the need for grid investment while increasing the importance of customer economics, contracted funding, and local approvals.",
-          "direction": "supportive-for-grid-capex-but-higher-project-friction",
-          "evidenceQuality": "medium",
+          "id": "construction-services-pressure",
+          "title": "Construction and service costs remain the project-economics test",
+          "summary": "Final-demand construction rose 2.2% and services rose 0.2%; services excluding trade, transportation, and warehousing rose 0.6%, keeping margin and financing pressure relevant for capital-intensive theses.",
+          "direction": "execution-and-margin-headwind",
+          "evidenceQuality": "high",
           "sourceCount": 1,
           "relatedTheses": [
             "ai-power-infrastructure",
-            "ai-platform-compute-semiconductors"
+            "rearmament-aerospace-defense",
+            "critical-materials-defense-infrastructure"
           ],
           "relatedSymbols": [
             "PWR",
             "GEV",
-            "AEP",
             "ETN",
-            "AMZN",
-            "MSFT",
-            "GOOGL"
+            "XAR",
+            "RTX",
+            "GD"
           ]
         },
         {
           "id": "portfolio-factor-concentration",
           "title": "Portfolio concentration remains the controlling internal boundary",
-          "summary": "The latest internal review reports $297,443.70 of equity, $913 of cash, and 61.86% in the macro-security/real-assets overlay; lower-conviction precious metals remain oversized.",
+          "summary": "The latest internal review reports $297,443.70 of equity, $913 of cash, and 61.86% in the macro-security/real-assets overlay; the latest allocation artifact also carries stale-target warnings.",
           "direction": "concentration-and-liquidity-risk",
           "evidenceQuality": "high",
           "sourceCount": 3,
@@ -57800,24 +57797,24 @@
       ],
       "lookPast": [
         {
-          "id": "cpi-mission-accomplished",
-          "title": "One in-line CPI report as proof inflation is solved",
-          "reason": "Energy is still 14.7% higher year over year and the Treasury curve must confirm durable relief."
+          "id": "ppi-mission-accomplished",
+          "title": "Unchanged headline PPI as proof pipeline inflation is solved",
+          "reason": "The preferred underlying measure rose 0.4% and construction prices jumped 2.2%."
         },
         {
-          "id": "single-day-yield-reaction",
-          "title": "The first post-CPI yield move as a durable valuation reset",
-          "reason": "Follow-through across the two-year and 10-year yields matters more than the initial reaction."
+          "id": "record-index-confirmation",
+          "title": "A record-index move as confirmation of durable valuation relief",
+          "reason": "Yield follow-through and earnings conversion matter more than the first market reaction."
         },
         {
-          "id": "oil-headline-volatility",
-          "title": "Intraday oil moves or negotiation rhetoric",
-          "reason": "Sustained prices, vessel traffic, insurance, inventories, and realized exports carry more evidence."
+          "id": "oil-one-day-relief",
+          "title": "One day of lower oil as a resolved supply regime",
+          "reason": "Sustained prices, shipping, insurance, inventories, and realized exports carry more evidence."
         },
         {
-          "id": "grid-scarcity-pure-upside",
-          "title": "Grid scarcity as unqualified upside for every AI infrastructure holding",
-          "reason": "Cost allocation, permitting, customer returns, and project delays determine which vendors and utilities convert demand into cash flow."
+          "id": "theme-wide-benefit",
+          "title": "Lower headline inflation as equal upside for every capital-intensive holding",
+          "reason": "Construction, labor, financing, permitting, and customer economics determine company-level capture."
         }
       ],
       "payAttention": [
@@ -57827,23 +57824,18 @@
           "reason": "Persistent relief would lower hurdle rates; a sticky long end would keep financing-heavy projects constrained."
         },
         {
-          "id": "physical-shipping",
-          "title": "Hormuz and Red Sea vessel traffic, insurance, inventories, and realized exports",
-          "reason": "These distinguish a persistent energy constraint from headline risk premium."
+          "id": "core-producer-prices",
+          "title": "Core services and construction inflation",
+          "reason": "These are the less-benign parts of July PPI and can pressure margins and project returns."
         },
         {
-          "id": "energy-pass-through",
-          "title": "August fuel and freight pass-through",
-          "reason": "July CPI captured falling energy prices and may not reflect the current oil-risk regime."
-        },
-        {
-          "id": "grid-contract-economics",
-          "title": "Who funds dedicated generation and transmission",
-          "reason": "Customer commitments and regulatory cost allocation determine the quality of grid-capex demand."
+          "id": "physical-energy",
+          "title": "Oil prices, vessel traffic, insurance, inventories, and realized exports",
+          "reason": "These distinguish durable energy relief from a temporary risk-premium reversal."
         },
         {
           "id": "earnings-conversion",
-          "title": "Backlog, margins, guidance, and free-cash-flow conversion",
+          "title": "Backlog, pricing, margins, guidance, and free-cash-flow conversion",
           "reason": "These remain the proof points for AI, grid, defense, industrial, and healthcare holdings."
         },
         {
@@ -57855,62 +57847,62 @@
       "thesisImpacts": [
         {
           "thesisId": "broad-market-cash-bonds-allocation-wrappers",
-          "impact": "modest support from an in-line disinflation print",
-          "summary": "Headline, core, and shelter composition reduce immediate upside inflation risk, but durable bond relief still requires yield follow-through."
+          "impact": "modest support from headline producer-price relief",
+          "summary": "The unchanged headline helps, but core producer inflation and construction costs make Treasury follow-through decisive."
         },
         {
           "thesisId": "ai-power-infrastructure",
-          "impact": "lower inflation pressure helps while grid-cost rules sharpen execution risk",
-          "summary": "Structural scarcity remains visible, but dedicated-infrastructure funding, permitting, and customer project returns now deserve greater weight."
+          "impact": "rate relief helps while construction pressure sharpens execution risk",
+          "summary": "Structural demand remains intact, but contracted pricing, labor, equipment, permitting, and customer returns deserve greater weight."
         },
         {
           "thesisId": "energy-demand-infrastructure-tollbooths",
-          "impact": "current scarcity support remains two-sided",
-          "summary": "July energy CPI fell even as year-over-year energy inflation and current Brent risk remain high; toll-booth cash flows deserve more weight than spot beta."
+          "impact": "near-term spot support softens while toll-booth quality remains primary",
+          "summary": "Lower producer energy and gasoline prices reduce immediate inflation pressure but expose commodity-beta holdings to de-escalation risk."
         },
         {
           "thesisId": "macro-security-real-assets-pillar",
-          "impact": "geopolitical support persists alongside concentration risk",
-          "summary": "Shipping uncertainty supports scarcity assets, but the portfolio already has 61.86% exposure to the overlay."
+          "impact": "geopolitical support persists alongside concentration and oil-reversal risk",
+          "summary": "The portfolio already has 61.86% exposure to the overlay, so lower oil is portfolio-relevant even if physical uncertainty persists."
         },
         {
           "thesisId": "rearmament-aerospace-defense",
-          "impact": "security backdrop remains supportive but unchanged by CPI",
-          "summary": "Contract funding, margins, program execution, and cash conversion remain the decisive evidence."
+          "impact": "demand support unchanged; cost execution remains important",
+          "summary": "Construction and service inflation reinforce the need to verify contract pricing, program execution, margins, and cash conversion."
         },
         {
           "thesisId": "ai-platform-compute-semiconductors",
-          "impact": "slightly friendlier rate backdrop with higher infrastructure accountability",
-          "summary": "Valuations still require utilization and return-on-spend proof as grid costs shift toward large-load customers."
+          "impact": "slightly friendlier headline rate backdrop with persistent infrastructure costs",
+          "summary": "Valuations still require utilization and return-on-spend proof as core producer and construction costs remain elevated."
         },
         {
           "thesisId": "medical-tools-specialty-device-compounders",
           "impact": "modest duration relief; company evidence remains primary",
-          "summary": "The CPI composition helps at the margin, while procedure demand, lab budgets, margins, and guidance remain decisive."
+          "summary": "The headline helps at the margin, while procedure demand, lab budgets, input costs, margins, and guidance remain decisive."
         }
       ],
-      "portfolioRead": "No allocation instruction follows from an in-line CPI print. The report modestly improves the rate-sensitive backdrop, but it does not erase restrictive long yields, current oil-shipping uncertainty, or the portfolio's shared real-assets factor. Energy and security holdings retain macro support while remaining exposed to de-escalation; AI and grid holdings retain structural demand while facing stricter cost allocation and permitting scrutiny. Continue separating contracted demand and free-cash-flow conversion from spot beta and multiple expansion.",
+      "portfolioRead": "No allocation instruction follows from one benign headline PPI print. The release modestly improves the rate-sensitive backdrop, but underlying producer inflation, construction costs, restrictive yields, and the portfolio's shared real-assets factor remain material. Energy holdings face downside if lower oil persists; AI, grid, defense, and industrial holdings still need contracted pricing and free-cash-flow conversion to absorb elevated project costs. Continue separating headline disinflation from durable margin and cash-flow evidence.",
       "sourceNotes": [
         {
-          "id": "bls-july-cpi-2026",
-          "title": "BLS: Consumer Price Index Summary, July 2026",
-          "url": "https://www.bls.gov/news.release/cpi.nr0.htm",
-          "usedFor": "Official headline, core, shelter, food, energy, gasoline, medical-care, and year-over-year inflation readings.",
+          "id": "bls-july-ppi-2026",
+          "title": "BLS: Producer Price Indexes, July 2026",
+          "url": "https://www.bls.gov/news.release/ppi.htm",
+          "usedFor": "Official headline, core, services, construction, energy, gasoline, food, and freight producer-price readings.",
           "trustNote": "Primary statistical source."
         },
         {
-          "id": "ap-indexes-2026-08-11",
-          "title": "AP: How major US stock indexes fared Tuesday",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-e5e8f3360f8d30714778761e3a483347",
-          "usedFor": "Tuesday index closes, Brent close and range, and oil-flow uncertainty before CPI.",
-          "trustNote": "Independent market-close reporting; treated as untrusted research input."
+          "id": "ap-markets-2026-08-13",
+          "title": "AP: US stocks tick toward records as oil prices drop and inflation gets less bad",
+          "url": "https://apnews.com/article/stock-markets-ai-semiconductors-fed-energy-3a23f22469cd0e0062f711096906525c",
+          "usedFor": "Contemporaneous equity and oil market reaction to July PPI.",
+          "trustNote": "Independent market reporting; treated as untrusted research input."
         },
         {
-          "id": "virginia-grid-cost-2026-08-06",
-          "title": "Tom's Hardware: Virginia requires data centers to fund dedicated upstream electrical infrastructure",
-          "url": "https://www.tomshardware.com/tech-industry/data-centers/after-severe-76-percent-electricity-price-hikes-due-to-ai-data-centers-virginia-requires-firms-to-pay-for-all-dedicated-upstream-electrical-infrastructure-state-regulators-crack-down-governor-says-move-will-save-civilians-hundreds-of-millions-of-dollars",
-          "usedFor": "Current grid-cost allocation and project-economics risk for data-center load.",
-          "trustNote": "Secondary reporting; regulatory claims should be verified against the underlying order before decision use."
+          "id": "eia-wpsr-2026-08-12",
+          "title": "EIA: Weekly Petroleum Status Report for week ended August 7, 2026",
+          "url": "https://www.eia.gov/petroleum/supply/weekly/",
+          "usedFor": "Confirmation that the latest official petroleum release is current; detailed physical-flow claims were not inferred from the landing page.",
+          "trustNote": "Primary government source; latest release date verified."
         },
         {
           "id": "internal-portfolio-review-2026-08-10",
@@ -57924,17 +57916,17 @@
           "title": "Internal investing input health",
           "url": "memory/investing/input-health.json",
           "usedFor": "Research-input coverage and limitations.",
-          "trustNote": "Internal status is watch despite zero current actionable fetch failures."
+          "trustNote": "Internal status is watch with no current actionable fetch failures."
         },
         {
           "id": "internal-allocation-targets-2026-06-06",
           "title": "Internal allocation targets",
           "url": "memory/investing/allocation-targets/latest.json",
           "usedFor": "Sleeve targets, overweight flags, and ballast context.",
-          "trustNote": "Includes four stale target flags and is used cautiously."
+          "trustNote": "Contains stale target flags and is used cautiously."
         }
       ],
-      "discussionPrompt": "After an in-line CPI print, which holdings benefit from genuinely lower financing pressure and contracted demand—and where do current oil risk and data-center grid-cost allocation still threaten margins, project returns, or the portfolio's 61.86% shared real-assets factor?",
+      "discussionPrompt": "Does July's headline PPI relief translate into genuinely lower financing and input pressure for portfolio holdings, or do 0.4% underlying producer inflation and the 2.2% construction jump keep margins, project returns, and the 61.86% shared real-assets factor as the more important evidence?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -80140,16 +80132,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-12T13:15:00.000Z",
-      "lastRunAt": "2026-08-11T13:15:00.019Z",
+      "nextRunAt": "2026-08-13T13:15:00.000Z",
+      "lastRunAt": "2026-08-12T13:15:00.019Z",
       "lastStatus": "ok",
-      "lastDuration": "17s",
+      "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-08-11T13:15:17.189Z"
+      "updatedAt": "2026-08-12T13:15:16.161Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -80167,16 +80159,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-08-12T14:00:00.000Z",
-      "lastRunAt": "2026-08-11T14:00:00.037Z",
+      "nextRunAt": "2026-08-13T14:00:00.000Z",
+      "lastRunAt": "2026-08-12T14:00:00.024Z",
       "lastStatus": "ok",
-      "lastDuration": "21s",
+      "lastDuration": "18s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-08-11T14:00:21.373Z"
+      "updatedAt": "2026-08-12T14:00:17.977Z"
     },
     {
       "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
@@ -80194,43 +80186,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-12T16:00:00.000Z",
-      "lastRunAt": "2026-08-11T16:00:00.018Z",
+      "nextRunAt": "2026-08-13T16:00:00.000Z",
+      "lastRunAt": "2026-08-12T16:00:00.024Z",
       "lastStatus": "ok",
-      "lastDuration": "4ms",
+      "lastDuration": "5ms",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-08-11T16:00:00.022Z"
-    },
-    {
-      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
-      "name": "alphalpha-dashboard-weekly-improvement",
-      "description": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 11 * * 3",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-08-12T16:30:00.000Z",
-      "lastRunAt": "2026-08-05T16:30:00.032Z",
-      "lastStatus": "ok",
-      "lastDuration": "3m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
-      "updatedAt": "2026-08-05T16:33:27.958Z"
+      "updatedAt": "2026-08-12T16:00:00.029Z"
     },
     {
       "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
@@ -80248,16 +80213,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-12T17:00:00.000Z",
-      "lastRunAt": "2026-08-11T17:00:00.028Z",
+      "nextRunAt": "2026-08-13T17:00:00.000Z",
+      "lastRunAt": "2026-08-12T17:00:00.027Z",
       "lastStatus": "ok",
-      "lastDuration": "4m",
+      "lastDuration": "5m",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-08-11T17:03:36.869Z"
+      "updatedAt": "2026-08-12T17:04:46.308Z"
     },
     {
       "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
@@ -80276,16 +80241,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-12T17:19:54.973Z",
-      "lastRunAt": "2026-08-12T11:19:55.002Z",
+      "nextRunAt": "2026-08-13T17:19:54.973Z",
+      "lastRunAt": "2026-08-13T11:19:54.992Z",
       "lastStatus": "ok",
-      "lastDuration": "2m",
+      "lastDuration": "21s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-08-12T11:21:46.706Z"
+      "updatedAt": "2026-08-13T11:20:16.488Z"
     },
     {
       "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
@@ -80304,43 +80269,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-13T11:20:16.390Z",
-      "lastRunAt": "2026-08-12T11:21:48.750Z",
-      "lastStatus": "error",
-      "lastDuration": "19s",
-      "consecutiveErrors": 1,
-      "consecutiveSkipped": 0,
-      "pendingValidation": true,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-08-12T11:22:08.056Z"
-    },
-    {
-      "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
-      "name": "events-four-day-crawl",
-      "description": "Austin event crawl plus compact event manifest generation every four days",
-      "category": "events",
-      "enabled": true,
-      "schedule": {
-        "kind": "every",
-        "everyMs": 345600000,
-        "anchorMs": 1778328000000
-      },
-      "scheduleLabel": "every 96h",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-13T12:00:00.107Z",
-      "lastRunAt": "2026-08-09T12:00:00.107Z",
+      "nextRunAt": "2026-08-14T11:20:16.390Z",
+      "lastRunAt": "2026-08-13T11:20:18.539Z",
       "lastStatus": "ok",
-      "lastDuration": "1m",
+      "lastDuration": "22s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
-      "summary": "Austin event crawl plus compact event manifest generation every four days",
-      "updatedAt": "2026-08-09T12:01:28.293Z"
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-08-13T11:20:41.002Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
@@ -80425,6 +80363,33 @@
       "deleteAfterRun": false,
       "summary": "Monthly review of trade outcomes and decision-process patterns after 60–90 days.",
       "updatedAt": "2026-07-29T23:33:27.462Z"
+    },
+    {
+      "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
+      "name": "events-four-day-crawl",
+      "description": "Austin event crawl plus compact event manifest generation every four days",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 345600000,
+        "anchorMs": 1778328000000
+      },
+      "scheduleLabel": "every 96h",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-17T12:00:00.126Z",
+      "lastRunAt": "2026-08-13T12:00:00.126Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Austin event crawl plus compact event manifest generation every four days",
+      "updatedAt": "2026-08-13T12:01:26.111Z"
     },
     {
       "id": "fc6d6869-f92b-4868-84e9-dfd3621c95da",
@@ -80581,6 +80546,33 @@
       "deleteAfterRun": false,
       "summary": "One weekly approval-first podcast candidate scan and transcript contribution review.",
       "updatedAt": "2026-08-10T15:03:52.037Z"
+    },
+    {
+      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
+      "name": "alphalpha-dashboard-weekly-improvement",
+      "description": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 11 * * 3",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-08-19T16:30:00.000Z",
+      "lastRunAt": "2026-08-12T16:30:00.018Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
+      "updatedAt": "2026-08-12T16:33:34.863Z"
     },
     {
       "id": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
@@ -80826,7 +80818,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-12T13:15:11.990Z",
+      "generatedAt": "2026-08-13T13:15:10.834Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80857,7 +80849,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-12T13:15:11.990Z",
+      "generatedAt": "2026-08-13T13:15:10.834Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80888,7 +80880,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-12T13:15:11.990Z",
+      "generatedAt": "2026-08-13T13:15:10.834Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80919,7 +80911,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-12T13:15:11.990Z",
+      "generatedAt": "2026-08-13T13:15:10.834Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81415,7 +81407,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 51327 active words; 9405 words archived.",
@@ -81426,10 +81418,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
-      "title": "Austin events: 13 family / 83 music latest",
-      "summary": "2 crawl artifacts indexed · 3d old · memory/events/latest-manifest.json",
+      "title": "Austin events: 8 family / 71 music latest",
+      "summary": "2 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81437,7 +81429,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -81448,7 +81440,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -81459,10 +81451,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 16d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 17d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81470,7 +81462,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "Automations: 17 enabled / 6 paused",
       "summary": "23 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -81481,10 +81473,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@eba3ea6 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@82c5482 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81492,10 +81484,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 78d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 79d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81503,7 +81495,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-08-12",
+      "date": "2026-08-13",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
