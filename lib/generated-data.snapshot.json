@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-08-13T17:03:20.569Z",
+    "generatedAt": "2026-08-14T17:03:05.533Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "82c5482",
+      "commit": "dc3fa9f",
       "branch": "main",
-      "generatedAt": "2026-08-13T17:03:20.585Z",
+      "generatedAt": "2026-08-14T17:03:05.547Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-08-13T13:15:10.671Z",
+      "generatedAt": "2026-08-14T13:15:10.464Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 60732,
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "5h old",
+        "age": "1d old",
         "summary": "8 family / 71 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "17d old",
+        "age": "18d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -205,6 +205,10 @@
         "detail": "23 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
+          {
+            "label": "sync-obsidian-snipd-to-thesis-baskets",
+            "value": "enabled · error · next 2026-08-15T11:20:16.390Z"
+          },
           {
             "label": "agentic-os-question-cadence",
             "value": "paused · error · next n/a"
@@ -239,7 +243,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@82c5482 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@dc3fa9f · Obsidian vault: main@f014ffc · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,11 +252,11 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@82c5482 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@dc3fa9f · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@111ddcc · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@f014ffc · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -266,7 +270,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "79d old",
+        "age": "80d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -57693,53 +57697,70 @@
     },
     "investingDailyMarketBrief": {
       "schemaVersion": 1,
-      "generatedAt": "2026-08-13T17:00:00.000Z",
-      "publishedAt": "2026-08-13T17:00:00.000Z",
+      "generatedAt": "2026-08-14T17:00:00.000Z",
+      "publishedAt": "2026-08-14T17:00:00.000Z",
       "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / PPI headline relief is real but underlying services and construction pressure needs confirmation / no trade recommendation",
-      "mainDriver": "Official July PPI was unchanged month over month and slowed to 4.7% year over year as energy goods fell, but the less-food-energy-trade measure accelerated 0.4% in July and also stood at 4.7% year over year.",
-      "portfolioImplication": "Headline PPI and falling oil support rate-sensitive AI, grid, healthcare, and bond sleeves at the margin, but firm core producer prices, a 2.2% construction jump, and the portfolio's 61.86% macro-security/real-assets concentration argue against treating the relief as a broad valuation reset.",
+      "actionPosture": "observe / weak retail demand adds a growth warning while sticky inflation expectations and oil constrain the rate-relief read / no trade recommendation",
+      "mainDriver": "July retail sales fell 0.6% month over month, including a 0.4% decline in the GDP-linked control group, while preliminary August consumer sentiment fell 8% and near-term inflation expectations edged higher.",
+      "portfolioImplication": "The growth warning modestly supports duration-sensitive AI, grid, healthcare, and bond sleeves through lower short-rate expectations, but weak demand, Brent near $88, sticky inflation expectations, and the portfolio's 61.86% macro-security/real-assets concentration keep the signal two-sided.",
       "changedSincePrevious": [
-        "July PPI is now observed: final demand was unchanged month over month and slowed to 4.7% year over year, extending the headline relief from CPI.",
-        "The inflation composition is less benign than the headline: PPI less foods, energy, and trade services rose 0.4% after 0.1% in June and remained 4.7% higher year over year.",
-        "Producer energy prices fell 3.1%, led by a 5.7% gasoline decline, while services rose 0.2% and construction rose 2.2%.",
-        "Equities moved toward records and oil eased after the release, but the confirmation test shifts to yields, services inflation, construction costs, and whether lower energy prices persist.",
-        "The internal portfolio and allocation boundaries are unchanged: $297,443.70 equity, $913 cash, and 61.86% in the macro-security/real-assets overlay."
+        "The main macro test shifted from producer prices to demand: July retail sales fell 0.6%, the largest decline in more than a year, versus expectations for a small increase.",
+        "The weakness was not only autos: sales excluding gas stations and auto dealers fell 0.2%, and the GDP-linked control group fell 0.4%.",
+        "Preliminary August consumer sentiment fell 8% to roughly 51 after two months of improvement, while reported one-year inflation expectations ticked up to 4.3% and longer-run expectations held at 3.3%.",
+        "Oil reversed part of Thursday's relief, with Brent around $88 amid unresolved Persian Gulf shipping uncertainty, limiting the clean disinflation interpretation.",
+        "The internal portfolio boundary is unchanged: $297,443.70 equity, $913 cash, 61.86% in the macro-security/real-assets overlay, and stale allocation-target warnings."
       ],
-      "headline": "PPI headline cools, but core services and construction keep the inflation test open",
-      "summary": "This is an observation layer, not a trade signal. Look past the unchanged headline PPI as proof that pipeline inflation has cleared: lower energy and food prices masked a 0.4% rise in the less-food-energy-trade measure, 0.2% services inflation, and a 2.2% construction increase. Pay attention to Treasury follow-through, sustained oil and freight relief, and whether construction and service costs pressure AI, grid, industrial, defense, and healthcare project economics. Internally, the controlling boundary remains $297,443.70 of equity, only $913 of cash, and 61.86% in the macro-security/real-assets overlay.",
+      "headline": "Consumer demand cracks while oil and inflation expectations keep stagflation risk alive",
+      "summary": "This is an observation layer, not a trade signal. Look past one weak retail report as proof of recession because Prime Day timing, autos, and nominal gasoline effects distorted July and restaurant spending still rose. Also look past the initial rate-relief interpretation: consumer sentiment weakened, near-term inflation expectations remained above 4%, and oil rebounded. Pay attention to whether weakness broadens into services, employment, earnings guidance, credit, and free-cash-flow conversion. The portfolio's limited cash and 61.86% shared macro-security/real-assets exposure remain the controlling internal risk boundaries.",
       "marketDrivers": [
         {
-          "id": "july-ppi-mixed-disinflation",
-          "title": "Headline PPI relief masks firmer underlying pressure",
-          "summary": "BLS reported final-demand PPI unchanged in July and up 4.7% year over year, while the less-food-energy-trade measure rose 0.4% month over month and 4.7% year over year.",
-          "direction": "modest-duration-relief-with-core-inflation-caveat",
+          "id": "july-retail-demand-air-pocket",
+          "title": "July retail sales deliver a broader demand warning",
+          "summary": "Retail and food-services sales fell 0.6% month over month; excluding gas stations and autos they fell 0.2%, while the control group used in GDP estimates fell 0.4%.",
+          "direction": "growth-warning-with-modest-short-rate-relief",
           "evidenceQuality": "high",
-          "sourceCount": 1,
+          "sourceCount": 2,
           "relatedTheses": [
             "broad-market-cash-bonds-allocation-wrappers",
-            "ai-power-infrastructure",
-            "ai-platform-compute-semiconductors",
-            "medical-tools-specialty-device-compounders"
+            "healthcare-quality-compounders",
+            "ai-platform-compute-semiconductors"
           ],
           "relatedSymbols": [
             "BND",
             "IEF",
-            "PWR",
-            "GEV",
             "MSFT",
             "DHR",
             "BSX"
           ]
         },
         {
-          "id": "energy-goods-relief",
-          "title": "Producer energy prices provide near-term inflation relief",
-          "summary": "Final-demand energy fell 3.1% in July, with gasoline down 5.7%; current market reporting also showed oil easing, though geopolitical flow risk remains unresolved.",
-          "direction": "near-term-disinflation-and-two-sided-energy-beta",
-          "evidenceQuality": "high",
+          "id": "consumer-sentiment-inflation-squeeze",
+          "title": "Sentiment falls while near-term inflation expectations stay elevated",
+          "summary": "Preliminary August sentiment fell about 8% to roughly 51; current reporting places one-year inflation expectations at 4.3% and five-to-ten-year expectations at 3.3%.",
+          "direction": "stagflationary-consumer-squeeze",
+          "evidenceQuality": "medium-high",
           "sourceCount": 2,
+          "relatedTheses": [
+            "broad-market-cash-bonds-allocation-wrappers",
+            "quality-income-ballast",
+            "healthcare-quality-compounders"
+          ],
+          "relatedSymbols": [
+            "BND",
+            "IEF",
+            "VIG",
+            "SCHD",
+            "DHR"
+          ]
+        },
+        {
+          "id": "oil-geopolitical-reversal",
+          "title": "Oil reverses part of the disinflation relief",
+          "summary": "Brent was reported around $88, up about 1.1%, as uncertainty persisted over free tanker passage from the Persian Gulf.",
+          "direction": "inflation-upside-and-energy-beta-support",
+          "evidenceQuality": "medium",
+          "sourceCount": 1,
           "relatedTheses": [
             "energy-demand-infrastructure-tollbooths",
             "macro-security-real-assets-pillar"
@@ -57754,30 +57775,9 @@
           ]
         },
         {
-          "id": "construction-services-pressure",
-          "title": "Construction and service costs remain the project-economics test",
-          "summary": "Final-demand construction rose 2.2% and services rose 0.2%; services excluding trade, transportation, and warehousing rose 0.6%, keeping margin and financing pressure relevant for capital-intensive theses.",
-          "direction": "execution-and-margin-headwind",
-          "evidenceQuality": "high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "ai-power-infrastructure",
-            "rearmament-aerospace-defense",
-            "critical-materials-defense-infrastructure"
-          ],
-          "relatedSymbols": [
-            "PWR",
-            "GEV",
-            "ETN",
-            "XAR",
-            "RTX",
-            "GD"
-          ]
-        },
-        {
           "id": "portfolio-factor-concentration",
           "title": "Portfolio concentration remains the controlling internal boundary",
-          "summary": "The latest internal review reports $297,443.70 of equity, $913 of cash, and 61.86% in the macro-security/real-assets overlay; the latest allocation artifact also carries stale-target warnings.",
+          "summary": "The latest internal review reports $297,443.70 equity, $913 cash, and 61.86% in the macro-security/real-assets overlay; allocation targets include stale-target warnings.",
           "direction": "concentration-and-liquidity-risk",
           "evidenceQuality": "high",
           "sourceCount": 3,
@@ -57797,118 +57797,137 @@
       ],
       "lookPast": [
         {
-          "id": "ppi-mission-accomplished",
-          "title": "Unchanged headline PPI as proof pipeline inflation is solved",
-          "reason": "The preferred underlying measure rose 0.4% and construction prices jumped 2.2%."
+          "id": "single-month-recession-call",
+          "title": "One weak retail month as proof of recession",
+          "reason": "Prime Day timing, autos, and nominal fuel prices affected July, while restaurant spending still rose 0.5%."
+        },
+        {
+          "id": "automatic-rate-relief",
+          "title": "Weak demand as automatic broad valuation relief",
+          "reason": "Near-term inflation expectations remain elevated, oil rebounded, and the long end still determines financing pressure."
         },
         {
           "id": "record-index-confirmation",
-          "title": "A record-index move as confirmation of durable valuation relief",
-          "reason": "Yield follow-through and earnings conversion matter more than the first market reaction."
+          "title": "Near-record indexes as proof the macro mix is benign",
+          "reason": "Earnings conversion and credit conditions carry more evidence than a narrow index reaction."
         },
         {
-          "id": "oil-one-day-relief",
-          "title": "One day of lower oil as a resolved supply regime",
-          "reason": "Sustained prices, shipping, insurance, inventories, and realized exports carry more evidence."
-        },
-        {
-          "id": "theme-wide-benefit",
-          "title": "Lower headline inflation as equal upside for every capital-intensive holding",
-          "reason": "Construction, labor, financing, permitting, and customer economics determine company-level capture."
+          "id": "oil-one-day-direction",
+          "title": "A one-day oil move as a durable supply signal",
+          "reason": "Shipping access, insurance, inventories, exports, and sustained prices matter more than daily volatility."
         }
       ],
       "payAttention": [
         {
-          "id": "yield-follow-through",
-          "title": "Two-year and 10-year Treasury follow-through",
-          "reason": "Persistent relief would lower hurdle rates; a sticky long end would keep financing-heavy projects constrained."
+          "id": "consumer-breadth",
+          "title": "Services spending, payrolls, credit stress, and retailer guidance",
+          "reason": "These will show whether July was timing noise or a broader household-demand slowdown."
         },
         {
-          "id": "core-producer-prices",
-          "title": "Core services and construction inflation",
-          "reason": "These are the less-benign parts of July PPI and can pressure margins and project returns."
+          "id": "yield-curve-follow-through",
+          "title": "Two-year and 10-year Treasury follow-through",
+          "reason": "Short-rate relief paired with a sticky long end would not materially improve capital-intensive project economics."
+        },
+        {
+          "id": "inflation-expectations",
+          "title": "Market- and survey-based inflation expectations",
+          "reason": "A renewed rise alongside weaker demand would reinforce the adverse stagflation mix."
         },
         {
           "id": "physical-energy",
-          "title": "Oil prices, vessel traffic, insurance, inventories, and realized exports",
-          "reason": "These distinguish durable energy relief from a temporary risk-premium reversal."
+          "title": "Oil prices, tanker passage, insurance, inventories, and realized exports",
+          "reason": "These distinguish geopolitical risk premium from durable physical tightness."
         },
         {
           "id": "earnings-conversion",
           "title": "Backlog, pricing, margins, guidance, and free-cash-flow conversion",
-          "reason": "These remain the proof points for AI, grid, defense, industrial, and healthcare holdings."
+          "reason": "AI, grid, defense, industrial, and healthcare theses still require company-level proof."
         },
         {
           "id": "portfolio-overlap",
           "title": "Cross-sleeve correlation and cash availability",
-          "reason": "The 61.86% overlay and $913 cash balance leave limited resilience if shared real-assets factors reverse."
+          "reason": "A 61.86% overlay and $913 cash balance reduce resilience if real-assets factors reverse together."
         }
       ],
       "thesisImpacts": [
         {
           "thesisId": "broad-market-cash-bonds-allocation-wrappers",
-          "impact": "modest support from headline producer-price relief",
-          "summary": "The unchanged headline helps, but core producer inflation and construction costs make Treasury follow-through decisive."
+          "impact": "mixed: softer growth supports short-rate relief but inflation and long-yield risk persist",
+          "summary": "Retail weakness is bond-supportive at the margin, but oil and elevated inflation expectations prevent a clean duration signal."
         },
         {
           "thesisId": "ai-power-infrastructure",
-          "impact": "rate relief helps while construction pressure sharpens execution risk",
-          "summary": "Structural demand remains intact, but contracted pricing, labor, equipment, permitting, and customer returns deserve greater weight."
+          "impact": "rate sensitivity improves slightly while demand and project-economics scrutiny rises",
+          "summary": "Structural electricity demand remains intact, but financing, contracted pricing, backlog quality, and customer returns matter more in a slowing-growth mix."
         },
         {
           "thesisId": "energy-demand-infrastructure-tollbooths",
-          "impact": "near-term spot support softens while toll-booth quality remains primary",
-          "summary": "Lower producer energy and gasoline prices reduce immediate inflation pressure but expose commodity-beta holdings to de-escalation risk."
+          "impact": "geopolitical oil support returns but remains volatile",
+          "summary": "Brent's rebound helps commodity beta while reinforcing the preference for durable throughput and contracted cash flows over spot-price extrapolation."
         },
         {
           "thesisId": "macro-security-real-assets-pillar",
-          "impact": "geopolitical support persists alongside concentration and oil-reversal risk",
-          "summary": "The portfolio already has 61.86% exposure to the overlay, so lower oil is portfolio-relevant even if physical uncertainty persists."
-        },
-        {
-          "thesisId": "rearmament-aerospace-defense",
-          "impact": "demand support unchanged; cost execution remains important",
-          "summary": "Construction and service inflation reinforce the need to verify contract pricing, program execution, margins, and cash conversion."
+          "impact": "geopolitical support persists alongside concentration risk",
+          "summary": "The thesis remains supported by physical uncertainty, but 61.86% portfolio exposure makes any de-escalation or oil reversal consequential."
         },
         {
           "thesisId": "ai-platform-compute-semiconductors",
-          "impact": "slightly friendlier headline rate backdrop with persistent infrastructure costs",
-          "summary": "Valuations still require utilization and return-on-spend proof as core producer and construction costs remain elevated."
+          "impact": "modest rate relief offset by demand and valuation sensitivity",
+          "summary": "Consumer weakness does not invalidate enterprise AI demand, but utilization, return on spend, margins, and free cash flow remain necessary proof."
         },
         {
-          "thesisId": "medical-tools-specialty-device-compounders",
-          "impact": "modest duration relief; company evidence remains primary",
-          "summary": "The headline helps at the margin, while procedure demand, lab budgets, input costs, margins, and guidance remain decisive."
+          "thesisId": "healthcare-quality-compounders",
+          "impact": "defensive quality gains relevance without escaping rate and budget pressure",
+          "summary": "Procedure demand, lab budgets, reimbursement, margins, and guidance remain more important than one macro print."
+        },
+        {
+          "thesisId": "rearmament-aerospace-defense",
+          "impact": "demand support unchanged; cost and cash conversion remain primary",
+          "summary": "Consumer weakness has little direct effect, while oil, inflation, contract pricing, execution, and program cash flow remain material."
         }
       ],
-      "portfolioRead": "No allocation instruction follows from one benign headline PPI print. The release modestly improves the rate-sensitive backdrop, but underlying producer inflation, construction costs, restrictive yields, and the portfolio's shared real-assets factor remain material. Energy holdings face downside if lower oil persists; AI, grid, defense, and industrial holdings still need contracted pricing and free-cash-flow conversion to absorb elevated project costs. Continue separating headline disinflation from durable margin and cash-flow evidence.",
+      "portfolioRead": "No allocation instruction follows from one weak retail report. The data add a credible consumer-growth warning, but timing distortions and still-positive restaurant spending argue for confirmation. Meanwhile, oil near $88 and elevated inflation expectations constrain broad duration relief. Given only $913 cash and 61.86% exposure to the macro-security/real-assets overlay, the key portfolio question is whether shared factor exposure remains resilient if growth slows without a matching decline in long yields or energy prices.",
       "sourceNotes": [
         {
-          "id": "bls-july-ppi-2026",
-          "title": "BLS: Producer Price Indexes, July 2026",
-          "url": "https://www.bls.gov/news.release/ppi.htm",
-          "usedFor": "Official headline, core, services, construction, energy, gasoline, food, and freight producer-price readings.",
-          "trustNote": "Primary statistical source."
+          "id": "census-july-retail-2026",
+          "title": "U.S. Census Bureau: Monthly Retail Trade - Sales Report",
+          "url": "https://www.census.gov/retail/sales.html",
+          "usedFor": "Primary retail-sales framework and official release surface; current July figures cross-checked through contemporaneous reporting because the indexed page lagged.",
+          "trustNote": "Primary government source; current-page indexing may lag the release."
         },
         {
-          "id": "ap-markets-2026-08-13",
-          "title": "AP: US stocks tick toward records as oil prices drop and inflation gets less bad",
-          "url": "https://apnews.com/article/stock-markets-ai-semiconductors-fed-energy-3a23f22469cd0e0062f711096906525c",
-          "usedFor": "Contemporaneous equity and oil market reaction to July PPI.",
+          "id": "ap-retail-sales-2026-08-14",
+          "title": "AP: US retail sales slump unexpectedly and sharply",
+          "url": "https://apnews.com/article/3e2bc5807d7396b8e6c5f599941cb2a9",
+          "usedFor": "July headline, ex-auto/gas, control-group, category, and context details.",
+          "trustNote": "Independent reporting citing Commerce Department data; treated as untrusted research input."
+        },
+        {
+          "id": "umich-august-2026",
+          "title": "University of Michigan Surveys of Consumers",
+          "url": "https://data.sca.isr.umich.edu/",
+          "usedFor": "Primary survey source and release context.",
+          "trustNote": "Primary survey source; current indexed extract lagged the August page."
+        },
+        {
+          "id": "axios-sentiment-2026-08-14",
+          "title": "Axios: Consumer sentiment dips, especially among Republicans",
+          "url": "https://www.axios.com/2026/08/14/consumer-sentiment-republicans",
+          "usedFor": "Contemporaneous confirmation of the 8% preliminary August sentiment decline and demographic breadth.",
+          "trustNote": "Independent reporting; treated as untrusted research input."
+        },
+        {
+          "id": "ap-markets-2026-08-14",
+          "title": "AP: Wall Street holds near its record following weak retail data",
+          "url": "https://apnews.com/article/5d9870d6c5ae735f9b74bf4ceefaa3ec",
+          "usedFor": "Market reaction, short-yield direction, Brent price, and Persian Gulf shipping context.",
           "trustNote": "Independent market reporting; treated as untrusted research input."
-        },
-        {
-          "id": "eia-wpsr-2026-08-12",
-          "title": "EIA: Weekly Petroleum Status Report for week ended August 7, 2026",
-          "url": "https://www.eia.gov/petroleum/supply/weekly/",
-          "usedFor": "Confirmation that the latest official petroleum release is current; detailed physical-flow claims were not inferred from the landing page.",
-          "trustNote": "Primary government source; latest release date verified."
         },
         {
           "id": "internal-portfolio-review-2026-08-10",
           "title": "Internal portfolio thesis review",
           "url": "memory/investing/portfolio-thesis-review/latest.json",
-          "usedFor": "Current equity, cash, overlay weight, conviction, and holdings context.",
+          "usedFor": "Current equity, cash, overlay weight, holdings, and thesis context.",
           "trustNote": "Internal artifact refreshed 2026-08-10."
         },
         {
@@ -57926,7 +57945,7 @@
           "trustNote": "Contains stale target flags and is used cautiously."
         }
       ],
-      "discussionPrompt": "Does July's headline PPI relief translate into genuinely lower financing and input pressure for portfolio holdings, or do 0.4% underlying producer inflation and the 2.2% construction jump keep margins, project returns, and the 61.86% shared real-assets factor as the more important evidence?",
+      "discussionPrompt": "Is July's retail weakness a temporary timing air pocket, or the start of a broader slowdown that leaves the portfolio exposed to the least favorable combination: softer growth, sticky long yields, volatile oil, and 61.86% shared macro-security/real-assets exposure?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -79404,7 +79423,7 @@
         "label": "Article queue",
         "kind": "articles",
         "path": "obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md",
-        "updatedAt": "2026-08-07T13:02:36.075Z",
+        "updatedAt": "2026-08-14T13:02:14.884Z",
         "items": [
           {
             "id": "articles-1-a-subway-company-solved-ai-s-business-model",
@@ -79594,7 +79613,20 @@
             "themes": []
           },
           {
-            "id": "articles-13-the-mosquito-strategy",
+            "id": "articles-13-the-fall-and-rise-of-screwworm",
+            "title": "The Fall and Rise of Screwworm",
+            "status": "weekly-pick-2026-08-14",
+            "priority": "high",
+            "creator": "Brian Potter",
+            "source": "Construction Physics",
+            "link": "https://www.construction-physics.com/p/the-fall-and-rise-of-screwworm",
+            "why": "--- title: The Fall and Rise of Screwworm source: Construction Physics author: Brian Potter published: 2026-07-03 added: 2026-08-14 status: weekly-pick-2026-08-14 priority: high themes: [science, biosecurity, infrastruct",
+            "added": "2026-08-14",
+            "notes": null,
+            "themes": []
+          },
+          {
+            "id": "articles-14-the-mosquito-strategy",
             "title": "The Mosquito Strategy",
             "status": "queued-dry-run",
             "priority": "3",
@@ -79612,7 +79644,7 @@
           }
         ],
         "needsClarification": [],
-        "summary": "13 candidates · weekly pick source"
+        "summary": "14 candidates · weekly pick source"
       },
       {
         "id": "shows",
@@ -80132,180 +80164,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-08-13T13:15:00.000Z",
-      "lastRunAt": "2026-08-12T13:15:00.019Z",
-      "lastStatus": "ok",
-      "lastDuration": "16s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-08-12T13:15:16.161Z"
-    },
-    {
-      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
-      "name": "Investing OS thesis/price watch",
-      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 2-6",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 2-6 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-08-13T14:00:00.000Z",
-      "lastRunAt": "2026-08-12T14:00:00.024Z",
+      "nextRunAt": "2026-08-14T13:15:00.000Z",
+      "lastRunAt": "2026-08-13T13:15:00.027Z",
       "lastStatus": "ok",
       "lastDuration": "18s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
-      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-08-12T14:00:17.977Z"
-    },
-    {
-      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
-      "name": "almanac-generator",
-      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 11 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 11 * * * (America/Chicago)",
-      "sessionTarget": "main",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-13T16:00:00.000Z",
-      "lastRunAt": "2026-08-12T16:00:00.024Z",
-      "lastStatus": "ok",
-      "lastDuration": "5ms",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-08-12T16:00:00.029Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-13T17:00:00.000Z",
-      "lastRunAt": "2026-08-12T17:00:00.027Z",
-      "lastStatus": "ok",
-      "lastDuration": "5m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-08-12T17:04:46.308Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-13T17:19:54.973Z",
-      "lastRunAt": "2026-08-13T11:19:54.992Z",
-      "lastStatus": "ok",
-      "lastDuration": "21s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-08-13T11:20:16.488Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-08-14T11:20:16.390Z",
-      "lastRunAt": "2026-08-13T11:20:18.539Z",
-      "lastStatus": "ok",
-      "lastDuration": "22s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-08-13T11:20:41.002Z"
-    },
-    {
-      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-      "name": "weekly-recommended-article",
-      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * 5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-08-14T13:00:00.000Z",
-      "lastRunAt": "2026-08-07T13:00:00.022Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-08-07T13:03:47.526Z"
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-08-13T13:15:18.192Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
@@ -80333,6 +80201,143 @@
       "deleteAfterRun": false,
       "summary": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
       "updatedAt": "2026-08-07T13:32:52.617Z"
+    },
+    {
+      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
+      "name": "Investing OS thesis/price watch",
+      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 2-6",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-08-14T14:00:00.000Z",
+      "lastRunAt": "2026-08-13T14:00:00.018Z",
+      "lastStatus": "ok",
+      "lastDuration": "26s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "updatedAt": "2026-08-13T14:00:25.849Z"
+    },
+    {
+      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
+      "name": "almanac-generator",
+      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 11 * * * (America/Chicago)",
+      "sessionTarget": "main",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-14T16:00:00.000Z",
+      "lastRunAt": "2026-08-13T16:00:00.030Z",
+      "lastStatus": "ok",
+      "lastDuration": "7ms",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
+      "updatedAt": "2026-08-13T16:00:00.037Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-14T17:00:00.000Z",
+      "lastRunAt": "2026-08-13T17:00:00.034Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-08-13T17:04:13.911Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-14T17:19:54.973Z",
+      "lastRunAt": "2026-08-14T11:19:55.004Z",
+      "lastStatus": "ok",
+      "lastDuration": "23s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-08-14T11:20:17.819Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-08-15T11:20:16.390Z",
+      "lastRunAt": "2026-08-14T11:20:19.877Z",
+      "lastStatus": "error",
+      "lastDuration": "21s",
+      "consecutiveErrors": 1,
+      "consecutiveSkipped": 0,
+      "pendingValidation": true,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-08-14T11:20:40.564Z"
     },
     {
       "id": "911f5285-0182-4bb4-9f95-6b71c6742bd0",
@@ -80573,6 +80578,33 @@
       "deleteAfterRun": false,
       "summary": "Weekly bounded ideation and one verified Alphalpha Dashboard improvement.",
       "updatedAt": "2026-08-12T16:33:34.863Z"
+    },
+    {
+      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
+      "name": "weekly-recommended-article",
+      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-08-21T13:00:00.000Z",
+      "lastRunAt": "2026-08-14T13:00:00.033Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "updatedAt": "2026-08-14T13:04:18.536Z"
     },
     {
       "id": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
@@ -80818,7 +80850,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-13T13:15:10.834Z",
+      "generatedAt": "2026-08-14T13:15:10.587Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80849,7 +80881,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-13T13:15:10.834Z",
+      "generatedAt": "2026-08-14T13:15:10.587Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80880,7 +80912,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-13T13:15:10.834Z",
+      "generatedAt": "2026-08-14T13:15:10.587Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -80911,7 +80943,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-08-13T13:15:10.834Z",
+      "generatedAt": "2026-08-14T13:15:10.587Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -81407,7 +81439,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 51327 active words; 9405 words archived.",
@@ -81418,10 +81450,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Austin events: 8 family / 71 music latest",
-      "summary": "2 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81429,7 +81461,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -81440,7 +81472,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -81451,10 +81483,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 17d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 18d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81462,7 +81494,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Automations: 17 enabled / 6 paused",
       "summary": "23 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -81473,10 +81505,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@82c5482 · Obsidian vault: main@111ddcc · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@dc3fa9f · Obsidian vault: main@f014ffc · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81484,10 +81516,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 79d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 80d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -81495,7 +81527,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-08-13",
+      "date": "2026-08-14",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
