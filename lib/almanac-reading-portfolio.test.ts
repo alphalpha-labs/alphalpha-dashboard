@@ -63,10 +63,22 @@ describe("Almanac three-read portfolio", () => {
       candidate("evergreen-c", 10, 10, "Science Notes", ["science"]),
       { ...candidate("dated-a", 9.5, 10, "City Journal", ["cities"]), publishedAt: "2026-08-10" },
       { ...candidate("dated-b", 9.5, 10, "Public Square", ["religion"]), publishedAt: "2026-08-09" },
-    ]);
+    ], { targetDate: "2026-08-12" });
 
     expect(result.status).toBe("healthy");
     expect(result.datedReads).toBeGreaterThanOrEqual(2);
+  });
+
+  it("does not mistake old publication dates for timely reads", () => {
+    const result = selectReadingPortfolio([
+      candidate("anchor", 10, 10, "Civic Review", ["politics"]),
+      candidate("lens", 10, 10, "Culture Journal", ["culture"]),
+      { ...candidate("old", 10, 10, "Archive Review", ["history"]), publishedAt: "2022-08-10" },
+      { ...candidate("recent", 9.75, 10, "City Journal", ["cities"]), publishedAt: "2026-08-10" },
+    ], { targetDate: "2026-08-12" });
+
+    expect(result.selected.map((item: { id: string }) => item.id)).toContain("recent");
+    expect(result.selected.map((item: { id: string }) => item.id)).not.toContain("old");
   });
 
   it("maps selected candidates into a stable UI recommendation", () => {

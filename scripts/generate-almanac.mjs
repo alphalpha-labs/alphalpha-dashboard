@@ -1000,6 +1000,7 @@ async function tileArticle(feedbackWeights, recentIds, exposureLedger, contextFi
   const portfolio = selectReadingPortfolio(rankedCandidates, {
     minMinutes: 20,
     maxMinutes: 45,
+    targetDate,
   });
   const selectedCandidates = portfolio.selected.length >= 3
     ? portfolio.selected

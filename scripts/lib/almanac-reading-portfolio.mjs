@@ -51,6 +51,19 @@ function datedReadingCount(items) {
   return items.filter(item => item.publishedAt || item.date).length;
 }
 
+function freshnessFit(candidate, targetDate) {
+  const publishedAt = candidate.publishedAt || candidate.date;
+  if (!publishedAt || !targetDate) return 0;
+  const published = Date.parse(`${publishedAt}T00:00:00Z`);
+  const target = Date.parse(`${targetDate}T00:00:00Z`);
+  if (!Number.isFinite(published) || !Number.isFinite(target) || published > target) return 0;
+  const ageDays = Math.floor((target - published) / 86_400_000);
+  if (ageDays <= 14) return 1.5;
+  if (ageDays <= 45) return 0.75;
+  if (ageDays <= 180) return 0.25;
+  return -0.5;
+}
+
 function combinations(items, size) {
   const out = [];
   const visit = (start, selected) => {
@@ -72,6 +85,7 @@ export function selectReadingPortfolio(candidates = [], options = {}) {
     maxMinutes = 45,
     minimumScore = -4,
     poolSize = 14,
+    targetDate,
   } = options;
   const eligible = candidates
     .filter(candidate => candidate?.novelty?.eligible !== false)
@@ -95,10 +109,11 @@ export function selectReadingPortfolio(candidates = [], options = {}) {
       const totalMinutes = items.reduce((sum, item) => sum + item.readMinutes, 0);
       const uniqueSources = new Set(items.map(sourceKey).filter(Boolean)).size;
       const datedReads = datedReadingCount(items);
+      const freshnessScore = items.reduce((sum, item) => sum + freshnessFit(item, targetDate), 0);
       const score = items.reduce((sum, item) => sum + Number(item.score ?? 0), 0)
         + pairDiversity(items)
         + uniqueSources * 0.5
-        + datedReads * 0.75
+        + freshnessScore
         - (datedReads === 0 ? 2 : 0)
         - (totalMinutes < minMinutes ? (minMinutes - totalMinutes) * 2 : 0)
         - (totalMinutes > maxMinutes ? (totalMinutes - maxMinutes) * 2 : 0);
