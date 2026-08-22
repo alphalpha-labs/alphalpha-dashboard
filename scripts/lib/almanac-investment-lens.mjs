@@ -36,15 +36,18 @@ export function buildInvestmentLensCandidates({ marketBrief, ideaFarm, thesisRev
   const candidates = [];
 
   const change = [...(marketBrief?.changedSincePrevious || [])]
+    .map(c => typeof c === "string" ? { id: undefined, title: c, summary: c, severity: "watch" } : c)
     .sort((a, b) => (SEVERITY[b.severity] || 0) - (SEVERITY[a.severity] || 0))[0];
   if (change) {
     const attention = marketBrief.payAttention?.[0];
+    const changeTitle = change.title || change.summary || "Market change";
+    const changeSummary = change.summary || change.title || "Market change observation";
     candidates.push({
-      id: `thesis-update:${change.id}`,
+      id: `thesis-update:${change.id || String(changeTitle).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
       kind: "thesis-update",
       kicker: "Existing thesis development",
-      title: change.title,
-      observation: change.summary,
+      title: changeTitle,
+      observation: changeSummary,
       interpretation: marketBrief.portfolioImplication,
       openQuestion: attention?.reason || marketBrief.discussionPrompt,
       nextResearchAction: attention?.title || "Test whether this change persists beyond the first market reaction.",
