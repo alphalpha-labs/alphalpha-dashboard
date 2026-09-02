@@ -165,7 +165,7 @@ export function toReadingRecommendation(candidate, article) {
     title: article.title,
     dek: article.dek,
     why: article.why,
-    whyNow: article.sourceContext || article.why,
+    whyNow: article.why,
     publishedAt: article.publishedAt,
     freshnessLabel: article.freshnessLabel,
     sourceContext: article.sourceContext,

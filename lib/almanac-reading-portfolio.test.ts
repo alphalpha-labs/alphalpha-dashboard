@@ -90,11 +90,14 @@ describe("Almanac three-read portfolio", () => {
         title: "City limits",
         dek: "A reported essay.",
         why: "Useful for thinking about governance.",
+        sourceContext: "Independent reporting; published this week; ranked for Society & Ideas fit.",
         url: "https://www.review.example/city?utm_source=x",
       },
     );
     expect(mapped.role).toBe("anchor");
     expect(mapped.kicker).toBe("The anchor");
+    expect(mapped.whyNow).toBe("Useful for thinking about governance.");
+    expect(mapped.sourceContext).toBe("Independent reporting; published this week; ranked for Society & Ideas fit.");
     expect(mapped.url).toBe("https://review.example/city");
   });
 });
