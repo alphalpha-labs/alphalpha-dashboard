@@ -1,25 +1,25 @@
 {
   "meta": {
-    "generatedAt": "2026-09-07T17:05:13.940Z",
+    "generatedAt": "2026-09-08T17:04:19.247Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "308d5df",
+      "commit": "b9e7fa2",
       "branch": "main",
-      "generatedAt": "2026-09-07T17:05:13.955Z",
+      "generatedAt": "2026-09-08T17:04:19.263Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-09-07T14:00:39.029Z",
+      "generatedAt": "2026-09-08T13:15:13.052Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
-      "words": 61271,
-      "estimatedTokens": 79672,
+      "words": 61965,
+      "estimatedTokens": 80575,
       "activeFiles": 42,
-      "activeWords": 51866,
-      "activeEstimatedTokens": 67443,
+      "activeWords": 52560,
+      "activeEstimatedTokens": 68346,
       "archiveFiles": 4,
       "archiveWords": 9405,
       "largestActive": [
@@ -31,8 +31,8 @@
         },
         {
           "path": "context/STANDING_ORDERS.md",
-          "words": 8880,
-          "estimatedTokens": 11544,
+          "words": 9574,
+          "estimatedTokens": 12447,
           "readPolicy": "large: read targeted sections or use this manifest first"
         },
         {
@@ -60,8 +60,8 @@
         "id": "context",
         "label": "Context index",
         "status": "OK",
-        "age": "3h old",
-        "summary": "42 active files / 51866 words",
+        "age": "4h old",
+        "summary": "42 active files / 52560 words",
         "detail": "9405 words archived",
         "path": "memory/context/index.json",
         "details": [
@@ -71,7 +71,7 @@
           },
           {
             "label": "context/STANDING_ORDERS.md",
-            "value": "8880 words · large: read targeted sections or use this manifest first"
+            "value": "9574 words · large: read targeted sections or use this manifest first"
           },
           {
             "label": "context/investment-operating-system-plan.md",
@@ -92,8 +92,8 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "OK",
-        "age": "1d old",
+        "status": "STALE",
+        "age": "2d old",
         "summary": "27 family / 46 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "42d old",
+        "age": "43d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -200,11 +200,15 @@
         "id": "automations",
         "label": "Automations",
         "status": "OK",
-        "age": "3h old",
-        "summary": "20 enabled / 6 paused",
-        "detail": "26 cron jobs indexed",
+        "age": "4h old",
+        "summary": "33 enabled / 6 paused",
+        "detail": "39 cron jobs indexed",
         "path": "memory/automations/latest-manifest.json",
         "details": [
+          {
+            "label": "openrouter-rolling-model-canary",
+            "value": "enabled · error · next 2026-09-14T14:30:00.000Z"
+          },
           {
             "label": "agentic-os-question-cadence",
             "value": "paused · error · next n/a"
@@ -239,7 +243,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@308d5df · Obsidian vault: main@992beb0 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@b9e7fa2 · Obsidian vault: main@992beb0 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,7 +252,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@308d5df · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@b9e7fa2 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -266,7 +270,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "104d old",
+        "age": "105d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -296,10 +300,14 @@
         "label": "Review queue",
         "status": "OK",
         "age": "4h old",
-        "summary": "0 pending / 0 high",
-        "detail": "7 review items indexed",
+        "summary": "1 pending / 1 high",
+        "detail": "8 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "details": [
+          {
+            "label": "Automation needs attention: openrouter-rolling-model-canary",
+            "value": "HIGH · pending · Run now, pause, or inspect failure logs"
+          },
           {
             "label": "Approve Obsidian update: Alphalpha/Syntheses/Life/Media Tracking.md",
             "value": "HIGH · dismissed · Review/edit then approve"
@@ -53626,295 +53634,134 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
     "investingDailyMarketBrief": {
-      "schemaVersion": "2026-09-07.1",
-      "generatedAt": "2026-09-07T17:00:00.000Z",
-      "publishedAt": "2026-09-07T17:00:00.000Z",
-      "publishCadence": "weekday-noon-America/Chicago",
+      "schemaVersion": "2026-09-08.1",
+      "generatedAt": "2026-09-08T17:00:00.000Z",
+      "publishedAt": "2026-09-08T17:00:00.000Z",
+      "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / no trade recommendation / treat the U.S. holiday tape as low-information and wait for CPI plus verified Hormuz flows",
-      "mainDriver": "U.S. cash equities and Treasuries are closed for Labor Day, leaving the strongest new signal in physical energy: Brent is near $97 after renewed U.S.-Iran attacks and average Hormuz commodity-ship transits fell to about 10 per day over the last 10 days, the lowest since May.",
-      "portfolioImplication": "No trade or rebalancing recommendation follows. The renewed oil and shipping escalation supports the portfolio's energy, defense and real-assets theses but also increases inflation, rates and cross-sleeve correlation risk. With 61.66% of current portfolio equity mapped to the macro-security/real-assets overlay and precious metals at 15.55% despite medium-low conviction, a holiday-session commodity move should be monitored rather than extrapolated into action.",
+      "actionPosture": "observe / no trade recommendation / require physical-energy persistence and inflation confirmation",
+      "mainDriver": "The U.S. reopening confirms that the Gulf supply shock is transmitting into risk assets: Brent approached $100, the 10-year Treasury yield reached about 4.8%, and equities weakened after attacks expanded to Saudi energy facilities and the Red Sea alternative route.",
+      "portfolioImplication": "No trade or rebalancing recommendation follows. The same shock supports energy-security, defense, commodity and precious-metals exposures while raising inflation, discount-rate and correlation risk for the whole portfolio. With 61.66% mapped to the macro-security/real-assets overlay, favorable thesis evidence is not automatically favorable portfolio construction evidence.",
       "changedSincePrevious": [
-        "The U.S. cash-equity and Treasury markets are closed for Labor Day, so there is no fresh domestic price discovery to confirm or reverse Friday's payroll-driven rate move.",
-        "Oil replaced payrolls as the clearest live driver: Reuters reported Brent near $97.17 and WTI near $92.27, with Brent up roughly 8% last week and WTI nearly 10% as tanker attacks resumed.",
-        "The physical-flow evidence deteriorated: Kpler data cited by Reuters showed about 10 commodity ships per day through Hormuz over the last 10 days, the lowest since May, while a reported attack on Saudi Aramco's Jazan refinery added infrastructure risk.",
-        "Asian AI hardware leadership strengthened while U.S. markets were shut: the Nikkei rose 2.1%, the Kospi 4.6%, Samsung Electronics 5.7% and SK Hynix 8.1%, which is supportive evidence for compute demand but not a U.S. valuation signal.",
-        "The current internal portfolio review refreshed on September 7: total equity is $302,843.88, the macro-security/real-assets overlay is 61.66%, and precious metals are 15.55%; allocation targets and trade analysis remain stale June context.",
-        "Input health refreshed on September 7 and remains watch, with strong recent content volume but zero actionable failed runs; source quantity does not remove the need to verify conflict and shipping claims."
+        "U.S. cash-market price discovery has resumed: the Dow fell about 1.1%-1.2%, the S&P 500 about 0.4%-0.5%, and the Nasdaq roughly 0.1%-0.5% in late-morning reporting.",
+        "The disruption broadened beyond Hormuz: Houthi attacks hit Saudi oil facilities and utilities tied to the Bab el-Mandeb alternative route, increasing evidence that the supply shock is regional rather than a single-strait event.",
+        "Brent briefly reached $99.46 and the U.S. 10-year yield was about 4.8%, making the inflation-and-rates channel observable rather than only a holiday-session risk.",
+        "Copper reached record highs, adding a resource-scarcity signal but also a valuation/crowding caution for critical-materials exposure."
       ],
-      "headline": "Labor Day closes U.S. price discovery as Hormuz disruption lifts oil and Asia's AI hardware rally persists",
-      "summary": "This is an observation layer, not a trade signal. U.S. cash equities and Treasuries are closed, so today's American tape cannot validate Friday's hot-payroll repricing. The actionable research change is instead in energy logistics: renewed attacks, low Hormuz vessel traffic and a reported Saudi refinery strike pushed crude back toward six-week highs and reinforce the possibility that the supply shock is becoming more persistent. That supports energy-security and defense demand while worsening the inflation and discount-rate hurdle facing AI, power, grid and nuclear assets. Asia's strong chip rally argues against treating macro risk as an AI-demand break, but it does not resolve valuation or financing risk. Look past static U.S. futures and one holiday session; pay attention to verified multi-day shipping and refinery evidence, Thursday's PPI, Friday's CPI, front-end yields when Treasuries reopen, and whether AI orders continue converting into margins and contracted returns.",
+      "headline": "Gulf attacks push oil toward $100 as the U.S. reopening confirms inflation and rate pressure",
+      "summary": "This is an observation layer, not a trade signal. Tuesday's U.S. reopening validates yesterday's central risk: attacks on Saudi energy infrastructure broadened the disruption from Hormuz toward the Red Sea route, Brent briefly neared $100, the 10-year Treasury yield held near 4.8%, and equities softened. This strengthens the durability case for energy security, defense capacity and selected resource bottlenecks, but it also raises the inflation, financing and cross-sleeve correlation hurdle for AI, grid, nuclear and other long-duration assets. Look past one intraday index decline and headline-by-headline conflict moves; pay attention to multi-day physical shipping/refining evidence, diesel and gasoline pass-through, Thursday's PPI, Friday's CPI, and whether yields remain elevated even if crude retreats.",
       "marketDrivers": [
         {
-          "id": "us-labor-day-market-closure",
-          "title": "U.S. cash equities and Treasuries are closed, limiting price discovery",
-          "summary": "AP reported that U.S. markets are closed Monday for Labor Day. With no regular cash-equity or Treasury session, unchanged or thin futures are a calendar effect rather than a reliable risk signal.",
-          "direction": "low-information-holiday-session",
-          "evidenceQuality": "high",
-          "sourceCount": 2,
-          "relatedTheses": [
-            "ai-platform-compute-semiconductors",
-            "ai-power-electricity-scarcity",
-            "quality-income-ballast"
-          ],
-          "relatedSymbols": [
-            "NVDA",
-            "PWR",
-            "CEG",
-            "GLDM"
-          ]
+          "driver": "Regional energy-supply escalation",
+          "detail": "Houthi attacks struck Saudi oil facilities and utilities associated with the Bab el-Mandeb route while Hormuz traffic remains constrained; Brent traded near $98 and briefly reached $99.46.",
+          "evidenceQuality": "high-current-reporting",
+          "sourceCount": 3
         },
         {
-          "id": "hormuz-flow-and-attack-escalation",
-          "title": "Low Hormuz traffic and renewed vessel attacks keep the oil supply shock live",
-          "summary": "Reuters reported Brent at about $97.17 and WTI at $92.27 around 13:33 GMT, with roughly 10 commodity ships per day transiting Hormuz over the prior 10 days, the lowest since May. Weekend attacks on tankers and a reported strike on Saudi Aramco's Jazan refinery increased physical-infrastructure and shipping risk.",
-          "direction": "supports-energy-defense-and-inflation-risk",
-          "evidenceQuality": "high-for-prices-medium-high-for-conflict-and-flow-details",
-          "sourceCount": 2,
-          "relatedTheses": [
-            "energy-demand-infrastructure-tollbooths",
-            "rearmament-aerospace-defense",
-            "macro-security-real-assets-pillar",
-            "strategic-commodity-stockpiling-critical-minerals"
-          ],
-          "relatedSymbols": [
-            "XLE",
-            "MLPX",
-            "IXC",
-            "XAR",
-            "RTX",
-            "GUNR"
-          ]
+          "driver": "Inflation and rates transmission",
+          "detail": "The U.S. 10-year Treasury yield was about 4.8%, up roughly 2 basis points, while markets awaited PPI Thursday and CPI Friday; higher fuel costs increase the hurdle for policy easing and long-duration valuations.",
+          "evidenceQuality": "high-current-reporting-plus-primary-calendar",
+          "sourceCount": 3
         },
         {
-          "id": "consumer-fuel-inflation-pass-through",
-          "title": "Record Labor Day fuel prices show the oil shock reaching consumers",
-          "summary": "AP reported U.S. regular gasoline around $4.14 per gallon heading into Labor Day, nearly $1 above a year earlier and above the prior holiday record, while diesel reached about $5.85. This raises the importance of inflation persistence and demand destruction rather than the crude price alone.",
-          "direction": "raises-inflation-and-consumer-demand-risk",
-          "evidenceQuality": "high",
-          "sourceCount": 2,
-          "relatedTheses": [
-            "energy-demand-infrastructure-tollbooths",
-            "quality-income-ballast",
-            "macro-security-real-assets-pillar"
-          ],
-          "relatedSymbols": [
-            "XLE",
-            "MLPX",
-            "XLP",
-            "VYM"
-          ]
+          "driver": "Equity risk-off rotation rather than broad capitulation",
+          "detail": "Late-morning reports showed the Dow down about 1.1%-1.2%, the S&P 500 about 0.4%-0.5%, and the Nasdaq between roughly 0.1% and 0.5% lower, with energy relatively supported.",
+          "evidenceQuality": "high-intraday",
+          "sourceCount": 2
         },
         {
-          "id": "asia-ai-hardware-leadership",
-          "title": "Asian chip shares rallied despite macro and energy risk",
-          "summary": "AP reported the Nikkei up 2.1% and the Kospi up 4.6%, with Samsung Electronics gaining 5.7% and SK Hynix 8.1%. This is supportive evidence for the AI hardware cycle, but regional equity performance does not by itself establish U.S. demand, margins or valuation support.",
-          "direction": "supports-ai-compute-demand-sentiment",
-          "evidenceQuality": "medium-high",
-          "sourceCount": 1,
-          "relatedTheses": [
-            "ai-platform-compute-semiconductors",
-            "optical-networking-ai-bandwidth",
-            "ai-power-electricity-scarcity"
-          ],
-          "relatedSymbols": [
-            "MU",
-            "TSM",
-            "ASML",
-            "ANET",
-            "CIEN"
-          ]
-        },
-        {
-          "id": "inflation-calendar-after-hot-payrolls",
-          "title": "PPI and CPI are the next clean tests of the payroll-driven rate repricing",
-          "summary": "The New York Fed calendar lists August PPI for September 10 and CPI for September 11. With Friday's strong payroll report having raised the policy-rate hurdle, these releases matter more than holiday futures for capital-intensive and long-duration portfolio sleeves.",
-          "direction": "event-risk-for-rates-valuations-and-project-finance",
-          "evidenceQuality": "high",
-          "sourceCount": 2,
-          "relatedTheses": [
-            "ai-power-electricity-scarcity",
-            "ai-platform-compute-semiconductors",
-            "optical-networking-ai-bandwidth",
-            "precious-metals-currency-debasement-hedge",
-            "japanese-financial-reflation"
-          ],
-          "relatedSymbols": [
-            "PWR",
-            "CEG",
-            "NVDA",
-            "CIEN",
-            "GLDM",
-            "MUFG"
-          ]
-        },
-        {
-          "id": "portfolio-concentration-refresh",
-          "title": "Fresh internal holdings data preserve the linked macro-concentration boundary",
-          "summary": "The September 7 portfolio review reports $302,843.88 of total equity and maps $186,741.82, or 61.66%, to the macro-security/real-assets overlay. Precious metals represent 15.55% at medium-low conviction, versus 4.03% for the top-ranked power/electricity-scarcity thesis.",
-          "direction": "correlation-and-conviction-mismatch-remains-central",
-          "evidenceQuality": "high",
-          "sourceCount": 5,
-          "relatedTheses": [
-            "macro-security-real-assets-pillar",
-            "energy-demand-infrastructure-tollbooths",
-            "strategic-commodity-stockpiling-critical-minerals",
-            "precious-metals-currency-debasement-hedge",
-            "ai-power-electricity-scarcity"
-          ],
-          "relatedSymbols": [
-            "GLDM",
-            "XAR",
-            "XLE",
-            "MLPX",
-            "REMX",
-            "PWR"
-          ]
+          "driver": "Resource scarcity signal",
+          "detail": "Copper reached record highs alongside the oil shock, consistent with strategic-resource demand but insufficient by itself to distinguish durable scarcity from crowding or cyclical momentum.",
+          "evidenceQuality": "medium-high-current-reporting",
+          "sourceCount": 1
         }
       ],
       "lookPast": [
-        {
-          "id": "holiday-futures-as-signal",
-          "title": "Static or thin U.S. holiday futures as a directional market signal",
-          "reason": "Cash equities and Treasuries are closed, so price discovery resumes Tuesday and the current U.S. read is mechanically weak."
-        },
-        {
-          "id": "one-day-oil-move-as-full-thesis",
-          "title": "One oil session as proof of a durable supply regime",
-          "reason": "The stronger evidence is the multi-day fall in vessel traffic, destination receipts, inventories, insurance conditions and verified infrastructure damage."
-        },
-        {
-          "id": "asia-chip-rally-as-us-validation",
-          "title": "Asia's chip rally as complete validation of the U.S. AI complex",
-          "reason": "It supports hardware-cycle sentiment but does not settle U.S. customer concentration, capex returns, margins or elevated valuations."
-        },
-        {
-          "id": "geopolitical-tailwind-as-sizing-answer",
-          "title": "A geopolitical tailwind as an answer to portfolio sizing",
-          "reason": "The same shock can lift energy and defense holdings while increasing inflation, rates and correlations across a 61.66% linked macro overlay."
-        }
+        "A single intraday Dow decline; index dispersion and closing confirmation matter more than the noon snapshot.",
+        "Every conflict headline as an independent signal; verify persistent vessel flows, refinery throughput, inventories and physical differentials.",
+        "Treating energy winners and AI/grid losers as a permanent pair trade; the near-term link is the discount rate, not a demonstrated break in compute or power demand.",
+        "Record copper alone as proof of the critical-minerals thesis; supply response, China demand and valuation still determine investability."
       ],
       "payAttention": [
-        {
-          "id": "verified-hormuz-and-refinery-flows",
-          "title": "Verified Hormuz transits, tanker loadings, destination receipts and Jazan refinery status",
-          "reason": "They distinguish a persistent physical supply shock from headline escalation and could materially affect energy, defense, agriculture and inflation exposures."
-        },
-        {
-          "id": "ppi-cpi-and-front-end-rates",
-          "title": "September 10 PPI, September 11 CPI and the two-year yield when Treasuries reopen",
-          "reason": "They are the next direct tests of whether strong payrolls plus fuel inflation produce a higher-for-longer or renewed-hike regime."
-        },
-        {
-          "id": "consumer-demand-pass-through",
-          "title": "Gasoline and diesel pass-through into inflation expectations and consumer demand",
-          "reason": "Record holiday fuel prices can support energy cash flows while eroding discretionary demand and reinforcing policy tightening risk."
-        },
-        {
-          "id": "ai-order-conversion",
-          "title": "AI hardware, networking, grid and nuclear order conversion under high rates",
-          "reason": "Asian chip strength is constructive, but durable portfolio evidence remains backlog quality, margins, utilization, interconnect milestones and contracted project returns."
-        }
+        "Whether Brent holds near or above $100 and whether diesel/gasoline prices continue to outrun crude.",
+        "Verified Hormuz and Bab el-Mandeb transit counts plus Saudi refinery/export capacity after the attacks.",
+        "Thursday PPI and Friday CPI, especially energy pass-through and services persistence.",
+        "The 2-year and 10-year Treasury response: sticky yields after any crude pullback would signal broader inflation credibility risk.",
+        "Backlog, pricing and margin conversion for defense, grid, nuclear and AI-infrastructure holdings rather than thematic headlines alone."
       ],
       "thesisImpacts": [
         {
-          "thesisId": "energy-demand-infrastructure-tollbooths",
-          "impact": "physical-flow evidence strengthened the near-term energy-security case",
-          "summary": "Low Hormuz traffic and renewed attacks are supportive for scarcity and energy-security exposure. The long-horizon toll-booth thesis still depends on volumes, fee-based cash flow, balance sheets and policy rather than spot crude alone."
+          "thesis": "Energy demand growth and infrastructure toll booths",
+          "impact": "supportive evidence, higher portfolio-risk contribution",
+          "reason": "Constrained shipping and alternative-route attacks support energy security and infrastructure scarcity, but the portfolio already has substantial direct and adjacent energy exposure."
         },
         {
-          "thesisId": "rearmament-aerospace-defense",
-          "impact": "maritime escalation reinforces security demand while raising execution and valuation risk",
-          "summary": "Attacks on military and commercial vessels support the multi-year rearmament premise, but public-equity capture still requires backlog conversion, procurement execution and valuation discipline."
+          "thesis": "Rearmament and aerospace/defense capacity",
+          "impact": "supportive",
+          "reason": "The conflict's widening geographic and infrastructure footprint reinforces demand for air defense, munitions, maritime security and allied capacity; procurement conversion remains the key test."
         },
         {
-          "thesisId": "ai-platform-compute-semiconductors",
-          "impact": "Asian hardware leadership remained strong despite the oil shock",
-          "summary": "The regional chip rally argues against an immediate demand break. Higher inflation and rate risk still tighten the valuation standard for the portfolio's 9.83% AI compute sleeve."
+          "thesis": "Strategic commodity stockpiling and critical minerals",
+          "impact": "supportive but crowded",
+          "reason": "Record copper and regional supply-security stress fit the scarcity thesis, while elevated prices increase valuation and mean-reversion risk."
         },
         {
-          "thesisId": "ai-power-electricity-scarcity",
-          "impact": "demand evidence remains constructive while the financing hurdle rises",
-          "summary": "Compute strength supports power-load demand, but oil-driven inflation and Friday's payroll surprise can keep financing costs elevated. Contracted returns, interconnect progress and backlog margins remain decisive."
+          "thesis": "AI power infrastructure bottleneck / power-electricity scarcity",
+          "impact": "mixed",
+          "reason": "Energy scarcity supports the need for generation, grid and nuclear capacity, but 4.8% Treasury yields raise financing and valuation hurdles before demand conversion is disproven."
         },
         {
-          "thesisId": "precious-metals-currency-debasement-hedge",
-          "impact": "geopolitical and inflation risk support the hedge rationale but do not resolve overexposure",
-          "summary": "The portfolio review now places the sleeve at 15.55% and medium-low conviction. Its role and correlation remain more important than a single commodity session."
-        },
-        {
-          "thesisId": "macro-security-real-assets-pillar",
-          "impact": "the thesis gained evidence while concentration risk remained unchanged",
-          "summary": "Energy and defense drivers strengthened, but 61.66% linked exposure means inflation, rates and geopolitical escalation can propagate through several sleeves at once."
+          "thesis": "Precious-metals currency-debasement hedge",
+          "impact": "mixed-supportive",
+          "reason": "Inflation and geopolitical stress support the hedge role, but the sleeve is already large and higher real yields can offset the macro tailwind."
         }
       ],
-      "portfolioRead": "No trade or rebalancing recommendation follows. The latest internal portfolio review was generated September 7 from a same-day snapshot with $302,843.88 total equity and $2,607.06 cash. It maps $186,741.82, or 61.66%, to the macro-security/real-assets overlay. Power scarcity and defense remain the top two ranked theses; strategic commodities and energy each represent about 17.9%. Precious metals are 15.55% at medium-low conviction and remain the clearest conviction-allocation mismatch. Input health is watch with zero actionable failed runs. Allocation targets and daily trade analysis remain dated June 6 and are historical policy boundaries, not current instructions.",
+      "portfolioRead": "As of the September 7 internal portfolio review, total equity was $302,843.88, cash was $2,607.06, and 61.66% was mapped to the macro-security/real-assets overlay. Today's news strengthens several owned theses simultaneously, but that concentration makes correlation and sizing risk the dominant portfolio question. Portfolio review and input-health artifacts are current to September 7; allocation targets and trade analysis remain stale at June 6 and are not used for an action recommendation.",
       "sourceNotes": [
         {
-          "id": "reuters-oil-hormuz-2026-09-07",
-          "title": "Oil prices hold near six-week highs on U.S.-Iran attacks",
-          "url": "https://uk.marketscreener.com/news/oil-extends-gains-after-us-and-iran-strike-ships-ce785bdbdd8cf42d",
-          "trustNote": "Reuters reporting republished by MarketScreener; live prices and conflict claims can change and are treated as untrusted research input.",
-          "usedFor": "Brent and WTI levels, weekly moves, tanker attacks, Kpler Hormuz traffic, reported Jazan refinery strike and OPEC+ policy."
+          "id": "ap-markets-2026-09-08",
+          "title": "Oil prices keep rising and weigh on Wall Street",
+          "url": "https://apnews.com/article/d3d6157a534584985987f828a940cffa",
+          "trustNote": "Independent current reporting; intraday prices and conflict facts can change and are treated as untrusted research input.",
+          "usedFor": "U.S. index moves, Brent intraday high, oil history and inflation-calendar expectations."
         },
         {
-          "id": "ap-global-markets-2026-09-07",
-          "title": "Global shares are mixed as chipmaker shares rally in Tokyo and Seoul",
-          "url": "https://apnews.com/article/stocks-markets-ai-jobs-rates-oil-5fed4e21cb3f80eef06087217dbbd9f7",
-          "trustNote": "Independent current reporting; intraday levels and geopolitical claims can change and are treated as untrusted research input.",
-          "usedFor": "U.S. market closure, Asian chip performance, oil context, CPI timing and Fed-risk framing."
+          "id": "ap-saudi-attacks-2026-09-08",
+          "title": "Houthi attacks on Saudi Arabia ignite fires at oil facilities and wound 73 people",
+          "url": "https://apnews.com/article/4ad9446f0bb8c096750c84b6e1ba86b8",
+          "trustNote": "Independent current conflict reporting; casualty and damage assessments may be revised.",
+          "usedFor": "Saudi energy-infrastructure attacks and Bab el-Mandeb route implications."
         },
         {
-          "id": "ap-us-fuel-prices-2026-09-07",
-          "title": "U.S. fuel prices hit record high for Labor Day weekend",
-          "url": "https://apnews.com/article/labor-day-record-high-gas-prices-dffb7d3fa06ef930aaeebc380e5e4e0e",
-          "trustNote": "Independent current reporting using AAA price data; retail averages vary by location and are treated as untrusted research input.",
-          "usedFor": "Regular gasoline and diesel levels, year-over-year comparison and consumer inflation pass-through."
+          "id": "reuters-global-markets-2026-09-08",
+          "title": "Wall Street dips as yen, oil gain amid Middle East strife",
+          "url": "https://www.marketscreener.com/news/wall-street-dips-as-yen-oil-gain-amid-middle-east-strife-ce785bd8de88f126",
+          "trustNote": "Reuters reporting republished by MarketScreener; intraday levels are treated as untrusted research input.",
+          "usedFor": "Brent, WTI, U.S. index moves, 10-year yield and cross-asset framing."
+        },
+        {
+          "id": "reuters-copper-markets-2026-09-08",
+          "title": "Stocks fall as yen firms; Gulf attacks send oil towards $100 a barrel",
+          "url": "https://uk.marketscreener.com/news/stocks-fall-as-yen-surges-gulf-attacks-drive-oil-near-100-a-barrel-ce785bd8da89f320",
+          "trustNote": "Reuters reporting republished by MarketScreener; commodity prices can change.",
+          "usedFor": "Copper record, physical fuel-market tightness and global cross-asset context."
         },
         {
           "id": "ny-fed-calendar-september-2026",
           "title": "Economic Indicators Calendar — September 2026",
           "url": "https://www.newyorkfed.org/research/calendars/i-sep26.html",
-          "trustNote": "Primary Federal Reserve calendar; release dates are authoritative but remain subject to change.",
-          "usedFor": "September 10 PPI and September 11 CPI schedule."
+          "trustNote": "Primary Federal Reserve calendar; dates remain subject to official revision.",
+          "usedFor": "PPI and CPI release dates."
         },
         {
-          "id": "internal-portfolio-review-2026-09-07",
-          "title": "Internal portfolio thesis review",
+          "id": "internal-investing-artifacts-2026-09-07",
+          "title": "Internal portfolio, thesis, basket and input-health artifacts",
           "url": "memory/investing/portfolio-thesis-review/latest.json",
-          "trustNote": "Internal artifact generated September 7 from a same-day holdings snapshot.",
-          "usedFor": "Portfolio total, cash, sleeve weights, conviction ranking and macro-overlay concentration."
-        },
-        {
-          "id": "internal-thesis-registry-2026-05-21",
-          "title": "Internal thesis registry",
-          "url": "memory/investing/thesis-registry.json",
-          "trustNote": "Internal registry; several entries retain May reset timestamps and require fresh evidence.",
-          "usedFor": "Core claims, invalidators and thesis-symbol mapping."
-        },
-        {
-          "id": "internal-thesis-baskets-2026-09-07",
-          "title": "Internal thesis baskets cache",
-          "url": "memory/investing/thesis-baskets-cache/latest.json",
-          "trustNote": "Internal current cache read September 7.",
-          "usedFor": "Canonical basket conviction, targets, status and classification boundaries."
-        },
-        {
-          "id": "internal-policy-boundaries-2026-06-06",
-          "title": "Internal allocation targets and daily trade analysis",
-          "url": "memory/investing/allocation-targets/latest.json",
-          "trustNote": "Stale June 6 artifacts; used only as historical process and freshness boundaries.",
-          "usedFor": "Allocation-policy and trade-analysis caveat."
-        },
-        {
-          "id": "internal-input-health-2026-09-07",
-          "title": "Internal investing input health",
-          "url": "memory/investing/input-health.json",
-          "trustNote": "Internal status artifact generated September 7.",
-          "usedFor": "Input coverage, content volume and actionable-failure boundary."
+          "trustNote": "Internal artifacts; portfolio and input health are current to September 7, while allocation/trade-policy files are stale.",
+          "usedFor": "Portfolio weights, owned theses, thesis boundaries and freshness caveats."
         }
       ],
-      "discussionPrompt": "Which would change the portfolio interpretation most when U.S. markets reopen: verified further deterioration in Hormuz flows, CPI that confirms fuel inflation is broadening, or continued AI order and margin strength despite a higher rate hurdle?",
+      "discussionPrompt": "Does the widening physical-energy disruption alter the durability of the macro-security thesis, or mainly expose that correlated real-assets and security sleeves already dominate portfolio risk?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -75841,7 +75688,7 @@
     "uncertainties": 17,
     "investingSignals": 10,
     "contextActiveFiles": 42,
-    "contextActiveWords": 51866,
+    "contextActiveWords": 52560,
     "contextArchiveWords": 9405
   },
   "topActions": [
@@ -76182,295 +76029,6 @@
   ],
   "automations": [
     {
-      "id": "59ac15b4-2fea-4d46-a6a7-4ca73759e132",
-      "name": "yard-plan-seasonal-checkin",
-      "description": "Bounded date-aware Austin yard-plan reminders through May 2027.",
-      "category": "events",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * 2-5,8-11 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * 2-5,8-11 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read"
-      ],
-      "delivery": "announce -> discord:channel:1497977285217878178",
-      "nextRunAt": "2026-09-07T14:00:00.000Z",
-      "lastRunAt": "2026-08-31T14:00:00.035Z",
-      "lastStatus": "ok",
-      "lastDuration": "29s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Bounded date-aware Austin yard-plan reminders through May 2027.",
-      "updatedAt": "2026-08-31T14:00:29.176Z"
-    },
-    {
-      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
-      "name": "agentic-os-weekly-audit",
-      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "read",
-        "write",
-        "exec",
-        "web_fetch",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T14:00:00.000Z",
-      "lastRunAt": "2026-08-31T14:00:00.030Z",
-      "lastStatus": "ok",
-      "lastDuration": "3m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
-      "updatedAt": "2026-08-31T14:03:03.265Z"
-    },
-    {
-      "id": "b81b68f1-dc71-4d65-a55d-1ccdfaefcbdd",
-      "name": "Investing OS weekly marginal-dollar review",
-      "description": "Rank the best destination for Alex's next investable dollar versus cash and existing holdings.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 1",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 1 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-09-07T14:00:00.000Z",
-      "lastRunAt": "2026-08-31T14:00:00.033Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Rank the best destination for Alex's next investable dollar versus cash and existing holdings.",
-      "updatedAt": "2026-08-31T14:04:02.989Z"
-    },
-    {
-      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
-      "name": "openrouter-credit-monitor",
-      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-09-07T14:00:00.000Z",
-      "lastRunAt": "2026-09-06T14:00:00.024Z",
-      "lastStatus": "ok",
-      "lastDuration": "50s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "updatedAt": "2026-09-06T14:00:50.011Z"
-    },
-    {
-      "id": "1ba3722e-a019-4118-bff2-eda5387c3e2e",
-      "name": "openrouter-rolling-model-canary",
-      "description": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 9 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 9 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T14:30:00.000Z",
-      "lastRunAt": "2026-08-31T14:30:00.032Z",
-      "lastStatus": "ok",
-      "lastDuration": "10s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
-      "updatedAt": "2026-08-31T14:30:09.640Z"
-    },
-    {
-      "id": "3cfe444f-179e-4b62-b34a-63de3f2d3320",
-      "name": "podcast-weekly-review",
-      "description": "One weekly approval-first podcast candidate scan and transcript contribution review.",
-      "category": "ops",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 10 * * 1",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 10 * * 1 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "exec",
-        "read",
-        "message"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T15:00:00.000Z",
-      "lastRunAt": "2026-08-31T15:00:00.024Z",
-      "lastStatus": "ok",
-      "lastDuration": "2m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "One weekly approval-first podcast candidate scan and transcript contribution review.",
-      "updatedAt": "2026-08-31T15:01:53.117Z"
-    },
-    {
-      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
-      "name": "almanac-generator",
-      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 11 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 11 * * * (America/Chicago)",
-      "sessionTarget": "main",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T16:00:00.000Z",
-      "lastRunAt": "2026-09-06T16:00:00.023Z",
-      "lastStatus": "ok",
-      "lastDuration": "5ms",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-09-06T16:00:00.028Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T17:00:00.000Z",
-      "lastRunAt": "2026-09-04T17:00:00.028Z",
-      "lastStatus": "ok",
-      "lastDuration": "5m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-09-04T17:05:18.972Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-07T17:19:54.973Z",
-      "lastRunAt": "2026-09-07T11:19:55.000Z",
-      "lastStatus": "ok",
-      "lastDuration": "24s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-09-07T11:20:19.292Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-08T11:20:16.390Z",
-      "lastRunAt": "2026-09-07T11:20:21.354Z",
-      "lastStatus": "ok",
-      "lastDuration": "7s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-09-07T11:20:28.757Z"
-    },
-    {
       "id": "b34cc6db-15ec-47c7-a148-5446b70b362a",
       "name": "dashboard-source-health-alert",
       "description": "Daily source-health check; alert Alex only when a dashboard source is failing.",
@@ -76495,7 +76053,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-09-07T13:15:16.751Z"
+      "updatedAt": "2026-09-07T20:59:38.406Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -76522,7 +76080,144 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-09-05T14:01:59.106Z"
+      "updatedAt": "2026-09-07T20:59:40.449Z"
+    },
+    {
+      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
+      "name": "openrouter-credit-monitor",
+      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-08T14:00:00.000Z",
+      "lastRunAt": "2026-09-07T21:00:18.956Z",
+      "lastStatus": "ok",
+      "lastDuration": "12s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "updatedAt": "2026-09-07T21:00:31.400Z"
+    },
+    {
+      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
+      "name": "almanac-generator",
+      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 11 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-08T16:00:00.000Z",
+      "lastRunAt": "2026-09-07T16:00:00.029Z",
+      "lastStatus": "ok",
+      "lastDuration": "5ms",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
+      "updatedAt": "2026-09-07T20:57:08.402Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-08T17:00:00.000Z",
+      "lastRunAt": "2026-09-07T17:00:00.026Z",
+      "lastStatus": "ok",
+      "lastDuration": "6m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-09-07T20:59:42.585Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-08T17:19:54.973Z",
+      "lastRunAt": "2026-09-07T21:00:24.660Z",
+      "lastStatus": "ok",
+      "lastDuration": "28s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-09-08T11:19:56.072Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-09T11:20:16.390Z",
+      "lastRunAt": "2026-09-08T11:20:16.418Z",
+      "lastStatus": "ok",
+      "lastDuration": "9s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-09-08T11:20:25.041Z"
     },
     {
       "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
@@ -76549,7 +76244,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
-      "updatedAt": "2026-09-02T17:34:36.050Z"
+      "updatedAt": "2026-09-07T20:59:44.746Z"
     },
     {
       "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
@@ -76576,7 +76271,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Austin event crawl plus compact event manifest generation every four days",
-      "updatedAt": "2026-09-06T12:01:42.728Z"
+      "updatedAt": "2026-09-07T20:59:46.872Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
@@ -76603,7 +76298,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-09-04T13:05:33.677Z"
+      "updatedAt": "2026-09-07T20:59:49.080Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
@@ -76630,7 +76325,34 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekly movie/TV queue digest and recommendations for Alex, based on Obsidian queues and Letterboxd when configured.",
-      "updatedAt": "2026-09-04T13:33:21.959Z"
+      "updatedAt": "2026-09-07T20:59:51.197Z"
+    },
+    {
+      "id": "33ab95eb-5c61-458e-9f5b-5daf620cb97b",
+      "name": "Upcoming movie release watch",
+      "description": "Weekly taste-matched upcoming-film discovery with calendar entries and one-off Discord release reminders.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * 0",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 * * 0 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-13T15:00:00.000Z",
+      "lastRunAt": "2026-09-08T00:02:13.602Z",
+      "lastStatus": "ok",
+      "lastDuration": "5m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly taste-matched upcoming-film discovery with calendar entries and one-off Discord release reminders.",
+      "updatedAt": "2026-09-08T00:07:39.953Z"
     },
     {
       "id": "fc6d6869-f92b-4868-84e9-dfd3621c95da",
@@ -76661,7 +76383,159 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Monday 8am CT detailed weekly executive brief to Alex on Discord DM and Telegram, including open loops, stale/missing items, and next actions.",
-      "updatedAt": "2026-09-07T13:02:54.192Z"
+      "updatedAt": "2026-09-07T20:59:53.408Z"
+    },
+    {
+      "id": "59ac15b4-2fea-4d46-a6a7-4ca73759e132",
+      "name": "yard-plan-seasonal-checkin",
+      "description": "Bounded date-aware Austin yard-plan reminders through May 2027.",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * 2-5,8-11 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * 2-5,8-11 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read"
+      ],
+      "delivery": "announce -> discord:channel:1497977285217878178",
+      "nextRunAt": "2026-09-14T14:00:00.000Z",
+      "lastRunAt": "2026-09-07T14:00:00.028Z",
+      "lastStatus": "ok",
+      "lastDuration": "53s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Bounded date-aware Austin yard-plan reminders through May 2027.",
+      "updatedAt": "2026-09-07T20:59:55.484Z"
+    },
+    {
+      "id": "738ac4e2-8107-46c5-90d4-cd14e0637d50",
+      "name": "agentic-os-weekly-audit",
+      "description": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "read",
+        "write",
+        "exec",
+        "web_fetch",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-14T14:00:00.000Z",
+      "lastRunAt": "2026-09-07T14:00:00.025Z",
+      "lastStatus": "ok",
+      "lastDuration": "5m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly audit of Alex/Alphalpha agentic OS foundation, missing components, context-budget health, and workflow/tool opportunities",
+      "updatedAt": "2026-09-07T20:59:57.635Z"
+    },
+    {
+      "id": "b81b68f1-dc71-4d65-a55d-1ccdfaefcbdd",
+      "name": "Investing OS weekly marginal-dollar review",
+      "description": "Rank the best destination for Alex's next investable dollar versus cash and existing holdings.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 1",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 1 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-09-14T14:00:00.000Z",
+      "lastRunAt": "2026-09-07T14:00:00.027Z",
+      "lastStatus": "ok",
+      "lastDuration": "3m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Rank the best destination for Alex's next investable dollar versus cash and existing holdings.",
+      "updatedAt": "2026-09-07T20:59:59.776Z"
+    },
+    {
+      "id": "1ba3722e-a019-4118-bff2-eda5387c3e2e",
+      "name": "openrouter-rolling-model-canary",
+      "description": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 9 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 9 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-14T14:30:00.000Z",
+      "lastRunAt": "2026-09-07T14:30:00.024Z",
+      "lastStatus": "error",
+      "lastDuration": "17s",
+      "consecutiveErrors": 1,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
+      "updatedAt": "2026-09-07T14:30:17.504Z"
+    },
+    {
+      "id": "3cfe444f-179e-4b62-b34a-63de3f2d3320",
+      "name": "podcast-weekly-review",
+      "description": "One weekly approval-first podcast candidate scan and transcript contribution review.",
+      "category": "ops",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * 1",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 10 * * 1 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "exec",
+        "read",
+        "message"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-14T15:00:00.000Z",
+      "lastRunAt": "2026-09-07T15:00:00.025Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "One weekly approval-first podcast candidate scan and transcript contribution review.",
+      "updatedAt": "2026-09-07T21:00:01.967Z"
     },
     {
       "id": "911f5285-0182-4bb4-9f95-6b71c6742bd0",
@@ -76691,7 +76565,59 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Monthly review of trade outcomes and decision-process patterns after 60–90 days.",
-      "updatedAt": "2026-08-15T14:03:07.865Z"
+      "updatedAt": "2026-09-07T21:00:04.119Z"
+    },
+    {
+      "id": "443c10a5-c3e3-4bb5-b577-2f39a3f5d4ac",
+      "name": "fall-movies-2026-sep18",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-09-18T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-09-18T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-18T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:02.114Z"
+    },
+    {
+      "id": "dec05e10-af17-4a59-a8d8-7736138a57c6",
+      "name": "fall-movies-2026-sep25",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-09-25T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-09-25T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-25T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:07.116Z"
     },
     {
       "id": "72716556-f61b-4122-8e45-2d8af6db7238",
@@ -76717,7 +76643,7 @@
       "pendingValidation": false,
       "deleteAfterRun": true,
       "summary": "One-time reminder to begin first planting weekend after site preparation.",
-      "updatedAt": "2026-08-27T14:02:49.257Z"
+      "updatedAt": "2026-09-07T21:00:06.215Z"
     },
     {
       "id": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
@@ -76744,7 +76670,267 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Monthly long-horizon allocation and feedback calibration memo.",
-      "updatedAt": "2026-09-01T15:01:06.879Z"
+      "updatedAt": "2026-09-07T21:00:08.405Z"
+    },
+    {
+      "id": "45b72549-d153-4a7f-9de2-ec961abb9910",
+      "name": "fall-movies-2026-oct02",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-02T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-02T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-02T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:12.088Z"
+    },
+    {
+      "id": "9f217dd2-8ffd-4b8d-9e3a-b52e99a153f9",
+      "name": "fall-movies-2026-oct09",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-09T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-09T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-09T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:17.222Z"
+    },
+    {
+      "id": "c78ca1c1-7faa-4874-9e9b-4996b633fa80",
+      "name": "movie-release-fjord-2026-10-09",
+      "description": "Taste-matched theatrical release reminder.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-09T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-09T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-09T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "Taste-matched theatrical release reminder.",
+      "updatedAt": "2026-09-08T00:06:18.225Z"
+    },
+    {
+      "id": "ea9db3c6-bd03-4f48-9cf4-9611148c97ad",
+      "name": "fall-movies-2026-oct16",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-16T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-16T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-16T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:22.202Z"
+    },
+    {
+      "id": "427a4203-f9fd-4b5f-bd06-d048887eb2dc",
+      "name": "movie-release-fatherland-2026-10-23",
+      "description": "Taste-matched theatrical release reminder.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-23T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-23T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-23T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "Taste-matched theatrical release reminder.",
+      "updatedAt": "2026-09-08T00:06:25.643Z"
+    },
+    {
+      "id": "8a21576e-2661-46a8-be9f-9714656f738f",
+      "name": "fall-movies-2026-oct23",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-10-23T14:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-10-23T14:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-23T14:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:27.426Z"
+    },
+    {
+      "id": "ae6ec19c-5a71-42b5-9199-392cf95642d2",
+      "name": "fall-movies-2026-nov06",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-11-06T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-11-06T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-11-06T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:32.410Z"
+    },
+    {
+      "id": "a8f18d02-279b-4ee3-95d0-b069886f1fe7",
+      "name": "movie-release-paper-tiger-2026-11-13",
+      "description": "Taste-matched theatrical release reminder.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-11-13T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-11-13T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-11-13T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "Taste-matched theatrical release reminder.",
+      "updatedAt": "2026-09-08T00:06:32.718Z"
+    },
+    {
+      "id": "a1ca6dcd-7db1-438d-a891-fd114342ad7a",
+      "name": "fall-movies-2026-nov20",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-11-20T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-11-20T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-11-20T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:37.362Z"
+    },
+    {
+      "id": "2ffacdff-ef16-4977-9e75-5161a49aa689",
+      "name": "fall-movies-2026-nov25",
+      "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "at",
+        "at": "2026-11-25T15:00:00.000Z"
+      },
+      "scheduleLabel": "at 2026-11-25T15:00:00.000Z",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-11-25T15:00:00.000Z",
+      "lastRunAt": null,
+      "lastStatus": null,
+      "lastDuration": null,
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": true,
+      "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
+      "updatedAt": "2026-09-07T23:30:42.486Z"
     },
     {
       "id": "32d1156d-65fd-403b-9f77-a673621984c3",
@@ -76914,6 +77100,47 @@
   ],
   "reviewQueue": [
     {
+      "id": "automation-MWJhMzcyMmUtYTAxOS",
+      "kind": "automation-review",
+      "title": "Automation needs attention: openrouter-rolling-model-canary",
+      "summary": "error; 1 consecutive errors. Schedule: 30 9 * * 1 (America/Chicago)",
+      "priority": "HIGH",
+      "status": "pending",
+      "source": "memory/automations/latest-manifest.json",
+      "target": "1ba3722e-a019-4118-bff2-eda5387c3e2e",
+      "generatedAt": "2026-09-08T13:15:15.408Z",
+      "actionHint": "Run now, pause, or inspect failure logs",
+      "payload": {
+        "job": {
+          "id": "1ba3722e-a019-4118-bff2-eda5387c3e2e",
+          "name": "openrouter-rolling-model-canary",
+          "description": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
+          "category": "automation",
+          "enabled": true,
+          "schedule": {
+            "kind": "cron",
+            "expr": "30 9 * * 1",
+            "tz": "America/Chicago"
+          },
+          "scheduleLabel": "30 9 * * 1 (America/Chicago)",
+          "sessionTarget": "isolated",
+          "lightContext": false,
+          "toolsAllow": [],
+          "delivery": "not requested",
+          "nextRunAt": "2026-09-14T14:30:00.000Z",
+          "lastRunAt": "2026-09-07T14:30:00.024Z",
+          "lastStatus": "error",
+          "lastDuration": "17s",
+          "consecutiveErrors": 1,
+          "consecutiveSkipped": 0,
+          "pendingValidation": false,
+          "deleteAfterRun": false,
+          "summary": "Weekly privacy-constrained tool-use and resolved-version canary for rolling OpenRouter fallbacks.",
+          "updatedAt": "2026-09-07T14:30:17.504Z"
+        }
+      }
+    },
+    {
       "id": "obsidian-dGhlbWUtc3ludGhlc2",
       "kind": "obsidian-proposal",
       "title": "Approve Obsidian update: Alphalpha/Syntheses/Life/Media Tracking.md",
@@ -76963,7 +77190,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-07T13:15:12.301Z",
+      "generatedAt": "2026-09-08T13:15:13.225Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76994,7 +77221,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-07T13:15:12.301Z",
+      "generatedAt": "2026-09-08T13:15:13.225Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77025,7 +77252,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-07T13:15:12.301Z",
+      "generatedAt": "2026-09-08T13:15:13.225Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77056,7 +77283,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-07T13:15:12.301Z",
+      "generatedAt": "2026-09-08T13:15:13.225Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77552,10 +77779,10 @@
     },
     {
       "id": "d6",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Context health",
       "title": "Context index available for bounded reads",
-      "summary": "42 active context files / 51866 active words; 9405 words archived.",
+      "summary": "42 active context files / 52560 active words; 9405 words archived.",
       "tags": [
         "#context-budget",
         "#manifest"
@@ -77563,10 +77790,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "Austin events: 27 family / 46 music latest",
-      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 2d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77574,7 +77801,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -77585,7 +77812,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -77596,10 +77823,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 42d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 43d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77607,10 +77834,10 @@
     },
     {
       "id": "source-5",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
-      "title": "Automations: 20 enabled / 6 paused",
-      "summary": "26 cron jobs indexed · 3h old · memory/automations/latest-manifest.json",
+      "title": "Automations: 33 enabled / 6 paused",
+      "summary": "39 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77618,10 +77845,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@308d5df · Obsidian vault: main@992beb0 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@b9e7fa2 · Obsidian vault: main@992beb0 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77629,10 +77856,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 104d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 105d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77640,10 +77867,10 @@
     },
     {
       "id": "source-8",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "category": "Source health",
-      "title": "Review queue: 0 pending / 0 high",
-      "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
+      "title": "Review queue: 1 pending / 1 high",
+      "summary": "8 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
