@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-09-17T17:02:57.486Z",
+    "generatedAt": "2026-09-18T17:03:08.258Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "15edb86",
+      "commit": "024e9c1",
       "branch": "main",
-      "generatedAt": "2026-09-17T17:02:57.504Z",
+      "generatedAt": "2026-09-18T17:03:08.273Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-09-17T13:15:11.901Z",
+      "generatedAt": "2026-09-18T13:15:11.190Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 61965,
@@ -92,26 +92,26 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "FAILING",
-        "age": "3d old",
-        "summary": "20 family / 53 music latest",
+        "status": "OK",
+        "age": "5h old",
+        "summary": "15 family / 53 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
         "details": [
           {
-            "label": "Garden Gnome Grove: Mushroom Walks with Central Texas Mycological Society",
+            "label": "Austin Pond Society – September Plant Swap & Ice Cream Social",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
-            "label": "Garden Gnome Grove: Bug Walk with Wizzie Brown",
+            "label": "Early Birds in the Garden",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
-            "label": "Garden Gnome Grove Opening Celebration",
+            "label": "“Adding Splash to Your Garden” at the Violet Crown Garden Club September Meeting",
             "value": "family · Zilker Botanical Garden · 1.6 mi"
           },
           {
-            "label": "Soul Man Sam and Blue Monday",
+            "label": "Soul Man Sam",
             "value": "music · Songkick Austin"
           },
           {
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "52d old",
+        "age": "53d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -239,7 +239,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@15edb86 · Obsidian vault: main@5d094aa · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@024e9c1 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,11 +248,11 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@15edb86 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@024e9c1 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@5d094aa · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@066a9bd · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -266,7 +266,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "114d old",
+        "age": "115d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -335,52 +335,52 @@
     ],
     "eventCandidates": [
       {
-        "title": "Garden Gnome Grove: Mushroom Walks with Central Texas Mycological Society",
+        "title": "Austin Pond Society – September Plant Swap & Ice Cream Social",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
-        "date": "2026-09-19T09:30:00-05:00",
+        "date": "2026-09-21T18:30:00-05:00",
         "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
         "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/mushroom-walks-with-central-texas-mycological-society/",
-        "summary": "Join Central Texas Mycological Society for a whimsical Mushroom Walk exploring the magic and mystery of mushrooms! We’ll uncover the folklore behind these mycological wonders and dive into the fascinating science of the ",
+        "link": "https://zilkergarden.org/event/austin-pond-society-september-plant-swap-ice-cream-social/",
+        "summary": "Bring a plant to swap, share gardening ideas, and enjoy a fun evening with fellow Austin Pond Society members! Ice cream and refreshments will be provided and desserts to share are always graciously accepted. Whether […]",
         "score": 6.7,
         "id": "family-1",
         "kind": "family"
       },
       {
-        "title": "Garden Gnome Grove: Bug Walk with Wizzie Brown",
+        "title": "Early Birds in the Garden",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
-        "date": "2026-09-19T10:00:00-05:00",
+        "date": "2026-09-22T07:30:00-05:00",
         "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
         "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/bug-walk-with-wizzie-brown-2/",
-        "summary": "Join Wizzie Brown (@UrbanIPM) for a guided Bug Walk through Zilker Botanical Garden! Wizzie, Senior Extension Program Specialist with Texas A&M AgriLife Extension, will introduce you to urban & landscape pests, vegetable",
+        "link": "https://zilkergarden.org/event/early-birds-in-the-garden-15/",
+        "summary": "Join Travis Audubon and Zilker Botanical Garden Conservancy experts on a morning hike throughout the Garden observing the birds and the plants they interact with. Bring your water, walking shoes, binoculars, and cameras ",
         "score": 6.7,
         "id": "family-2",
         "kind": "family"
       },
       {
-        "title": "Garden Gnome Grove Opening Celebration",
+        "title": "“Adding Splash to Your Garden” at the Violet Crown Garden Club September Meeting",
         "source": "Zilker Botanical Garden",
         "sourceId": "zilker-botanical",
-        "date": "2026-09-19T10:00:00-05:00",
-        "venue": "Zilker Botanical Garden",
+        "date": "2026-09-24T09:30:00-05:00",
+        "venue": "Zilker Botanical Garden 2220 Barton Springs Road, Austin, Texas",
         "distanceMiles": 1.6,
-        "link": "https://zilkergarden.org/event/garden-gnome-grove-opening-celebration/",
-        "summary": "🌿✨ Welcome to the Garden Gnome Grove! ✨🌿 Step into a whimsical woodland world where garden magic comes to life! Wander through the Grove, follow the melodies, discover hidden wonders + lucky charms, and let […]",
+        "link": "https://zilkergarden.org/event/adding-splash-to-your-garden-at-the-violet-crown-garden-club-september-meeting/",
+        "summary": "Visitors, guests and club members are invited to attend a speaker program about an easy way to add a fun and rewarding water feature to your garden by Rachel Matthews with the Austin Pond Society […]",
         "score": 6.7,
         "id": "family-3",
         "kind": "family"
       },
       {
-        "title": "Soul Man Sam and Blue Monday",
+        "title": "Soul Man Sam",
         "source": "Songkick Austin",
         "sourceId": "songkick",
-        "date": "Monday 14 September 2026",
+        "date": "Monday 21 September 2026",
         "venue": "Antone's Nightclub, Austin, TX, US",
         "distanceMiles": null,
-        "link": "https://www.songkick.com/concerts/43385496-soul-man-sam-at-antones-nightclub",
+        "link": "https://www.songkick.com/concerts/43385426-soul-man-sam-at-antones-nightclub",
         "summary": "Antone's Nightclub, Austin, TX, US",
         "score": 3,
         "id": "music-1",
@@ -53131,146 +53131,151 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
     "investingDailyMarketBrief": {
-      "schemaVersion": "2026-09-17.1",
-      "generatedAt": "2026-09-17T17:00:00.000Z",
-      "publishedAt": "2026-09-17T17:00:00.000Z",
+      "schemaVersion": "2026-09-18.1",
+      "generatedAt": "2026-09-18T17:00:00.000Z",
+      "publishedAt": "2026-09-18T17:00:00.000Z",
       "publishCadence": "weekday-noon-America/Chicago",
       "status": "published",
-      "actionPosture": "observe / no trade recommendation / require durable oil-flow and rate confirmation",
-      "mainDriver": "Oil and Treasury yields reversed part of the post-Fed tightening shock: Brent fell to about $103 and the 10-year yield to 4.94%, lifting equities, even as the Fed's first hike since 2023 and signal of another possible hike keep financial conditions restrictive.",
-      "portfolioImplication": "The relief helps duration-sensitive AI, grid, nuclear and optical exposures at the margin, but it does not resolve the portfolio's 61.44% macro-security/real-assets concentration or invalidate energy-security and defense theses. The key test is whether lower oil reflects restored physical capacity rather than demand destruction or unverified repair reports.",
+      "actionPosture": "observe / no trade recommendation / require confirmation in physical oil flows, yields and credit",
+      "mainDriver": "Friday's signal is no longer broad oil-and-yield relief: crude continued to ease near $103, but the 10-year Treasury yield moved back toward 5% as the Fed, ECB and BOJ reinforced a global tightening regime, leaving U.S. equities mixed to slightly lower.",
+      "portfolioImplication": "The portfolio's energy, defense and real-asset exposures retain support from unresolved supply and security risks, while the renewed rise in yields raises the hurdle rate for AI, grid, nuclear, optical and other capital-intensive exposures. The existing 61.44% macro-security/real-assets concentration makes physical-flow and credit evidence more important than Friday's modest index moves.",
       "changedSincePrevious": [
-        "The Fed delivered the expected 25-basis-point hike to a 3.75%-4.00% target range, unanimously, and officials indicated at least one more increase may come this year.",
-        "The immediate post-Fed reaction was hawkish: Wednesday's S&P 500 fell 0.4%, the two-year yield rose to about 4.73%, and the 10-year yield closed near 5.01%.",
-        "By 12:12 p.m. ET Thursday, Brent had fallen 2.5% to about $103.15, the 10-year yield eased to 4.94%, and the S&P 500 and Nasdaq rose 1.1% and 1.6%, respectively.",
-        "Reports of faster Saudi East-West pipeline recovery improved near-term sentiment, but the claim was attributed to an unnamed source and Hormuz and Red Sea constraints remain unresolved."
+        "The 10-year Treasury yield reversed Thursday's relief and rose back to roughly 4.98%-5.00%, while U.S. indexes shifted from a broad rebound to mixed or modestly lower trading.",
+        "Oil fell for a third session and Brent remained near $103, but the decline coexists with continuing Saudi export constraints and contested Hormuz and Red Sea routes; price relief is not yet proof of normalized physical supply.",
+        "The Bank of Japan raised its benchmark rate to 1.25%, joining this week's Fed and ECB tightening and strengthening the global-credit-tightening signal.",
+        "Market attention is broadening from the immediate Fed decision to whether near-5% Treasury yields and above-$100 oil begin to affect equity breadth, credit and AI/infrastructure financing."
       ],
-      "headline": "Oil-and-yield relief lifts stocks, but the Fed has reset the hurdle rate",
-      "summary": "This is an observation layer, not a trade signal. Thursday's rally is a meaningful reversal of Wednesday's post-Fed stress, driven by Brent near $103 and the 10-year Treasury yield back below 5%. The durable change, however, is that the Fed has begun tightening: it raised rates to 3.75%-4.00%, described activity and capital investment as robust, and said inflation remains elevated. Look past a single risk-on session and unverified repair timing. Pay attention to physical Saudi export capacity, Hormuz and Red Sea transit, the two-year/10-year yield path, credit conditions and whether high financing costs begin to impair data-center, grid, nuclear and industrial project conversion.",
+      "headline": "Near-5% yields blunt oil relief as global tightening broadens",
+      "summary": "This is an observation layer, not a trade signal. Friday's lower oil price is helpful at the margin, but it is being offset by a renewed rise in Treasury yields and a broader global tightening cycle after the BOJ joined the Fed and ECB with a rate increase. Look past small index moves and any single report of logistical workarounds. Pay attention to verified Saudi export capacity and tanker flows, whether the 10-year yield holds above 5%, credit spreads and lending conditions, and evidence that financing costs are changing data-center, grid, nuclear, defense or industrial project conversion.",
       "marketDrivers": [
         {
-          "driver": "Fed tightening is now realized rather than anticipated",
-          "detail": "The FOMC unanimously raised the target range by 25 basis points to 3.75%-4.00%. Officials signaled at least one more increase may come this year, while the statement characterized activity, productivity and capital investment as solid or robust and inflation as elevated.",
-          "evidenceQuality": "high-official-primary-plus-independent-reporting",
-          "sourceCount": 3
-        },
-        {
-          "driver": "Oil and long-yield relief reversed Wednesday's stress",
-          "detail": "At about 12:12 p.m. ET Thursday, Brent was down 2.5% near $103.15 and the 10-year yield was 4.94%, versus 5.01% late Wednesday; the S&P 500 rose 1.1% and the Nasdaq 1.6%.",
+          "driver": "Treasury yields returned to the 5% threshold",
+          "detail": "Current market reporting put the 10-year yield near 4.98% in early Friday trade and described it moving beyond 5% later, reversing part of Thursday's relief and pressuring equity breadth.",
           "evidenceQuality": "high-current-independent-market-reporting",
-          "sourceCount": 2
-        },
-        {
-          "driver": "Saudi repair optimism remains provisional",
-          "detail": "A report that half of East-West pipeline capacity could return within days helped oil fall, but it cited an unnamed source. Independent reporting continues to show threatened Saudi exports and constrained regional shipping.",
-          "evidenceQuality": "medium-mixed-sourcing",
           "sourceCount": 3
         },
         {
-          "driver": "The hurdle rate for long-duration projects remains high",
-          "detail": "A 10-year yield near 4.94% is relief from the 5% threshold, not easy financial conditions. Higher funding costs still matter directly for data centers, power generation, grid upgrades and other capital-intensive thesis exposures.",
-          "evidenceQuality": "high-market-data-plus-portfolio-inference",
-          "sourceCount": 2
+          "driver": "Oil eased, but physical supply risk remains unresolved",
+          "detail": "Brent traded near $103 and crude was headed for a third daily decline as markets considered logistical workarounds. Independent reporting still describes constrained Saudi export infrastructure and threats across both Hormuz and Red Sea routes.",
+          "evidenceQuality": "high-current-reporting-with-unresolved-physical-data",
+          "sourceCount": 4
+        },
+        {
+          "driver": "Global central-bank tightening broadened",
+          "detail": "The BOJ raised its benchmark rate from 1.00% to 1.25%, the highest in 31 years, following the Fed's hike this week and the ECB's increase last week. The common inflation pressure raises the risk of tighter global credit rather than an isolated U.S. repricing.",
+          "evidenceQuality": "high-independent-reporting-on-official-decisions",
+          "sourceCount": 3
+        },
+        {
+          "driver": "Equity resilience is narrowing into a financing test",
+          "detail": "Indexes remain near highs and AI spending supports growth, but market reporting increasingly flags the possibility that the oil-and-rates shock migrates into equity, credit and project-financing effects.",
+          "evidenceQuality": "medium-high-market-reporting-plus-portfolio-inference",
+          "sourceCount": 3
         }
       ],
       "lookPast": [
-        "One day's equity rally after a weak post-Fed close; it does not establish a new easing regime.",
-        "Pipeline-repair timing attributed only to unnamed sources until physical throughput, loadings or official confirmation appear.",
-        "Lower oil caused by prospective demand destruction; that would not be equivalent to restored supply resilience.",
-        "AI and infrastructure price moves unsupported by capex, backlog, financing, interconnection or permitting evidence."
+        "Small Friday moves in the major indexes; they do not resolve the tightening, supply or concentration questions.",
+        "Oil weakness attributed to prospective workarounds until loadings, throughput and insured transit volumes confirm restored supply.",
+        "A view that equities can simply absorb more hikes without checking credit spreads, breadth, earnings revisions and project financing.",
+        "AI or infrastructure price moves unsupported by capex, backlog, power procurement, financing, interconnection or permitting evidence."
       ],
       "payAttention": [
-        "The two-year and 10-year Treasury yield path, curve shape, credit spreads and lending conditions after the initial post-Fed repricing.",
-        "Fed communications on whether the projected additional hike is a base case and how persistent oil inflation changes the path.",
-        "Verified East-West pipeline throughput, Yanbu loadings, Oman cargo availability, Hormuz and Bab el-Mandeb transit volumes, tanker insurance and physical crude premiums.",
-        "Whether Brent holds below $100-$105 or reaccelerates toward the week's near-$110 high.",
-        "Financing, backlog and capex revisions for data-center power, grid, nuclear, optical, defense and industrial holdings."
+        "Whether the 10-year Treasury yield closes and persists above 5%, the two-year path, curve shape, credit spreads and bank lending conditions.",
+        "Verified East-West pipeline throughput, Yanbu loadings, ship-to-ship transfers near Oman, Hormuz and Bab el-Mandeb transit, tanker insurance and physical crude premiums.",
+        "Whether Brent's decline below the week's highs reflects restored supply or weakening demand, and whether it can hold below $100-$105.",
+        "BOJ, Fed and ECB communication for evidence of a coordinated-duration tightening shock or renewed currency stress.",
+        "Capex, backlog, financing and cancellation data for data-center power, grid, nuclear, optical, defense and industrial projects."
       ],
       "thesisImpacts": [
         {
           "thesis": "Energy demand growth and infrastructure toll booths",
-          "impact": "supportive structurally, less acute tactically",
-          "reason": "Lower oil and prospective pipeline recovery reduce immediate scarcity pressure, but disrupted redundancy and contested shipping routes preserve the energy-security case. Persistent high prices also increase demand-destruction and policy risk."
+          "impact": "structurally supportive, tactically mixed",
+          "reason": "Persistent chokepoint and export-infrastructure risk supports energy-security and toll-road logic, but falling crude reduces immediate scarcity pressure and high prices create demand-destruction and policy risk."
         },
         {
           "thesis": "Rearmament and aerospace/defense capacity",
           "impact": "supportive",
-          "reason": "The expanding Yemen front and threats to Saudi infrastructure and maritime routes reinforce air-defense, maritime-security and replenishment demand; budgets, awards and backlog conversion remain the durable evidence."
+          "reason": "Threats to tankers, Saudi infrastructure and maritime routes reinforce air-defense and maritime-security demand; budgets, awards and backlog conversion remain the durable evidence."
         },
         {
           "thesis": "AI power infrastructure bottleneck / optical networking",
-          "impact": "mixed, with one-day rate relief",
-          "reason": "Lower long yields support valuation and financing at the margin, but the Fed's tightening path leaves a high hurdle rate. Thesis validation still requires durable capex, orders, power procurement and project conversion."
+          "impact": "mixed-to-negative on financing, thesis intact",
+          "reason": "A near-5% 10-year yield raises valuation and project-financing hurdles. Validation still depends on durable capex, orders, power procurement and completed project conversion."
+        },
+        {
+          "thesis": "Japanese financial reflation",
+          "impact": "supportive with balance-sheet caveats",
+          "reason": "The BOJ's 1.25% policy rate supports the normalization and net-interest-margin premise, while JGB losses, credit quality, yen moves and global exposure remain key invalidators."
         },
         {
           "thesis": "Strategic commodity stockpiling and critical minerals",
           "impact": "supportive but indirect",
-          "reason": "Regional supply disruption reinforces security-of-supply logic, but today's evidence is about oil logistics rather than a new critical-mineral shortage and does not resolve the portfolio's resource concentration."
+          "reason": "Supply-chain insecurity reinforces stockpiling logic, but today's evidence is centered on oil logistics rather than a new critical-mineral shortage and does not resolve concentration risk."
         },
         {
           "thesis": "Precious-metals currency-debasement hedge",
           "impact": "mixed",
-          "reason": "Geopolitical and policy-credibility hedging remains relevant, but a stronger anti-inflation Fed and high nominal and real yields compete with the hedge case."
+          "reason": "Geopolitical and policy-credibility hedging remains relevant, but higher nominal and real yields compete with the hedge case; this sleeve was already identified internally as a lower-conviction over-allocation."
         },
         {
           "thesis": "Healthcare quality compounders",
           "impact": "mostly neutral with rate sensitivity",
-          "reason": "No sector-specific evidence changes the thesis; lower yields help valuation at the margin while company execution remains the durable test."
+          "reason": "No new sector-specific evidence changes the thesis; higher yields weigh on valuation while company execution remains the durable test."
         }
       ],
-      "portfolioRead": "The newest internal portfolio-thesis review remains the September 14 snapshot: $296,244.93 of equity, $888.41 of cash and 61.44% mapped to the macro-security/real-assets overlay, including 18.36% energy, 17.49% strategic commodities, 15.21% precious metals and 10.38% defense. Thursday's oil-and-yield relief reduces immediate mark-to-market stress but does not remove concentration risk. Input health remains on watch with zero actionable failed runs. Allocation targets and daily trade analysis are still dated June 6 and are not used to support an action recommendation.",
+      "portfolioRead": "The newest internal portfolio-thesis review remains the September 14 snapshot: $296,244.93 of equity and 61.44% mapped to the macro-security/real-assets overlay, including 18.36% energy, 17.49% strategic commodities, 15.21% precious metals and 10.38% defense. Friday's combination of lower oil and higher yields is mixed for that structure and does not remove concentration risk. Input health remains on watch with zero actionable failed runs. Allocation targets and daily trade analysis remain dated June 6 and are not used to support an action recommendation.",
       "sourceNotes": [
         {
-          "id": "fed-fomc-statement-2026-09-16",
-          "title": "Federal Reserve issues FOMC statement",
-          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-          "trustNote": "Primary official source for the policy decision; not a source for market interpretation.",
-          "usedFor": "Unanimous 25-basis-point hike to 3.75%-4.00% and the Fed's characterization of inflation and activity."
+          "id": "ap-markets-2026-09-18",
+          "title": "Wall Street drifts lower as bond yields rise and oil prices swing",
+          "url": "https://apnews.com/article/1ff3311788bcc4555d00e283a57289fe",
+          "trustNote": "Independent current market reporting; intraday levels can change and are treated as untrusted research input.",
+          "usedFor": "Mixed-to-lower U.S. equities, rising bond yields and volatile oil on Friday."
         },
         {
-          "id": "ap-markets-2026-09-17",
-          "title": "US stocks rise after oil prices fall and pressure from the bond market eases",
-          "url": "https://apnews.com/article/stock-markets-fed-oil-26a4da336d561d213a3f28f260f25d2c",
-          "trustNote": "Independent current intraday reporting; prices can change after publication and are treated as untrusted research input.",
-          "usedFor": "Thursday equity, Brent and Treasury levels and reporting that at least one additional Fed hike may come this year."
+          "id": "reuters-us-open-2026-09-18",
+          "title": "S&P 500, Nasdaq open higher as oil prices fall",
+          "url": "https://www.investing.com/news/stock-market-news/sp-500-nasdaq-open-higher-as-oil-prices-fall-4907520",
+          "trustNote": "Reuters reporting republished by Investing.com; prices reflect the stated publication time.",
+          "usedFor": "Friday's early index levels and conflicting signals from lower oil and higher Treasury yields."
         },
         {
-          "id": "ap-indexes-2026-09-16",
-          "title": "How major US stock indexes fared Wednesday 9/16/2026",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-b082e78c9b572b6b0a94b8033a0ee96b",
-          "trustNote": "Independent end-of-session reporting.",
-          "usedFor": "Wednesday's post-Fed index reaction."
+          "id": "reuters-global-tightening-2026-09-18",
+          "title": "Global shares fall, Treasury yields rise as central banks double down on inflation fight",
+          "url": "https://in.marketscreener.com/news/global-shares-fall-treasury-yields-rise-as-central-banks-double-down-on-inflation-fight-ce785adadc8af724",
+          "trustNote": "Reuters reporting republished by MarketScreener; current levels can change after publication.",
+          "usedFor": "Global equity weakness, yields moving beyond 5% and the broader central-bank tightening interpretation."
         },
         {
-          "id": "reuters-post-fed-2026-09-16",
-          "title": "Stocks fall as Fed delivers hawkish rate hike",
-          "url": "https://www.lse.co.uk/news/global-markets-stocks-fall-as-fed-delivers-hawkish-rate-hike-orzebotzgzfyv2r.html",
-          "trustNote": "Reuters reporting republished by London South East; market levels reflect the stated publication time.",
-          "usedFor": "Post-Fed two-year and 10-year yields, Brent settlement, dollar and gold reaction, and constrained Hormuz passage."
+          "id": "ap-boj-2026-09-18",
+          "title": "Japan's central bank raises benchmark interest rate to 1.25%, the highest in 31 years",
+          "url": "https://apnews.com/article/67e71246d3af41bcfc61aa788f9959c7",
+          "trustNote": "Independent reporting on the BOJ decision.",
+          "usedFor": "BOJ rate increase from 1.00% to 1.25% and normalization context."
         },
         {
-          "id": "dow-jones-pipeline-recovery-2026-09-17",
-          "title": "Stocks Rally, Yields Fall as Lower Oil Boosts Market Mood",
-          "url": "https://www.marketscreener.com/news/stocks-rally-yields-fall-as-lower-oil-boosts-market-mood-update-ce785bd3dc8bf223",
-          "trustNote": "Dow Jones reporting republished by MarketScreener; Saudi repair timing is attributed to an unnamed source and is treated as provisional.",
-          "usedFor": "Early Thursday oil and yield relief and the provisional half-capacity pipeline-recovery report."
+          "id": "reuters-stagflation-2026-09-18",
+          "title": "Rising oil, rates and yields brew up stagflation cocktail for markets",
+          "url": "https://www.marketscreener.com/news/rising-oil-rates-and-yields-brew-up-stagflation-cocktail-for-markets-ce785bd3dd8ef522",
+          "trustNote": "Reuters analysis republished by MarketScreener; interpretive claims are treated as research input rather than fact.",
+          "usedFor": "Risk that the oil-and-rates shock migrates into equity and credit effects."
         },
         {
-          "id": "ap-yemen-2026-09-17",
-          "title": "Yemen's misery deepens as Houthis draw it into the Iran war",
-          "url": "https://apnews.com/article/yemen-displacement-conflict-houthis-5bb1f82555c147514fc2e8d2d61baf0c",
-          "trustNote": "Independent conflict reporting; claims by parties are not treated as confirmed physical-flow data.",
-          "usedFor": "Continued Red Sea conflict and threat to Saudi oil exports."
+          "id": "ap-middle-east-2026-09-18",
+          "title": "Iran claims it struck an oil tanker in the Strait of Hormuz, and other Mideast developments",
+          "url": "https://apnews.com/article/024350a0820dfc5dd433b4e13445fab5",
+          "trustNote": "Independent conflict reporting; claims by combatants are not treated as confirmed physical-flow data.",
+          "usedFor": "Continuing tanker and Hormuz security risk."
         },
         {
-          "id": "internal-investing-artifacts-2026-09-17",
+          "id": "internal-investing-artifacts-2026-09-18",
           "title": "Internal Investing OS artifacts",
           "url": "memory/investing/portfolio-thesis-review/latest.json",
-          "trustNote": "Internal artifacts; portfolio and input-health data are September 14 snapshots, while allocation-policy files remain stale.",
-          "usedFor": "Portfolio exposure, thesis boundaries, concentration diagnostics and freshness caveats."
+          "trustNote": "Internal artifacts; portfolio and input-health data are September 14 snapshots, while allocation-policy and trade-analysis files remain stale.",
+          "usedFor": "Portfolio exposures, thesis boundaries, concentration diagnostics and freshness caveats."
         }
       ],
-      "discussionPrompt": "Does the next several sessions confirm that lower oil and yields are coming from restored physical supply and contained inflation expectations, or is Thursday's rally only a pause inside a new Fed-tightening regime?",
+      "discussionPrompt": "Does the next week confirm that lower oil reflects restored physical supply, or do near-5% Treasury yields and global rate hikes turn the current oil-and-rates shock into a broader credit and project-financing problem?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -74749,7 +74754,7 @@
         "label": "Article queue",
         "kind": "articles",
         "path": "obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md",
-        "updatedAt": "2026-09-11T13:01:51.642Z",
+        "updatedAt": "2026-09-18T13:03:06.402Z",
         "items": [
           {
             "id": "articles-1-a-subway-company-solved-ai-s-business-model",
@@ -74988,7 +74993,26 @@
             "themes": []
           },
           {
-            "id": "articles-16-the-fall-and-rise-of-screwworm",
+            "id": "articles-16-the-economics-and-politics-of-pacing-the-frontie",
+            "title": "The Economics and Politics of Pacing the Frontier",
+            "status": "weekly-pick-2026-09-18",
+            "priority": "high",
+            "creator": "Byrne Hobart",
+            "source": "The Diff",
+            "link": "https://www.thediff.co/archive/the-economics-and-politics-of-pacing-the-frontier/",
+            "why": "--- title: \"The Economics and Politics of Pacing the Frontier\" author: Byrne Hobart source: The Diff url: https://www.thediff.co/archive/the-economics-and-politics-of-pacing-the-frontier/ published: 2026-09-14 added: 202",
+            "added": "2026-09-18",
+            "notes": null,
+            "themes": [
+              "AI",
+              "governance",
+              "market structure",
+              "agentic systems",
+              "institutional design"
+            ]
+          },
+          {
+            "id": "articles-17-the-fall-and-rise-of-screwworm",
             "title": "The Fall and Rise of Screwworm",
             "status": "weekly-pick-2026-08-14",
             "priority": "high",
@@ -75001,7 +75025,7 @@
             "themes": []
           },
           {
-            "id": "articles-17-the-mosquito-strategy",
+            "id": "articles-18-the-mosquito-strategy",
             "title": "The Mosquito Strategy",
             "status": "queued-dry-run",
             "priority": "3",
@@ -75018,7 +75042,7 @@
             ]
           },
           {
-            "id": "articles-18-the-surprisingly-weak-ipo-housing-effect",
+            "id": "articles-19-the-surprisingly-weak-ipo-housing-effect",
             "title": "The Surprisingly Weak IPO-Housing Effect",
             "status": "queued",
             "priority": "4",
@@ -75031,7 +75055,7 @@
             "themes": []
           },
           {
-            "id": "articles-19-why-we-like-things",
+            "id": "articles-20-why-we-like-things",
             "title": "Why We Like Things",
             "status": "weekly-pick-2026-09-04",
             "priority": "5",
@@ -75051,7 +75075,7 @@
           }
         ],
         "needsClarification": [],
-        "summary": "19 candidates · weekly pick source"
+        "summary": "20 candidates · weekly pick source"
       },
       {
         "id": "shows",
@@ -75571,234 +75595,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-17T13:15:00.000Z",
-      "lastRunAt": "2026-09-16T13:15:00.035Z",
-      "lastStatus": "ok",
-      "lastDuration": "15s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-09-16T13:15:15.515Z"
-    },
-    {
-      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
-      "name": "Investing OS thesis/price watch",
-      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 2-6",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 2-6 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-09-17T14:00:00.000Z",
-      "lastRunAt": "2026-09-16T14:00:00.024Z",
+      "nextRunAt": "2026-09-18T13:15:00.000Z",
+      "lastRunAt": "2026-09-17T13:15:00.034Z",
       "lastStatus": "ok",
       "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
-      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-09-16T14:00:15.673Z"
-    },
-    {
-      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
-      "name": "openrouter-credit-monitor",
-      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-09-17T14:00:00.000Z",
-      "lastRunAt": "2026-09-14T14:00:00.051Z",
-      "lastStatus": "ok",
-      "lastDuration": "10s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "updatedAt": "2026-09-16T14:00:00.739Z"
-    },
-    {
-      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
-      "name": "almanac-generator",
-      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 11 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 11 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-17T16:00:00.000Z",
-      "lastRunAt": "2026-09-16T16:00:00.064Z",
-      "lastStatus": "ok",
-      "lastDuration": "1m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-09-16T16:01:18.769Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-17T17:00:00.000Z",
-      "lastRunAt": "2026-09-16T17:00:00.046Z",
-      "lastStatus": "ok",
-      "lastDuration": "7m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-09-16T17:06:37.214Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-17T17:19:54.973Z",
-      "lastRunAt": "2026-09-13T17:19:55.009Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-09-17T11:19:55.885Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-18T11:20:16.390Z",
-      "lastRunAt": "2026-09-17T11:20:16.419Z",
-      "lastStatus": "ok",
-      "lastDuration": "7s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-09-17T11:20:23.667Z"
-    },
-    {
-      "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
-      "name": "events-four-day-crawl",
-      "description": "Austin event crawl plus compact event manifest generation every four days",
-      "category": "events",
-      "enabled": true,
-      "schedule": {
-        "kind": "every",
-        "everyMs": 345600000,
-        "anchorMs": 1778328000000
-      },
-      "scheduleLabel": "every 96h",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-09-18T12:00:00.358Z",
-      "lastRunAt": "2026-09-14T12:00:00.358Z",
-      "lastStatus": "ok",
-      "lastDuration": "2m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Austin event crawl plus compact event manifest generation every four days",
-      "updatedAt": "2026-09-14T12:01:42.451Z"
-    },
-    {
-      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-      "name": "weekly-recommended-article",
-      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * 5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-09-18T13:00:00.000Z",
-      "lastRunAt": "2026-09-11T13:00:00.043Z",
-      "lastStatus": "ok",
-      "lastDuration": "3m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-09-11T13:03:07.854Z"
+      "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
+      "updatedAt": "2026-09-17T13:15:15.958Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
@@ -75852,6 +75658,170 @@
       "deleteAfterRun": true,
       "summary": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
       "updatedAt": "2026-09-07T23:30:02.114Z"
+    },
+    {
+      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
+      "name": "Investing OS thesis/price watch",
+      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 2-6",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-09-18T14:00:00.000Z",
+      "lastRunAt": "2026-09-17T14:00:00.043Z",
+      "lastStatus": "ok",
+      "lastDuration": "19s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "updatedAt": "2026-09-17T14:00:18.596Z"
+    },
+    {
+      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
+      "name": "openrouter-credit-monitor",
+      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-18T14:00:00.000Z",
+      "lastRunAt": "2026-09-14T14:00:00.051Z",
+      "lastStatus": "ok",
+      "lastDuration": "10s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "updatedAt": "2026-09-17T14:00:00.695Z"
+    },
+    {
+      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
+      "name": "almanac-generator",
+      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 11 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-18T16:00:00.000Z",
+      "lastRunAt": "2026-09-17T16:00:00.033Z",
+      "lastStatus": "ok",
+      "lastDuration": "55s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
+      "updatedAt": "2026-09-17T16:00:55.188Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-18T17:00:00.000Z",
+      "lastRunAt": "2026-09-17T17:00:00.045Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-09-17T17:04:09.333Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-18T17:19:54.973Z",
+      "lastRunAt": "2026-09-13T17:19:55.009Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-09-18T11:19:55.997Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-19T11:20:16.390Z",
+      "lastRunAt": "2026-09-18T11:20:16.437Z",
+      "lastStatus": "ok",
+      "lastDuration": "9s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-09-18T11:20:25.290Z"
     },
     {
       "id": "33ab95eb-5c61-458e-9f5b-5daf620cb97b",
@@ -76064,6 +76034,33 @@
       "updatedAt": "2026-09-14T15:02:09.505Z"
     },
     {
+      "id": "01bbb3a0-233e-4e22-a0c6-18dcef3f5023",
+      "name": "events-four-day-crawl",
+      "description": "Austin event crawl plus compact event manifest generation every four days",
+      "category": "events",
+      "enabled": true,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 345600000,
+        "anchorMs": 1778328000000
+      },
+      "scheduleLabel": "every 96h",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-09-22T12:00:00.393Z",
+      "lastRunAt": "2026-09-18T12:00:00.393Z",
+      "lastStatus": "ok",
+      "lastDuration": "1m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Austin event crawl plus compact event manifest generation every four days",
+      "updatedAt": "2026-09-18T12:01:25.205Z"
+    },
+    {
       "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
       "name": "thesis-baskets-weekly-improvement-proposal",
       "description": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
@@ -76089,6 +76086,33 @@
       "deleteAfterRun": false,
       "summary": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
       "updatedAt": "2026-09-16T16:34:11.859Z"
+    },
+    {
+      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
+      "name": "weekly-recommended-article",
+      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-25T13:00:00.000Z",
+      "lastRunAt": "2026-09-18T13:00:00.032Z",
+      "lastStatus": "ok",
+      "lastDuration": "5m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "updatedAt": "2026-09-18T13:04:50.056Z"
     },
     {
       "id": "dec05e10-af17-4a59-a8d8-7736138a57c6",
@@ -76728,7 +76752,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-17T13:15:12.046Z",
+      "generatedAt": "2026-09-18T13:15:11.327Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76759,7 +76783,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-17T13:15:12.046Z",
+      "generatedAt": "2026-09-18T13:15:11.327Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76790,7 +76814,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-17T13:15:12.046Z",
+      "generatedAt": "2026-09-18T13:15:11.327Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76821,7 +76845,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-17T13:15:12.046Z",
+      "generatedAt": "2026-09-18T13:15:11.327Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77317,7 +77341,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 52560 active words; 9405 words archived.",
@@ -77328,10 +77352,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
-      "title": "Austin events: 20 family / 53 music latest",
-      "summary": "2 crawl artifacts indexed · 3d old · memory/events/latest-manifest.json",
+      "title": "Austin events: 15 family / 53 music latest",
+      "summary": "2 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77339,7 +77363,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -77350,7 +77374,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -77361,10 +77385,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 52d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 53d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77372,7 +77396,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "Automations: 35 enabled / 6 paused",
       "summary": "41 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -77383,10 +77407,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@15edb86 · Obsidian vault: main@5d094aa · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@024e9c1 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77394,10 +77418,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 114d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 115d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77405,7 +77429,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-09-17",
+      "date": "2026-09-18",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
