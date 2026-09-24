@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-09-23T17:05:25.254Z",
+    "generatedAt": "2026-09-24T17:02:35.938Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "292a860",
+      "commit": "1c51ca7",
       "branch": "main",
-      "generatedAt": "2026-09-23T17:05:25.270Z",
+      "generatedAt": "2026-09-24T17:02:35.952Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-09-23T13:15:11.498Z",
+      "generatedAt": "2026-09-24T13:15:12.229Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 61965,
@@ -92,8 +92,8 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "OK",
-        "age": "1d old",
+        "status": "STALE",
+        "age": "2d old",
         "summary": "13 family / 87 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "58d old",
+        "age": "59d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -239,7 +239,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@292a860 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@1c51ca7 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -248,7 +248,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@292a860 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@1c51ca7 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -266,7 +266,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "120d old",
+        "age": "121d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -53327,135 +53327,135 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
     "investingDailyMarketBrief": {
-      "schemaVersion": "2026-09-23.1",
-      "generatedAt": "2026-09-23T17:00:00.000Z",
-      "publishedAt": "2026-09-23T17:00:00.000Z",
+      "schemaVersion": "2026-09-24.1",
+      "generatedAt": "2026-09-24T17:00:00.000Z",
+      "publishedAt": "2026-09-24T17:00:00.000Z",
       "publishCadence": "weekday-noon-America/Chicago",
       "status": "published",
-      "actionPosture": "observe / no trade recommendation / require confirmation in physical oil flows, yields, credit and project conversion",
-      "mainDriver": "A hotter U.S. activity pulse pushed long Treasury yields sharply higher while renewed doubt around Iran diplomacy lifted oil, reversing Tuesday's tentative relief and pressuring equities, especially rate-sensitive growth.",
-      "portfolioImplication": "The mix supports the portfolio's energy and security exposures at the theme level but raises the discount-rate and financing hurdle for AI-power, nuclear, optical and other long-duration infrastructure. The 60.82% macro-security/real-assets concentration and stale allocation-policy inputs remain the dominant internal constraints.",
+      "actionPosture": "observe / no trade recommendation / require confirmation in yields, credit, physical oil flows and summit implementation",
+      "mainDriver": "The inflation-and-duration shock intensified: the U.S. 10-year Treasury yield moved above 5% to its highest level since 2007 while Brent returned near $105 as U.S.-Iran talks showed little concrete progress.",
+      "portfolioImplication": "This mix remains supportive for energy, defense and scarcity exposures but raises the valuation and financing hurdle for AI-power, nuclear, optical and other capital-intensive growth. The portfolio's 60.82% macro-security/real-assets concentration and stale allocation-policy inputs remain the dominant internal constraints.",
       "changedSincePrevious": [
-        "The main cross-asset pressure shifted from Tuesday's failed sub-$98 oil break to a combined oil-and-yield shock: Brent rose more than 1% and the 10-year Treasury yield approached 5% after strong business-activity data.",
-        "U.S. equities moved from a quiet, mixed session to a broader decline, with the S&P 500 down about 0.6% and the Nasdaq down about 1.2% around midday as higher yields weighed on growth stocks.",
-        "The dollar reached a nearly two-month high as markets priced a Fed hiking cycle; Governor Michael Barr joined other officials in saying further hikes would likely be needed.",
-        "Oil-product tightness became more distinct from crude supply: Brent remained near a two-week low early in the day, but record diesel cracks and possible U.S. export restrictions pointed to downstream scarcity even before crude rebounded.",
-        "No verified breakthrough emerged from U.S.-Iran talks or the approaching Trump-Xi summit, so diplomacy remains a high-volatility catalyst rather than thesis confirmation."
+        "The 10-year Treasury yield moved from approaching 5% to roughly 5.1%, its highest level since 2007, while the 30-year reached its highest level since 2004; the restrictive-rate risk is now more clearly a level-and-duration issue.",
+        "Brent advanced from roughly $101 on Wednesday to around $105 intraday Thursday, with little visible progress in U.S.-Iran talks and physical Hormuz flows still far from normalized.",
+        "Fed Governor John Williams said another rate increase this year remained reasonable, broadening the recent hawkish message beyond Barr and Musalem.",
+        "Critical-mineral risk gained concrete supply-chain evidence: U.S. and Japanese officials recently discussed Chinese yttrium bottlenecks affecting aerospace, power and semiconductor tools ahead of the Trump-Xi summit.",
+        "Equities remained under pressure but the move was orderly around midday; the signal is the joint persistence of oil and yields, not a one-session index decline."
       ],
-      "headline": "Hot activity, near-5% yields and firmer oil end the relief pause",
-      "summary": "This is an observation layer, not a trade signal. Wednesday increased the relevance of the restrictive-rate regime: strong September business surveys, a near-5% 10-year yield, a firmer dollar and renewed oil gains hit equities together. Look past one-session index moves and summit headlines. Pay attention to whether long yields and credit remain restrictive, whether Gulf flows improve despite uneven diplomacy, whether diesel scarcity broadens inflation pressure, and whether capital-intensive AI, grid and nuclear projects keep converting into financed construction.",
+      "headline": "Above-5% yields and $105 Brent turn the squeeze into a persistence test",
+      "summary": "This is an observation layer, not a trade signal. Thursday extended rather than reversed Wednesday's core regime: oil risk and hot-activity inflation concerns are keeping long yields above 5%, the dollar firm and rate-sensitive equities under pressure. Look past summit optics and intraday index moves. Pay attention to duration at these yield levels, credit transmission, physical Hormuz and diesel flows, implementable U.S.-China outcomes, and whether capital-intensive projects can still reach financed construction.",
       "marketDrivers": [
         {
-          "driver": "Long yields are becoming the clearest valuation and financing constraint",
-          "detail": "The 10-year Treasury yield approached 5% and the 30-year reached about 5.37% after September business surveys beat expectations. The move raises discount rates and financing costs across long-duration equities and infrastructure.",
-          "evidenceQuality": "high-current-market-reporting-with-official-prior-close",
-          "sourceCount": 3
-        },
-        {
-          "driver": "Oil relief remains hostage to diplomacy while product scarcity persists",
-          "detail": "Brent rose more than 1% after five declines as Iranian comments reduced confidence in peace progress. Earlier reporting showed Brent near $99.62, improving Gulf crude supplies and higher U.S. inventories, but record diesel cracks highlighted a separate refined-product bottleneck.",
+          "driver": "Long yields crossed a more consequential financing threshold",
+          "detail": "The 10-year Treasury yield traded around 5.1%, its highest since 2007, after strong business activity and a weak five-year auction; the 30-year reached its highest since 2004. Competition from bonds and higher borrowing costs now matter more than the exact daily equity move.",
           "evidenceQuality": "high-current-independent-market-reporting",
           "sourceCount": 3
         },
         {
-          "driver": "Fed tightening expectations strengthened alongside the dollar",
-          "detail": "The dollar reached a nearly two-month high as investors priced a hiking cycle. Governor Michael Barr said last week's increase was an important recalibration and that further hikes would likely be needed, reinforcing Tuesday's hawkish signal from Musalem.",
+          "driver": "Oil's geopolitical and physical-flow premium widened again",
+          "detail": "Brent rose around 2% to roughly $105 after reaching $106.50 as U.S.-Iran diplomacy showed little progress. Reporting continued to distinguish Brent's Hormuz exposure from relatively insulated U.S. supply and noted uncertainty around diesel-export policy.",
+          "evidenceQuality": "high-current-independent-commodity-reporting",
+          "sourceCount": 3
+        },
+        {
+          "driver": "The Fed's hawkish message broadened",
+          "detail": "Governor John Williams said another rate increase this year remained reasonable, following similarly hawkish commentary from Governors Barr and Musalem. Strong activity, oil-linked inflation risk and firm yields reinforce a higher-for-longer or further-tightening scenario.",
           "evidenceQuality": "high-named-central-bank-official-via-independent-reporting",
           "sourceCount": 2
         },
         {
-          "driver": "AI enthusiasm is colliding with rate, grid and disruption risk",
-          "detail": "Meta's AI product reception supported parts of technology, but the Nasdaq fell about 1.2% as yields rose and AI disruption concerns weighed elsewhere. Data-center grid-cost allocation remains an execution and policy constraint rather than a demand invalidator.",
-          "evidenceQuality": "medium-high-current-market-and-policy-reporting",
-          "sourceCount": 3
+          "driver": "Critical-mineral bottlenecks became more specific ahead of the summit",
+          "detail": "Reuters reported that U.S. and Japanese officials met on Chinese yttrium and permanent-magnet bottlenecks. Yttrium has few substitutes and is used in jet-engine coatings, power components and semiconductor-manufacturing tools, directly linking mineral access to defense, grid and AI supply chains.",
+          "evidenceQuality": "high-document-based-independent-reporting",
+          "sourceCount": 2
         }
       ],
       "lookPast": [
-        "A single day's equity decline as a thesis break; the more durable signal is whether long yields, credit spreads and financing conditions stay restrictive.",
-        "Either the early crude decline or later rebound as proof of normalization or renewed shortage; physical Gulf flows, inventories and refined-product availability matter more.",
-        "Headline AI product enthusiasm or disruption fears without confirming capex, orders, margins, power procurement, interconnection and financed project delivery.",
-        "U.S.-Iran and Trump-Xi summit optics unless they produce implementable changes to oil flows, tariffs, export controls, AI rules or critical-mineral access."
+        "A second down equity session by itself; persistence in yields, credit and earnings expectations is the durable signal.",
+        "Intraday oil headlines as proof of either peace or shortage; verified Strait of Hormuz traffic, export availability, inventories and refined-product balances matter more.",
+        "Trump-Xi ceremony or broad statements without enforceable changes to rare-earth exports, tariffs, advanced chips, Taiwan policy or Iran-related cooperation.",
+        "AI and infrastructure demand announcements that lack contracts, power procurement, interconnection, financing and construction milestones."
       ],
       "payAttention": [
-        "Whether the 10-year Treasury yield holds near or above 5%, the 30-year remains elevated, and investment-grade or high-yield spreads begin to widen.",
-        "Whether Brent sustains a move back above $100, Hormuz and Saudi export flows normalize, U.S. inventories keep building, and record diesel cracks ease or spread into broader inflation.",
-        "Whether Fed officials converge on more hikes and whether strong activity is followed by persistent inflation, labor or consumer evidence.",
-        "Any enforceable U.S.-Iran or Trump-Xi outcome affecting energy supply, tariffs, advanced chips, AI rules or critical-mineral supply.",
-        "Backlog conversion, financing, permitting, grid-upgrade cost allocation and cancellations across AI power, nuclear, optical, defense and industrial projects."
+        "How long the 10-year holds above 5%, whether the 30-year continues rising, and whether investment-grade or high-yield spreads begin confirming tighter financial conditions.",
+        "Whether Brent sustains the $105 area, Hormuz traffic and Iranian exports improve, and diesel-policy uncertainty or refinery constraints broaden inflation pressure.",
+        "Whether incoming labor and inflation data validate another Fed hike and whether hawkish guidance becomes committee-wide.",
+        "Any implementable Trump-Xi outcome on rare earths, yttrium, permanent magnets, advanced chips, tariffs, Taiwan arms or Iran.",
+        "Backlog conversion, financing terms, permitting, grid-cost allocation and cancellations across AI power, nuclear, optical, defense and industrial projects."
       ],
       "thesisImpacts": [
         {
           "thesis": "Energy demand growth and infrastructure toll booths",
-          "impact": "structurally supportive, tactically volatile",
-          "reason": "Renewed crude gains and record diesel cracks preserve the scarcity signal, but improving Gulf supply and higher U.S. inventories keep the direction dependent on physical-flow confirmation."
+          "impact": "supportive scarcity signal, high geopolitical volatility",
+          "reason": "Brent near $105 and incomplete Hormuz normalization support the scarcity backdrop, but the premium remains diplomacy-sensitive and requires physical-flow confirmation."
         },
         {
           "thesis": "AI power infrastructure bottleneck / power scarcity",
-          "impact": "supportive demand, materially tougher financing test",
-          "reason": "AI demand remains visible, but near-5% long yields and grid-cost policy raise hurdle rates and increase the importance of contracted economics, balance-sheet quality and completed interconnections."
+          "impact": "demand intact, financing test materially harder",
+          "reason": "Above-5% long yields raise hurdle rates while yttrium constraints add supply-chain risk across power equipment and semiconductor tools; contracted economics and financed delivery matter increasingly."
         },
         {
           "thesis": "Nuclear power",
-          "impact": "supportive, execution-gated and rate-sensitive",
-          "reason": "Energy security and power scarcity remain supportive, while higher long rates increase financing risk for capital-intensive projects and make schedule, contract and supply-chain discipline more decisive."
+          "impact": "structurally supportive, execution- and duration-sensitive",
+          "reason": "Energy security remains supportive, but long-duration project economics face a tougher cost of capital and selected turbine/power-component supply chains share critical-mineral exposure."
         },
         {
           "thesis": "Rearmament and aerospace/defense capacity",
-          "impact": "supportive but little changed",
-          "reason": "Middle East uncertainty and U.S.-China competition preserve the security backdrop, but today's market news adds no fresh confirmation on budgets, awards, backlog conversion or valuation."
+          "impact": "supportive with a more visible material bottleneck",
+          "reason": "Persistent Middle East and Taiwan risk support demand while reported yttrium constraints affect jet-engine coatings and reinforce the need to track supply-chain conversion, not only budgets."
         },
         {
           "thesis": "Strategic commodity stockpiling and critical minerals",
-          "impact": "supportive policy backdrop, awaiting summit evidence",
-          "reason": "The Trump-Xi meeting remains a potential catalyst, but no implementable change to tariffs, export controls or mineral access is yet verified."
+          "impact": "freshly supported, summit-dependent",
+          "reason": "Specific yttrium and permanent-magnet bottlenecks validate the supply-security thesis, but the near-term market impact depends on enforceable U.S.-China outcomes and substitution or new supply."
         },
         {
           "thesis": "Japanese financial reflation",
-          "impact": "mixed",
-          "reason": "Higher global rates can support margins, but the stronger dollar, thin holiday liquidity and global curve volatility keep FX, funding and mark-to-market risks prominent."
+          "impact": "mixed with stronger normalization evidence",
+          "reason": "Japan's 10-year yield reached a 30-year high, supporting rate-normalization logic, while rapid global bond losses increase mark-to-market, funding and volatility risk."
         },
         {
           "thesis": "Healthcare quality compounders",
-          "impact": "mostly neutral with higher valuation pressure",
-          "reason": "No new sector-specific evidence changes the operating thesis; the sharp rise in long yields increases the need for earnings-backed valuation support."
+          "impact": "operationally neutral, valuation hurdle higher",
+          "reason": "No new sector-specific evidence changes the thesis, but above-5% long yields increase the need for earnings-backed returns rather than multiple expansion."
         }
       ],
-      "portfolioRead": "The latest internal review, generated September 21, tracks $296,777.96 of equity and $3,727.73 of cash. The macro-security/real-assets overlay is $180,506.77, or 60.82% of tracked equity; precious metals at 15.53% remain the clearest lower-conviction allocation mismatch. Input health is usable but on watch, with one actionable RSS failure and recurring partial podcast runs. Allocation targets and daily trade analysis remain dated June 6, so they are freshness caveats rather than support for any action recommendation.",
+      "portfolioRead": "The latest internal review, generated September 21, tracks $296,777.96 of equity and $3,727.73 of cash. The macro-security/real-assets overlay is $180,506.77, or 60.82% of tracked equity; precious metals at 15.53% remain the clearest lower-conviction allocation mismatch. Input health is usable but on watch. Allocation targets and daily trade analysis remain dated June 6, so they are freshness caveats rather than support for action.",
       "sourceNotes": [
         {
-          "id": "reuters-wall-street-2026-09-23",
-          "title": "Wall St falls as oil ticks up, yields rise ahead of US-China summit",
-          "url": "https://sa.marketscreener.com/news/wall-st-falls-as-oil-ticks-up-yields-rise-ahead-of-us-china-summit-ce785ad9de8df72c",
-          "trustNote": "Reuters reporting republished by MarketScreener; intraday prices are time-sensitive and treated as untrusted research input.",
-          "usedFor": "U.S. index moves, oil and yield pressure, business-activity strength and AI-related market dispersion."
+          "id": "reuters-us-stocks-2026-09-24",
+          "title": "Wall St slips as Middle East uncertainty lifts oil; Trump-Xi talks in focus",
+          "url": "https://www.lse.co.uk/news/us-stocks-wall-st-slips-as-middle-east-uncertainty-lifts-oil-trump-xi-talks-in-focus-9ntp6c65tgl4sjs.html",
+          "trustNote": "Reuters reporting republished by LSE; intraday prices are time-sensitive and treated as untrusted research input.",
+          "usedFor": "Equity moves, long-yield pressure, technology leadership and summit caution."
         },
         {
-          "id": "reuters-fx-rates-2026-09-23",
-          "title": "Dollar jumps to near two-month high on Fed outlook, oil climb",
-          "url": "https://www.marketscreener.com/news/dollar-jumps-to-near-two-month-high-on-fed-outlook-oil-climb-ce785ad9d188f026",
-          "trustNote": "Reuters reporting republished by MarketScreener; market pricing and diplomatic expectations can change quickly.",
-          "usedFor": "Dollar move, Fed expectations, Governor Barr commentary and the reversal in Iran-talk optimism."
+          "id": "reuters-global-bonds-2026-09-24",
+          "title": "Bonds shaky, oil eases off highs amid trade, peace talks",
+          "url": "https://www.investing.com/news/economy-news/bonds-shaky-oil-eases-off-highs-amid-trade-peace-talks-4914355",
+          "trustNote": "Reuters reporting republished by Investing.com; quoted yields and expectations can change intraday.",
+          "usedFor": "U.S. and Japanese sovereign yields, dollar context and upcoming macro catalysts."
         },
         {
-          "id": "reuters-oil-products-2026-09-23",
-          "title": "Oil holds near two-week lows while diesel cracks hit record peak",
-          "url": "https://ca.marketscreener.com/news/oil-falls-1-on-better-supply-outlook-hopes-for-us-iran-talks-ce785ad9db88f522",
-          "trustNote": "Reuters reporting republished by MarketScreener; early-session prices and policy proposals are provisional.",
-          "usedFor": "Gulf supply improvement, U.S. crude inventories, diesel scarcity and possible export restrictions."
+          "id": "reuters-bond-threshold-2026-09-24",
+          "title": "Five spots to watch as the bond market sails past 5%",
+          "url": "https://www.investing.com/news/economy-news/five-spots-to-watch-as-the-bond-market-sails-past-5-4915755",
+          "trustNote": "Reuters analysis; scenario framing is interpretation rather than a forecast.",
+          "usedFor": "Why above-5% yields matter for equities, borrowing costs and cross-asset competition."
         },
         {
-          "id": "us-treasury-rates-2026-09",
-          "title": "Daily Treasury Par Yield Curve Rates",
-          "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202609&type=daily_treasury_yield_curve",
-          "trustNote": "Official U.S. Treasury daily data; September 23 closing observations were not yet available at publication time.",
-          "usedFor": "Prior-close yield-curve context and validation that today's intraday yield move followed already-elevated rates."
+          "id": "reuters-oil-2026-09-24",
+          "title": "Oil gains on little sign of progress in U.S.-Iran talks",
+          "url": "https://www.marketscreener.com/news/oil-prices-edge-lower-as-iran-says-it-is-open-to-diplomacy-to-end-the-war-ce785adedb8dfe23",
+          "trustNote": "Reuters reporting republished by MarketScreener; diplomatic claims and intraday prices remain provisional.",
+          "usedFor": "Brent and WTI prices, Hormuz risk, diplomacy and diesel-export uncertainty."
         },
         {
-          "id": "axios-ai-grid-costs-2026-09-18",
-          "title": "The fight over who pays for AI's power boom",
-          "url": "https://www.axios.com/2026/09/18/artificial-intelligence-axios-live-data-centers-grid-costs",
-          "trustNote": "Current policy reporting; legislative and regulatory outcomes remain uncertain.",
-          "usedFor": "Grid-cost allocation as an execution and financing constraint for data-center development."
+          "id": "reuters-yttrium-2026-09-24",
+          "title": "U.S., Japanese officials discussed China's yttrium curbs ahead of Trump-Xi meeting",
+          "url": "https://www.marketscreener.com/news/us-japanese-officials-discussed-china-s-yttrium-curbs-ahead-of-trump-xi-meeting-document-shows-ce785adedc8df026",
+          "trustNote": "Reuters document-based reporting republished by MarketScreener; policy outcomes remain unresolved.",
+          "usedFor": "Yttrium and permanent-magnet bottlenecks affecting aerospace, power and semiconductor equipment."
         },
         {
           "id": "internal-investing-artifacts-2026-09-21",
@@ -53465,7 +53465,7 @@
           "usedFor": "Portfolio exposure, allocation mismatches, thesis posture and data-freshness caveats."
         }
       ],
-      "discussionPrompt": "If the 10-year holds near 5% while oil remains around $100, which portfolio theses can still convert demand into cash flow without relying on cheaper financing or multiple expansion?",
+      "discussionPrompt": "If 10-year yields remain above 5% while Brent stays near $105, which holdings have current cash-flow support and which still depend most on cheaper financing or multiple expansion?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -75785,16 +75785,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-23T13:15:00.000Z",
-      "lastRunAt": "2026-09-22T13:15:00.045Z",
+      "nextRunAt": "2026-09-24T13:15:00.000Z",
+      "lastRunAt": "2026-09-23T13:15:00.049Z",
       "lastStatus": "ok",
-      "lastDuration": "17s",
+      "lastDuration": "16s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-09-22T13:15:17.201Z"
+      "updatedAt": "2026-09-23T13:15:15.579Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -75812,16 +75812,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-09-23T14:00:00.000Z",
-      "lastRunAt": "2026-09-22T14:00:00.052Z",
+      "nextRunAt": "2026-09-24T14:00:00.000Z",
+      "lastRunAt": "2026-09-23T14:00:00.033Z",
       "lastStatus": "ok",
-      "lastDuration": "43s",
+      "lastDuration": "18s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-09-22T14:00:42.792Z"
+      "updatedAt": "2026-09-23T14:00:17.780Z"
     },
     {
       "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
@@ -75839,7 +75839,7 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-09-23T14:00:00.000Z",
+      "nextRunAt": "2026-09-24T14:00:00.000Z",
       "lastRunAt": "2026-09-22T14:00:00.055Z",
       "lastStatus": "ok",
       "lastDuration": "8s",
@@ -75848,7 +75848,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "updatedAt": "2026-09-22T14:00:08.252Z"
+      "updatedAt": "2026-09-23T14:00:00.797Z"
     },
     {
       "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
@@ -75866,43 +75866,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-23T16:00:00.000Z",
-      "lastRunAt": "2026-09-22T16:00:00.042Z",
+      "nextRunAt": "2026-09-24T16:00:00.000Z",
+      "lastRunAt": "2026-09-23T16:00:00.053Z",
       "lastStatus": "ok",
-      "lastDuration": "2m",
+      "lastDuration": "1m",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-09-22T16:01:34.370Z"
-    },
-    {
-      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
-      "name": "thesis-baskets-weekly-improvement-proposal",
-      "description": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 11 * * 3",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-09-23T16:30:00.000Z",
-      "lastRunAt": "2026-09-16T16:30:00.041Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
-      "updatedAt": "2026-09-16T16:34:11.859Z"
+      "updatedAt": "2026-09-23T16:01:20.589Z"
     },
     {
       "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
@@ -75920,16 +75893,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-23T17:00:00.000Z",
-      "lastRunAt": "2026-09-22T17:00:00.030Z",
+      "nextRunAt": "2026-09-24T17:00:00.000Z",
+      "lastRunAt": "2026-09-23T17:00:00.043Z",
       "lastStatus": "ok",
-      "lastDuration": "5m",
+      "lastDuration": "7m",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-09-22T17:04:34.669Z"
+      "updatedAt": "2026-09-23T17:06:34.614Z"
     },
     {
       "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
@@ -75948,7 +75921,7 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-23T17:19:54.973Z",
+      "nextRunAt": "2026-09-24T17:19:54.973Z",
       "lastRunAt": "2026-09-20T17:19:55.004Z",
       "lastStatus": "ok",
       "lastDuration": "4m",
@@ -75957,7 +75930,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-09-23T11:19:55.964Z"
+      "updatedAt": "2026-09-24T11:19:56.057Z"
     },
     {
       "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
@@ -75976,16 +75949,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-09-24T11:20:16.390Z",
-      "lastRunAt": "2026-09-23T11:20:16.438Z",
+      "nextRunAt": "2026-09-25T11:20:16.390Z",
+      "lastRunAt": "2026-09-24T11:20:16.411Z",
       "lastStatus": "ok",
-      "lastDuration": "9s",
+      "lastDuration": "8s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-09-23T11:20:25.049Z"
+      "updatedAt": "2026-09-24T11:20:24.158Z"
     },
     {
       "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
@@ -76329,6 +76302,33 @@
       "deleteAfterRun": false,
       "summary": "One weekly approval-first podcast candidate scan and transcript contribution review.",
       "updatedAt": "2026-09-21T15:02:36.693Z"
+    },
+    {
+      "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
+      "name": "thesis-baskets-weekly-improvement-proposal",
+      "description": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 11 * * 3",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "30 11 * * 3 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-09-30T16:30:00.000Z",
+      "lastRunAt": "2026-09-23T16:30:00.032Z",
+      "lastStatus": "ok",
+      "lastDuration": "6m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
+      "updatedAt": "2026-09-23T16:36:01.976Z"
     },
     {
       "id": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
@@ -76942,7 +76942,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-23T13:15:11.659Z",
+      "generatedAt": "2026-09-24T13:15:12.386Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76973,7 +76973,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-23T13:15:11.659Z",
+      "generatedAt": "2026-09-24T13:15:12.386Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77004,7 +77004,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-23T13:15:11.659Z",
+      "generatedAt": "2026-09-24T13:15:12.386Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77035,7 +77035,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-09-23T13:15:11.659Z",
+      "generatedAt": "2026-09-24T13:15:12.386Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77531,7 +77531,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 52560 active words; 9405 words archived.",
@@ -77542,10 +77542,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Austin events: 13 family / 87 music latest",
-      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 2d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77553,7 +77553,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -77564,7 +77564,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -77575,10 +77575,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 58d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 59d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77586,7 +77586,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Automations: 35 enabled / 6 paused",
       "summary": "41 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -77597,10 +77597,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@292a860 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@1c51ca7 · Obsidian vault: main@066a9bd · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77608,10 +77608,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 120d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 121d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77619,7 +77619,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "category": "Source health",
       "title": "Review queue: 0 pending / 0 high",
       "summary": "7 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
