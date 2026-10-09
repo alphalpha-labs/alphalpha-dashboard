@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-10-08T17:01:43.550Z",
+    "generatedAt": "2026-10-09T17:02:17.387Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "2d35fc7",
+      "commit": "3f0cd2a",
       "branch": "main",
-      "generatedAt": "2026-10-08T17:01:43.564Z",
+      "generatedAt": "2026-10-09T17:02:17.400Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-10-08T13:15:06.583Z",
+      "generatedAt": "2026-10-09T13:15:06.080Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 61965,
@@ -93,7 +93,7 @@
         "id": "events",
         "label": "Austin events",
         "status": "OK",
-        "age": "5h old",
+        "age": "1d old",
         "summary": "13 family / 84 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "73d old",
+        "age": "74d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -206,20 +206,12 @@
         "path": "memory/automations/latest-manifest.json",
         "details": [
           {
-            "label": "heartbeat-main",
-            "value": "enabled · skipped · next 2026-10-08T13:31:08.832Z"
-          },
-          {
-            "label": "openrouter-credit-monitor",
-            "value": "enabled · error · next 2026-10-08T14:00:00.000Z"
-          },
-          {
-            "label": "weekly-recommended-article",
-            "value": "enabled · error · next 2026-10-09T13:00:00.000Z"
-          },
-          {
             "label": "weekly-media-recommendations",
             "value": "enabled · error · next 2026-10-09T13:30:00.000Z"
+          },
+          {
+            "label": "heartbeat-main",
+            "value": "enabled · skipped · next 2026-10-09T13:31:12.801Z"
           },
           {
             "label": "Investing OS monthly capital memo",
@@ -236,6 +228,14 @@
           {
             "label": "alphalpha-context-curated-sync",
             "value": "paused · ok · next n/a"
+          },
+          {
+            "label": "fall-movies-2026-oct02",
+            "value": "paused · error · next n/a"
+          },
+          {
+            "label": "workspace-generated-checkpoint-commit",
+            "value": "paused · error · next n/a"
           }
         ],
         "staleAfterHours": 24,
@@ -247,7 +247,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@2d35fc7 · Obsidian vault: main@ff7a0cd · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@3f0cd2a · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -256,11 +256,11 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@2d35fc7 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@3f0cd2a · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
-            "value": "main@ff7a0cd · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@652c1d9 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "OpenClaw workspace",
@@ -274,7 +274,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "135d old",
+        "age": "136d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -304,20 +304,16 @@
         "label": "Review queue",
         "status": "OK",
         "age": "4h old",
-        "summary": "4 pending / 4 high",
-        "detail": "11 review items indexed",
+        "summary": "3 pending / 3 high",
+        "detail": "10 review items indexed",
         "path": "memory/review-queue/latest-manifest.json",
         "details": [
           {
-            "label": "Automation needs attention: heartbeat-main",
-            "value": "HIGH · pending · Run now, pause, or inspect failure logs"
-          },
-          {
-            "label": "Automation needs attention: weekly-recommended-article",
-            "value": "HIGH · pending · Run now, pause, or inspect failure logs"
-          },
-          {
             "label": "Automation needs attention: weekly-media-recommendations",
+            "value": "HIGH · pending · Run now, pause, or inspect failure logs"
+          },
+          {
+            "label": "Automation needs attention: heartbeat-main",
             "value": "HIGH · pending · Run now, pause, or inspect failure logs"
           },
           {
@@ -338,6 +334,10 @@
           },
           {
             "label": "Review high-priority ticker: CCJ",
+            "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
+          },
+          {
+            "label": "Review high-priority ticker: EME",
             "value": "MEDIUM · dismissed · Promote to open loop if you want active research follow-up"
           }
         ],
@@ -53088,148 +53088,148 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
     "investingDailyMarketBrief": {
-      "schemaVersion": "2026-10-08.1",
-      "generatedAt": "2026-10-08T17:00:00.000Z",
-      "publishedAt": "2026-10-08T17:00:00.000Z",
+      "schemaVersion": "2026-10-09.1",
+      "generatedAt": "2026-10-09T17:00:00.000Z",
+      "publishedAt": "2026-10-09T17:00:00.000Z",
       "publishCadence": "weekdays at 12:00 America/Chicago",
       "status": "published",
-      "actionPosture": "observe / no trade recommendation / require confirmation from the 30-year auction, oil flows, credit spreads and earnings breadth",
-      "mainDriver": "The oil-and-rates squeeze intensified: Brent jumped more than 5% to roughly $105.5 while the 10-year Treasury yield traded as high as about 5.35%, extending the inflation and discount-rate pressure identified yesterday.",
-      "portfolioImplication": "The move strengthens near-term cash-flow support for energy holdings but also deepens the portfolio's dominant common-factor risk. With 59.98% of tracked equity already in the macro-security/real-assets overlay, the appropriate read is to monitor concentration, margins and funding conditions rather than extrapolate the oil spike into an allocation change.",
+      "actionPosture": "observe / no trade recommendation / require confirmation from physical oil flows, credit spreads and next week's earnings breadth",
+      "mainDriver": "The oil shock partially retraced after signs of productive U.S.-Iran discussions, while solid demand at Thursday's 30-year Treasury auction reduced immediate duration stress without removing the high-rate hurdle.",
+      "portfolioImplication": "Friday's relief supports looking past a one-day reversal in oil and equities. The portfolio remains partly hedged against supply disruption, but its 59.98% macro-security/real-assets overlay leaves concentration and shared rate sensitivity as the governing risks; selective AI financing and wider high-yield spreads deserve more attention than the modest index bounce.",
       "changedSincePrevious": [
-        "Brent accelerated from just above $100 to about $105.5, turning yesterday's reversal into a larger inflation and margin shock.",
-        "The September Fed minutes are now known: most officials expected another 2026 rate increase would likely be needed, and the staff raised its 2026-2028 inflation forecast.",
-        "The 10-year yield reached about 5.35% intraday before easing toward 5.29%; Wednesday's 10-year auction was absorbed smoothly, but today's 30-year auction result was not yet confirmed at the publication cutoff.",
-        "The S&P 500 and Nasdaq were down roughly 0.4% and 0.5% late in the morning, a second modest retreat from records rather than a broad disorderly selloff.",
-        "Strong Samsung profit growth and TSMC revenue did not lift global chip stocks, adding a near-term breadth and expectations check to the otherwise intact AI demand thesis."
+        "Brent eased to roughly $103 after Thursday's surge as U.S.-Iran comments reduced near-term attack and supply fears; the physical disruption thesis is less acute today but not resolved.",
+        "The pending 30-year auction cleared with solid demand at 5.618%, a 2.54 bid-to-cover ratio and a low dealer take, easing immediate Treasury-market stress even though the clearing yield remained near a multi-decade high.",
+        "The 10-year yield rebounded toward about 5.26% Friday after closing near 5.23% Thursday, so the cost-of-capital constraint remains intact despite the successful auction.",
+        "U.S. equities moved modestly higher, with the S&P 500 and Nasdaq up about 0.3%-0.5% in late-morning reporting, but participation remained narrow and markets stayed sensitive to oil and rates.",
+        "Credit deserves a firmer watch: U.S. high-yield spreads widened from 267 basis points on September 8 to a 318-basis-point peak on October 1, driven partly by rate volatility, heavy issuance and stress concentrated in lower-quality credits."
       ],
-      "headline": "Brent jumps above $105 as hawkish Fed minutes keep the rate squeeze intact",
-      "summary": "This is an observation layer, not a trade signal. Thursday's material change is the size of the oil move: Brent rose more than 5% to about $105.5 as attacks on Gulf shipping renewed supply fears. The September Fed minutes also converted yesterday's event risk into evidence that most officials still expected another 2026 hike and saw inflation risks as persistent. Long yields remain near 2002-era highs, although Wednesday's 10-year auction was orderly and the 10-year yield eased from its morning peak. Look past a second modest equity decline and isolated chip weakness. Pay attention to whether physical oil disruption keeps Brent above $105, whether the 30-year auction validates demand at elevated yields, whether credit spreads widen, and whether earnings revisions broaden enough to offset higher energy and financing costs. The portfolio is partly hedged through energy and real assets, but its 59.98% macro overlay makes concentration the governing risk.",
+      "headline": "Oil relief and a solid long-bond auction calm markets, but the funding hurdle remains",
+      "summary": "This is an observation layer, not a trade signal. Friday's material change is confirmation that two immediate stress points softened: Brent pulled back toward $103 after comments suggesting productive U.S.-Iran talks, and Thursday's $22 billion 30-year Treasury auction drew solid demand. Equities recovered modestly, but the 10-year yield remained near 5.26%, AI-related fundraising is increasing the supply of high-grade debt, and high-yield spreads have widened from September lows. Look past the daily reversal in oil and major indexes. Pay attention to whether Gulf shipping and export flows normalize, whether credit widening broadens beyond lower-quality names, and whether bank and technology earnings can validate profit growth at a much higher cost of capital. The portfolio's energy and real-asset exposure remains a hedge, but the 59.98% macro overlay makes concentration more important than chasing the latest oil move.",
       "marketDrivers": [
         {
-          "driver": "Brent surged above $105",
-          "detail": "Brent rose about 5.3% to roughly $105.5 as attacks on shipping and uncertainty around the Strait of Hormuz renewed concern about Middle East supply. The move raises the inflation impulse and margin pressure while directly supporting energy cash flows.",
-          "evidenceQuality": "high-current-market-reporting",
-          "sourceCount": 2
-        },
-        {
-          "driver": "Fed minutes reinforced persistent-inflation risk",
-          "detail": "The official September minutes showed elevated inflation, a higher staff inflation forecast for 2026-2028 and most officials expecting another rate increase would likely be needed this year. The minutes support a higher-for-longer hurdle but do not determine the next vote.",
-          "evidenceQuality": "primary-policy-document-plus-current-reporting",
-          "sourceCount": 2
-        },
-        {
-          "driver": "Treasury yields stayed near multi-decade highs",
-          "detail": "The 10-year yield moved from 5.28% late Wednesday to about 5.35% early Thursday before easing toward 5.29%. Wednesday's 10-year auction priced smoothly, but the 30-year auction remained the next confirmation point at this brief's cutoff.",
+          "driver": "Brent partially reversed Thursday's surge",
+          "detail": "Brent traded near $103, down roughly 0.7%-1.3% in current reporting, after comments that the U.S. would not attack Iran before the November elections and that talks were productive. The pullback reduces the immediate inflation impulse but leaves Gulf shipping risk unresolved.",
           "evidenceQuality": "high-current-market-reporting",
           "sourceCount": 3
         },
         {
-          "driver": "Equities weakened modestly rather than disorderly",
-          "detail": "Late-morning reporting put the S&P 500 down about 0.4%, the Dow down about 0.4% and the Nasdaq down about 0.5%. The price action reflects pressure from oil and yields, but does not yet show a broad break in risk appetite.",
+          "driver": "The 30-year auction passed the immediate demand test",
+          "detail": "The $22 billion reopening cleared at 5.618%, below the expected rate at the bid deadline, with a 2.54 bid-to-cover ratio and 72.3% indirect participation. Demand was solid enough to pull long yields off Thursday's highs, although the clearing yield itself confirms a restrictive funding environment.",
+          "evidenceQuality": "high-current-auction-reporting",
+          "sourceCount": 2
+        },
+        {
+          "driver": "Long yields remain a valuation and financing constraint",
+          "detail": "The 10-year yield was reported near 5.26% Friday, up from 5.22% late Thursday, after touching about 5.35% Thursday morning. Successful auctions reduced disorderly-tail risk but did not restore a low-cost-of-capital regime.",
+          "evidenceQuality": "high-current-market-reporting",
+          "sourceCount": 2
+        },
+        {
+          "driver": "Equities recovered modestly with narrow participation",
+          "detail": "Late-morning reporting showed the S&P 500 up roughly 0.3% and the Nasdaq up about 0.4%-0.5%. The rebound followed two down sessions, while current reporting still characterized participation as narrow and sentiment as sensitive to oil, rates and AI valuation.",
           "evidenceQuality": "high-time-sensitive-intraday-reporting",
           "sourceCount": 2
         },
         {
-          "driver": "Chip fundamentals and market response diverged",
-          "detail": "Samsung reported a more than 700% annual increase in operating profit and TSMC revenue beat expectations, yet global chip shares did not rally. That gap is a useful valuation and expectations check, not evidence that AI infrastructure demand has reversed.",
-          "evidenceQuality": "high-current-corporate-and-market-reporting",
-          "sourceCount": 1
+          "driver": "Credit and AI financing moved onto the confirmation list",
+          "detail": "U.S. high-yield option-adjusted spreads rose from 267 basis points on September 8 to a 318-basis-point peak on October 1. Rate volatility, heavy issuance and lower-quality credits explain much of the move, while expected AI-related borrowing adds to the broader supply and funding burden.",
+          "evidenceQuality": "current-institutional-analysis-plus-current-market-reporting",
+          "sourceCount": 2
         }
       ],
       "lookPast": [
-        "A second modest decline from record highs as proof of a durable equity regime change; credit spreads, earnings revisions and market breadth are better confirmation tools.",
-        "The Brent headline alone as proof of permanent scarcity; sustained shipping disruption, export volumes, inventories and emergency-stock releases matter more.",
-        "The Fed minutes as a guaranteed December hike; they document September views, while subsequent inflation, labor and financial conditions still govern the next vote.",
-        "One orderly 10-year auction as resolution of the long-duration problem; the 30-year auction and subsequent yield reaction remain more relevant for term-premium stress.",
-        "One weak session for chip stocks as invalidation of AI demand; funded capex, customer concentration, margins, power delivery and valuation remain the durable tests."
+        "Friday's decline in Brent as proof that the Gulf supply risk is over; tanker traffic, Strait of Hormuz access, export volumes and hurricane-related U.S. shut-ins are better confirmation points.",
+        "A solid 30-year auction as resolution of the duration problem; the 5.618% clearing yield and Friday's yield rebound still impose a high hurdle on long-duration cash flows.",
+        "A roughly 0.3%-0.5% equity bounce as broad risk-on confirmation; participation, earnings revisions and credit spreads matter more than one morning's index direction.",
+        "A single weak or strong AI financing headline as thesis validation; balance-sheet capacity, funded capex, power delivery, customer concentration and return on invested capital remain the durable tests.",
+        "The recent high-yield spread widening as an automatic recession signal; the move has been linked partly to rate volatility, issuance supply and lower-quality names rather than broad fundamental deterioration."
       ],
       "payAttention": [
-        "Whether Brent remains above $105 and whether Gulf shipping, export infrastructure or emergency-stock policy confirms a persistent physical shortfall.",
-        "The 30-year Treasury auction result and whether the 10-year and 30-year yields hold near recent highs after supply is absorbed.",
-        "Investment-grade and high-yield spreads: stable spreads would keep this primarily an inflation/rate shock; widening would indicate broader funding stress.",
-        "Third-quarter earnings breadth and revisions, especially whether technology and energy profit growth offsets higher fuel, wage and financing costs.",
-        "AI infrastructure project funding, power interconnection and commissioning milestones as the market raises the discount rate on long-duration capacity.",
+        "Whether Gulf shipping and export volumes actually normalize and whether Brent can remain below Thursday's near-$106 peak without renewed physical disruption.",
+        "Whether the 10-year and 30-year yields stabilize after successful auctions or resume climbing as inflation, fiscal supply and global sovereign-risk concerns persist.",
+        "Whether high-yield spreads retreat from the October peak or widening broadens beyond CCC credits into higher-quality corporate balance sheets.",
+        "Third-quarter bank earnings next week for credit quality, deposit/funding costs, capital-markets activity and evidence that nominal growth still offsets higher rates.",
+        "AI-related debt and equity fundraising, especially whether well-capitalized sponsors can fund chips, data centers and power infrastructure without weaker terms or project delays.",
         "Portfolio concentration: 59.98% in the macro-security/real-assets overlay, including 17.74% energy, 17.17% strategic materials and 14.99% precious metals."
       ],
       "thesisImpacts": [
         {
           "thesis": "Energy demand growth and infrastructure toll booths",
-          "impact": "near-term cash-flow backdrop stronger; concentration risk higher",
-          "reason": "Brent near $105.5 supports energy pricing and infrastructure relevance, but the internal energy sleeve is already 17.74% and the broader macro overlay is 59.98%."
+          "impact": "near-term price impulse eased; structural supply-risk case unchanged",
+          "reason": "Brent's pullback reduces the immediate inflation and cash-flow tailwind, but unresolved Gulf logistics and the portfolio's 17.74% energy sleeve keep concentration and physical-flow confirmation central."
         },
         {
           "thesis": "AI power infrastructure bottleneck / power scarcity",
-          "impact": "physical-demand case intact; capital hurdle tightened",
-          "reason": "Persistent AI demand and energy scarcity support the structural bottleneck, while higher oil and Treasury yields raise financing costs and increase the value of contracted, funded and permitted projects."
+          "impact": "demand case intact; financing selectivity increased",
+          "reason": "The successful auction reduced acute duration stress, but long yields near multi-decade highs and new AI-related borrowing raise the hurdle for projects lacking contracted demand, permits or strong sponsors."
         },
         {
           "thesis": "AI platforms / compute / semiconductors",
-          "impact": "operating momentum remains strong; expectations risk increased",
-          "reason": "Samsung and TSMC evidence supports demand, but the muted stock response shows that strong results may already be embedded while discount rates rise."
+          "impact": "operating thesis intact; valuation and balance-sheet differentiation rising",
+          "reason": "A modest Nasdaq rebound does not erase Thursday's weakness or the market's growing scrutiny of AI revenue, fundraising needs and returns on capital."
         },
         {
           "thesis": "Optical networking and AI bandwidth bottleneck",
-          "impact": "demand thesis unchanged; duration and order-timing risk higher",
-          "reason": "No new invalidator appeared, but a higher funding hurdle increases scrutiny of backlog quality, customer concentration and revenue conversion."
+          "impact": "unchanged structurally; customer funding and order conversion matter more",
+          "reason": "No demand invalidator appeared, but expensive capital increases the value of funded backlog and makes speculative capacity additions less reliable."
         },
         {
           "thesis": "Rearmament and aerospace/defense capacity",
-          "impact": "security rationale supported; fiscal conversion risk remains",
-          "reason": "Renewed Gulf shipping attacks reinforce the security thesis, while high sovereign yields raise the cost of converting political commitments into funded procurement."
+          "impact": "security rationale supported; fiscal-cost constraint remains",
+          "reason": "Iran and Gulf risk keep the strategic case visible, while a 5.618% long-bond auction yield underscores the cost of converting security commitments into funded procurement."
         },
         {
           "thesis": "Strategic commodity stockpiling and critical minerals",
-          "impact": "resilience logic supported; macro sensitivity unchanged",
-          "reason": "Supply-route risk supports strategic resilience, but persistent inflation and high rates can weaken industrial demand and project economics."
+          "impact": "resilience logic unchanged; broad risk signal mixed",
+          "reason": "Supply-route uncertainty supports strategic resilience, but oil's reversal and elevated funding costs argue against treating every commodity move as durable scarcity confirmation."
         },
         {
           "thesis": "Precious metals / currency-debasement hedge",
-          "impact": "hedge rationale supported but allocation mismatch remains",
-          "reason": "Inflation, geopolitical and fiscal uncertainty support hedging demand, while high real and nominal yields raise carry costs. The 14.99% sleeve remains large relative to medium-low conviction."
+          "impact": "hedge demand supported; allocation mismatch remains",
+          "reason": "Gold rose more than 1% in current reporting despite elevated yields, but the internal 14.99% sleeve remains large relative to medium-low conviction and should be evaluated as a monetary hedge rather than an industrial-materials thesis."
         },
         {
           "thesis": "Healthcare quality compounders",
           "impact": "defensive role relevant; no fresh operating-thesis change",
-          "reason": "Higher energy and funding costs improve the relative appeal of durable cash flows, but no new company-level evidence changes the healthcare thesis and the internal sleeve remains 1.63%."
+          "reason": "Credit differentiation and high discount rates favor durable cash flows, but no new company-level evidence changes the thesis and the internal sleeve remains 1.63%."
         }
       ],
       "portfolioRead": "The latest internal review, generated October 5, tracks $291,226.23 of equity and $3,738.28 of cash across eight accounts. The macro-security/real-assets overlay is $174,670.98, or 59.98% of tracked equity. Energy is 17.74%, strategic materials 17.17%, precious metals 14.99%, AI compute/semiconductors 10.77%, defense 10.09%, AI power 3.92% and healthcare 1.63%. Precious metals remain the clearest lower-conviction allocation mismatch, while unmapped holdings are 5.18%. Input health is usable but on watch. Allocation targets and daily trade analysis remain dated June 6 and are stale policy context, not current action support.",
       "sourceNotes": [
         {
-          "id": "ap-us-markets-2026-10-08",
-          "title": "US stocks edge further from their record as oil prices rise",
-          "url": "https://apnews.com/article/6a096d714c874db13632794a32cebaa6",
+          "id": "ap-us-markets-2026-10-09",
+          "title": "US stocks rise toward the finish of a record-breaking week",
+          "url": "https://apnews.com/article/stocks-markets-oil-ai-bonds-5d0f953dbf96febb0690c1aef23fa8a9",
           "trustNote": "AP current market reporting; intraday prices are time-sensitive and treated as untrusted research input.",
-          "usedFor": "Brent, Treasury yield and late-morning U.S. index moves."
+          "usedFor": "Friday U.S. index moves, oil direction and 10-year Treasury yield."
         },
         {
-          "id": "reuters-us-markets-2026-10-08",
-          "title": "Wall St set to open lower as oil jump, high yields fuel inflation concerns",
-          "url": "https://www.fidelity.com/news/article/us-markets/202610080851RTRSNEWSCOMBINED_L6N45U0ST_1",
-          "trustNote": "Reuters reporting republished by Fidelity; prices and consensus estimates are time-sensitive and treated as untrusted research input.",
-          "usedFor": "Oil, Treasury yields, earnings expectations and risk tone."
+          "id": "reuters-global-markets-2026-10-09",
+          "title": "Oil eases, bringing some respite to stocks and battered bonds",
+          "url": "https://www.marketscreener.com/news/oil-eases-bringing-some-respite-to-stocks-and-battered-bonds-ce785ddfd188f025",
+          "trustNote": "Reuters reporting republished by MarketScreener; prices, comments and financing expectations are time-sensitive and treated as untrusted research input.",
+          "usedFor": "Brent, global equities, narrow U.S. participation, Treasury direction and AI fundraising context."
         },
         {
-          "id": "federal-reserve-minutes-2026-09-16",
-          "title": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
-          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm",
-          "trustNote": "Primary policy document; interpretation remains research input rather than a forecast of the next vote.",
-          "usedFor": "Inflation assessment, rate-path discussion and staff forecast change."
+          "id": "reuters-oil-2026-10-09",
+          "title": "Oil falls as Trump comments on Iran talks ease supply concerns",
+          "url": "https://finance.yahoo.com/news/oil-falls-trump-comments-iran-022757245.html",
+          "trustNote": "Reuters reporting republished by Yahoo Finance; geopolitical statements and commodity prices are treated as untrusted, time-sensitive research input.",
+          "usedFor": "U.S.-Iran talk context, Brent and WTI levels, Gulf shipping risk and hurricane-related production disruption."
         },
         {
-          "id": "reuters-bond-market-2026-10-08",
-          "title": "US bonds selloff eases, yields off highs, after strong 10-year note auction",
-          "url": "https://wealthinsights.metrobank.com.ph/news/treasuries-us-bonds-selloff-eases-yields-off-highs-after-strong-10-year-note-auction",
-          "trustNote": "Reuters reporting republished by Metrobank; auction and yield context treated as time-sensitive research input.",
-          "usedFor": "Wednesday's 10-year auction, yield reaction and the pending 30-year demand test."
+          "id": "reuters-treasuries-2026-10-08",
+          "title": "US bonds rally after 30-year auction finds solid demand",
+          "url": "https://za.investing.com/news/economy-news/us-bonds-fall-lifting-yields-for-2nd-day-as-oil-weighs-30year-auction-looms-4496191",
+          "trustNote": "Reuters reporting republished by Investing.com; auction statistics and yield moves are treated as time-sensitive research input.",
+          "usedFor": "30-year auction yield, bid-to-cover, indirect participation and Thursday yield reaction."
         },
         {
-          "id": "reuters-market-morning-news-2026-10-08",
-          "title": "Wall Street winces at bond squeeze",
-          "url": "https://ca.marketscreener.com/news/wall-street-winces-at-bond-squeeze-ce785dded08eff25",
-          "trustNote": "Reuters market commentary republished by MarketScreener; corporate and market details treated as untrusted research input.",
-          "usedFor": "Fed-minutes market context and the divergence between chip fundamentals and stock response."
+          "id": "bnp-am-credit-2026-10-09",
+          "title": "View from the markets: Is high-yield credit flashing a warning sign?",
+          "url": "https://viewpoint.bnpparibas-am.com/view-from-the-markets-is-high-yield-credit-flashing-a-warning-sign/",
+          "trustNote": "Current institutional market analysis, not primary market data; spread figures and interpretation are treated as untrusted research input.",
+          "usedFor": "Recent high-yield spread widening, issuance pressure, rating concentration and economic-fundamental caveats."
         },
         {
           "id": "internal-investing-artifacts-2026-10-05",
@@ -53239,7 +53239,7 @@
           "usedFor": "Portfolio value, sleeve exposures, concentration, conviction mismatches and freshness caveats."
         }
       ],
-      "discussionPrompt": "If Brent holds above $105 while long yields remain near 2002-era highs, which risk deserves more scrutiny inside the 59.98% macro overlay: commodity-price reversal, or the shared funding and concentration burden across energy, materials and precious metals?",
+      "discussionPrompt": "If physical oil risk fades but long yields and credit spreads stay elevated, which part of the 59.98% macro overlay is most vulnerable to the funding regime rather than the commodity regime?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -74718,7 +74718,7 @@
         "label": "Article queue",
         "kind": "articles",
         "path": "obsidian-vault/Alphalpha/Syntheses/Reading/Article Queue.md",
-        "updatedAt": "2026-09-25T13:02:38.703Z",
+        "updatedAt": "2026-10-09T13:03:44.462Z",
         "items": [
           {
             "id": "articles-1-a-subway-company-solved-ai-s-business-model",
@@ -74889,7 +74889,26 @@
             ]
           },
           {
-            "id": "articles-11-staying-calibrated",
+            "id": "articles-11-so-you-think-you-could-be-an-electrician",
+            "title": "So You Think You Could Be An Electrician?",
+            "status": "weekly-pick-2026-10-09",
+            "priority": "5",
+            "creator": "\"Jesse Smith\"",
+            "source": "\"Asterisk / Jesse Smith\"",
+            "link": "\"https://asteriskmag.com/issues/15/so-you-think-you-could-be-an-electrician\"",
+            "why": "Smith, a contractor with decades in carpentry and HVAC, punctures the white-collar fantasy that the trades are an easy six-figure escape hatch from college costs and AI.",
+            "added": "2026-10-09",
+            "notes": null,
+            "themes": [
+              "labor",
+              "skilled trades",
+              "AI automation",
+              "education",
+              "construction"
+            ]
+          },
+          {
+            "id": "articles-12-staying-calibrated",
             "title": "Staying Calibrated",
             "status": "weekly-pick-2026-09-11",
             "priority": "high",
@@ -74907,7 +74926,7 @@
             ]
           },
           {
-            "id": "articles-12-stop-calling-it-memory-the-problem-with-every-ai",
+            "id": "articles-13-stop-calling-it-memory-the-problem-with-every-ai",
             "title": "Stop Calling It Memory: The Problem with Every \"AI + Obsidian ...",
             "status": "weekly-pick-2026-06-19",
             "priority": "3",
@@ -74925,7 +74944,7 @@
             ]
           },
           {
-            "id": "articles-13-the-ai-bottleneck-nobody-is-talking-about",
+            "id": "articles-14-the-ai-bottleneck-nobody-is-talking-about",
             "title": "The AI Bottleneck Nobody Is Talking About",
             "status": "weekly-pick-2026-05-22",
             "priority": "5",
@@ -74938,7 +74957,7 @@
             "themes": []
           },
           {
-            "id": "articles-14-the-lots-of-low-satiety-calories-business-isn-t-",
+            "id": "articles-15-the-lots-of-low-satiety-calories-business-isn-t-",
             "title": "The Lots-of-Low-Satiety-Calories Business Isn't What it Used to Be",
             "status": "weekly-pick-2026-07-24",
             "priority": "high",
@@ -74951,7 +74970,7 @@
             "themes": []
           },
           {
-            "id": "articles-15-the-mythical-agent-minute",
+            "id": "articles-16-the-mythical-agent-minute",
             "title": "The Mythical Agent-Minute",
             "status": "weekly-pick-2026-07-31",
             "priority": null,
@@ -74964,7 +74983,7 @@
             "themes": []
           },
           {
-            "id": "articles-16-the-world-s-most-complex-machine",
+            "id": "articles-17-the-world-s-most-complex-machine",
             "title": "The world’s most complex machine",
             "status": "weekly-pick-2026-06-05",
             "priority": "3",
@@ -74977,7 +74996,7 @@
             "themes": []
           },
           {
-            "id": "articles-17-the-economics-and-politics-of-pacing-the-frontie",
+            "id": "articles-18-the-economics-and-politics-of-pacing-the-frontie",
             "title": "The Economics and Politics of Pacing the Frontier",
             "status": "weekly-pick-2026-09-18",
             "priority": "high",
@@ -74996,7 +75015,7 @@
             ]
           },
           {
-            "id": "articles-18-the-fall-and-rise-of-screwworm",
+            "id": "articles-19-the-fall-and-rise-of-screwworm",
             "title": "The Fall and Rise of Screwworm",
             "status": "weekly-pick-2026-08-14",
             "priority": "high",
@@ -75009,7 +75028,7 @@
             "themes": []
           },
           {
-            "id": "articles-19-the-mosquito-strategy",
+            "id": "articles-20-the-mosquito-strategy",
             "title": "The Mosquito Strategy",
             "status": "queued-dry-run",
             "priority": "3",
@@ -75026,7 +75045,7 @@
             ]
           },
           {
-            "id": "articles-20-the-surprisingly-weak-ipo-housing-effect",
+            "id": "articles-21-the-surprisingly-weak-ipo-housing-effect",
             "title": "The Surprisingly Weak IPO-Housing Effect",
             "status": "queued",
             "priority": "4",
@@ -75039,7 +75058,7 @@
             "themes": []
           },
           {
-            "id": "articles-21-why-we-like-things",
+            "id": "articles-22-why-we-like-things",
             "title": "Why We Like Things",
             "status": "weekly-pick-2026-09-04",
             "priority": "5",
@@ -75059,7 +75078,7 @@
           }
         ],
         "needsClarification": [],
-        "summary": "21 candidates · weekly pick source"
+        "summary": "22 candidates · weekly pick source"
       },
       {
         "id": "shows",
@@ -75579,262 +75598,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-10-08T13:15:00.000Z",
-      "lastRunAt": "2026-10-07T13:15:00.036Z",
+      "nextRunAt": "2026-10-09T13:15:00.000Z",
+      "lastRunAt": "2026-10-08T13:15:00.028Z",
       "lastStatus": "ok",
-      "lastDuration": "29s",
+      "lastDuration": "11s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-10-07T13:15:28.766Z"
-    },
-    {
-      "id": "5578cb30-bf42-4961-b266-1e7768f9c925",
-      "name": "heartbeat-main",
-      "description": "",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "every",
-        "everyMs": 1800000,
-        "anchorMs": 1673841
-      },
-      "scheduleLabel": "every 30m",
-      "sessionTarget": "main",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-08T13:31:08.832Z",
-      "lastRunAt": "2026-10-08T13:01:08.832Z",
-      "lastStatus": "skipped",
-      "lastDuration": "266ms",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 168,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "",
-      "updatedAt": "2026-10-08T13:01:09.098Z"
-    },
-    {
-      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
-      "name": "Investing OS thesis/price watch",
-      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14 * * 2-6",
-        "tz": "UTC"
-      },
-      "scheduleLabel": "0 14 * * 2-6 (UTC)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-10-08T14:00:00.000Z",
-      "lastRunAt": "2026-10-07T14:00:00.050Z",
-      "lastStatus": "ok",
-      "lastDuration": "15s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-10-07T14:00:15.165Z"
-    },
-    {
-      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
-      "name": "openrouter-credit-monitor",
-      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 9 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-10-08T14:00:00.000Z",
-      "lastRunAt": "2026-10-01T14:00:00.038Z",
-      "lastStatus": "error",
-      "lastDuration": "976ms",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": true,
-      "deleteAfterRun": false,
-      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "updatedAt": "2026-10-07T14:00:00.809Z"
-    },
-    {
-      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
-      "name": "almanac-generator",
-      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 11 * * *",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 11 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-08T16:00:00.000Z",
-      "lastRunAt": "2026-10-07T16:00:00.028Z",
-      "lastStatus": "ok",
-      "lastDuration": "26s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-10-07T16:00:26.313Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-08T17:00:00.000Z",
-      "lastRunAt": "2026-10-07T17:00:00.054Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-10-07T17:03:57.965Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-08T17:19:54.973Z",
-      "lastRunAt": "2026-10-04T13:55:48.805Z",
-      "lastStatus": "ok",
-      "lastDuration": "13m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-10-08T11:19:55.990Z"
-    },
-    {
-      "id": "4724c7f0-7fff-4346-a579-6c38acdf13e8",
-      "name": "Memory Dreaming Promotion",
-      "description": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDays=14, maxAgeDays=30).",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 3 * * *"
-      },
-      "scheduleLabel": "0 3 * * *",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "*"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-09T03:00:00.000Z",
-      "lastRunAt": "2026-10-08T03:00:00.039Z",
-      "lastStatus": "ok",
-      "lastDuration": "9s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDay",
-      "updatedAt": "2026-10-08T03:00:08.945Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-09T11:20:16.390Z",
-      "lastRunAt": "2026-10-08T11:20:16.415Z",
-      "lastStatus": "ok",
-      "lastDuration": "6s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-10-08T11:20:22.439Z"
-    },
-    {
-      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-      "name": "weekly-recommended-article",
-      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * 5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-10-09T13:00:00.000Z",
-      "lastRunAt": "2026-10-02T13:00:00.034Z",
-      "lastStatus": "error",
-      "lastDuration": "902ms",
-      "consecutiveErrors": 1,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-      "updatedAt": "2026-10-02T13:00:00.936Z"
+      "updatedAt": "2026-10-08T13:15:11.301Z"
     },
     {
       "id": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
@@ -75864,6 +75637,60 @@
       "updatedAt": "2026-10-02T13:30:00.653Z"
     },
     {
+      "id": "5578cb30-bf42-4961-b266-1e7768f9c925",
+      "name": "heartbeat-main",
+      "description": "",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1800000,
+        "anchorMs": 1673841
+      },
+      "scheduleLabel": "every 30m",
+      "sessionTarget": "main",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-09T13:31:12.801Z",
+      "lastRunAt": "2026-10-09T13:01:12.801Z",
+      "lastStatus": "skipped",
+      "lastDuration": "260ms",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 216,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "",
+      "updatedAt": "2026-10-09T13:01:13.061Z"
+    },
+    {
+      "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
+      "name": "Investing OS thesis/price watch",
+      "description": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14 * * 2-6",
+        "tz": "UTC"
+      },
+      "scheduleLabel": "0 14 * * 2-6 (UTC)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:channel:1493060407697604728",
+      "nextRunAt": "2026-10-09T14:00:00.000Z",
+      "lastRunAt": "2026-10-08T14:00:00.039Z",
+      "lastStatus": "ok",
+      "lastDuration": "12s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
+      "updatedAt": "2026-10-08T14:00:12.089Z"
+    },
+    {
       "id": "9f217dd2-8ffd-4b8d-9e3a-b52e99a153f9",
       "name": "fall-movies-2026-oct09",
       "description": "One-off release-day reminder for WSJ Fall Movies 2026 calendar.",
@@ -75890,6 +75717,33 @@
       "updatedAt": "2026-09-07T23:30:17.222Z"
     },
     {
+      "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
+      "name": "openrouter-credit-monitor",
+      "description": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 9 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-09T14:00:00.000Z",
+      "lastRunAt": "2026-10-08T14:00:00.058Z",
+      "lastStatus": "ok",
+      "lastDuration": "10s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
+      "updatedAt": "2026-10-08T14:00:09.661Z"
+    },
+    {
       "id": "c78ca1c1-7faa-4874-9e9b-4996b633fa80",
       "name": "movie-release-fjord-2026-10-09",
       "description": "Taste-matched theatrical release reminder.",
@@ -75914,6 +75768,144 @@
       "deleteAfterRun": true,
       "summary": "Taste-matched theatrical release reminder.",
       "updatedAt": "2026-09-08T00:06:18.225Z"
+    },
+    {
+      "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
+      "name": "almanac-generator",
+      "description": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/almanac-automation.json in alphalpha-dashboard.",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 11 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-09T16:00:00.000Z",
+      "lastRunAt": "2026-10-08T16:00:00.026Z",
+      "lastStatus": "ok",
+      "lastDuration": "26s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
+      "updatedAt": "2026-10-08T16:00:25.613Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-09T17:00:00.000Z",
+      "lastRunAt": "2026-10-08T17:00:00.062Z",
+      "lastStatus": "ok",
+      "lastDuration": "2m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-10-08T17:02:28.305Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-09T17:19:54.973Z",
+      "lastRunAt": "2026-10-04T13:55:48.805Z",
+      "lastStatus": "ok",
+      "lastDuration": "13m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-10-09T11:19:55.900Z"
+    },
+    {
+      "id": "4724c7f0-7fff-4346-a579-6c38acdf13e8",
+      "name": "Memory Dreaming Promotion",
+      "description": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDays=14, maxAgeDays=30).",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 3 * * *"
+      },
+      "scheduleLabel": "0 3 * * *",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "*"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-10T03:00:00.000Z",
+      "lastRunAt": "2026-10-09T03:00:00.029Z",
+      "lastStatus": "ok",
+      "lastDuration": "9s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDay",
+      "updatedAt": "2026-10-09T03:00:08.592Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-10T11:20:16.390Z",
+      "lastRunAt": "2026-10-09T11:20:16.415Z",
+      "lastStatus": "ok",
+      "lastDuration": "5s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-10-09T11:20:21.322Z"
     },
     {
       "id": "33ab95eb-5c61-458e-9f5b-5daf620cb97b",
@@ -76208,6 +76200,33 @@
       "deleteAfterRun": false,
       "summary": "Monthly review of trade outcomes and decision-process patterns after 60–90 days.",
       "updatedAt": "2026-09-15T14:01:30.841Z"
+    },
+    {
+      "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
+      "name": "weekly-recommended-article",
+      "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * 5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 8 * * 5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "announce -> discord:user:636724507075149824",
+      "nextRunAt": "2026-10-16T13:00:00.000Z",
+      "lastRunAt": "2026-10-09T13:00:00.044Z",
+      "lastStatus": "ok",
+      "lastDuration": "6m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
+      "updatedAt": "2026-10-09T13:05:46.646Z"
     },
     {
       "id": "ea9db3c6-bd03-4f48-9cf4-9611148c97ad",
@@ -76821,88 +76840,6 @@
   ],
   "reviewQueue": [
     {
-      "id": "automation-NTU3OGNiMzAtYmY0Mi",
-      "kind": "automation-review",
-      "title": "Automation needs attention: heartbeat-main",
-      "summary": "skipped; 0 consecutive errors. Schedule: every 30m",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/automations/latest-manifest.json",
-      "target": "5578cb30-bf42-4961-b266-1e7768f9c925",
-      "generatedAt": "2026-10-08T13:15:08.492Z",
-      "actionHint": "Run now, pause, or inspect failure logs",
-      "payload": {
-        "job": {
-          "id": "5578cb30-bf42-4961-b266-1e7768f9c925",
-          "name": "heartbeat-main",
-          "description": "",
-          "category": "automation",
-          "enabled": true,
-          "schedule": {
-            "kind": "every",
-            "everyMs": 1800000,
-            "anchorMs": 1673841
-          },
-          "scheduleLabel": "every 30m",
-          "sessionTarget": "main",
-          "lightContext": false,
-          "toolsAllow": [],
-          "delivery": "not requested",
-          "nextRunAt": "2026-10-08T13:31:08.832Z",
-          "lastRunAt": "2026-10-08T13:01:08.832Z",
-          "lastStatus": "skipped",
-          "lastDuration": "266ms",
-          "consecutiveErrors": 0,
-          "consecutiveSkipped": 168,
-          "pendingValidation": false,
-          "deleteAfterRun": false,
-          "summary": "",
-          "updatedAt": "2026-10-08T13:01:09.098Z"
-        }
-      }
-    },
-    {
-      "id": "automation-NzFmNTc3OTItODRmOC",
-      "kind": "automation-review",
-      "title": "Automation needs attention: weekly-recommended-article",
-      "summary": "error; 1 consecutive errors. Schedule: 0 8 * * 5 (America/Chicago)",
-      "priority": "HIGH",
-      "status": "pending",
-      "source": "memory/automations/latest-manifest.json",
-      "target": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-      "generatedAt": "2026-10-08T13:15:08.492Z",
-      "actionHint": "Run now, pause, or inspect failure logs",
-      "payload": {
-        "job": {
-          "id": "71f57792-84f8-4f5d-bdc9-ad9f63e8dec5",
-          "name": "weekly-recommended-article",
-          "description": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-          "category": "obsidian",
-          "enabled": true,
-          "schedule": {
-            "kind": "cron",
-            "expr": "0 8 * * 5",
-            "tz": "America/Chicago"
-          },
-          "scheduleLabel": "0 8 * * 5 (America/Chicago)",
-          "sessionTarget": "isolated",
-          "lightContext": true,
-          "toolsAllow": [],
-          "delivery": "announce -> discord:user:636724507075149824",
-          "nextRunAt": "2026-10-09T13:00:00.000Z",
-          "lastRunAt": "2026-10-02T13:00:00.034Z",
-          "lastStatus": "error",
-          "lastDuration": "902ms",
-          "consecutiveErrors": 1,
-          "consecutiveSkipped": 0,
-          "pendingValidation": false,
-          "deleteAfterRun": false,
-          "summary": "Weekly one-article recommendation email + Kindle packet for Alex, using aldonesky Gmail via gws with audit trail.",
-          "updatedAt": "2026-10-02T13:00:00.936Z"
-        }
-      }
-    },
-    {
       "id": "automation-ZTgwMDlmNjUtMTc5Ny",
       "kind": "automation-review",
       "title": "Automation needs attention: weekly-media-recommendations",
@@ -76911,7 +76848,7 @@
       "status": "pending",
       "source": "memory/automations/latest-manifest.json",
       "target": "e8009f65-1797-401b-a3e8-8ffa72a73efe",
-      "generatedAt": "2026-10-08T13:15:08.492Z",
+      "generatedAt": "2026-10-09T13:15:07.996Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -76944,6 +76881,47 @@
       }
     },
     {
+      "id": "automation-NTU3OGNiMzAtYmY0Mi",
+      "kind": "automation-review",
+      "title": "Automation needs attention: heartbeat-main",
+      "summary": "skipped; 0 consecutive errors. Schedule: every 30m",
+      "priority": "HIGH",
+      "status": "pending",
+      "source": "memory/automations/latest-manifest.json",
+      "target": "5578cb30-bf42-4961-b266-1e7768f9c925",
+      "generatedAt": "2026-10-09T13:15:07.996Z",
+      "actionHint": "Run now, pause, or inspect failure logs",
+      "payload": {
+        "job": {
+          "id": "5578cb30-bf42-4961-b266-1e7768f9c925",
+          "name": "heartbeat-main",
+          "description": "",
+          "category": "automation",
+          "enabled": true,
+          "schedule": {
+            "kind": "every",
+            "everyMs": 1800000,
+            "anchorMs": 1673841
+          },
+          "scheduleLabel": "every 30m",
+          "sessionTarget": "main",
+          "lightContext": false,
+          "toolsAllow": [],
+          "delivery": "not requested",
+          "nextRunAt": "2026-10-09T13:31:12.801Z",
+          "lastRunAt": "2026-10-09T13:01:12.801Z",
+          "lastStatus": "skipped",
+          "lastDuration": "260ms",
+          "consecutiveErrors": 0,
+          "consecutiveSkipped": 216,
+          "pendingValidation": false,
+          "deleteAfterRun": false,
+          "summary": "",
+          "updatedAt": "2026-10-09T13:01:13.061Z"
+        }
+      }
+    },
+    {
       "id": "automation-YWM5ZDczNzgtYzhkNy",
       "kind": "automation-review",
       "title": "Automation needs attention: Investing OS monthly capital memo",
@@ -76952,7 +76930,7 @@
       "status": "pending",
       "source": "memory/automations/latest-manifest.json",
       "target": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
-      "generatedAt": "2026-10-08T13:15:08.492Z",
+      "generatedAt": "2026-10-09T13:15:07.996Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -77034,7 +77012,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-08T13:15:06.759Z",
+      "generatedAt": "2026-10-09T13:15:06.218Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77065,7 +77043,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-08T13:15:06.759Z",
+      "generatedAt": "2026-10-09T13:15:06.218Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77096,7 +77074,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-08T13:15:06.759Z",
+      "generatedAt": "2026-10-09T13:15:06.218Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77127,7 +77105,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-08T13:15:06.759Z",
+      "generatedAt": "2026-10-09T13:15:06.218Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77623,7 +77601,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 52560 active words; 9405 words archived.",
@@ -77634,10 +77612,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "Austin events: 13 family / 84 music latest",
-      "summary": "2 crawl artifacts indexed · 5h old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77645,7 +77623,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -77656,7 +77634,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -77667,10 +77645,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 73d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 74d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77678,7 +77656,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "Automations: 34 enabled / 11 paused",
       "summary": "45 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -77689,10 +77667,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@2d35fc7 · Obsidian vault: main@ff7a0cd · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 114 dirty · Alphalpha dashboard: main@3f0cd2a · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77700,10 +77678,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 135d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 136d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77711,10 +77689,10 @@
     },
     {
       "id": "source-8",
-      "date": "2026-10-08",
+      "date": "2026-10-09",
       "category": "Source health",
-      "title": "Review queue: 4 pending / 4 high",
-      "summary": "11 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
+      "title": "Review queue: 3 pending / 3 high",
+      "summary": "10 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
