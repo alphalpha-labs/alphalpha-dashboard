@@ -1,18 +1,18 @@
 {
   "meta": {
-    "generatedAt": "2026-10-13T17:04:08.646Z",
+    "generatedAt": "2026-10-14T17:02:08.915Z",
     "posture": "Keep the dashboard live, source-backed, and reviewable.",
     "postureDetail": "Phase 2 is underway: the build consumes context files plus Obsidian, GitHub, cron, review queue, investing, and Thesis Baskets manifests when available.",
     "deployment": {
-      "commit": "c3f0c29",
+      "commit": "31f54d5",
       "branch": "main",
-      "generatedAt": "2026-10-13T17:04:08.663Z",
+      "generatedAt": "2026-10-14T17:02:08.928Z",
       "deployUrl": null,
       "productionUrl": "https://alphalpha-dashboard.vercel.app",
       "dirtyFiles": 0
     },
     "contextHealth": {
-      "generatedAt": "2026-10-13T13:15:08.147Z",
+      "generatedAt": "2026-10-14T13:15:07.986Z",
       "sourcePath": "../memory/context/index.json",
       "files": 46,
       "words": 61965,
@@ -92,8 +92,8 @@
       {
         "id": "events",
         "label": "Austin events",
-        "status": "OK",
-        "age": "1d old",
+        "status": "STALE",
+        "age": "2d old",
         "summary": "12 family / 67 music latest",
         "detail": "2 crawl artifacts indexed",
         "path": "memory/events/latest-manifest.json",
@@ -175,7 +175,7 @@
         "id": "obsidian",
         "label": "Obsidian proposals",
         "status": "PROPOSAL",
-        "age": "78d old",
+        "age": "79d old",
         "summary": "3 proposed updates",
         "detail": "proposal-only",
         "path": "memory/obsidian/proposed-updates/latest-manifest.json",
@@ -207,7 +207,7 @@
         "details": [
           {
             "label": "heartbeat-main",
-            "value": "enabled · skipped · next 2026-10-13T13:31:24.274Z"
+            "value": "enabled · skipped · next 2026-10-14T13:31:25.774Z"
           },
           {
             "label": "Investing OS monthly capital memo",
@@ -247,7 +247,7 @@
         "status": "OK",
         "age": "0h old",
         "summary": "4 repos / 1 dirty / 0 behind",
-        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@c3f0c29 · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown",
+        "detail": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@31f54d5 · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown",
         "path": "local git repositories",
         "details": [
           {
@@ -256,7 +256,7 @@
           },
           {
             "label": "Alphalpha dashboard",
-            "value": "main@c3f0c29 · 0 dirty · 0 ahead · 0 behind"
+            "value": "main@31f54d5 · 0 dirty · 0 ahead · 0 behind"
           },
           {
             "label": "Obsidian vault",
@@ -274,7 +274,7 @@
         "id": "thesis-baskets",
         "label": "Thesis Baskets",
         "status": "FAILING",
-        "age": "140d old",
+        "age": "141d old",
         "summary": "1943 new / 2841 scanned",
         "detail": "last event 2026-05-26 23:24:04.75+00",
         "path": "memory/thesis-baskets-ingestion-state.json",
@@ -52879,136 +52879,137 @@
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-trade-analysis/latest.json"
     },
     "investingDailyMarketBrief": {
-      "schemaVersion": "2026-10-13.1",
-      "generatedAt": "2026-10-13T17:00:00.000Z",
-      "publishedAt": "2026-10-13T17:00:00.000Z",
+      "schemaVersion": "2026-10-14.1",
+      "generatedAt": "2026-10-14T17:00:00.000Z",
+      "publishedAt": "2026-10-14T17:00:00.000Z",
       "publishCadence": "weekday-noon-america-chicago",
       "status": "published",
-      "actionPosture": "observe / no trade recommendation / wait for Wednesday CPI and broader earnings confirmation",
-      "mainDriver": "Bank earnings showed resilient nominal activity without resolving inflation-and-rates risk, while a modest oil pullback eased the 10-year Treasury yield to about 5.22% and semiconductor weakness kept the equity tape mixed.",
-      "portfolioImplication": "The portfolio's 60.19% macro-security/real-assets overlay remains a hedge against oil and geopolitical scarcity, but Tuesday's lower oil price and still-high 5.22% 10-year yield make concentration and financing sensitivity more important than another directional commodity signal. Strong bank loan and deposit growth supports the economic backdrop; chip-specific competition concerns test the 10.59% AI compute sleeve without yet invalidating AI demand.",
+      "actionPosture": "observe / no trade recommendation / treat the CPI-rate repricing as a valuation and concentration stress test",
+      "mainDriver": "September CPI was hotter than expected and broad enough to lift rate-hike odds and long yields: headline CPI rose 0.6% month over month and 3.7% year over year, while core rose 0.3% and 2.6%; the 10-year Treasury briefly moved above 5.32% before easing near 5.23%.",
+      "portfolioImplication": "The inflation print supports the hedge role of energy and real assets but raises the discount-rate and financing hurdle across the portfolio. That tension matters most because the latest internal review maps 60.19% of equity to the macro-security/real-assets overlay, 18.28% to energy and 10.59% to AI compute/semiconductors. The day is more useful as a test of cash-flow durability and concentration than as a new commodity signal.",
       "changedSincePrevious": [
-        "Cash Treasury trading reopened: the 10-year yield eased to roughly 5.22% from Friday's 5.24%, providing the rates confirmation Monday lacked.",
-        "Brent slipped about 0.7% to $105.91 after Monday's rise above $106, so the oil shock remains elevated but is no longer intensifying today.",
-        "Major banks reported higher year-over-year profits and continued loan/deposit growth, but warnings about sticky inflation, rising rates and elevated asset prices kept the macro signal mixed.",
-        "Semiconductors became the clearest risk pocket: Micron fell about 4.9% amid reports of progress at China's CXMT, adding competitive risk to an already valuation-sensitive AI hardware sleeve.",
-        "September CPI at 8:30 a.m. ET Wednesday is now the next decisive cross-asset test."
+        "The anticipated CPI test arrived hot: headline inflation accelerated to 0.6% month over month and 3.7% year over year, above the reported 3.6% consensus, while core rose 0.3% and 2.6% year over year.",
+        "The 10-year Treasury briefly exceeded 5.32% after CPI before easing near 5.23%; the prior brief's wait-for-CPI posture is now a higher-for-longer valuation and financing stress test.",
+        "Equity weakness broadened beyond Tuesday's supplier-specific chip concern: at 11:45 a.m. ET the S&P 500 was down 0.9% and the Nasdaq 1.3%, while the Dow was down 0.2%.",
+        "Brent was roughly flat at $105.76, so today's inflation repricing came from the realized September energy shock and broader price pressure, not a fresh daily oil spike.",
+        "AI is now a two-sided inflation signal: durable semiconductor and infrastructure demand supports revenue and backlog, but capital scarcity, component costs and concentrated earnings expectations increase execution and valuation risk."
       ],
-      "headline": "Banks show resilience, but chips weaken and the 5.22% 10-year keeps CPI in control",
-      "summary": "This is an observation layer, not a trade signal. Tuesday's bank results point to continued business investment, consumer spending and balance-sheet growth, but also reinforce that sticky inflation and high rates are the binding macro risks. JPMorgan reported $15.3 billion of net income, average loans up 10% year over year and deposits up 8%, alongside $2.7 billion of credit costs and a $539 million reserve build. The market response was restrained: major indexes were down about 0.2%-0.3% around noon, the 10-year yield eased only modestly to about 5.22%, and Brent remained high near $105.91. The most thesis-relevant weakness was in semiconductors, where Micron fell about 4.9% amid concern about Chinese memory competition. Look past nearly flat indexes and first-hour earnings swings. Pay attention to Wednesday CPI, bank credit quality, physical oil normalization and whether chip weakness stays specific or broadens across the AI complex.",
+      "headline": "Hot CPI pushes the portfolio's real-asset hedge and high-duration growth sleeves into the same rates stress test",
+      "summary": "This is an observation layer, not a trade signal. September CPI rose 0.6% month over month and 3.7% year over year, with gasoline up 9.1% and responsible for more than half of the monthly increase. The pressure was not only energy: core CPI rose 0.3% on the month and 2.6% on the year, shelter rose 0.4%, and services excluding energy services rose 0.4%. The 10-year Treasury briefly moved above 5.32% before easing near 5.23%, while the S&P 500 fell 0.9% and the Nasdaq 1.3% by late morning. Look past a single index drawdown and the intraday retreat from peak yields. Pay attention to whether broad services inflation persists, whether oil stays near $106, and whether earnings and backlog can offset a structurally higher discount rate across AI, power, industrial and other capital-intensive holdings.",
       "marketDrivers": [
         {
-          "driver": "Bank earnings and credit resilience",
-          "detail": "Large banks reported higher year-over-year profits and generally healthy customer activity. JPMorgan reported $15.3 billion of net income, average loans up 10% year over year, deposits up 8%, and $2.7 billion of credit costs including a $539 million reserve build.",
-          "evidenceQuality": "high for reported company figures; medium for broad economic inference",
-          "sourceCount": 3
-        },
-        {
-          "driver": "Rates remain restrictive despite a small relief move",
-          "detail": "The 10-year Treasury yield eased to about 5.22% from 5.24% Friday as cash bond trading reopened. That is relief at the margin, not a change in the high-rate regime, especially with September CPI due Wednesday.",
-          "evidenceQuality": "high for market direction and official release timing; intraday yield is time-sensitive",
+          "driver": "Hotter and broader September inflation",
+          "detail": "BLS reported headline CPI at +0.6% month over month and +3.7% year over year, versus 3.4% in August. Core CPI rose 0.3% on the month and 2.6% on the year; shelter rose 0.4% and services excluding energy services rose 0.4%.",
+          "evidenceQuality": "high; primary BLS release",
           "sourceCount": 2
         },
         {
-          "driver": "Oil shock cools but remains elevated",
-          "detail": "Brent fell about 0.7% to $105.91 after Monday's $106.65 close. The move reduces immediate inflation pressure slightly, but the level still reflects unresolved Middle East supply risk.",
-          "evidenceQuality": "high for intraday price; medium for geopolitical durability",
+          "driver": "Energy shock remains the largest headline impulse",
+          "detail": "Gasoline rose 9.1% in September and accounted for more than half of the monthly CPI increase; energy rose 5.2% on the month and 20.4% on the year. Brent was nearly unchanged intraday at about $105.76, so the level remains inflationary even without a new daily spike.",
+          "evidenceQuality": "high for CPI components and current market level; geopolitical persistence remains uncertain",
           "sourceCount": 2
         },
         {
-          "driver": "Semiconductor competition and valuation sensitivity",
-          "detail": "Micron fell about 4.9% and weighed on the S&P 500 after reports that China's CXMT is advancing in memory chips. The signal matters for memory/AI hardware but is not broad enough to invalidate AI infrastructure demand.",
-          "evidenceQuality": "high for market reaction; medium for competitive inference pending further technical confirmation",
+          "driver": "Rates and Fed expectations repriced upward",
+          "detail": "The 10-year yield rose from below 5.17% just before CPI, briefly topped 5.32%, then eased near 5.23%. CME-based reporting put the next-meeting hike probability at 39%, up from 22% a day earlier.",
+          "evidenceQuality": "high for observed market move; medium-high for time-sensitive futures probability",
           "sourceCount": 1
         },
         {
-          "driver": "Demanding earnings expectations",
-          "detail": "Consensus expectations cited by AP call for nearly 30% year-over-year S&P 500 earnings-per-share growth. Strong results produced uneven stock reactions, showing that elevated prices require both beats and credible forward conversion.",
-          "evidenceQuality": "medium-high; consensus estimate is secondary-source data and reactions are time-sensitive",
+          "driver": "Equity pressure broadened, led by duration-sensitive growth",
+          "detail": "At 11:45 a.m. ET the S&P 500 was down 0.9%, the Nasdaq 1.3% and the Dow 0.2%. The relative Nasdaq weakness is consistent with a discount-rate shock, but one session does not establish a trend.",
+          "evidenceQuality": "high for intraday index moves; medium for causal interpretation",
+          "sourceCount": 1
+        },
+        {
+          "driver": "AI earnings strength is concentrated and capital intensity is under scrutiny",
+          "detail": "Secondary reporting says Micron, Nvidia and Broadcom are expected to contribute nearly 40% of third-quarter S&P 500 earnings growth, while recent chip and equipment weakness shows investors are questioning returns on large AI investments. This raises the bar for earnings conversion without invalidating data-center, networking or power demand.",
+          "evidenceQuality": "medium; secondary analysis and consensus estimates",
           "sourceCount": 1
         }
       ],
       "lookPast": [
-        "A 0.2%-0.3% index decline as a broad risk-off signal; cross-currents among banks, healthcare and semiconductors are more informative.",
-        "A single quarter's bank beat or miss as proof of a credit turn; charge-offs, reserves, funding costs and loan growth matter more.",
-        "One day's Brent decline as resolution of the oil shock while prices remain near $106 and physical supply risks are unsettled.",
-        "Micron's decline as evidence that AI demand has broken; distinguish memory competition from end-demand, networking and power bottlenecks.",
-        "Intraday post-earnings price spikes before the market has absorbed guidance and Wednesday CPI."
+        "The headline 3.7% CPI number as purely an oil story; gasoline drove most of the monthly increase, but core, shelter and services also firmed.",
+        "The intraday retreat of the 10-year from above 5.32% to about 5.23% as a reversal of the rates signal; the level remains restrictive and the Fed path repriced upward.",
+        "One day's 0.9% S&P 500 decline as a standalone thesis invalidator; cross-sleeve earnings conversion, margins and financing needs matter more.",
+        "Broad conclusions from individual bank misses or chip-company comments during the first days of earnings season.",
+        "A near-flat daily Brent move as evidence the energy shock is resolved while the price remains around $106 and September energy CPI is elevated."
       ],
       "payAttention": [
-        "Wednesday's September CPI at 8:30 a.m. ET and whether the 10-year yield breaks above 5.24% or extends today's modest decline.",
-        "Bank credit quality: net charge-offs, reserve builds, card delinquencies, deposit costs and consumer-resilience commentary.",
-        "Whether Brent moves materially below $105 on improving physical flows rather than diplomatic headlines alone.",
-        "Whether memory-chip weakness broadens to networking, hyperscalers and power infrastructure or remains supplier-specific.",
-        "Portfolio concentration: the 60.19% macro-security/real-assets overlay and 18.28% energy sleeve depend on the same commodity/rates regime.",
-        "Healthcare earnings as a diversification check for a portfolio with only 1.66% in the healthcare-quality sleeve."
+        "Whether the 10-year Treasury holds above the pre-CPI 5.17% area, retests 5.32%, or begins a durable reversal after the initial repricing.",
+        "Next inflation details and company commentary on shelter, freight, wages, semiconductors and electrical equipment to determine whether price pressure is broadening further.",
+        "Whether Brent and physical fuel markets normalize enough to reduce October's inflation impulse rather than merely pause near $106.",
+        "AI and semiconductor earnings breadth: separate durable end demand, networking and power bottlenecks from supplier competition and weak return-on-investment cases.",
+        "Capital-intensive power, grid, industrial and data-center projects whose economics may be most sensitive to a 5%-plus 10-year yield.",
+        "Portfolio concentration: the 60.19% macro-security/real-assets overlay can hedge inflation but also embeds shared exposure to commodities, policy and rates.",
+        "Precious metals remain a 15.00% medium-low-conviction trim-or-justify mismatch in the latest internal review, despite today's supportive inflation narrative."
       ],
       "thesisImpacts": [
         {
           "thesis": "Energy demand growth and infrastructure toll booths",
-          "impact": "supportive level, softer daily impulse",
-          "reason": "Brent remains near $106, supporting scarcity and cash-flow exposure, but today's pullback means the shock is not intensifying and needs physical-flow confirmation."
+          "impact": "inflation-hedge role supported; cyclicality and policy risk unchanged",
+          "reason": "September gasoline and energy inflation validate the scarcity hedge, but Brent near $106 and an 18.28% energy sleeve make physical normalization and concentration the key questions."
         },
         {
           "thesis": "Macro security and real-assets pillar",
-          "impact": "hedge role intact; concentration remains dominant",
-          "reason": "Geopolitical and inflation risks validate the role, while the 60.19% overlay means many holdings depend on the same macro regime."
+          "impact": "near-term macro support with a higher concentration burden",
+          "reason": "Hot inflation and geopolitical fuel pressure support real assets, while a 60.19% mapped overlay means the portfolio is already heavily exposed to the regime."
         },
         {
           "thesis": "AI platforms / compute / semiconductors",
-          "impact": "competitive-risk watch, not demand invalidation",
-          "reason": "Micron's drop and CXMT reports raise memory competition risk; high yields raise the valuation hurdle, but bank commentary still points to strong AI-related business investment."
+          "impact": "demand evidence intact; valuation and return-on-investment hurdle higher",
+          "reason": "Concentrated expected earnings contribution supports the demand case, but broader chip weakness and higher yields punish capital intensity, competition and long-duration expectations."
         },
         {
           "thesis": "Power / electricity scarcity and AI grid bottleneck",
-          "impact": "structural demand intact, financing hurdle high",
-          "reason": "Nothing today overturns power-scarcity evidence, but a 5.22% 10-year yield keeps capital intensity, execution and valuation discipline central."
+          "impact": "structural need intact; project-finance stress increases",
+          "reason": "AI-related component and equipment pricing supports scarcity, but the jump in long yields raises hurdle rates for utilities, data centers, grids and generation projects."
         },
         {
           "thesis": "Precious metals / currency-debasement hedge",
-          "impact": "macro rationale intact; sizing mismatch unchanged",
-          "reason": "Sticky-inflation and fiscal-risk warnings support a hedge role, but the internal review still shows a 15.00% medium-low-conviction trim-or-justify sleeve."
+          "impact": "macro rationale reinforced; allocation mismatch unresolved",
+          "reason": "Inflation persistence and fiscal/rate volatility support a hedge role, but internal conviction remains medium-low against a 15.00% sleeve."
         },
         {
           "thesis": "Healthcare quality compounders",
-          "impact": "diversification case modestly supported",
-          "reason": "Positive large-cap healthcare earnings and raised guidance provide a counterweight to commodity, rates and chip exposure, while the portfolio sleeve remains only 1.66%."
+          "impact": "diversification value rises, but rates still matter",
+          "reason": "A less commodity- and AI-heavy cash-flow stream can diversify the portfolio, though long-duration quality valuations remain sensitive to the higher discount rate."
         },
         {
           "thesis": "Japanese financial reflation",
-          "impact": "directionally supportive but indirect",
-          "reason": "Strong U.S. bank balance-sheet activity and high nominal rates support the general reflation logic, but Japan-specific BOJ, NIM, credit and shareholder-return evidence is still required."
+          "impact": "directionally supportive but still indirect",
+          "reason": "The U.S. inflation and yield move reinforces global nominal-rate pressure, but Japan-specific BOJ, NIM, credit and shareholder-return evidence is still required."
         }
       ],
-      "portfolioRead": "The October 12 internal review tracks $294,142.11 of equity and $2,729.89 of cash across eight accounts. The macro-security/real-assets overlay is $177,049.15, or 60.19% of tracked equity. Energy is 18.28%, strategic materials 16.96%, precious metals 15.00%, AI compute/semiconductors 10.59%, defense 9.95%, AI power 3.92% and healthcare 1.66%. Precious metals remain the clearest lower-conviction allocation mismatch. Input health is usable but on watch; allocation targets and daily trade analysis remain dated June 6 and are stale policy context.",
+      "portfolioRead": "The October 12 internal review tracks $294,142.11 of equity and $2,729.89 of cash across eight accounts. The macro-security/real-assets overlay is $177,049.15, or 60.19% of tracked equity. Energy is 18.28%, strategic materials 16.96%, precious metals 15.00%, AI compute/semiconductors 10.59%, defense 9.95%, AI power 3.92% and healthcare 1.66%. Today's CPI shock validates parts of the hedge logic while increasing the need to distinguish current cash-flow pricing power from exposure that depends on multiple expansion or cheap project finance. Input health is usable but on watch; allocation targets and daily trade analysis remain stale at June 6.",
       "sourceNotes": [
         {
-          "id": "ap-us-markets-2026-10-13",
-          "title": "The first big batch of US profit reports for the summer has Wall Street mixed",
-          "url": "https://apnews.com/article/stocks-markets-us-tech-oil-mideast-a2edaf9ec297fb75ff2a4e245063ec08",
-          "trustNote": "AP current market reporting; intraday prices and reactions are time-sensitive and treated as untrusted research input.",
-          "usedFor": "Noon index levels, Treasury yield, Brent price, earnings reactions and semiconductor weakness."
+          "id": "bls-cpi-september-2026",
+          "title": "Consumer Price Index - September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "trustNote": "Primary U.S. government release; seasonal estimates and later revisions remain possible.",
+          "usedFor": "Headline, core, gasoline, energy, shelter and services inflation figures."
         },
         {
-          "id": "ap-bank-earnings-2026-10-13",
-          "title": "Big banks post strong Q3 profits, but warn higher rates and inflation could bite",
-          "url": "https://apnews.com/article/jpmorgan-citi-goldman-wells-banks-earnings-bonds-f3e3daf4ebed0e99a744aa7bac5e86ee",
-          "trustNote": "AP earnings synthesis; analyst comparisons and management framing are treated as secondary research input.",
-          "usedFor": "Cross-bank profit, credit, consumer and rate-risk context."
+          "id": "ap-us-markets-2026-10-14",
+          "title": "US stocks sink as inflation gets worse",
+          "url": "https://apnews.com/article/stock-markets-earnings-bonds-artificial-intelligence-704d3190f0fba2908df07c85f26346ec",
+          "trustNote": "AP current market reporting; intraday prices, yields and probabilities are time-sensitive and treated as untrusted research input.",
+          "usedFor": "Late-morning index moves, 10-year yield path, Brent price and reported Fed-hike odds."
         },
         {
-          "id": "jpm-sec-3q26",
-          "title": "JPMorgan Chase third-quarter 2026 earnings release",
-          "url": "https://www.sec.gov/Archives/edgar/data/19617/000162828026065582/a3q26erfexhibit991narrative.htm",
-          "trustNote": "Primary SEC-filed disclosure; forward-looking statements remain company claims.",
-          "usedFor": "Net income, revenue, loan/deposit growth, credit costs, reserve build and capital metrics."
+          "id": "ap-cpi-analysis-2026-10-14",
+          "title": "Inflation worsened last month to 3.7%",
+          "url": "https://apnews.com/article/cpi-inflation-consumer-prices-affordability-3985019a54c82421e6112fb57baba048",
+          "trustNote": "AP synthesis; expectations, causal framing and company commentary are secondary research input.",
+          "usedFor": "Consensus comparison, breadth interpretation and the link between energy, demand and inflation."
         },
         {
-          "id": "bls-october-2026-release-calendar",
-          "title": "Schedule of Selected Releases for October 2026",
-          "url": "https://www.bls.gov/schedule/2026/10_sched_list.htm",
-          "trustNote": "Primary U.S. government release schedule.",
-          "usedFor": "September CPI release timing on October 14 at 8:30 a.m. ET."
+          "id": "axios-chip-concentration-2026-10-14",
+          "title": "Why the chip stocks wobbled",
+          "url": "https://www.axios.com/2026/10/14/semiconductor-ai-stocks-broadcom",
+          "trustNote": "Secondary analysis using consensus data; concentration and return-on-investment claims require confirmation in company filings and earnings.",
+          "usedFor": "AI earnings concentration and the distinction between durable demand and capital-allocation scrutiny."
         },
         {
           "id": "internal-investing-artifacts-2026-10-12",
@@ -53018,7 +53019,7 @@
           "usedFor": "Portfolio value, sleeve exposures, concentration, conviction mismatches and freshness caveats."
         }
       ],
-      "discussionPrompt": "If Wednesday CPI keeps the 10-year yield near or above 5.2%, which holdings in the 60.19% macro overlay have durable cash-flow pricing power, and which rely mainly on commodity or multiple expansion?",
+      "discussionPrompt": "If 5%-plus long yields persist while headline inflation remains energy-led but core services firm, which holdings in the 60.19% macro overlay have current cash-flow pricing power, and which still depend on cheap financing, commodity momentum or multiple expansion?",
       "path": "/home/node/.openclaw/workspace/memory/investing/daily-market-brief/latest.json"
     },
     "investingTaxonomyDecisionSheet": {
@@ -75377,16 +75378,16 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-10-13T13:15:00.000Z",
-      "lastRunAt": "2026-10-12T13:15:00.028Z",
+      "nextRunAt": "2026-10-14T13:15:00.000Z",
+      "lastRunAt": "2026-10-13T13:15:00.023Z",
       "lastStatus": "ok",
-      "lastDuration": "13s",
+      "lastDuration": "15s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily source-health check; alert Alex only when a dashboard source is failing.",
-      "updatedAt": "2026-10-12T13:15:12.713Z"
+      "updatedAt": "2026-10-13T13:15:14.723Z"
     },
     {
       "id": "5578cb30-bf42-4961-b266-1e7768f9c925",
@@ -75404,16 +75405,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-10-13T13:31:24.274Z",
-      "lastRunAt": "2026-10-13T13:01:24.274Z",
+      "nextRunAt": "2026-10-14T13:31:25.774Z",
+      "lastRunAt": "2026-10-14T13:01:25.774Z",
       "lastStatus": "skipped",
       "lastDuration": "264ms",
       "consecutiveErrors": 0,
-      "consecutiveSkipped": 408,
+      "consecutiveSkipped": 456,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "",
-      "updatedAt": "2026-10-13T13:01:24.538Z"
+      "updatedAt": "2026-10-14T13:01:26.038Z"
     },
     {
       "id": "8139ffa4-1a71-4468-8536-5c04d3fc3998",
@@ -75431,8 +75432,8 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:channel:1493060407697604728",
-      "nextRunAt": "2026-10-13T14:00:00.000Z",
-      "lastRunAt": "2026-10-10T14:00:00.028Z",
+      "nextRunAt": "2026-10-14T14:00:00.000Z",
+      "lastRunAt": "2026-10-13T14:00:00.033Z",
       "lastStatus": "ok",
       "lastDuration": "14s",
       "consecutiveErrors": 0,
@@ -75440,7 +75441,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Read-only recurring valuation patience/proposed-thesis watch for the personal investing OS.",
-      "updatedAt": "2026-10-10T14:00:13.790Z"
+      "updatedAt": "2026-10-13T14:00:14.440Z"
     },
     {
       "id": "c6a2ce47-a14f-40c5-bd42-44f873721675",
@@ -75458,7 +75459,7 @@
       "lightContext": true,
       "toolsAllow": [],
       "delivery": "announce -> discord:user:636724507075149824",
-      "nextRunAt": "2026-10-13T14:00:00.000Z",
+      "nextRunAt": "2026-10-14T14:00:00.000Z",
       "lastRunAt": "2026-10-08T14:00:00.058Z",
       "lastStatus": "ok",
       "lastDuration": "10s",
@@ -75467,7 +75468,7 @@
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Daily OpenRouter balance check; silent when healthy, threshold-based Discord alerts when low.",
-      "updatedAt": "2026-10-12T14:00:00.932Z"
+      "updatedAt": "2026-10-13T14:00:00.563Z"
     },
     {
       "id": "f252ed6b-971e-4865-b795-b453eb48bd44",
@@ -75485,127 +75486,16 @@
       "lightContext": false,
       "toolsAllow": [],
       "delivery": "not requested",
-      "nextRunAt": "2026-10-13T16:00:00.000Z",
-      "lastRunAt": "2026-10-12T16:00:00.048Z",
+      "nextRunAt": "2026-10-14T16:00:00.000Z",
+      "lastRunAt": "2026-10-13T16:00:00.032Z",
       "lastStatus": "ok",
-      "lastDuration": "23s",
+      "lastDuration": "27s",
       "consecutiveErrors": 0,
       "consecutiveSkipped": 0,
       "pendingValidation": false,
       "deleteAfterRun": false,
       "summary": "Generate tomorrow's immutable Alphalpha Dashboard Almanac edition with Tavily-backed web discovery and write it to KV at alphalpha:almanac:edition:{date}. Descriptor: scripts/alman",
-      "updatedAt": "2026-10-12T16:00:22.973Z"
-    },
-    {
-      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
-      "name": "investing-os-daily-market-brief",
-      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "category": "investing",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1-5",
-        "tz": "America/Chicago"
-      },
-      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-13T17:00:00.000Z",
-      "lastRunAt": "2026-10-12T17:00:00.029Z",
-      "lastStatus": "ok",
-      "lastDuration": "2m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
-      "updatedAt": "2026-10-12T17:02:24.759Z"
-    },
-    {
-      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
-      "name": "idea-farm-macro-research-listener",
-      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 */6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "15 */6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-13T17:19:54.973Z",
-      "lastRunAt": "2026-10-11T17:19:55.017Z",
-      "lastStatus": "ok",
-      "lastDuration": "4m",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
-      "updatedAt": "2026-10-13T11:19:56.109Z"
-    },
-    {
-      "id": "4724c7f0-7fff-4346-a579-6c38acdf13e8",
-      "name": "Memory Dreaming Promotion",
-      "description": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDays=14, maxAgeDays=30).",
-      "category": "automation",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 3 * * *"
-      },
-      "scheduleLabel": "0 3 * * *",
-      "sessionTarget": "isolated",
-      "lightContext": true,
-      "toolsAllow": [
-        "*"
-      ],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-14T03:00:00.000Z",
-      "lastRunAt": "2026-10-13T03:00:00.028Z",
-      "lastStatus": "ok",
-      "lastDuration": "15s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDay",
-      "updatedAt": "2026-10-13T03:00:15.058Z"
-    },
-    {
-      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
-      "name": "sync-obsidian-snipd-to-thesis-baskets",
-      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "category": "obsidian",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "20 6 * * *",
-        "tz": "America/Chicago",
-        "staggerMs": 300000
-      },
-      "scheduleLabel": "20 6 * * * (America/Chicago)",
-      "sessionTarget": "isolated",
-      "lightContext": false,
-      "toolsAllow": [],
-      "delivery": "not requested",
-      "nextRunAt": "2026-10-14T11:20:16.390Z",
-      "lastRunAt": "2026-10-13T11:20:16.434Z",
-      "lastStatus": "ok",
-      "lastDuration": "8s",
-      "consecutiveErrors": 0,
-      "consecutiveSkipped": 0,
-      "pendingValidation": false,
-      "deleteAfterRun": false,
-      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
-      "updatedAt": "2026-10-13T11:20:24.007Z"
+      "updatedAt": "2026-10-13T16:00:27.328Z"
     },
     {
       "id": "2ba2cab9-9a1b-4b3c-8b59-f3a93e71b403",
@@ -75633,6 +75523,117 @@
       "deleteAfterRun": false,
       "summary": "Weekly approval-first proposal for one bounded Thesis Baskets / Gambling Slowly improvement.",
       "updatedAt": "2026-10-07T16:33:50.900Z"
+    },
+    {
+      "id": "48cd5f52-2d6a-40da-b91a-1ded33ff16df",
+      "name": "investing-os-daily-market-brief",
+      "description": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "category": "investing",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1-5",
+        "tz": "America/Chicago"
+      },
+      "scheduleLabel": "0 12 * * 1-5 (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-14T17:00:00.000Z",
+      "lastRunAt": "2026-10-13T17:00:00.031Z",
+      "lastStatus": "ok",
+      "lastDuration": "5m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Weekday noon market-driver brief mapped to active theses, portfolio, and attention priorities for the Investing dashboard.",
+      "updatedAt": "2026-10-13T17:05:09.956Z"
+    },
+    {
+      "id": "c24b9dad-c469-4a77-a95f-a7f1dd82ccd2",
+      "name": "idea-farm-macro-research-listener",
+      "description": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 */6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "15 */6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-14T17:19:54.973Z",
+      "lastRunAt": "2026-10-11T17:19:55.017Z",
+      "lastStatus": "ok",
+      "lastDuration": "4m",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Poll The Idea Farm Gmail newsletter, crawl bounded macro research links/PDFs, save durable synthesis, and post material findings to #investing.",
+      "updatedAt": "2026-10-14T11:19:55.902Z"
+    },
+    {
+      "id": "4724c7f0-7fff-4346-a579-6c38acdf13e8",
+      "name": "Memory Dreaming Promotion",
+      "description": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDays=14, maxAgeDays=30).",
+      "category": "automation",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 3 * * *"
+      },
+      "scheduleLabel": "0 3 * * *",
+      "sessionTarget": "isolated",
+      "lightContext": true,
+      "toolsAllow": [
+        "*"
+      ],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-15T03:00:00.000Z",
+      "lastRunAt": "2026-10-14T03:00:00.030Z",
+      "lastStatus": "ok",
+      "lastDuration": "11s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.750, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDay",
+      "updatedAt": "2026-10-14T03:00:11.002Z"
+    },
+    {
+      "id": "ab2c69c8-2982-4854-8dbd-f7cfb6e6a70d",
+      "name": "sync-obsidian-snipd-to-thesis-baskets",
+      "description": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "category": "obsidian",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 6 * * *",
+        "tz": "America/Chicago",
+        "staggerMs": 300000
+      },
+      "scheduleLabel": "20 6 * * * (America/Chicago)",
+      "sessionTarget": "isolated",
+      "lightContext": false,
+      "toolsAllow": [],
+      "delivery": "not requested",
+      "nextRunAt": "2026-10-15T11:20:16.390Z",
+      "lastRunAt": "2026-10-14T11:20:16.419Z",
+      "lastStatus": "ok",
+      "lastDuration": "7s",
+      "consecutiveErrors": 0,
+      "consecutiveSkipped": 0,
+      "pendingValidation": false,
+      "deleteAfterRun": false,
+      "summary": "Auto-push relevant Obsidian/Snipd investing highlights into Thesis Baskets investor signal context without approval.",
+      "updatedAt": "2026-10-14T11:20:23.783Z"
     },
     {
       "id": "911f5285-0182-4bb4-9f95-6b71c6742bd0",
@@ -76575,7 +76576,7 @@
       "status": "pending",
       "source": "memory/automations/latest-manifest.json",
       "target": "5578cb30-bf42-4961-b266-1e7768f9c925",
-      "generatedAt": "2026-10-13T13:15:10.280Z",
+      "generatedAt": "2026-10-14T13:15:10.176Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -76594,16 +76595,16 @@
           "lightContext": false,
           "toolsAllow": [],
           "delivery": "not requested",
-          "nextRunAt": "2026-10-13T13:31:24.274Z",
-          "lastRunAt": "2026-10-13T13:01:24.274Z",
+          "nextRunAt": "2026-10-14T13:31:25.774Z",
+          "lastRunAt": "2026-10-14T13:01:25.774Z",
           "lastStatus": "skipped",
           "lastDuration": "264ms",
           "consecutiveErrors": 0,
-          "consecutiveSkipped": 408,
+          "consecutiveSkipped": 456,
           "pendingValidation": false,
           "deleteAfterRun": false,
           "summary": "",
-          "updatedAt": "2026-10-13T13:01:24.538Z"
+          "updatedAt": "2026-10-14T13:01:26.038Z"
         }
       }
     },
@@ -76616,7 +76617,7 @@
       "status": "pending",
       "source": "memory/automations/latest-manifest.json",
       "target": "ac9d7378-c8d7-4034-aa38-75a35dc07326",
-      "generatedAt": "2026-10-13T13:15:10.280Z",
+      "generatedAt": "2026-10-14T13:15:10.176Z",
       "actionHint": "Run now, pause, or inspect failure logs",
       "payload": {
         "job": {
@@ -76698,7 +76699,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-13T13:15:08.297Z",
+      "generatedAt": "2026-10-14T13:15:08.137Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76729,7 +76730,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-13T13:15:08.297Z",
+      "generatedAt": "2026-10-14T13:15:08.137Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76760,7 +76761,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-13T13:15:08.297Z",
+      "generatedAt": "2026-10-14T13:15:08.137Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -76791,7 +76792,7 @@
       "status": "dismissed",
       "source": "memory/investing/latest-watchlist.json",
       "target": "Alphalpha/Syntheses/Investing/Watchlist.md",
-      "generatedAt": "2026-10-13T13:15:08.297Z",
+      "generatedAt": "2026-10-14T13:15:08.137Z",
       "actionHint": "Promote to open loop if you want active research follow-up",
       "payload": {
         "ticker": {
@@ -77287,7 +77288,7 @@
     },
     {
       "id": "d6",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Context health",
       "title": "Context index available for bounded reads",
       "summary": "42 active context files / 52560 active words; 9405 words archived.",
@@ -77298,10 +77299,10 @@
     },
     {
       "id": "source-1",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Austin events: 12 family / 67 music latest",
-      "summary": "2 crawl artifacts indexed · 1d old · memory/events/latest-manifest.json",
+      "summary": "2 crawl artifacts indexed · 2d old · memory/events/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77309,7 +77310,7 @@
     },
     {
       "id": "source-2",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "AI tooling: 0 selected / 0 recent deduped",
       "summary": "0 raw items · 4h old · memory/ai-tooling/latest-manifest.json",
@@ -77320,7 +77321,7 @@
     },
     {
       "id": "source-3",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Investing watchlist: 21 tickers / 8 themes",
       "summary": "4 high-priority research candidates · 4h old · memory/investing/latest-watchlist.json",
@@ -77331,10 +77332,10 @@
     },
     {
       "id": "source-4",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Obsidian proposals: 3 proposed updates",
-      "summary": "proposal-only · 78d old · memory/obsidian/proposed-updates/latest-manifest.json",
+      "summary": "proposal-only · 79d old · memory/obsidian/proposed-updates/latest-manifest.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77342,7 +77343,7 @@
     },
     {
       "id": "source-5",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Automations: 31 enabled / 12 paused",
       "summary": "43 cron jobs indexed · 4h old · memory/automations/latest-manifest.json",
@@ -77353,10 +77354,10 @@
     },
     {
       "id": "source-6",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "GitHub repos: 4 repos / 1 dirty / 0 behind",
-      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@c3f0c29 · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
+      "summary": "Alphalpha workspace: master@6bf9b24, 113 dirty · Alphalpha dashboard: main@31f54d5 · Obsidian vault: main@652c1d9 · OpenClaw workspace: unknown@unknown · 0h old · local git repositories",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77364,10 +77365,10 @@
     },
     {
       "id": "source-7",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Thesis Baskets: 1943 new / 2841 scanned",
-      "summary": "last event 2026-05-26 23:24:04.75+00 · 140d old · memory/thesis-baskets-ingestion-state.json",
+      "summary": "last event 2026-05-26 23:24:04.75+00 · 141d old · memory/thesis-baskets-ingestion-state.json",
       "tags": [
         "#source-health",
         "#manifest"
@@ -77375,7 +77376,7 @@
     },
     {
       "id": "source-8",
-      "date": "2026-10-13",
+      "date": "2026-10-14",
       "category": "Source health",
       "title": "Review queue: 2 pending / 2 high",
       "summary": "9 review items indexed · 4h old · memory/review-queue/latest-manifest.json",
